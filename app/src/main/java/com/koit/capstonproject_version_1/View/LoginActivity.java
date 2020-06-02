@@ -36,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 relativeLayout1.setVisibility(View.VISIBLE);
-
             }
         };
         relativeLayoutRoot.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
