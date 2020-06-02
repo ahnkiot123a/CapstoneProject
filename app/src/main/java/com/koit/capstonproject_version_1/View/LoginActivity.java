@@ -15,25 +15,31 @@ public class LoginActivity extends AppCompatActivity {
     private final int timeoutSplash = 1500;//2000 is timeout for the splash
 
     private RelativeLayout relativeLayout1, relativeLayoutRoot;
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            relativeLayout1.setVisibility(View.VISIBLE);
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        initView();
+        animatedChangeSplash();
+    }
+
+    private void initView() {
         relativeLayout1 = findViewById(R.id.relativeLayout1);
         relativeLayoutRoot = findViewById(R.id.relativeLayoutRoot);
+    }
 
-        relativeLayoutRoot.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGE_APPEARING);
+    private void animatedChangeSplash() {
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                relativeLayout1.setVisibility(View.VISIBLE);
+
+            }
+        };
+        relativeLayoutRoot.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         handler.postDelayed(runnable, timeoutSplash);
-
     }
 }
