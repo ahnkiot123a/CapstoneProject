@@ -3,5 +3,6 @@
 
     <string name="facebook_app_id">957022684733192</string>
     <string name="fb_login_protocol_scheme">fb957022684733192</string>
-
+    <string name="enterPhoneHint">Nhập số đi động</string>
+    <string name="password_otp">Nhập mật khẩu/Mã OTP</string>
 </resources>

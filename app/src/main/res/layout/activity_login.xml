@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayoutRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/white"
-    android:id="@+id/relativeLayoutRoot"
-    tools:context=".View.LoginActivity">
+    android:background="@color/white"    tools:context=".View.LoginActivity">
+
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <ImageView
             android:id="@+id/imgView_logo"
@@ -29,8 +28,8 @@
             android:id="@+id/relativeLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_below="@+id/imgView_logo">
+            android:layout_below="@+id/imgView_logo"
+            android:visibility="gone">
 
 
             <LinearLayout
@@ -40,7 +39,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
-                    <LinearLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -48,18 +47,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Số điện thoại/Tên đăng nhập"
-                        android:textColor="@color/gray"
-                        android:textSize="15sp" />
+                        android:text="Số di động"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/et_bg"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/custom_et_input"
                         android:fontFamily="sans-serif-medium"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
+                        android:drawableStart="@drawable/ic_baseline_smartphone_24"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/enterPhoneHint"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="10dp"
                         android:textColor="@color/gray"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -73,18 +75,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mật khẩu"
-                        android:textColor="@color/gray"
-                        android:textSize="15sp" />
+                        android:text="Mật khẩu/Mã OTP"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/et_bg"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/custom_et_input"
                         android:fontFamily="sans-serif-medium"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
+                        android:drawableStart="@drawable/ic_baseline_lock_24"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/password_otp"
+                        android:inputType="textPassword"
+                        android:paddingLeft="10dp"
                         android:textColor="@color/gray"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -117,68 +122,25 @@
 
             <Button
                 android:id="@+id/btnLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/linearLayoutForm"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/background_btn_login"
                 android:fontFamily="sans-serif-medium"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
                 android:text="Đăng nhập"
-                android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:textAllCaps="false"
                 android:textSize="18sp" />
-
-            <LinearLayout
-                android:id="@+id/layoutRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btnLogin"
-                android:layout_marginTop="30dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/gray"
-                    android:textSize="15sp"
-                    android:onClick="callRegisterActivity"
-                    android:text="Bạn là chủ cửa hàng!" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:textAlignment="viewEnd"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/blue"
-                    android:textSize="15sp"
-                    android:autoLink="all"
-                    android:onClick="callRegisterActivity"
-                    android:linksClickable="true"
-                    android:text="  Đăng ký"/>
-
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/viewLine"
-                android:layout_below="@+id/layoutRegister"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray" />
 
             <FrameLayout
                 android:id="@+id/FrameLayout1"
-                android:layout_below="@+id/viewLine"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnLogin"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp">
 
                 <com.facebook.login.widget.LoginButton
                     android:id="@+id/login_button"
@@ -188,21 +150,57 @@
 
                 <Button
                     android:id="@+id/btnFbLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/background_login_fb"
                     android:drawableLeft="@drawable/ic_facebook"
-                    android:drawablePadding="10dp"
+                    android:drawablePadding="2dp"
                     android:onClick="loginWithFacebook"
-                    android:paddingStart="20dp"
-                    android:paddingLeft="26dp"
+                    android:paddingStart="10dp"
                     android:text="Đăng nhập bằng Facebook"
+                    android:fontFamily="sans-serif-medium"
                     android:textAlignment="center"
-                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    android:textAllCaps="false"
                     android:textColor="@color/white" />
 
             </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/FrameLayout1"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:onClick="callRegisterActivity"
+                    android:text="Bạn chưa có tài khoản!"
+                    android:layout_weight="1"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:autoLink="all"
+                    android:fontFamily="sans-serif-medium"
+                    android:linksClickable="true"
+                    android:onClick="callRegisterActivity"
+                    android:text="Đăng ký ngay"
+                    android:layout_weight="1"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/blue"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
 
 
         </RelativeLayout>
