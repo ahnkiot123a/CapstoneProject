@@ -129,7 +129,7 @@
                 android:text="Đăng nhập"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/layoutRegister"
@@ -147,6 +147,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/gray"
                     android:textSize="15sp"
+                    android:onClick="callRegisterActivity"
                     android:text="Bạn là chủ cửa hàng!" />
 
                 <TextView
@@ -158,6 +159,7 @@
                     android:textColor="@color/blue"
                     android:textSize="15sp"
                     android:autoLink="all"
+                    android:onClick="callRegisterActivity"
                     android:linksClickable="true"
                     android:text="  Đăng ký"/>
 
@@ -172,34 +174,35 @@
                 android:layout_height="1dp"
                 android:background="@color/gray" />
 
-<!--            <FrameLayout-->
-<!--                android:id="@+id/FrameLayout1"-->
-<!--                android:layout_below="@+id/viewLine"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
+            <FrameLayout
+                android:id="@+id/FrameLayout1"
+                android:layout_below="@+id/viewLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-<!--                <com.facebook.login.widget.LoginButton-->
-<!--                    android:id="@+id/login_button"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:visibility="gone" />-->
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
-<!--                <Button-->
-<!--                    android:id="@+id/btnFbLogin"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:background="@drawable/background_login_fb"-->
-<!--                    android:drawableLeft="@drawable/ic_facebook"-->
-<!--                    android:drawablePadding="10dp"-->
-<!--                    android:paddingStart="30dp"-->
-<!--                    android:paddingLeft="26dp"-->
-<!--                    android:text="Đăng nhập bằng Facebook"-->
-<!--                    android:textAlignment="center"-->
-<!--                    android:textAllCaps="true"-->
-<!--                    android:textColor="@color/white" />-->
+                <Button
+                    android:id="@+id/btnFbLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_login_fb"
+                    android:drawableLeft="@drawable/ic_facebook"
+                    android:drawablePadding="10dp"
+                    android:onClick="loginWithFacebook"
+                    android:paddingStart="20dp"
+                    android:paddingLeft="26dp"
+                    android:text="Đăng nhập bằng Facebook"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white" />
 
-<!--            </FrameLayout>-->
+            </FrameLayout>
 
 
         </RelativeLayout>

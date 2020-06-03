@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CapstonProject_Version_1</string>
+
+    <string name="facebook_app_id">957022684733192</string>
+    <string name="fb_login_protocol_scheme">fb957022684733192</string>
+
 </resources>
