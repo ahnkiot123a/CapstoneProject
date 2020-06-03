@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btnTiepTuc"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:visibility="visible" />
 
     </RelativeLayout>
