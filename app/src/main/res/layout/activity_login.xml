@@ -49,18 +49,17 @@
                         android:layout_height="wrap_content"
                         android:text="Số di động"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/etPhoneNumber"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/custom_et_input"
                         android:fontFamily="sans-serif-medium"
-                        android:drawableStart="@drawable/ic_baseline_smartphone_24"
-                        android:drawablePadding="10dp"
-                        android:hint="@string/enterPhoneHint"
                         android:inputType="numberDecimal"
+                        android:hint="@string/enterPhoneHint"
                         android:paddingLeft="10dp"
                         android:textColor="@color/gray"
                         android:textSize="15sp" />
@@ -77,18 +76,17 @@
                         android:layout_height="wrap_content"
                         android:text="Mật khẩu/Mã OTP"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/etOTPorPassword"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/custom_et_input"
                         android:fontFamily="sans-serif-medium"
-                        android:drawableStart="@drawable/ic_baseline_lock_24"
-                        android:drawablePadding="10dp"
-                        android:hint="@string/password_otp"
                         android:inputType="textPassword"
+                        android:hint="@string/password_otp"
                         android:paddingLeft="10dp"
                         android:textColor="@color/gray"
                         android:textSize="15sp" />
@@ -100,21 +98,25 @@
                     android:layout_marginTop="10dp"
                     android:padding="5dp">
 
-                    <CheckBox
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Nhớ mật khẩu"
-                        android:textColor="@color/gray" />
+                        android:text="@string/sendOTPTextView"
+                        android:onClick="sendVerificationOTPToUser"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/blue"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Quên mật khẩu?"
+                        android:text="@string/forgotPasswordTextView"
                         android:textAlignment="viewEnd"
+                        android:textSize="15sp"
                         android:textColor="@color/blue" />
                 </LinearLayout>
 
@@ -123,7 +125,7 @@
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="250dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/linearLayoutForm"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
@@ -140,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btnLogin"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="25dp">
 
                 <com.facebook.login.widget.LoginButton
                     android:id="@+id/login_button"
@@ -151,7 +153,7 @@
                 <Button
                     android:id="@+id/btnFbLogin"
                     android:layout_width="250dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/background_login_fb"
                     android:drawableLeft="@drawable/ic_facebook"
                     android:drawablePadding="2dp"
@@ -181,10 +183,10 @@
                     android:layout_centerHorizontal="true"
                     android:fontFamily="sans-serif-medium"
                     android:onClick="callRegisterActivity"
-                    android:text="Bạn chưa có tài khoản!"
+                    android:text="Bạn chưa có tài khoản?"
                     android:layout_weight="1"
                     android:textColor="@color/gray"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -194,11 +196,11 @@
                     android:fontFamily="sans-serif-medium"
                     android:linksClickable="true"
                     android:onClick="callRegisterActivity"
-                    android:text="Đăng ký ngay"
+                    android:text="@string/registerTextView"
                     android:layout_weight="1"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/blue"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
 

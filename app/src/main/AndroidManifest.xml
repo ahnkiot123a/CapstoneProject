@@ -15,16 +15,17 @@
         android:theme="@style/CustomAppTheme">
 
         <activity android:name=".View.RegisterActivity">
+
+        </activity>
+        <activity android:name=".View.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.LoginActivity">
-
-        </activity>
         <activity android:name=".View.MainActivity" />
+        <activity android:name=".View.RegisterVerifyPhone"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

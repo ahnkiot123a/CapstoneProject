@@ -5,4 +5,8 @@
     <string name="fb_login_protocol_scheme">fb957022684733192</string>
     <string name="enterPhoneHint">Nhập số đi động</string>
     <string name="password_otp">Nhập mật khẩu/Mã OTP</string>
+
+    <string name="sendOTPTextView"><u>Gửi mã OTP</u></string>
+    <string name="forgotPasswordTextView"><u>Quên mật khẩu?</u></string>
+    <string name="registerTextView"><u>Đăng ký ngay!</u></string>
 </resources>
