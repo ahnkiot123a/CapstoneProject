@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgView_logo"
-            android:visibility="gone">
+            android:visibility="visible">
 
 
             <LinearLayout
@@ -74,7 +74,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mật khẩu/Mã OTP"
+                        android:text="Mật khẩu"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -98,17 +98,13 @@
                     android:layout_marginTop="10dp"
                     android:padding="5dp">
 
-                    <TextView
+                    <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
-                        android:text="@string/sendOTPTextView"
-                        android:onClick="sendVerificationOTPToUser"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/blue"
-                        android:textSize="15sp" />
-
+                        android:text="Nhớ mật khẩu "
+                        android:textColor="@color/gray" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -142,10 +138,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btnLogin"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp">
+                android:layout_marginTop="15dp">
 
                 <com.facebook.login.widget.LoginButton
-                    android:id="@+id/login_button"
+                    android:id="@+id/login_fb_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
