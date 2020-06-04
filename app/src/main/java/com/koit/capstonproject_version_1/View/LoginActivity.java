@@ -20,16 +20,12 @@ import com.koit.capstonproject_version_1.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private final int TIMEOUT_SPLASH = 1000;//1500 is timeout for the splash
-
     private UserController userController;
-    private RelativeLayout relativeLayout1, relativeLayoutRoot;
     private FirebaseAuth firebaseAuth;
     private CallbackManager callbackManager;
     private Button btnFbLogin, btnLogin;
     private LoginButton loginFbButton;
     private EditText etPhoneNumber, etOTPorPassword;
-    private String phoneNumber, verificationCodeBySystem, codeByUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initView();
-        animatedChangeSplash();
         // [START initialize_auth]
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -50,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        relativeLayout1 = findViewById(R.id.relativeLayout1);
-        relativeLayoutRoot = findViewById(R.id.relativeLayoutRoot);
         loginFbButton = findViewById(R.id.login_fb_button);
         btnFbLogin = findViewById(R.id.btnFbLogin);
         btnLogin = findViewById(R.id.btnLogin);
@@ -59,17 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         etOTPorPassword = findViewById(R.id.etOTPorPassword);
     }
 
-    private void animatedChangeSplash() {
-        Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                relativeLayout1.setVisibility(View.VISIBLE);
-            }
-        };
-        relativeLayoutRoot.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        handler.postDelayed(runnable, TIMEOUT_SPLASH);
-    }
 
     public void callRegisterActivity(View view){
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);

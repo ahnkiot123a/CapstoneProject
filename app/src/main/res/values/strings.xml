@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CapstonProject_Version_1</string>
+    <string name="app_name">THViet</string>
 
     <string name="facebook_app_id">957022684733192</string>
     <string name="fb_login_protocol_scheme">fb957022684733192</string>
@@ -11,6 +11,5 @@
     <string name="registerTextView"><u>Đăng ký ngay!</u></string>
 
     //final variable
-
     <string name="TAG_FB">FacebookLogin</string>
 </resources>

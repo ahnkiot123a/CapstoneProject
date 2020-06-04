@@ -15,7 +15,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.koit.capstonproject_version_1.Dialog;
 import com.koit.capstonproject_version_1.View.MainActivity;
 
 public class User {

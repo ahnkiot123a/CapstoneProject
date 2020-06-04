@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.koit.capstonproject_version_1">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
-
 
     <application
         android:allowBackup="true"
@@ -13,19 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
-
-        <activity android:name=".View.RegisterActivity">
-
-        </activity>
-        <activity android:name=".View.LoginActivity">
+        <activity android:name=".View.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".View.RegisterActivity" />
+        <activity android:name=".View.LoginActivity">
+
+        </activity>
         <activity android:name=".View.MainActivity" />
-        <activity android:name=".View.RegisterVerifyPhone"></activity>
+        <activity android:name=".View.RegisterVerifyPhone" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -38,7 +36,8 @@
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
-            <intent-filter><action android:name="android.intent.action.VIEW" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -46,7 +45,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

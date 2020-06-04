@@ -1,8 +1,10 @@
-package com.koit.capstonproject_version_1;
+package com.koit.capstonproject_version_1.Model;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
+
+import com.koit.capstonproject_version_1.R;
 
 public class Dialog {
 
