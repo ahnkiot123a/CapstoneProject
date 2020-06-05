@@ -24,7 +24,13 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         imgView_logo = findViewById(R.id.imgView_logo);
-        new Handler().postDelayed(new Runnable() {
+       handlerChangeActivity();
+
+
+    }
+
+    private void handlerChangeActivity(){
+       new Handler().postDelayed(new Runnable() {
                                       @Override
                                       public void run() {
                                           Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
@@ -35,8 +41,6 @@ public class SplashActivity extends AppCompatActivity {
 
                                       }
                                   }
-                , 1000);
-
-
+                , 800);
     }
 }
