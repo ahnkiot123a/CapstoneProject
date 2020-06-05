@@ -58,13 +58,10 @@
                             android:layout_height="40dp"
                             android:background="@drawable/custom_et_input"
                             android:fontFamily="sans-serif-medium"
-                            android:inputType="numberDecimal"
+                            android:inputType="phone"
                             android:paddingLeft="10dp"
                             android:textColor="@color/gray"
-                            android:textSize="15sp"
-                            android:windowSoftInputMode="stateUnchanged">
-
-                            <requestFocus></requestFocus>
+                            android:textSize="15sp">
                         </com.google.android.material.textfield.TextInputEditText>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -95,7 +92,7 @@
                             android:layout_marginTop="2dp"
                             android:background="@drawable/custom_et_input"
                             android:fontFamily="sans-serif-medium"
-                            android:inputType="textPassword"
+                            android:inputType="numberPassword"
                             android:paddingLeft="10dp"
                             android:textColor="@color/gray"
                             android:textSize="15sp" />
