@@ -26,98 +26,21 @@ import java.util.concurrent.TimeUnit;
 
 public class RegisterVerifyPhone extends AppCompatActivity {
     //It is the verification id that will be sent to the user
-    private String verificationId;
 
     //firebase auth object
     private FirebaseAuth mAuth;
-    private ProgressBar progressBar;
-    private EditText editText;
+    private EditText etPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_verify_phone);
 
-        progressBar = findViewById(R.id.progressBar);
-        editText = findViewById(R.id.editTextPhone);
+        etPhoneNumber = findViewById(R.id.etPhoneNumber);
         mAuth = FirebaseAuth.getInstance();
         String phoneNumber = getIntent().getStringExtra("phonenumber");
-        sendVerificationCode(phoneNumber);
-        findViewById(R.id.btnTiepTuc).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String code = editText.getText().toString().trim();
-
-                if (code.isEmpty() || code.length() != 6) {
-                    editText.setError("Enter code...");
-                    editText.requestFocus();
-                    return;
-                }
-                verifyCode(code);
-            }
-        });
+        etPhoneNumber.setText(phoneNumber);
     }
 
-    private void verifyCode(String code) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        signInWithCredential(credential);
-    }
 
-    private void signInWithCredential(PhoneAuthCredential credential) {
-        mAuth.signInWithCredential(credential).addOnCompleteListener(RegisterVerifyPhone.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Intent intent = new Intent(RegisterVerifyPhone.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                } else {
-
-                    //verification unsuccessful.. display an error message
-                    editText.setError("Invalid code");
-                    String message = "Somthing is wrong, we will fix it soon...";
-
-                    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                        message = "Invalid code entered...";
-                    }
-                }
-            }
-        });
-    }
-
-    private void sendVerificationCode(String number) {
-        progressBar.setVisibility(View.VISIBLE);
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                number,
-                60,
-                TimeUnit.SECONDS,
-                TaskExecutors.MAIN_THREAD,
-                mCallBack
-        );
-    }
-
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks
-            mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        @Override
-        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-            super.onCodeSent(s, forceResendingToken);
-            verificationId = s;
-        }
-
-        @Override
-        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-            String code = phoneAuthCredential.getSmsCode();
-            if (code != null) {
-                editText.setText(code);
-                verifyCode(code);
-            }
-        }
-
-        @Override
-        public void onVerificationFailed(@NonNull FirebaseException e) {
-            Toast.makeText(RegisterVerifyPhone.this, e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.d("onVerificationFailed", e.getMessage());
-        }
-    };
 }
