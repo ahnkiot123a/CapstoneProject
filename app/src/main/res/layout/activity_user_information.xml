@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.UserInformationActivity"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="261dp"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/profile_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/user_icon" />
+
+
+            <TextView
+                android:id="@+id/full_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/profile_img"
+                android:includeFontPadding="false"
+                android:text="Họ và tên"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edFullname"
+                android:layout_width="291dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/full_name_label"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/profile_img"
+                android:fontFamily="sans-serif-medium"
+                android:includeFontPadding="false"
+                android:text="Bui Anh Tu"
+                android:textSize="25sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_marginTop="-100dp">
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="528dp"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Email">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:drawablePadding="10dp"
+                    android:text="anhtunb98@gmail.com" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Số điện thoại">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:drawablePadding="10dp"
+                    android:text="0399271212" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Giới tính">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:text="Nam" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Ngày sinh">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edDob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:drawablePadding="10dp"
+                        android:text="1998/06/25" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Địa chỉ">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:drawablePadding="10dp"
+                    android:text="Ninh Binh" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Tên cửa hàng">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edStoreName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:drawablePadding="10dp"
+                    android:text="oKioT" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="match_parent"
+                android:background="@drawable/background_btn_login"
+                android:layout_height="wrap_content"
+                android:text="Cập nhật thông tin" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
