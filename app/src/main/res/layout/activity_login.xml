@@ -55,13 +55,16 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPhoneNumber"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/custom_et_input"
                             android:fontFamily="sans-serif-medium"
-                            android:inputType="phone"
+                            android:inputType="numberDecimal"
                             android:paddingLeft="10dp"
                             android:textColor="@color/gray"
-                            android:textSize="15sp">
+                            android:textSize="15sp"
+                            android:windowSoftInputMode="stateUnchanged">
+
+                            <requestFocus></requestFocus>
                         </com.google.android.material.textfield.TextInputEditText>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -83,17 +86,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-10dp"
-                        app:passwordToggleEnabled="true">
+                        app:passwordToggleEnabled="true"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etOTPorPassword"
+                            android:id="@+id/etPassword"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="50dp"
                             android:layout_marginTop="2dp"
                             android:background="@drawable/custom_et_input"
                             android:fontFamily="sans-serif-medium"
-                            android:inputType="numberPassword"
+                            android:inputType="textPassword"
                             android:paddingLeft="10dp"
+                            android:paddingRight="45dp"
                             android:textColor="@color/gray"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -106,14 +111,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:padding="5dp">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Nhớ mật khẩu "
-                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -128,19 +125,30 @@
 
             </LinearLayout>
 
-            <Button
+<!--            <Button-->
+<!--                android:id="@+id/btnLogin"-->
+<!--                android:layout_width="250dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_below="@+id/linearLayoutForm"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:background="@drawable/background_btn_login"-->
+<!--                android:fontFamily="sans-serif-medium"-->
+<!--                android:onClick="loginWithPhone"-->
+<!--                android:text="Đăng nhập"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="18sp" />-->
+
+            <include
                 android:id="@+id/btnLogin"
-                android:layout_width="250dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/linearLayoutForm"
-                android:layout_centerHorizontal="true"
+                layout="@layout/process_btn_layout"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/background_btn_login"
-                android:fontFamily="sans-serif-medium"
-                android:text="Đăng nhập"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/linearLayoutForm"
+                android:layout_centerHorizontal="true"
+                />
 
             <FrameLayout
                 android:id="@+id/FrameLayout1"
@@ -159,7 +167,7 @@
                 <Button
                     android:id="@+id/btnFbLogin"
                     android:layout_width="250dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/background_login_fb"
                     android:drawableLeft="@drawable/ic_facebook"
                     android:drawablePadding="2dp"

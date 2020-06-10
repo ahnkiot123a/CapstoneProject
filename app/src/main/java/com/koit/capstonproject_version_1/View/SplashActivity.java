@@ -6,17 +6,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Pair;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.R;
 
 public class SplashActivity extends AppCompatActivity {
 
     private ImageView imgView_logo;
+    private TextInputEditText etPhoneNumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,6 @@ public class SplashActivity extends AppCompatActivity {
                                           pairs[0] = new Pair<View, String>(imgView_logo, "logo_image");
                                           ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashActivity.this, pairs);
                                           startActivity(intent, options.toBundle());
-
                                       }
                                   }
                 , 800);

@@ -1,4 +1,4 @@
-package com.koit.capstonproject_version_1.Model;
+package com.koit.capstonproject_version_1.Model.UIModel;
 
 import android.app.Activity;
 import android.app.AlertDialog;

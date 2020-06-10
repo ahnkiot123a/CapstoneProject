@@ -12,4 +12,8 @@
 
     //final variable
     <string name="TAG_FB">FacebookLogin</string>
+
+    //regex string
+    <string name="regexPhonenumber">((09|03|07|08|05)+([0-9]{8})\b)</string>
+    <string name="regexPassword">^[0-9]{6,}$</string>
 </resources>
