@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:minHeight="?attr/actionBarSize"
-        android:onClick="back"
         app:theme="@style/AppTheme">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
+            android:onClick="back"
             android:src="@drawable/ic_baseline_arrow_white_ios_24" />
 
         <TextView

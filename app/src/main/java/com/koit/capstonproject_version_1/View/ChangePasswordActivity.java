@@ -49,5 +49,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         edConfirmNewPassword = findViewById(R.id.edConfirmNewPassword);
         btnChangePassword = findViewById(R.id.btnChangePassword);
     }
+    public void back(View v){
+        onBackPressed();
+    }
 
 }
