@@ -95,7 +95,7 @@ public class UserController {
                     if (password.equals(currentUser.getPassword())) {
                         Toast.makeText(activity.getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
                         progressButton.progressSuccess();
-                        Intent intent = new Intent(activity.getApplicationContext(), FeedbackActivity.class);
+                        Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
                         intent.putExtra("currentUser", currentUser);
                         activity.startActivity(intent);
                     } else {
