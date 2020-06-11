@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.core.view.View;
+import com.koit.capstonproject_version_1.Controller.ForgotPasswordController;
 import com.koit.capstonproject_version_1.Controller.RegisterController;
 import com.koit.capstonproject_version_1.R;
 
@@ -14,7 +15,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private TextInputEditText etPhoneNumber;
 
-    private RegisterController registerController;
+    private ForgotPasswordController forgotPasswordController;
 
 
     @Override
@@ -24,7 +25,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         initView();
 
-        registerController = new RegisterController(ForgotPasswordActivity.this);
+        forgotPasswordController = new ForgotPasswordController(ForgotPasswordActivity.this);
 
 
     }
@@ -35,7 +36,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     public void sendPhoneNumberToResetPasswordActivity(android.view.View view){
         String number = etPhoneNumber.getText().toString().trim();
-        registerController.checkPhoneNumber(number);
+        forgotPasswordController.checkPhoneNumber(number);
     }
 
     public void back(android.view.View view) {

@@ -64,7 +64,6 @@ public class RegisterVerifyPhoneActivity extends AppCompatActivity {
     }
 
     private void innitView() {
-
         etPhoneNumberRVP = findViewById(R.id.etPhoneNumberRVP);
         etStoreNameRVP = findViewById(R.id.etStoreNameRVP);
         etOTP = findViewById(R.id.etOTP);

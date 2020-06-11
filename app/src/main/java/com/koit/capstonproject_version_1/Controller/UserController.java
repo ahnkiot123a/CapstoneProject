@@ -89,11 +89,13 @@ public class UserController {
                 if (currentUser != null) {
                     currentUser.setPhoneNumber(phoneNumber);
                     Log.d("user", currentUser.toString());
+                    ValidateController validateController = new ValidateController();
                     String password = etPassword.getText().toString();
+                    password = validateController.getMd5(password);
                     if (password.equals(currentUser.getPassword())) {
                         Toast.makeText(activity.getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
                         progressButton.progressSuccess();
-                        Intent intent = new Intent(activity.getApplicationContext(), UserInformationActivity.class);
+                        Intent intent = new Intent(activity.getApplicationContext(), FeedbackActivity.class);
                         intent.putExtra("currentUser", currentUser);
                         activity.startActivity(intent);
                     } else {

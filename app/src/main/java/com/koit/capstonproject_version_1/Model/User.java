@@ -23,8 +23,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Controller.RegisterController;
 import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
+import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
+import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
 
 import java.io.Serializable;
 
@@ -32,6 +34,7 @@ import androidx.annotation.NonNull;
 
 public class User implements Serializable {
     RegisterVerifyPhoneActivity registerVerifyPhoneActivity;
+    ResetPasswordActivity resetPasswordActivity;
     RegisterController registerController;
     private String fullName, address, email, storeName;
     private String dateOfBirth;
@@ -51,6 +54,10 @@ public class User implements Serializable {
 
     public User(RegisterVerifyPhoneActivity registerVerifyPhoneActivity) {
         this.registerVerifyPhoneActivity = registerVerifyPhoneActivity;
+    }
+
+    public User(ResetPasswordActivity resetPasswordActivity) {
+        this.resetPasswordActivity = resetPasswordActivity;
     }
 
     public User() {
@@ -75,26 +82,6 @@ public class User implements Serializable {
         this.roleID = roleID;
         this.hasFingerprint = hasFingerprint;
         this.gender = gender;
-    }
-    public void signInTheUserByCredentials(PhoneAuthCredential credential) {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(registerVerifyPhoneActivity, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(registerVerifyPhoneActivity, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            registerVerifyPhoneActivity.startActivity(intent);
-
-                        } else {
-                            registerVerifyPhoneActivity.showTextError("Mã OTP không chính xác.", registerVerifyPhoneActivity.getEtOTP());
-
-                            // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 
 
@@ -240,5 +227,51 @@ public class User implements Serializable {
         };
         databaseReference.addListenerForSingleValueEvent(valueEventListener);
     }
+
+    public void signInTheUserByCredentials(PhoneAuthCredential credential) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(registerVerifyPhoneActivity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Intent intent = new Intent(registerVerifyPhoneActivity, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            registerVerifyPhoneActivity.startActivity(intent);
+
+                        } else {
+                            registerVerifyPhoneActivity.showTextError("Mã OTP không chính xác.", registerVerifyPhoneActivity.getEtOTP());
+
+                            // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void signInTheUserByCredentialsFromResetPassword(PhoneAuthCredential credential) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(resetPasswordActivity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Intent intent = new Intent(resetPasswordActivity, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            resetPasswordActivity.startActivity(intent);
+                            Toast.makeText(resetPasswordActivity, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+
+
+                        } else {
+                            resetPasswordActivity.showTextError("Mã OTP không chính xác.", resetPasswordActivity.getEtOTP());
+
+                            // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
 
 }
