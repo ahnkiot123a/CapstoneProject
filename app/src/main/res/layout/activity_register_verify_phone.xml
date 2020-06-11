@@ -1,6 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.RegisterActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Toolbar
+        android:id="@+id/toolbar_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/AppTheme">
+
+        <ImageButton
+            android:id="@+id/backToLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:onClick="back"
+            android:src="@drawable/ic_baseline_arrow_white_ios_24" />
+
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Đăng kí tài khoản"
+            android:textColor="#FFF"
+            android:textSize="28sp" />
+
+
+    </Toolbar>
+
+    <RelativeLayout
+        android:layout_width="335dp"
+        android:layout_height="530dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etPhoneNumberRVP"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:transitionName="phoneTran">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="Số điện thoại"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etStoreNameRVP"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Tên cửa hàng"
+                android:transitionName="phoneTran">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--            <EditText-->
+            <!--                android:enabled="false"-->
+            <!--                android:inputType="numberDecimal"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:layout_marginTop="5dp"-->
+
+
+            <!--                android:background="@drawable/custom_et_disable"-->
+            <!--                android:fontFamily="sans-serif-medium"-->
+            <!--                android:paddingLeft="15dp"-->
+            <!--                android:paddingRight="15dp"-->
+            <!--                android:textColor="@color/gray"-->
+            <!--                android:textSize="15sp" />-->
+
+            <!--            <EditText-->
+            <!--                android:inputType="numberDecimal"-->
+            <!--                android:id="@+id/etOTP"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:background="@drawable/custom_et_input"-->
+            <!--                android:fontFamily="sans-serif-medium"-->
+            <!--                android:paddingLeft="15dp"-->
+            <!--                android:paddingRight="15dp"-->
+            <!--                android:textColor="@color/gray"-->
+            <!--                android:textSize="15sp" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etPassword"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Mật khẩu"
+                android:transitionName="passwordTran"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:paddingRight="45dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--            <EditText-->
+            <!--                android:inputType="numberDecimal"-->
+            <!--                android:id="@+id/etPassword"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:background="@drawable/custom_et_input"-->
+            <!--                android:fontFamily="sans-serif-medium"-->
+            <!--                android:paddingLeft="15dp"-->
+            <!--                android:paddingRight="15dp"-->
+            <!--                android:textColor="@color/gray"-->
+            <!--                android:textSize="15sp" />-->
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etConfirmPassword"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Xác nhận mật khẩu"
+                android:transitionName="confirmPassTran"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="45dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etOTP"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Mã OTP"
+                android:transitionName="OTPTran"
+                app:counterEnabled="true"
+                app:counterMaxLength="6">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--            <EditText-->
+            <!--                android:inputType="numberDecimal"-->
+            <!--                android:id="@+id/etConfirmPassword"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:layout_marginTop="5dp"-->
+
+            <!--                android:background="@drawable/custom_et_input"-->
+            <!--                android:fontFamily="sans-serif-medium"-->
+            <!--                android:paddingLeft="15dp"-->
+            <!--                android:paddingRight="15dp"-->
+            <!--                android:textColor="@color/gray"-->
+            <!--                android:textSize="15sp" />-->
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayoutForm"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/background_btn_login"
+            android:fontFamily="sans-serif-medium"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Hoàn thành"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:transitionName="btnDoneTran" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

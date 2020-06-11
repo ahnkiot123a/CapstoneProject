@@ -4,52 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".View.RegisterActivity">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <Toolbar
+        android:id="@+id/toolbar_top"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp">
+        android:background="@color/colorAccent"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/AppTheme">
 
-        <TextView
-            android:id="@+id/tvRegister"
+        <ImageButton
+            android:id="@+id/backToLogin"
+            android:onClick="back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đăng ký"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:background="@color/colorAccent"
+            android:src="@drawable/ic_baseline_arrow_white_ios_24"/>
+
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#FFF"
+            android:textSize="28sp"
+            android:text="Đăng kí" />
+
+
+    </Toolbar>
+
+
+    <RelativeLayout
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/theme"
-            android:textSize="28sp"/>
+            android:layout_marginTop="20dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/register" />
 
         <LinearLayout
             android:id="@+id/linearLayoutForm"
-            android:layout_below="@+id/tvRegister"
-            android:layout_marginTop="80dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/animationView"
+            android:layout_marginTop="50dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nhập số điện thoại"
-                android:textColor="@color/gray"
-                android:textSize="15sp" />
 
-            <EditText
-                android:inputType="numberDecimal"
-                android:id="@+id/etPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="5dp"
-                android:background="@drawable/custom_et_input"
-                android:fontFamily="sans-serif-medium"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:textColor="@color/gray"
-                android:textSize="15sp" />
+                android:id="@+id/etPhoneNumberRA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:transitionName="phoneTran"
+                android:hint="Số điện thoại">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <Button
@@ -63,6 +89,7 @@
             android:fontFamily="sans-serif-medium"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
+            android:transitionName="btnDoneTran"
             android:text="Tiếp tục"
             android:textAllCaps="false"
             android:textColor="@color/white"
