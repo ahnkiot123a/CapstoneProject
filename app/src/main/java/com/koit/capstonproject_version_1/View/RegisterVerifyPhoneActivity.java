@@ -5,13 +5,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.RegisterController;
 import com.koit.capstonproject_version_1.R;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-public class RegisterVerifyPhone extends AppCompatActivity {
+public class RegisterVerifyPhoneActivity extends AppCompatActivity {
     //It is the verification id that will be sent to the user
 
     //firebase auth object
@@ -28,16 +28,11 @@ public class RegisterVerifyPhone extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_verify_phone);
-        etPhoneNumberRVP = findViewById(R.id.etPhoneNumberRVP);
-        etStoreNameRVP = findViewById(R.id.etStoreNameRVP);
-        etOTP = findViewById(R.id.etOTP);
-        etPassword = findViewById(R.id.etPassword);
-        etConfirmPassword = findViewById(R.id.etConfirmPassword);
-        btnDone = findViewById(R.id.btnDone);
+        innitView();
         phoneNumber = getIntent().getStringExtra("phonenumber");
         Log.d("PhoneNumber",phoneNumber);
         etPhoneNumberRVP.setText(phoneNumber);
-        registerController = new RegisterController(RegisterVerifyPhone.this,phoneNumber);
+        registerController = new RegisterController(RegisterVerifyPhoneActivity.this, phoneNumber);
         //send OTP
         registerController.sendVerificationCode(phoneNumber);
         // sendVerificationCode(phoneNumberRVP);
@@ -68,6 +63,16 @@ public class RegisterVerifyPhone extends AppCompatActivity {
         });
     }
 
+    private void innitView() {
+
+        etPhoneNumberRVP = findViewById(R.id.etPhoneNumberRVP);
+        etStoreNameRVP = findViewById(R.id.etStoreNameRVP);
+        etOTP = findViewById(R.id.etOTP);
+        etPassword = findViewById(R.id.etPassword);
+        etConfirmPassword = findViewById(R.id.etConfirmPassword);
+        btnDone = findViewById(R.id.btnDone);
+    }
+
 
     public void back(View view) {
         onBackPressed();
@@ -78,10 +83,12 @@ public class RegisterVerifyPhone extends AppCompatActivity {
         super.onBackPressed();
         this.finish();
     }
+
     //resend OTP code
-    public void resendOTPCode(View view) {
+    public void resendOTPCode(android.view.View view) {
         registerController.resendOTPCode();
     }
+
     public void showTextError(String error, TextInputEditText et) {
         et.requestFocus();
         et.setError(error);

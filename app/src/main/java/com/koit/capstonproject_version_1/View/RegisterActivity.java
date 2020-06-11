@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.RegisterController;
 import com.koit.capstonproject_version_1.R;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText etPhoneNumberRA;
@@ -20,9 +20,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        btnContinue = findViewById(R.id.btnContinue);
-        //phone
-        etPhoneNumberRA = findViewById(R.id.etPhoneNumberRA);
+
+        initView();
 
         //click button "Tiep tuc"
         btnContinue.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +33,11 @@ public class RegisterActivity extends AppCompatActivity {
                 //registerController.checkExistUser(number);
             }
         });
+    }
+
+    private void initView() {
+        btnContinue = findViewById(R.id.btnContinue);
+        etPhoneNumberRA = findViewById(R.id.etPhoneNumberRA);
     }
 
     public void showTextError(String error, TextInputEditText et) {

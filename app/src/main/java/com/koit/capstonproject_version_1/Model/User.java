@@ -24,14 +24,14 @@ import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Controller.RegisterController;
 import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
 import com.koit.capstonproject_version_1.View.MainActivity;
-import com.koit.capstonproject_version_1.View.RegisterVerifyPhone;
+import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
 
 import java.io.Serializable;
 
 import androidx.annotation.NonNull;
 
 public class User implements Serializable {
-    RegisterVerifyPhone registerVerifyPhone;
+    RegisterVerifyPhoneActivity registerVerifyPhoneActivity;
     RegisterController registerController;
     private String fullName, address, email, storeName;
     private String dateOfBirth;
@@ -49,8 +49,8 @@ public class User implements Serializable {
 //        }
     }
 
-    public User(RegisterVerifyPhone registerVerifyPhone) {
-        this.registerVerifyPhone = registerVerifyPhone;
+    public User(RegisterVerifyPhoneActivity registerVerifyPhoneActivity) {
+        this.registerVerifyPhoneActivity = registerVerifyPhoneActivity;
     }
 
     public User() {
@@ -79,17 +79,17 @@ public class User implements Serializable {
     public void signInTheUserByCredentials(PhoneAuthCredential credential) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(registerVerifyPhone, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(registerVerifyPhoneActivity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(registerVerifyPhone, MainActivity.class);
+                            Intent intent = new Intent(registerVerifyPhoneActivity, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            registerVerifyPhone.startActivity(intent);
+                            registerVerifyPhoneActivity.startActivity(intent);
 
                         } else {
-                            registerVerifyPhone.showTextError("Mã OTP không chính xác.", registerVerifyPhone.getEtOTP());
+                            registerVerifyPhoneActivity.showTextError("Mã OTP không chính xác.", registerVerifyPhoneActivity.getEtOTP());
 
                             // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -240,6 +240,5 @@ public class User implements Serializable {
         };
         databaseReference.addListenerForSingleValueEvent(valueEventListener);
     }
-
 
 }
