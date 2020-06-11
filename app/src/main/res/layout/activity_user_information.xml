@@ -184,10 +184,11 @@
             <Button
                 android:id="@+id/btnUpdateUserInfo"
                 android:layout_width="match_parent"
-                android:background="@drawable/background_btn_login"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="Cập nhật thông tin" />
+                android:background="@drawable/background_btn_login"
+                android:onClick="updateUserInfo"
+                android:text="Cập nhật thông tin"
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </LinearLayout>
