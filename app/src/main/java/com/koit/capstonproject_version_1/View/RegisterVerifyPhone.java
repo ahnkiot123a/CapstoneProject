@@ -1,12 +1,11 @@
 package com.koit.capstonproject_version_1.View;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,7 +15,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.koit.capstonproject_version_1.R;
@@ -32,9 +30,10 @@ public class RegisterVerifyPhone extends AppCompatActivity {
     //firebase auth object
     private FirebaseAuth mAuth;
     private TextInputLayout etPhoneNumberRVP;
-    private TextView textRegister;
-    //OTP Firebase sent
     private String verificationId;
+    private PhoneAuthProvider.ForceResendingToken token;
+
+    private String phoneNumber;
     private Button btnDone;
     private TextInputLayout etStoreNameRVP;
     private TextInputLayout etOTP;
@@ -48,7 +47,7 @@ public class RegisterVerifyPhone extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_verify_phone);
         etPhoneNumberRVP = findViewById(R.id.etPhoneNumberRVP);
-        String phoneNumber = getIntent().getStringExtra("phonenumber");
+        phoneNumber = getIntent().getStringExtra("phonenumber");
         etPhoneNumberRVP.getEditText().setText(phoneNumber);
         etStoreNameRVP = findViewById(R.id.etStoreNameRVP);
         etOTP = findViewById(R.id.etOTP);
@@ -63,16 +62,12 @@ public class RegisterVerifyPhone extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //check OTP code user entered isn't empty and >=6 character
-//                if (!checkOTP()) return;
-//                else {
-//                    //dung format
-//                    verifyCode(otpCode);
-//                }
                 otpCode = etOTP.getEditText().getText().toString().trim();
                 if (!validateStoreName()) return;
                 if (!checkPassword()) return;
-                if (!checkConfrimPass()) return;
+                if (!checkConfirmPass()) return;
+                //OTP is not true format
+                if (!checkOTP()) return;
                 verifyCode(otpCode);
             }
         });
@@ -88,12 +83,11 @@ public class RegisterVerifyPhone extends AppCompatActivity {
             return false;
         } else if (optCode.length() != 6) {
             etOTP.getEditText().requestFocus();
-            etOTP.getEditText().setError("Mã OTP không chính xác");
+            etOTP.getEditText().setError("Mã OTP phải bao gồm 6 kí tự");
             return false;
         }
         return true;
     }
-
 
     //validate User Store Name
     private boolean validateStoreName() {
@@ -105,6 +99,18 @@ public class RegisterVerifyPhone extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    //resend OTP code
+    private void resendVerificationCode(String phoneNumber,
+                                        PhoneAuthProvider.ForceResendingToken token) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                "+84" + phoneNumber,        // Phone number to verify
+                90,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                mCallBack,         // OnVerificationStateChangedCallbacks
+                token);             // ForceResendingToken from callbacks
     }
 
     private void sendVerificationCode(String number) {
@@ -123,6 +129,7 @@ public class RegisterVerifyPhone extends AppCompatActivity {
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
+            token = forceResendingToken;
             Toast.makeText(RegisterVerifyPhone.this, "Mã xác nhận OTP đã được gửi tới máy bạn!", Toast.LENGTH_LONG).show();
         }
 
@@ -138,13 +145,13 @@ public class RegisterVerifyPhone extends AppCompatActivity {
         //This method is called in response to an invalid verification request,
         // such as a request that specifies an invalid phone number or verification code.
         public void onVerificationFailed(@NonNull FirebaseException e) {
-          //  Toast.makeText(RegisterVerifyPhone.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterVerifyPhone.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
             super.onCodeAutoRetrievalTimeOut(s);
-          //  Toast.makeText(RegisterVerifyPhone.this, "Mã OTP của bạn đã hết hạn. Vui lòng nhấn vào 'Gửi lại mã'", Toast.LENGTH_LONG).show();
+            //  Toast.makeText(RegisterVerifyPhone.this, "Mã OTP của bạn đã hết hạn. Vui lòng nhấn vào 'Gửi lại mã'", Toast.LENGTH_LONG).show();
         }
     };
 
@@ -171,10 +178,28 @@ public class RegisterVerifyPhone extends AppCompatActivity {
                         } else {
                             etOTP.getEditText().requestFocus();
                             etOTP.getEditText().setError("Mã OTP không chính xác");
-                            if (otpCounter>=3){
-                                
+                            //OPT expired
+                            if (otpCounter >= 3) {
+                                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case DialogInterface.BUTTON_POSITIVE:
+                                                //Yes button clicked
+                                                resendVerificationCode(phoneNumber, token);
+                                                break;
+                                            case DialogInterface.BUTTON_NEGATIVE:
+                                                //No button clicked
+                                                break;
+                                        }
+                                    }
+                                };
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterVerifyPhone.this);
+                                builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
+                                        .setNegativeButton("Thoát", dialogClickListener).show();
                             }
-                           // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -199,8 +224,14 @@ public class RegisterVerifyPhone extends AppCompatActivity {
         return false;
     }
 
+    //resend OTP code
+    public void resendOTPCode(View view) {
+        otpCounter = 0;
+        resendVerificationCode(phoneNumber, token);
+    }
+
     //check confirm password
-    private boolean checkConfrimPass() {
+    private boolean checkConfirmPass() {
         String pass = etPassword.getEditText().getText().toString().trim();
         String confirmPass = etConfirmPassword.getEditText().getText().toString().trim();
         if (pass.equals(confirmPass))
