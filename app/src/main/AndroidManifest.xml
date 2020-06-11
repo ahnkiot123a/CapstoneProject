@@ -33,7 +33,9 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".View.MainActivity" />
         <activity android:name=".View.RegisterVerifyPhone" />
-
+        <activity android:name=".View.FeedbackActivity"/>
+        <activity android:name=".View.UserInformationActivity"/>
+        <activity android:name=".View.ChangePasswordActivity"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

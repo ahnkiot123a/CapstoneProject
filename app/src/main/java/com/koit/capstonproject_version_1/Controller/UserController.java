@@ -20,7 +20,10 @@ import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Model.UIModel.ProgressButton;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.ChangePasswordActivity;
+import com.koit.capstonproject_version_1.View.FeedbackActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
+import com.koit.capstonproject_version_1.View.UserInformationActivity;
 
 public class UserController {
 
@@ -87,7 +90,7 @@ public class UserController {
                     if (password.equals(currentUser.getPassword())) {
                         Toast.makeText(activity.getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
                         progressButton.progressSuccess();
-                        Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(activity.getApplicationContext(), UserInformationActivity.class);
                         intent.putExtra("currentUser", currentUser);
                         activity.startActivity(intent);
                     } else {
@@ -115,6 +118,7 @@ public class UserController {
             progressButton.progressError();
         }
     }
+
 
 }
 

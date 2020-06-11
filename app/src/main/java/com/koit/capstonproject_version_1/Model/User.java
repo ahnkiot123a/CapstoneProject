@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
 import com.koit.capstonproject_version_1.View.MainActivity;
+import com.koit.capstonproject_version_1.View.UserInformationActivity;
 
 import java.io.Serializable;
 
