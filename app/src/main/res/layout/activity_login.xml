@@ -96,7 +96,7 @@
                             android:layout_marginTop="2dp"
                             android:background="@drawable/custom_et_input"
                             android:fontFamily="sans-serif-medium"
-                            android:inputType="textPassword"
+                            android:inputType="numberPassword"
                             android:paddingLeft="10dp"
                             android:paddingRight="45dp"
                             android:textColor="@color/gray"

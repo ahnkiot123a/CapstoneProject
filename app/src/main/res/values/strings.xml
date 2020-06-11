@@ -1,19 +1,20 @@
 <resources>
     <string name="app_name">THViet</string>
 
-    <string name="facebook_app_id">957022684733192</string>
-    <string name="fb_login_protocol_scheme">fb957022684733192</string>
+
+    <string name="facebook_app_id">703777520414319</string>
+    <string name="fb_login_protocol_scheme">fb703777520414319</string>
+
     <string name="enterPhoneHint">Nhập số đi động</string>
     <string name="password_otp">Nhập mật khẩu</string>
 
     <string name="sendOTPTextView"><u>Gửi mã OTP</u></string>
     <string name="forgotPasswordTextView"><u>Quên mật khẩu?</u></string>
     <string name="registerTextView"><u>Đăng ký ngay!</u></string>
+    <string name="resendOTP"><u>Gửi lại OTP</u></string>
+    <string name="continueText">Tiếp tục</string>
 
     //final variable
     <string name="TAG_FB">FacebookLogin</string>
 
-    //regex string
-    <string name="regexPhonenumber">((09|03|07|08|05)+([0-9]{8})\b)</string>
-    <string name="regexPassword">^[0-9]{6,}$</string>
 </resources>

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.koit.capstonproject_version_1.Controller.UserController;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 
@@ -19,6 +20,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private Button btnChangePassword;
     private DatabaseReference databaseReference;
     private User currentUser;
+    private UserController userController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         Intent intent = getIntent();
         currentUser =(User)intent.getSerializableExtra("currentUser");
         findViewById();
+        userController = new UserController();
         actionBtnChangePassword();
     }
 
@@ -34,23 +37,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String oldPassword = edOldPassword.getText().toString();
-                String newPassword = edNewPassword.getText().toString();
-                String confirmNewPassword = edConfirmNewPassword.getText().toString();
-                if(oldPassword.length()<6 || newPassword.length() <6 || confirmNewPassword.length() <6){
-                    Toast.makeText(ChangePasswordActivity.this,"Mật khẩu có chứa 6 ký tự số trở lên, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
-                } else if (!oldPassword.equals(currentUser.getPassword())) {
-                    Toast.makeText(ChangePasswordActivity.this,"Mật khẩu cũ không đúng",Toast.LENGTH_SHORT).show();
-                } else if (!newPassword.equals(confirmNewPassword)){
-                    Toast.makeText(ChangePasswordActivity.this,"Mật khẩu xác nhận không đúng, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
-
-                } else if (oldPassword.equals(confirmNewPassword)){
-                    Toast.makeText(ChangePasswordActivity.this,"Mật khẩu cũ và mới trùng nhau, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
-                }else {
-                    databaseReference.child(currentUser.getPhoneNumber()).child("password").setValue(confirmNewPassword);
-                    Toast.makeText(ChangePasswordActivity.this,"Đổi mật khẩu thành công!",Toast.LENGTH_SHORT).show();
-                    currentUser.setPassword(confirmNewPassword);
-                }
+                userController.changePassword(edOldPassword,edNewPassword,edConfirmNewPassword,currentUser,ChangePasswordActivity.this,databaseReference);
             }
         });
     }

@@ -19,7 +19,6 @@ public class Dialog {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.custom_dialog_loading, null));
-
         dialog = builder.create();
         dialog.show();
     }

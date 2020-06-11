@@ -1,8 +1,10 @@
 package com.koit.capstonproject_version_1.Model.UIModel;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,6 +24,8 @@ public class ProgressButton {
 
     public ProgressButton(Context context, View view) {
 
+        fade_in = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
         cardView = view.findViewById(R.id.cardViewProgressBtn);
         constraintLayout = view.findViewById(R.id.constraintLayoutProgressBtn);
         progressBar = view.findViewById(R.id.progressBarBtn);
@@ -29,8 +33,10 @@ public class ProgressButton {
 
     }
 
-    public void buttonActived(){
+    public void buttonActivated(){
+        progressBar.setAnimation(fade_in);
         progressBar.setVisibility(View.VISIBLE);
+        textView.setAnimation(fade_in);
         textView.setText("Chờ chút...");
     }
 

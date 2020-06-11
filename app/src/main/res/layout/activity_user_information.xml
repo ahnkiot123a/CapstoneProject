@@ -75,8 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:drawablePadding="10dp"
-                    android:text="anhtunb98@gmail.com" />
+                    android:drawablePadding="10dp" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -93,6 +92,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:drawablePadding="10dp"
+                    android:editable="false"
+
                     android:text="0399271212" />
 
 
@@ -142,8 +143,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:onClick="getNewDate"
-                    android:drawablePadding="10dp"
-                    android:text="1998/06/25" />
+                    android:drawablePadding="10dp" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -158,9 +158,9 @@
                     android:id="@+id/edAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:fontFamily="sans-serif-medium"
-                    android:drawablePadding="10dp"
-                    android:text="Ninh Binh" />
+                    android:drawablePadding="10dp" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -176,8 +176,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:drawablePadding="10dp"
-                    android:text="oKioT" />
+                    android:drawablePadding="10dp" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -185,10 +184,11 @@
             <Button
                 android:id="@+id/btnUpdateUserInfo"
                 android:layout_width="match_parent"
-                android:background="@drawable/background_btn_login"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="Cập nhật thông tin" />
+                android:background="@drawable/background_btn_login"
+                android:onClick="updateUserInfo"
+                android:text="Cập nhật thông tin"
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </LinearLayout>
