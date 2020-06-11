@@ -37,9 +37,20 @@ public class InputController {
             return false;
         } else {
             inputEditText.setError(null);
-            if (!phone.matches(regex)) {
-                inputEditText.setError("Số điện thoại không đúng!");
+            if(!isPhoneNumber(phone)){
+                inputEditText.setError("Hãy nhập đúng số điện thoại của bạn!");
                 inputEditText.requestFocus();
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean isPhoneNumber(String phone){
+        String regex = "((09|03|07|08|05)+([0-9]{8})\\b)";
+        if (phone.isEmpty()) {
+            return false;
+        } else {
+            if (!phone.matches(regex)) {
                 return false;
             }
         }

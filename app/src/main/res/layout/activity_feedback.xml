@@ -12,27 +12,29 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:minHeight="?attr/actionBarSize"
+        android:onClick="back"
         app:theme="@style/AppTheme">
 
-<!--        <ImageButton-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@color/colorAccent"-->
-<!--            android:src="@drawable/ic_baseline_arrow_ios_24"/>-->
-
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:src="@drawable/ic_baseline_arrow_white_ios_24" />
 
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:text="Phản hồi"
             android:textColor="#FFF"
-            android:textSize="28sp"
-            android:text="Phản hồi" />
-
+            android:textSize="28sp" />
 
     </Toolbar>
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,7 +96,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etFeedback"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:fontFamily="sans-serif-medium"
                     android:paddingLeft="10dp"
                     android:hint="Nhập phản hồi"
@@ -104,25 +106,6 @@
                     android:windowSoftInputMode="stateUnchanged">
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
-
-<!--            <EditText-->
-<!--                android:id="@+id/et2"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:hint="Số điện thoại"-->
-<!--                android:inputType="phone"/>-->
-
-<!--            <EditText-->
-<!--                android:id="@+id/editTextTextMultiLine2"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:ems="10"-->
-<!--                android:gravity="start|top"-->
-<!--                android:hint="Hãy nhập phải hồi của bạn tại đây"-->
-<!--                android:inputType="textMultiLine" />-->
-
 
         </LinearLayout>
 
@@ -142,14 +125,14 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/background_btn_login"
             android:fontFamily="sans-serif-medium"
+            android:onClick="sendFeedBack"
+            android:padding="10dp"
             android:text="Gửi phản hồi"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            android:padding="10dp"
-            android:onClick="sendFeedBack" />
+            android:textSize="18sp" />
 
     </LinearLayout>
-
+    </ScrollView>
 
 </RelativeLayout>

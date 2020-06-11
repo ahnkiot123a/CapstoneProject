@@ -1,50 +1,71 @@
 package com.koit.capstonproject_version_1.Model;
 
-public class Feedback {
-    private String name;
-    private String phone;
-    private String feedbackContent;
-    private int rating;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+public class Feedback {
+    private String userID;
+    private String fullName;
+    private String phoneNumber;
+    private String content;
+    private long rating;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     public Feedback() {
     }
 
-    public Feedback(String name, String phone, String feedbackContent, int rating) {
-        this.name = name;
-        this.phone = phone;
-        this.feedbackContent = feedbackContent;
+    public Feedback(String userID,String fullName, String phoneNumber, String content, long rating) {
+        this.userID = userID;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.content = content;
         this.rating = rating;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getFeedbackContent() {
-        return feedbackContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setFeedbackContent(String feedbackContent) {
-        this.feedbackContent = feedbackContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public int getRating() {
+    public long getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(long rating) {
         this.rating = rating;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    //add new Feed back to fire base
+    public void addFeedbackToFireBase(){
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("Feedbacks");
+        databaseReference.push().setValue(this);
     }
 }
