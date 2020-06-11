@@ -57,12 +57,13 @@ public class UserController {
             @Override
             public void onError(FacebookException error) {
                 Log.d(TAG_FB, "facebook:onError", error);
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.getApplicationContext());
-                builder.setMessage("Không thể đăng nhập. Kiểm tra lại kết nối mạng");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Đồng ý", null);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                Toast.makeText(LoginActivity.getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.getApplicationContext());
+//                builder.setMessage("Không thể đăng nhập. Kiểm tra lại kết nối mạng");
+//                builder.setCancelable(false);
+//                builder.setPositiveButton("Đồng ý", null);
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
             }
         });
 

@@ -3,7 +3,7 @@
     package="com.koit.capstonproject_version_1">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
-        <activity android:name=".View.SplashActivity" android:noHistory="true">
+        <activity android:name=".View.ResetPasswordActivity">
+
+        </activity>
+        <activity android:name=".View.ForgotPasswordActivity">
+
+        </activity>
+        <activity
+            android:name=".View.SplashActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,9 +28,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.RegisterActivity" />
-        <activity android:name=".View.LoginActivity" android:windowSoftInputMode="stateAlwaysHidden">
-
-        </activity>
+        <activity
+            android:name=".View.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".View.MainActivity" />
         <activity android:name=".View.RegisterVerifyPhone" />
 

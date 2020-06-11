@@ -6,16 +6,11 @@ import android.os.Bundle;
 
 import com.koit.capstonproject_version_1.R;
 
-public class MainActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+        setContentView(R.layout.activity_reset_password);
     }
 }
