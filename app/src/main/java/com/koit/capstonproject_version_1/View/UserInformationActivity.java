@@ -94,7 +94,7 @@ public class UserInformationActivity extends AppCompatActivity {
         DatePickerDialog dialog = new DatePickerDialog(this, mListener, year, month, day);
         dialog.show();
     }
-    public void back(View v){
+    public void backButton(View v){
         onBackPressed();
     }
 }
