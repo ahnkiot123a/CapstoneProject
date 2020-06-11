@@ -31,6 +31,7 @@
         <activity
             android:name=".View.LoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
         <activity android:name=".View.MainActivity" />
         <activity android:name=".View.RegisterVerifyPhone" />
         <activity android:name=".View.FeedbackActivity"/>
