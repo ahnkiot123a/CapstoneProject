@@ -28,9 +28,6 @@ public class InputController {
         String regex = "((09|03|07|08|05)+([0-9]{8})\\b)";
         String phone = inputEditText.getText().toString().trim();
         phone = formatPhoneNumber(phone);
-        Log.d("phone", phone);
-        Log.d("phone", phone.matches(regex) + "");
-
         if (phone.isEmpty()) {
             inputEditText.setError("Số điện thoại không được để trống!");
             inputEditText.requestFocus();
@@ -48,6 +45,7 @@ public class InputController {
     //Check a string phone number satisfy phone number format
     public boolean isPhoneNumber(String phone){
         String regex = "((09|03|07|08|05)+([0-9]{8})\\b)";
+        phone = formatPhoneNumber(phone);
         if (phone.isEmpty()) {
             return false;
         } else {
