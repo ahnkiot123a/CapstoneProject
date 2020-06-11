@@ -13,7 +13,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.Controller.InputController;
@@ -91,5 +93,8 @@ public class UserInformationActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog dialog = new DatePickerDialog(this, mListener, year, month, day);
         dialog.show();
+    }
+    public void back(View v){
+        onBackPressed();
     }
 }
