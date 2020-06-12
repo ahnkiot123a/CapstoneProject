@@ -15,21 +15,17 @@ import androidx.appcompat.app.AlertDialog;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.internal.Validate;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
-import com.koit.capstonproject_version_1.Model.Feedback;
 import com.koit.capstonproject_version_1.Model.UIModel.ProgressButton;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.ChangePasswordActivity;
-import com.koit.capstonproject_version_1.View.FeedbackActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
-import com.koit.capstonproject_version_1.View.UserInformationActivity;
 
 public class UserController {
 
@@ -99,7 +95,7 @@ public class UserController {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(activity.getApplicationContext(), ChangePasswordActivity.class);
+                                Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
                                 intent.putExtra("currentUser", currentUser);
                                 activity.startActivity(intent);
                             }

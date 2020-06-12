@@ -16,5 +16,9 @@
 
     //final variable
     <string name="TAG_FB">FacebookLogin</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Trang chủ</string>
+    <string name="title_debit">Sổ nợ</string>
+    <string name="title_account">Cá nhân</string>
 
 </resources>
