@@ -28,8 +28,6 @@ public class FeedbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
-        getSupportActionBar().hide();
-
 
         Intent intent = getIntent();
         currentUser =(User)intent.getSerializableExtra("currentUser");
