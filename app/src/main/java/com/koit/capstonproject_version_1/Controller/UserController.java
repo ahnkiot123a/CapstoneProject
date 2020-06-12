@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -94,16 +95,23 @@ public class UserController {
                     if (password.equals(currentUser.getPassword())) {
                         Toast.makeText(activity.getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
                         progressButton.progressSuccess();
-                        Intent intent = new Intent(activity.getApplicationContext(), ChangePasswordActivity.class);
-                        intent.putExtra("currentUser", currentUser);
-                        activity.startActivity(intent);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(activity.getApplicationContext(), ChangePasswordActivity.class);
+                                intent.putExtra("currentUser", currentUser);
+                                activity.startActivity(intent);
+                            }
+                        }, 500); // afterDelay will be executed after 500 milliseconds.
+
                     } else {
                         Toast.makeText(activity.getApplicationContext(), "Mật khẩu không đúng", Toast.LENGTH_LONG).show();
-                        progressButton.progressError();
+                        progressButton.progressInitiation();
                     }
                 } else {
                     Toast.makeText(activity.getApplicationContext(), "Tài khoản không tồn tại", Toast.LENGTH_LONG).show();
-                    progressButton.progressError();
+                    progressButton.progressInitiation();
                 }
 
             }
@@ -116,10 +124,10 @@ public class UserController {
                 phoneNumber = inputController.formatPhoneNumber(phoneNumber);
                 user.getUserWithPhoneAndPasswordInterface(phoneNumber, iUser);
             }else {
-                progressButton.progressError();
+                progressButton.progressInitiation();
             }
         }else{
-            progressButton.progressError();
+            progressButton.progressInitiation();
         }
     }
 

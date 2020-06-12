@@ -98,7 +98,6 @@
                             android:fontFamily="sans-serif-medium"
                             android:inputType="numberPassword"
                             android:paddingLeft="10dp"
-                            android:paddingRight="45dp"
                             android:textColor="@color/gray"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
