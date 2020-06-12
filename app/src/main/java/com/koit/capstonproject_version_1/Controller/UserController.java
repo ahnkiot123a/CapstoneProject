@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.internal.Validate;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -38,11 +39,9 @@ public class UserController {
     private User user;
     User currentUser;
     private InputController inputController;
-
     public UserController() {
         user = new User();
         inputController = new InputController();
-
     }
 
     public void loginWithFacebook(View view, LoginButton loginButton, CallbackManager callbackManager, final FirebaseAuth firebaseAuth, final Activity LoginActivity, Button btnFbLogin) {
@@ -95,7 +94,7 @@ public class UserController {
                     if (password.equals(currentUser.getPassword())) {
                         Toast.makeText(activity.getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
                         progressButton.progressSuccess();
-                        Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(activity.getApplicationContext(), ChangePasswordActivity.class);
                         intent.putExtra("currentUser", currentUser);
                         activity.startActivity(intent);
                     } else {
@@ -154,43 +153,11 @@ public class UserController {
         } else if (storeName.trim().equals("")){
             Toast.makeText(activity.getApplicationContext(),"Vui lòng nhập tên cửa hàng",Toast.LENGTH_SHORT).show();
         }   else {
-            databaseReference.child(currentUser.getPhoneNumber()).child("fullName").setValue(fullName);
-            databaseReference.child(currentUser.getPhoneNumber()).child("email").setValue(email);
-            databaseReference.child(currentUser.getPhoneNumber()).child("gender").setValue(gender);
-            databaseReference.child(currentUser.getPhoneNumber()).child("dateOfBirth").setValue(dob);
-            databaseReference.child(currentUser.getPhoneNumber()).child("address").setValue(address);
-            databaseReference.child(currentUser.getPhoneNumber()).child("storeName").setValue(storeName);
-            currentUser.setFullName(fullName);
-            currentUser.setEmail(email);
-            currentUser.setGender(gender);
-            currentUser.setDateOfBirth(dob);
-            currentUser.setAddress(address);
-            currentUser.setStoreName(storeName);
+            user.updateUserToFirebase(databaseReference,currentUser,fullName,email,gender,dob,address,storeName);
             Toast.makeText(activity.getApplicationContext(),"Cập nhật thông tin thành công",Toast.LENGTH_SHORT).show();
 
         }
     }
-    public void changePassword(EditText edOldPassword, EditText edNewPassword,
-                               EditText edConfirmNewPassword,  User currentUser,
-                               Activity activity, DatabaseReference databaseReference) {
 
-        String oldPassword = edOldPassword.getText().toString();
-        String newPassword = edNewPassword.getText().toString();
-        String confirmNewPassword = edConfirmNewPassword.getText().toString();
-        if(oldPassword.length()<6 || newPassword.length() <6 || confirmNewPassword.length() <6){
-            Toast.makeText(activity,"Mật khẩu có chứa 6 ký tự số trở lên, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
-        } else if (!oldPassword.equals(currentUser.getPassword())) {
-            Toast.makeText(activity,"Mật khẩu cũ không đúng",Toast.LENGTH_SHORT).show();
-        } else if (!newPassword.equals(confirmNewPassword)){
-            Toast.makeText(activity,"Mật khẩu xác nhận không đúng, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
-
-        } else if (oldPassword.equals(confirmNewPassword)){
-            Toast.makeText(activity,"Mật khẩu cũ và mới trùng nhau, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
-        }else {
-            databaseReference.child(currentUser.getPhoneNumber()).child("password").setValue(confirmNewPassword);
-            Toast.makeText(activity,"Đổi mật khẩu thành công!",Toast.LENGTH_SHORT).show();
-            currentUser.setPassword(confirmNewPassword);
-        }
-    }
 }
 
