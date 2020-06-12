@@ -3,17 +3,17 @@ package com.koit.capstonproject_version_1.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.core.view.View;
 import com.koit.capstonproject_version_1.Controller.ForgotPasswordController;
-import com.koit.capstonproject_version_1.Controller.RegisterController;
 import com.koit.capstonproject_version_1.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private TextInputEditText etPhoneNumber;
+    private LottieAnimationView lottieAnimationView;
 
     private ForgotPasswordController forgotPasswordController;
 
@@ -32,6 +32,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void initView() {
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
+        lottieAnimationView = findViewById(R.id.animationView);
     }
 
     public void sendPhoneNumberToResetPasswordActivity(android.view.View view){
@@ -49,9 +50,17 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         et.setError(error);
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        lottieAnimationView.setVisibility(View.GONE);
+    }
 
     public TextInputEditText getEtPhoneNumber() {
         return etPhoneNumber;
+    }
+
+    public LottieAnimationView getLottieAnimationView() {
+        return lottieAnimationView;
     }
 }

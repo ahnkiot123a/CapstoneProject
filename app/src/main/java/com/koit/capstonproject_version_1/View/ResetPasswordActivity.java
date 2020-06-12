@@ -63,10 +63,16 @@ public class ResetPasswordActivity extends AppCompatActivity {
         forgotPasswordController.resendOTPCode();
     }
 
+    public void back(android.view.View view) {
+        onBackPressed();
+    }
+
     public void showTextError(String error, TextInputEditText et) {
         et.requestFocus();
         et.setError(error);
     }
+
+
 
     public TextInputEditText getEtPhoneNumberRVP() {
         return etPhoneNumberRVP;
@@ -82,10 +88,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     public TextInputEditText getEtConfirmPassword() {
         return etConfirmPassword;
-    }
-
-    public void back(View view) {
-        onBackPressed();
     }
 
 }

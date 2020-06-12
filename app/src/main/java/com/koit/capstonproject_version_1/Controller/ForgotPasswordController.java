@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -56,11 +57,14 @@ public class ForgotPasswordController {
         if (!inputController.isPhoneNumber(phone)) {
             forgotPasswordActivity.showTextError("Số điện thoại không chính xác.", forgotPasswordActivity.getEtPhoneNumber());
         } else {
+            forgotPasswordActivity.getLottieAnimationView().setVisibility(View.VISIBLE);
             final IUser iUser = new IUser() {
                 @Override
                 public void getCurrentUser(User user) {
                     if (user == null) {
                         forgotPasswordActivity.showTextError("Số điện thoại chưa được đăng ký!", forgotPasswordActivity.getEtPhoneNumber());
+                        forgotPasswordActivity.getLottieAnimationView().setVisibility(View.GONE);
+
                     } else {
                         Intent intent = new Intent(forgotPasswordActivity, ResetPasswordActivity.class);
                         intent.putExtra("phonenumber", phone);
@@ -187,38 +191,6 @@ public class ForgotPasswordController {
     //resend OTP code
     public void resendOTPCode() {
         resendVerificationCode(phoneNumber, token);
-    }
-
-    //check OTP code is valid or not
-    private void verifyCode(String code) {
-        //OTP code must be check <=3 times
-        Log.d("verifyCodeafter", "1");
-        otpCounter++;
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        //OPT expired
-        if (otpCounter >= 3) {
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case DialogInterface.BUTTON_POSITIVE:
-                            //Yes button clicked
-                            resendOTPCode();
-                            break;
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            //No button clicked
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(resetPasswordActivity);
-            builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
-                    .setNegativeButton("Thoát", dialogClickListener).show();
-        }
-        User user = new User(resetPasswordActivity);
-        Log.d("beforesignIn", "1");
-        user.signInTheUserByCredentialsFromResetPassword(credential);
     }
 
     //check OTP code is valid or not
