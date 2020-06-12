@@ -15,7 +15,6 @@ public class InputController {
 
     }
 
-    //Format phone number to 10 digit
     public String formatPhoneNumber(String phone){
         if (phone.startsWith("+84")) {
             phone = "0" + phone.subSequence(3,phone.length());
@@ -27,7 +26,11 @@ public class InputController {
     public boolean isPhoneNumber(TextInputEditText inputEditText) {
         String regex = "((09|03|07|08|05)+([0-9]{8})\\b)";
         String phone = inputEditText.getText().toString().trim();
+
         phone = formatPhoneNumber(phone);
+        Log.d("phone", phone);
+        Log.d("phone", phone.matches(regex) + "");
+
         if (phone.isEmpty()) {
             inputEditText.setError("Số điện thoại không được để trống!");
             inputEditText.requestFocus();
@@ -42,10 +45,8 @@ public class InputController {
         }
         return true;
     }
-    //Check a string phone number satisfy phone number format
     public boolean isPhoneNumber(String phone){
         String regex = "((09|03|07|08|05)+([0-9]{8})\\b)";
-        phone = formatPhoneNumber(phone);
         if (phone.isEmpty()) {
             return false;
         } else {
@@ -57,6 +58,7 @@ public class InputController {
     }
 
     public boolean isPassword(TextInputEditText inputEditText){
+        String regex = "^[0-9]{6,}$";
         String password = inputEditText.getText().toString().trim();
         if (password.isEmpty()) {
             inputEditText.setError("Mật khẩu không được để trống!");
@@ -64,21 +66,9 @@ public class InputController {
             return false;
         } else {
             inputEditText.setError(null);
-            if (!isPassword(password)) {
+            if (!password.matches(regex)) {
                 inputEditText.setError("Mật khẩu chỉ chứa số và có ít nhất 6 ký tự!");
                 inputEditText.requestFocus();
-                return false;
-            }
-        }
-        return true;
-    }
-    // check a String satisfy password format
-    public boolean isPassword(String password){
-        String regex = "^[0-9]{6,}$";
-        if (password.isEmpty()) {
-            return false;
-        } else {
-            if (!password.matches(regex)) {
                 return false;
             }
         }

@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.koit.capstonproject_version_1.Controller.UserController;
 import com.koit.capstonproject_version_1.Model.UIModel.ProgressButton;
-import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 
 import java.security.MessageDigest;
@@ -90,15 +89,20 @@ public class LoginActivity extends AppCompatActivity {
         userController.loginWithPhoneAndPassword(etPhoneNumber, etPassword, LoginActivity.this, view);
     }
 
+    public void callForgotPasswordActivity(View view){
+        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-       /* if(user != null){
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        }*/
+//        if(user != null){
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            startActivity(intent);
+//        }
     }
 
     @Override

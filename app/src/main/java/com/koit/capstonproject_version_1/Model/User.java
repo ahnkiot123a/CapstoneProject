@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import com.facebook.AccessToken;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,20 +14,28 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
+import com.koit.capstonproject_version_1.Controller.RegisterController;
 import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
+import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
-import com.koit.capstonproject_version_1.View.UserInformationActivity;
+import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
+import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+import androidx.annotation.NonNull;
 
+public class User implements Serializable {
+    RegisterVerifyPhoneActivity registerVerifyPhoneActivity;
+    ResetPasswordActivity resetPasswordActivity;
+    RegisterController registerController;
     private String fullName, address, email, storeName;
     private String dateOfBirth;
     private String phoneNumber, password, roleID;
@@ -46,12 +52,38 @@ public class User implements Serializable {
 //        }
     }
 
+    public User(RegisterVerifyPhoneActivity registerVerifyPhoneActivity) {
+        this.registerVerifyPhoneActivity = registerVerifyPhoneActivity;
+    }
+
+    public User(ResetPasswordActivity resetPasswordActivity) {
+        this.resetPasswordActivity = resetPasswordActivity;
+    }
+
     public User() {
 //        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 //        if (firebaseUser != null) {
 //            databaseReference = FirebaseDatabase.getInstance().getReference().child("User").child("FrwiGmQyScgZ6RZRRE25BHO56Ws2");
 //        }
     }
+
+    public User(String storeName, String password) {
+        this.storeName = storeName;
+        this.password = password;
+    }
+
+    public User(String fullName, String address, String email, String storeName, String dateOfBirth, String password, String roleID, boolean hasFingerprint, boolean gender) {
+        this.fullName = fullName;
+        this.address = address;
+        this.email = email;
+        this.storeName = storeName;
+        this.dateOfBirth = dateOfBirth;
+        this.password = password;
+        this.roleID = roleID;
+        this.hasFingerprint = hasFingerprint;
+        this.gender = gender;
+    }
+
 
     public String getFullName() {
         return fullName;
@@ -195,6 +227,51 @@ public class User implements Serializable {
         };
         databaseReference.addListenerForSingleValueEvent(valueEventListener);
     }
+
+    public void signInTheUserByCredentials(PhoneAuthCredential credential) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(registerVerifyPhoneActivity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Intent intent = new Intent(registerVerifyPhoneActivity, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            registerVerifyPhoneActivity.startActivity(intent);
+
+                        } else {
+                            registerVerifyPhoneActivity.showTextError("Mã OTP không chính xác.", registerVerifyPhoneActivity.getEtOTP());
+
+                            // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void signInTheUserByCredentialsFromResetPassword(PhoneAuthCredential credential) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(resetPasswordActivity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Intent intent = new Intent(resetPasswordActivity, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            resetPasswordActivity.startActivity(intent);
+                            Toast.makeText(resetPasswordActivity, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+
+
+                        } else {
+                            resetPasswordActivity.showTextError("Mã OTP không chính xác.", resetPasswordActivity.getEtOTP());
+
+                            // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 
 
 }

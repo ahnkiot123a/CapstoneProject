@@ -118,6 +118,7 @@
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/forgotPasswordTextView"
+                        android:onClick="callForgotPasswordActivity"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/blue"
                         android:textSize="15sp" />

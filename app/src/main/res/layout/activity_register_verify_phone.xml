@@ -51,7 +51,6 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etPhoneNumberRVP"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +58,9 @@
                 android:transitionName="phoneTran">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPhoneNumberRVP"
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:hint="Số điện thoại"
@@ -69,7 +70,6 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etStoreNameRVP"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,6 +78,8 @@
                 android:transitionName="phoneTran">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etStoreNameRVP"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -112,7 +114,6 @@
             <!--                android:textSize="15sp" />-->
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etPassword"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,10 +123,12 @@
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:paddingRight="45dp"
+                    android:id="@+id/etPassword"
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
-                    android:inputType="numberPassword" />
+                    android:inputType="numberPassword"
+                    android:paddingRight="45dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
             <!--            <EditText-->
@@ -143,7 +146,6 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etConfirmPassword"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,11 +155,13 @@
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etConfirmPassword"
                     android:layout_width="match_parent"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="45dp"
+
                     android:layout_height="wrap_content"
-                    android:inputType="numberPassword" />
+                    android:inputType="numberPassword"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="45dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -167,7 +171,6 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/etOTP"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -178,6 +181,7 @@
                     app:counterMaxLength="6">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etOTP"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal" />
@@ -185,18 +189,18 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:onClick="resendOTPCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/blue"
                     android:layout_gravity="right"
-                    android:textSize="16sp"
-                    android:text="@string/sendOTPTextView"/>
+                    android:layout_marginLeft="10dp"
+                    android:onClick="resendOTPCode"
+                    android:text="@string/sendOTPTextView"
+                    android:textColor="@color/blue"
+                    android:textSize="16sp" />
             </LinearLayout>
 
 
-        <!--            <EditText-->
+            <!--            <EditText-->
             <!--                android:inputType="numberDecimal"-->
             <!--                android:id="@+id/etConfirmPassword"-->
             <!--                android:layout_width="match_parent"-->
