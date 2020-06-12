@@ -27,6 +27,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
+        getSupportActionBar().hide();
+
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
         Intent intent = getIntent();
         currentUser =(User)intent.getSerializableExtra("currentUser");

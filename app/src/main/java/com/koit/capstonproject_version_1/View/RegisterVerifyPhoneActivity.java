@@ -28,6 +28,8 @@ public class RegisterVerifyPhoneActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_verify_phone);
+        getSupportActionBar().hide();
+
         innitView();
         phoneNumber = getIntent().getStringExtra("phonenumber");
         Log.d("PhoneNumber",phoneNumber);

@@ -38,6 +38,8 @@ public class UserInformationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_information);
+        getSupportActionBar().hide();
+
         findViewById();
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
         Intent intent = getIntent();
