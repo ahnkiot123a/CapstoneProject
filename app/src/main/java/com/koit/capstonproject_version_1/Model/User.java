@@ -270,7 +270,25 @@ public class User implements Serializable {
                     }
                 });
     }
-
+    public void updateUserToFirebase(DatabaseReference databaseReference, User currentUser,
+                                     String fullName, String email, boolean gender, String dob,
+                                     String address, String storeName ){
+        databaseReference.child(currentUser.getPhoneNumber()).child("fullName").setValue(fullName);
+        databaseReference.child(currentUser.getPhoneNumber()).child("email").setValue(email);
+        databaseReference.child(currentUser.getPhoneNumber()).child("gender").setValue(gender);
+        databaseReference.child(currentUser.getPhoneNumber()).child("dateOfBirth").setValue(dob);
+        databaseReference.child(currentUser.getPhoneNumber()).child("address").setValue(address);
+        databaseReference.child(currentUser.getPhoneNumber()).child("storeName").setValue(storeName);
+        currentUser.setFullName(fullName);
+        currentUser.setEmail(email);
+        currentUser.setGender(gender);
+        currentUser.setDateOfBirth(dob);
+        currentUser.setAddress(address);
+        currentUser.setStoreName(storeName);
+    }
+    public void changePasswordToFirebase(DatabaseReference databaseReference,User currentUser, String confirmNewPassword){
+        databaseReference.child(currentUser.getPhoneNumber()).child("password").setValue(confirmNewPassword);
+    }
 
 
 }

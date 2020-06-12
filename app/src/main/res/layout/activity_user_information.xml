@@ -34,7 +34,9 @@
     </Toolbar>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_top"
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -61,7 +63,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/profile_img"
                 android:includeFontPadding="false"
-                android:text="Họ và tên"
+                android:text="Họ và tên (*)"
                 android:textSize="20sp" />
 
             <com.google.android.material.textfield.TextInputEditText
@@ -97,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Email">
+                android:hint="Email (*)">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edEmail"
@@ -198,7 +200,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Tên cửa hàng">
+                android:hint="Tên cửa hàng (*)">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edStoreName"

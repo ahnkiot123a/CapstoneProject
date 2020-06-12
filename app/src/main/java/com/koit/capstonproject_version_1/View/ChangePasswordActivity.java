@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.koit.capstonproject_version_1.Controller.ChangePasswordController;
 import com.koit.capstonproject_version_1.Controller.UserController;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
@@ -21,6 +22,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private User currentUser;
     private UserController userController;
+    private ChangePasswordController changePasswordController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         currentUser =(User)intent.getSerializableExtra("currentUser");
         findViewById();
         userController = new UserController();
+        changePasswordController = new ChangePasswordController();
         actionBtnChangePassword();
     }
 
@@ -37,7 +40,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userController.changePassword(edOldPassword,edNewPassword,edConfirmNewPassword,currentUser,ChangePasswordActivity.this,databaseReference);
+                changePasswordController.changePassword(edOldPassword,edNewPassword,edConfirmNewPassword,currentUser,ChangePasswordActivity.this,databaseReference);
             }
         });
     }
