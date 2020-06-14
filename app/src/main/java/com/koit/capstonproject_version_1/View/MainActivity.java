@@ -1,8 +1,13 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
-
+    private User currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +33,21 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-    }
 
+        Intent intent = getIntent();
+        currentUser =(User)intent.getSerializableExtra("currentUser");
+
+    }
+    public void displayUserInfo(View view){
+        Intent intent = new Intent(this, UserInformationActivity.class);
+        intent.putExtra("currentUser", currentUser);
+        startActivity(intent);
+    }
+    public void changePassword(View view){
+        Intent intent = new Intent(this, ChangePasswordActivity.class);
+        intent.putExtra("currentUser", currentUser);
+        startActivity(intent);
+    }
 
 
 }

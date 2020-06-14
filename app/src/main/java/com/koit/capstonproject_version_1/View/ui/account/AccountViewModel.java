@@ -10,7 +10,7 @@ public class AccountViewModel extends ViewModel {
 
     public AccountViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Đây là cá nhân");
+       // mText.setValue("Đây là cá nhân");
     }
 
     public LiveData<String> getText() {

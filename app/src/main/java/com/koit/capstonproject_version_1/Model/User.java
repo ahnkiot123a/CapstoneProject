@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Model;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Controller.RegisterController;
+import com.koit.capstonproject_version_1.Controller.ValidateController;
 import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
@@ -29,6 +31,8 @@ import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
 import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 
@@ -40,7 +44,7 @@ public class User implements Serializable {
     private String dateOfBirth;
     private String phoneNumber, password, roleID;
     boolean hasFingerprint, gender;
-
+    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
 
@@ -270,9 +274,10 @@ public class User implements Serializable {
                     }
                 });
     }
-    public void updateUserToFirebase(DatabaseReference databaseReference, User currentUser,
+    public void updateUserToFirebase( User currentUser,
                                      String fullName, String email, boolean gender, String dob,
                                      String address, String storeName ){
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         databaseReference.child(currentUser.getPhoneNumber()).child("fullName").setValue(fullName);
         databaseReference.child(currentUser.getPhoneNumber()).child("email").setValue(email);
         databaseReference.child(currentUser.getPhoneNumber()).child("gender").setValue(gender);
@@ -289,6 +294,5 @@ public class User implements Serializable {
     public void changePasswordToFirebase(DatabaseReference databaseReference,User currentUser, String confirmNewPassword){
         databaseReference.child(currentUser.getPhoneNumber()).child("password").setValue(confirmNewPassword);
     }
-
 
 }

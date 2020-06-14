@@ -26,6 +26,7 @@ import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.ChangePasswordActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
+import com.koit.capstonproject_version_1.View.UserInformationActivity;
 
 public class UserController {
 
@@ -114,7 +115,7 @@ public class UserController {
         };
 
 
-        if (inputController.isPhoneNumber(etPhoneNumber)) {
+        if (inputController.isPhoneNumber(etPhoneNumber )) {
             if (inputController.isPassword(etPassword)) {
                 phoneNumber = etPhoneNumber.getText().toString().trim();
                 phoneNumber = inputController.formatPhoneNumber(phoneNumber);
@@ -132,7 +133,7 @@ public class UserController {
                                       EditText edPhoneNumber, EditText edDob,
                                       RadioButton rbMale, EditText edAddress,
                                       EditText edStorename, User currentUser,
-                                      Activity activity, DatabaseReference databaseReference) {
+                                      Activity activity  ) {
 
         String fullName = edFullname.getText().toString();
         String email = edEmail.getText().toString();
@@ -157,7 +158,7 @@ public class UserController {
         } else if (storeName.trim().equals("")){
             Toast.makeText(activity.getApplicationContext(),"Vui lòng nhập tên cửa hàng",Toast.LENGTH_SHORT).show();
         }   else {
-            user.updateUserToFirebase(databaseReference,currentUser,fullName,email,gender,dob,address,storeName);
+            user.updateUserToFirebase(currentUser,fullName,email,gender,dob,address,storeName);
             Toast.makeText(activity.getApplicationContext(),"Cập nhật thông tin thành công",Toast.LENGTH_SHORT).show();
 
         }

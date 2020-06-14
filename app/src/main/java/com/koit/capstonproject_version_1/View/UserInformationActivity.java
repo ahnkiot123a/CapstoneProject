@@ -31,7 +31,6 @@ import java.util.Date;
 public class UserInformationActivity extends AppCompatActivity {
     private EditText edDob,edEmail,edPhoneNumber,edFullname,edAddress,edStoreName;
     private RadioButton rbMale,rbFemale;
-    private DatabaseReference databaseReference;
     private UserController userController;
     private User currentUser;
     @Override
@@ -40,8 +39,6 @@ public class UserInformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_information);
 
         findViewById();
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("User");
         Intent intent = getIntent();
         currentUser =(User)intent.getSerializableExtra("currentUser");
         setCurrentUserInfo();
@@ -77,7 +74,7 @@ public class UserInformationActivity extends AppCompatActivity {
         //btnUpdateUserInfo = findViewById(R.id.btnUpdateUserInfo);
     }
     public void updateUserInfo(View view){
-        userController.updateUserInformation(edFullname,edEmail,edPhoneNumber,edDob,rbMale,edAddress,edStoreName,currentUser,UserInformationActivity.this,databaseReference);
+        userController.updateUserInformation(edFullname,edEmail,edPhoneNumber,edDob,rbMale,edAddress,edStoreName,currentUser,UserInformationActivity.this);
     }
     public void getNewDate(View view) {
         DatePickerDialog.OnDateSetListener mListener = mListener = new DatePickerDialog.OnDateSetListener() {
