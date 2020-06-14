@@ -4,11 +4,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.ui.account.AccountFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -36,15 +38,24 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentUser =(User)intent.getSerializableExtra("currentUser");
-
+        Log.d("kiemtra",currentUser.getFullName());
+        Bundle bundle = new Bundle();
+        bundle.putString("userFullname",currentUser.getFullName());
+       AccountFragment accountFragment = new AccountFragment();
+       accountFragment.setArguments(bundle);
     }
     public void displayUserInfo(View view){
         Intent intent = new Intent(this, UserInformationActivity.class);
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
     }
-    public void changePassword(View view){
+    public void changePassword(android.view.View view){
         Intent intent = new Intent(this, ChangePasswordActivity.class);
+        intent.putExtra("currentUser", currentUser);
+        startActivity(intent);
+    }
+    public  void sendFeedBack(android.view.View view){
+        Intent intent = new Intent(this, FeedbackActivity.class);
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
     }

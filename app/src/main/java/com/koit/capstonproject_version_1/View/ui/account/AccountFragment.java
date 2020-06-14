@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.View.ui.account;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,12 @@ public class AccountFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_account, container, false);
     //    final TextView textView = root.findViewById(R.id.text_notifications);
        tvNameProfile = root.findViewById(R.id.tvNameProfile);
+        Bundle bundle = getArguments();
+        if (bundle != null)
+            tvNameProfile.setText(bundle.getString("userFullname").toString());
 
+        else  tvNameProfile.setText("Bui Anh Tu");
+        Log.d("kiemtra",tvNameProfile.getText().toString());
         return root;
     }
 }

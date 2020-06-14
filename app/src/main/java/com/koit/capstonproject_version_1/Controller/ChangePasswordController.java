@@ -1,6 +1,7 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -9,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.View.ChangePasswordActivity;
 import com.koit.capstonproject_version_1.View.ForgotPasswordActivity;
+import com.koit.capstonproject_version_1.View.MainActivity;
 
 public class ChangePasswordController {
     ChangePasswordActivity changePasswordActivity;
@@ -45,7 +47,12 @@ public class ChangePasswordController {
         }else {
             user.changePasswordToFirebase(databaseReference,currentUser,validateController.getMd5(confirmNewPassword));
             Toast.makeText(activity,"Đổi mật khẩu thành công!",Toast.LENGTH_SHORT).show();
+
             currentUser.setPassword(validateController.getMd5(confirmNewPassword));
+            Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+            intent.putExtra("currentUser", currentUser);
+            activity.startActivity(intent);
+
         }
     }
 }

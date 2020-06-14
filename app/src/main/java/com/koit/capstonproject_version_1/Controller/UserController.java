@@ -160,7 +160,15 @@ public class UserController {
         }   else {
             user.updateUserToFirebase(currentUser,fullName,email,gender,dob,address,storeName);
             Toast.makeText(activity.getApplicationContext(),"Cập nhật thông tin thành công",Toast.LENGTH_SHORT).show();
-
+            currentUser.setFullName(fullName);
+            currentUser.setEmail(email);
+            currentUser.setGender(gender);
+            currentUser.setDateOfBirth(dob);
+            currentUser.setAddress(address);
+            currentUser.setStoreName(storeName);
+            Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+            intent.putExtra("currentUser", currentUser);
+            activity.startActivity(intent);
         }
     }
 
