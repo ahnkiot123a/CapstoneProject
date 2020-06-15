@@ -27,6 +27,7 @@ public class FeedbackController {
             feedbackActivity.onBackPressed();
         }
     }
+
     //Check whether user input feedback and rating
     public boolean checkInputFeedback(String content, long rating) {
         if ((content == null || content.equals("")) && rating == -1) return false;

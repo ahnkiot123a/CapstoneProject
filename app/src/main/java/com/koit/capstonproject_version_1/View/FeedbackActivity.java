@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.hsalf.smileyrating.SmileyRating;
 import com.koit.capstonproject_version_1.Controller.FeedbackController;
 import com.koit.capstonproject_version_1.Model.User;
@@ -22,6 +24,7 @@ public class FeedbackActivity extends AppCompatActivity {
     private TextInputEditText etPhoneNumber;
     private TextInputEditText etFeedback;
     private User currentUser;
+    private FirebaseUser firebaseUser;
 
     FeedbackController feedbackController;
     @Override
@@ -31,6 +34,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentUser =(User)intent.getSerializableExtra("currentUser");
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         initView();
         initial();
         feedbackController = new FeedbackController(this);
@@ -44,9 +49,13 @@ public class FeedbackActivity extends AppCompatActivity {
     }
     private void initial(){
         //set initial value for input
-
+        if (currentUser != null){
         etName.setText(currentUser.getFullName());
         etPhoneNumber.setText(currentUser.getPhoneNumber());
+        } else  if (firebaseUser != null){
+            etName.setText(firebaseUser.getDisplayName());
+           // etPhoneNumber.setText(currentUser.getPhoneNumber());
+        }
         //Set Title for smiley
         smileyRating.setTitle(SmileyRating.Type.TERRIBLE,"Rất tệ");
         smileyRating.setTitle(SmileyRating.Type.BAD,"Tệ");
@@ -66,7 +75,10 @@ public class FeedbackActivity extends AppCompatActivity {
             String phoneNumber = etPhoneNumber.getText().toString();
             String feebackContent = etFeedback.getText().toString();
             long rating = (long)smileyRating.getSelectedSmiley().getRating();
-            feedbackController.addNewFeedback(currentUser.getPhoneNumber(),fullname,phoneNumber,feebackContent,rating);
+           if(currentUser != null) feedbackController.addNewFeedback(currentUser.getPhoneNumber(),fullname,phoneNumber,feebackContent,rating);
+           else if (firebaseUser != null)
+               feedbackController.addNewFeedback(firebaseUser.getUid(),fullname,phoneNumber,feebackContent,rating);
+
     }
 
 

@@ -38,11 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentUser =(User)intent.getSerializableExtra("currentUser");
-        Log.d("kiemtra",currentUser.getFullName());
-        Bundle bundle = new Bundle();
-        bundle.putString("userFullname",currentUser.getFullName());
-       AccountFragment accountFragment = new AccountFragment();
-       accountFragment.setArguments(bundle);
+
     }
     public void displayUserInfo(View view){
         Intent intent = new Intent(this, UserInformationActivity.class);
