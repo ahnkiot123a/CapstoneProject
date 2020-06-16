@@ -291,7 +291,8 @@ public class User implements Serializable {
         currentUser.setAddress(address);
         currentUser.setStoreName(storeName);
     }
-    public void changePasswordToFirebase(DatabaseReference databaseReference,User currentUser, String confirmNewPassword){
+    public void changePasswordToFirebase(User currentUser, String confirmNewPassword){
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         databaseReference.child(currentUser.getPhoneNumber()).child("password").setValue(confirmNewPassword);
     }
 

@@ -64,6 +64,8 @@
                 android:layout_toRightOf="@id/profile_img"
                 android:includeFontPadding="false"
                 android:text="Họ và tên (*)"
+                android:fontFamily="sans-serif-medium"
+
                 android:textSize="20sp" />
 
             <com.google.android.material.textfield.TextInputEditText
@@ -99,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Email (*)">
+                android:hint="Email">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edEmail"
@@ -123,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:drawablePadding="10dp"
-
+                    android:editable="false"
 
                     android:text="0399271212" />
 
@@ -138,6 +140,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
                 android:text="Giới tính"
+                android:fontFamily="sans-serif-medium"
+
                 android:textSize="16sp" />
             <RadioGroup
                 android:id="@+id/radioGender"
@@ -174,6 +178,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:onClick="getNewDate"
+
                     android:drawablePadding="10dp" />
 
 
@@ -200,6 +205,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:fontFamily="sans-serif-medium"
+
                 android:hint="Tên cửa hàng (*)">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -219,6 +226,8 @@
                 android:background="@drawable/background_btn_login"
                 android:onClick="updateUserInfo"
                 android:text="Cập nhật thông tin"
+                android:fontFamily="sans-serif-medium"
+
                 android:textColor="@color/white" />
 
         </LinearLayout>

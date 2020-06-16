@@ -33,13 +33,20 @@ public class UserController {
     private static final String TAG_FB = "FacebookLogin";
 
     private String phoneNumber;
-
+    private UserInformationActivity userInformationActivity;
     private User user;
     User currentUser;
     private InputController inputController;
     public UserController() {
         user = new User();
         inputController = new InputController();
+      //  userInformationActivity = new UserInformationActivity();
+    }
+
+    public UserController(UserInformationActivity userInformationActivity) {
+        this.userInformationActivity = userInformationActivity;
+        inputController = new InputController();
+        user = new User();
     }
 
     public void loginWithFacebook(View view, LoginButton loginButton, CallbackManager callbackManager, final FirebaseAuth firebaseAuth, final Activity LoginActivity, Button btnFbLogin) {
@@ -132,8 +139,8 @@ public class UserController {
     public void updateUserInformation(EditText edFullname, EditText edEmail,
                                       EditText edPhoneNumber, EditText edDob,
                                       RadioButton rbMale, EditText edAddress,
-                                      EditText edStorename, User currentUser,
-                                      Activity activity  ) {
+                                      EditText edStorename, User currentUser
+                                        ) {
 
         String fullName = edFullname.getText().toString();
         String email = edEmail.getText().toString();
@@ -143,32 +150,30 @@ public class UserController {
         String dob = edDob.getText().toString();
         boolean gender = (rbMale.isChecked()) ? true : false;
 
-        if (fullName.trim().equals("")){
-            Toast.makeText(activity.getApplicationContext(),"Vui lòng nhập họ và tên",Toast.LENGTH_SHORT).show();
-        } else if (email.trim().equals("")){
-            Toast.makeText(activity.getApplicationContext(),"Vui lòng nhập Email",Toast.LENGTH_SHORT).show();
+        if (fullName.isEmpty()){
+          //  Toast.makeText(userInformationActivity.getApplicationContext(),"Vui lòng nhập họ và tên",Toast.LENGTH_SHORT).show();
+            userInformationActivity.setErrorEditTxt("Vui lòng nhập họ và tên",userInformationActivity.getEdFullname());
         } else if (!inputController.isEmail(email)){
-            Toast.makeText(activity.getApplicationContext(),"Email không hợp lệ, vui lòng nhập lại Email",Toast.LENGTH_SHORT).show();
-        } else if (dob.trim().equals("")){
-            Toast.makeText(activity.getApplicationContext(),"Vui lòng nhập ngày sinh",Toast.LENGTH_SHORT).show();
+            userInformationActivity.setErrorEditTxt("Email không hợp lệ, vui lòng nhập lại Email",userInformationActivity.getEdEmail());
+          //  Toast.makeText(userInformationActivity.getApplicationContext(),"Email không hợp lệ, vui lòng nhập lại Email",Toast.LENGTH_SHORT).show();
         }else if (!inputController.isDate(dob)){
-            Toast.makeText(activity.getApplicationContext(),"Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh",Toast.LENGTH_SHORT).show();
-        } else if (address.trim().equals("")){
-            Toast.makeText(activity.getApplicationContext(),"Vui lòng nhập địa chỉ",Toast.LENGTH_SHORT).show();
+            userInformationActivity.setErrorEditTxt("Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh",userInformationActivity.getEdDob());
+           // Toast.makeText(userInformationActivity.getApplicationContext(),"Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh",Toast.LENGTH_SHORT).show();
         } else if (storeName.trim().equals("")){
-            Toast.makeText(activity.getApplicationContext(),"Vui lòng nhập tên cửa hàng",Toast.LENGTH_SHORT).show();
+            userInformationActivity.setErrorEditTxt("Vui lòng nhập tên cửa hàng",userInformationActivity.getEdStoreName());
+            //Toast.makeText(userInformationActivity.getApplicationContext(),"Vui lòng nhập tên cửa hàng",Toast.LENGTH_SHORT).show();
         }   else {
             user.updateUserToFirebase(currentUser,fullName,email,gender,dob,address,storeName);
-            Toast.makeText(activity.getApplicationContext(),"Cập nhật thông tin thành công",Toast.LENGTH_SHORT).show();
+            Toast.makeText(userInformationActivity.getApplicationContext(),"Cập nhật thông tin thành công",Toast.LENGTH_SHORT).show();
             currentUser.setFullName(fullName);
             currentUser.setEmail(email);
             currentUser.setGender(gender);
             currentUser.setDateOfBirth(dob);
             currentUser.setAddress(address);
             currentUser.setStoreName(storeName);
-            Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(userInformationActivity.getApplicationContext(), MainActivity.class);
             intent.putExtra("currentUser", currentUser);
-            activity.startActivity(intent);
+            userInformationActivity.startActivity(intent);
         }
     }
 

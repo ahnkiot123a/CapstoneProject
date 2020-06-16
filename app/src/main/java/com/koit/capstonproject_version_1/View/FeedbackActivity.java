@@ -88,6 +88,7 @@ public class FeedbackActivity extends AppCompatActivity {
     }
     //Display notification in TextInputEditText of Phone Number
     public void setErrorInputEditTxt(String mess,TextInputEditText textInputEditText){
+        textInputEditText.requestFocus();
         textInputEditText.setError(mess);
     }
 

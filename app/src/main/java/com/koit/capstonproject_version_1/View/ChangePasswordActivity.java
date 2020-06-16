@@ -33,7 +33,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         currentUser =(User)intent.getSerializableExtra("currentUser");
         findViewById();
         userController = new UserController();
-        changePasswordController = new ChangePasswordController();
+        changePasswordController = new ChangePasswordController(ChangePasswordActivity.this);
         actionBtnChangePassword();
     }
 
@@ -41,7 +41,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changePasswordController.changePassword(edOldPassword,edNewPassword,edConfirmNewPassword,currentUser,ChangePasswordActivity.this,databaseReference);
+                changePasswordController.changePassword(edOldPassword,edNewPassword,edConfirmNewPassword,currentUser);
             }
         });
     }
@@ -56,5 +56,32 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public void back(View v){
         onBackPressed();
     }
+    public void setErrorEditTxt(String mess, EditText textInputEditText){
+        textInputEditText.requestFocus();
+        textInputEditText.setError(mess);
+    }
 
+    public EditText getEdOldPassword() {
+        return edOldPassword;
+    }
+
+    public void setEdOldPassword(EditText edOldPassword) {
+        this.edOldPassword = edOldPassword;
+    }
+
+    public EditText getEdNewPassword() {
+        return edNewPassword;
+    }
+
+    public void setEdNewPassword(EditText edNewPassword) {
+        this.edNewPassword = edNewPassword;
+    }
+
+    public EditText getEdConfirmNewPassword() {
+        return edConfirmNewPassword;
+    }
+
+    public void setEdConfirmNewPassword(EditText edConfirmNewPassword) {
+        this.edConfirmNewPassword = edConfirmNewPassword;
+    }
 }

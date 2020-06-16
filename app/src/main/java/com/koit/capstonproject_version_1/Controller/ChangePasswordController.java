@@ -13,45 +13,59 @@ import com.koit.capstonproject_version_1.View.ForgotPasswordActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 
 public class ChangePasswordController {
-    ChangePasswordActivity changePasswordActivity;
+
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private User user;
     private ValidateController validateController;
+    private ChangePasswordActivity changePasswordActivity;
 
     public ChangePasswordController() {
         validateController = new ValidateController();
         user = new User();
     }
 
-    public ChangePasswordController(ChangePasswordActivity changePasswordActivity, User user) {
+    public ChangePasswordController(ChangePasswordActivity changePasswordActivity) {
         this.changePasswordActivity = changePasswordActivity;
-        this.user = user;
+        user = new User();
+        validateController = new ValidateController();
+
     }
     public void changePassword(EditText edOldPassword, EditText edNewPassword,
-                               EditText edConfirmNewPassword,  User currentUser,
-                               Activity activity, DatabaseReference databaseReference) {
-
+                               EditText edConfirmNewPassword,  User currentUser
+                                  ) {
         String oldPassword = edOldPassword.getText().toString();
         String newPassword = edNewPassword.getText().toString();
         String confirmNewPassword = edConfirmNewPassword.getText().toString();
-        if(oldPassword.length()<6 || newPassword.length() <6 || confirmNewPassword.length() <6){
-            Toast.makeText(activity,"Mật khẩu có chứa 6 ký tự số trở lên, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
+        if(oldPassword.length()<6 ){
+          //  Toast.makeText(changePasswordActivity.getApplicationContext(),"Mật khẩu có chứa 6 ký tự số trở lên, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
+            changePasswordActivity.setErrorEditTxt("Mật khẩu có chứa 6 ký tự số trở lên, vui lòng nhập lại",changePasswordActivity.getEdOldPassword());
         } else if (!validateController.getMd5(oldPassword).equals(currentUser.getPassword())) {
-            Toast.makeText(activity,"Mật khẩu cũ không đúng",Toast.LENGTH_SHORT).show();
-        } else if (!newPassword.equals(confirmNewPassword)){
-            Toast.makeText(activity,"Mật khẩu xác nhận không đúng, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
+            changePasswordActivity.setErrorEditTxt("Mật khẩu cũ không đúng, vui lòng nhập lại",changePasswordActivity.getEdOldPassword());
+           // Toast.makeText(changePasswordActivity.getApplicationContext(),"Mật khẩu cũ không đúng",Toast.LENGTH_SHORT).show();
+        }
+        else  if(newPassword.length() <6){
+            //  Toast.makeText(changePasswordActivity.getApplicationContext(),"Mật khẩu có chứa 6 ký tự số trở lên, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
+            changePasswordActivity.setErrorEditTxt("Mật khẩu có chứa 6 ký tự số trở lên, vui lòng nhập lại",changePasswordActivity.getEdNewPassword());
+        } else  if(confirmNewPassword.length() <6){
+            //  Toast.makeText(changePasswordActivity.getApplicationContext(),"Mật khẩu có chứa 6 ký tự số trở lên, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
+            changePasswordActivity.setErrorEditTxt("Mật khẩu có chứa 6 ký tự số trở lên, vui lòng nhập lại",changePasswordActivity.getEdConfirmNewPassword());
+        }
+        else if (!newPassword.equals(confirmNewPassword)){
+           // Toast.makeText(changePasswordActivity.getApplicationContext(),"Mật khẩu xác nhận không đúng, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
+            changePasswordActivity.setErrorEditTxt("Mật khẩu xác nhận không đúng, vui lòng nhập lại",changePasswordActivity.getEdConfirmNewPassword());
 
         } else if (oldPassword.equals(confirmNewPassword)){
-            Toast.makeText(activity,"Mật khẩu cũ và mới trùng nhau, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
+            changePasswordActivity.setErrorEditTxt("Mật khẩu cũ và mới trùng nhau, vui lòng nhập lại",changePasswordActivity.getEdNewPassword());
+           // Toast.makeText(changePasswordActivity.getApplicationContext(),"Mật khẩu cũ và mới trùng nhau, vui lòng nhập lại",Toast.LENGTH_SHORT).show();
         }else {
-            user.changePasswordToFirebase(databaseReference,currentUser,validateController.getMd5(confirmNewPassword));
-            Toast.makeText(activity,"Đổi mật khẩu thành công!",Toast.LENGTH_SHORT).show();
+            user.changePasswordToFirebase(currentUser,validateController.getMd5(confirmNewPassword));
+            Toast.makeText(changePasswordActivity.getApplicationContext(),"Đổi mật khẩu thành công!",Toast.LENGTH_SHORT).show();
 
             currentUser.setPassword(validateController.getMd5(confirmNewPassword));
-            Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(changePasswordActivity.getApplicationContext().getApplicationContext(), MainActivity.class);
             intent.putExtra("currentUser", currentUser);
-            activity.startActivity(intent);
+            changePasswordActivity.startActivity(intent);
 
         }
     }

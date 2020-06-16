@@ -46,6 +46,7 @@ public class InputController {
         return true;
     }
     public boolean isPhoneNumber(String phone){
+        phone = formatPhoneNumber(phone);
         String regex = "((09|03|07|08|05)+([0-9]{8})\\b)";
         if (phone.isEmpty()) {
             return false;
@@ -76,6 +77,7 @@ public class InputController {
     }
     public boolean isEmail(String email) {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        if (email.equals("")) return true;
         return email.matches(regex);
     }
     public boolean isDate(String strDate)

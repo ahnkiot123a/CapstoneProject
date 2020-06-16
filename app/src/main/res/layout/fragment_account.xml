@@ -52,6 +52,7 @@
             android:layout_below="@+id/profile_image"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-medium"
             android:text="qwertyuio"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -77,6 +78,7 @@
             android:paddingRight="20dp"
             android:onClick="displayUserInfo"
             android:text="Thông tin tài khoản"
+            android:fontFamily="sans-serif-medium"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/black" />
@@ -95,6 +97,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Đổi mật khẩu"
+            android:fontFamily="sans-serif-medium"
+
             android:onClick="changePassword"
             android:textAlignment="textStart"
             android:textAllCaps="false"
@@ -113,6 +117,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Phản hồi"
+            android:fontFamily="sans-serif-medium"
+
             android:onClick="sendFeedBack"
             android:textAlignment="textStart"
             android:textAllCaps="false"
@@ -131,6 +137,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Lịch sử giao dịch"
+            android:fontFamily="sans-serif-medium"
+
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/black" />
@@ -149,6 +157,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Thông báo"
+            android:fontFamily="sans-serif-medium"
+
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/black" />
@@ -169,6 +179,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Đăng xuất"
+            android:fontFamily="sans-serif-medium"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/black" />

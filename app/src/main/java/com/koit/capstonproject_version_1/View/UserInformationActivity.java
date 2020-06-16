@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -42,16 +43,15 @@ public class UserInformationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         currentUser =(User)intent.getSerializableExtra("currentUser");
         setCurrentUserInfo();
-        userController = new UserController();
+        userController = new UserController(this);
     }
 
 
     private void setCurrentUserInfo(){
         edFullname.setText(currentUser.getFullName());
-      if(!currentUser.getEmail().trim().isEmpty())  {
-          edEmail.setEnabled(false);
+
         edEmail.setText(currentUser.getEmail());
-      }
+
 
         edPhoneNumber.setText(currentUser.getPhoneNumber());
         edDob.setText(currentUser.getDateOfBirth());
@@ -74,7 +74,7 @@ public class UserInformationActivity extends AppCompatActivity {
         //btnUpdateUserInfo = findViewById(R.id.btnUpdateUserInfo);
     }
     public void updateUserInfo(View view){
-        userController.updateUserInformation(edFullname,edEmail,edPhoneNumber,edDob,rbMale,edAddress,edStoreName,currentUser,UserInformationActivity.this);
+        userController.updateUserInformation(edFullname,edEmail,edPhoneNumber,edDob,rbMale,edAddress,edStoreName,currentUser);
     }
     public void getNewDate(View view) {
         DatePickerDialog.OnDateSetListener mListener = mListener = new DatePickerDialog.OnDateSetListener() {
@@ -95,5 +95,57 @@ public class UserInformationActivity extends AppCompatActivity {
     }
     public void backButton(View v){
         onBackPressed();
+    }
+    public void setErrorEditTxt(String mess, EditText textInputEditText){
+        textInputEditText.requestFocus();
+        textInputEditText.setError(mess);
+    }
+
+    public EditText getEdDob() {
+        return edDob;
+    }
+
+    public void setEdDob(EditText edDob) {
+        this.edDob = edDob;
+    }
+
+    public EditText getEdEmail() {
+        return edEmail;
+    }
+
+    public void setEdEmail(EditText edEmail) {
+        this.edEmail = edEmail;
+    }
+
+    public EditText getEdPhoneNumber() {
+        return edPhoneNumber;
+    }
+
+    public void setEdPhoneNumber(EditText edPhoneNumber) {
+        this.edPhoneNumber = edPhoneNumber;
+    }
+
+    public EditText getEdFullname() {
+        return edFullname;
+    }
+
+    public void setEdFullname(EditText edFullname) {
+        this.edFullname = edFullname;
+    }
+
+    public EditText getEdAddress() {
+        return edAddress;
+    }
+
+    public void setEdAddress(EditText edAddress) {
+        this.edAddress = edAddress;
+    }
+
+    public EditText getEdStoreName() {
+        return edStoreName;
+    }
+
+    public void setEdStoreName(EditText edStoreName) {
+        this.edStoreName = edStoreName;
     }
 }
