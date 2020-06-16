@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layoutLogin"
     android:background="@color/white"
     tools:context=".View.LoginActivity">
 
@@ -60,6 +61,7 @@
                             android:fontFamily="sans-serif-medium"
                             android:inputType="numberDecimal"
                             android:paddingLeft="10dp"
+                            android:paddingRight="15dp"
                             android:textColor="@color/gray"
                             android:textSize="15sp"
                             android:windowSoftInputMode="stateUnchanged">
@@ -112,6 +114,7 @@
                     android:padding="5dp">
 
                     <TextView
+                        android:id="@+id/tvForgotPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -124,21 +127,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-<!--            <Button-->
-<!--                android:id="@+id/btnLogin"-->
-<!--                android:layout_width="250dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:layout_below="@+id/linearLayoutForm"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:background="@drawable/background_btn_login"-->
-<!--                android:fontFamily="sans-serif-medium"-->
-<!--                android:onClick="loginWithPhone"-->
-<!--                android:text="Đăng nhập"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="18sp" />-->
 
             <include
                 android:id="@+id/btnLogin"
@@ -193,6 +181,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tvAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -204,6 +193,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/tvRegister"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,6 +27,7 @@ import com.koit.capstonproject_version_1.Model.UIModel.ProgressButton;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.ChangePasswordActivity;
+import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 import com.koit.capstonproject_version_1.View.UserInformationActivity;
 
@@ -83,21 +86,30 @@ public class UserController {
 
     }
 
-    public void loginWithPhoneAndPassword(final TextInputEditText etPhoneNumber, final TextInputEditText etPassword, final Activity activity, View view) {
+    public void loginWithPhoneAndPassword(final TextInputEditText etPhoneNumber, final TextInputEditText etPassword,
+                                          final Activity activity, final View view, final Button btnFbLogin,
+                                          final TextView tvForgotPassword, final TextView tvAccount, final TextView tvRegister) {
 
         final ProgressButton progressButton = new ProgressButton(activity, view);
+        btnFbLogin.setClickable(false);
+        view.setClickable(false);
+        etPhoneNumber.setClickable(false);
+        etPassword.setClickable(false);
+        tvForgotPassword.setClickable(false);
+        tvAccount.setClickable(false);
+        tvRegister.setClickable(false);
         final IUser iUser = new IUser() {
             @Override
             public void getCurrentUser(User user) {
                 currentUser = user;
                 if (currentUser != null) {
-                    currentUser.setPhoneNumber(phoneNumber);
+                    currentUser.setPhoneNumber(UserController.this.phoneNumber);
                     Log.d("user", currentUser.toString());
                     ValidateController validateController = new ValidateController();
                     String password = etPassword.getText().toString();
                     password = validateController.getMd5(password);
                     if (password.equals(currentUser.getPassword())) {
-                        Toast.makeText(activity.getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity.getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                         progressButton.progressSuccess();
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -108,14 +120,27 @@ public class UserController {
                                 activity.startActivity(intent);
                             }
                         }, 500); // afterDelay will be executed after 500 milliseconds.
-
                     } else {
-                        Toast.makeText(activity.getApplicationContext(), "Mật khẩu không đúng", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity.getApplicationContext(), "Mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                         progressButton.progressInitiation();
+                        btnFbLogin.setClickable(true);
+                        view.setClickable(true);
+                        etPhoneNumber.setClickable(true);
+                        etPassword.setClickable(true);
+                        tvForgotPassword.setClickable(true);
+                        tvAccount.setClickable(true);
+                        tvRegister.setClickable(true);
                     }
                 } else {
                     Toast.makeText(activity.getApplicationContext(), "Tài khoản không tồn tại", Toast.LENGTH_LONG).show();
                     progressButton.progressInitiation();
+                    btnFbLogin.setClickable(true);
+                    view.setClickable(true);
+                    etPhoneNumber.setClickable(true);
+                    etPassword.setClickable(true);
+                    tvForgotPassword.setClickable(true);
+                    tvAccount.setClickable(true);
+                    tvRegister.setClickable(true);
                 }
 
             }
@@ -124,14 +149,28 @@ public class UserController {
 
         if (inputController.isPhoneNumber(etPhoneNumber )) {
             if (inputController.isPassword(etPassword)) {
-                phoneNumber = etPhoneNumber.getText().toString().trim();
-                phoneNumber = inputController.formatPhoneNumber(phoneNumber);
-                user.getUserWithPhoneAndPasswordInterface(phoneNumber, iUser);
+                this.phoneNumber = etPhoneNumber.getText().toString().trim();
+                this.phoneNumber = inputController.formatPhoneNumber(this.phoneNumber);
+                user.getUserWithPhoneAndPasswordInterface(this.phoneNumber, iUser);
             }else {
                 progressButton.progressInitiation();
+                btnFbLogin.setClickable(true);
+                view.setClickable(true);
+                etPhoneNumber.setClickable(true);
+                etPassword.setClickable(true);
+                tvForgotPassword.setClickable(true);
+                tvAccount.setClickable(true);
+                tvRegister.setClickable(true);
             }
         }else{
             progressButton.progressInitiation();
+            btnFbLogin.setClickable(true);
+            view.setClickable(true);
+            etPhoneNumber.setClickable(true);
+            etPassword.setClickable(true);
+            tvForgotPassword.setClickable(true);
+            tvAccount.setClickable(true);
+            tvRegister.setClickable(true);
         }
     }
 
@@ -176,6 +215,7 @@ public class UserController {
             userInformationActivity.startActivity(intent);
         }
     }
+
 
 }
 

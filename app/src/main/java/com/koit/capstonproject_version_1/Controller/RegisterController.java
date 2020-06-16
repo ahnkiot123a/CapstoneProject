@@ -90,29 +90,6 @@ public class RegisterController {
 
 
 
-    //check phone number is valid form or not
-    public void checkPhoneNumber(final String phone) {
-        inputController = new InputController();
-        if (!inputController.isPhoneNumber(phone)) {
-            forgotPasswordActivity.showTextError("Số điện thoại không chính xác.", forgotPasswordActivity.getEtPhoneNumber());
-        } else {
-            final IUser iUser = new IUser() {
-                @Override
-                public void getCurrentUser(User user) {
-                    if (user == null) {
-                        forgotPasswordActivity.showTextError("Số điện thoại chưa được đăng ký!", forgotPasswordActivity.getEtPhoneNumber());
-                    } else {
-                        Intent intent = new Intent(forgotPasswordActivity, ResetPasswordActivity.class);
-                        intent.putExtra("phonenumber", phone);
-                        forgotPasswordActivity.startActivity(intent);
-                    }
-                }
-            };
-            user.getUserWithPhoneAndPasswordInterface(phone, iUser);
-
-        }
-    }
-
     //check Store name, password, confirmPassword, OTP
     public void checkRegister(String storeName, String pass, String confirmPass, String otpCode) {
         if (!checkStoreName(storeName)) return;

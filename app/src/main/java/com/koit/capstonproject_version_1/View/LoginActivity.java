@@ -11,6 +11,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnFbLogin, btnLogin;
     private LoginButton loginFbButton;
     private TextInputEditText etPhoneNumber, etPassword;
+    private TextView tvForgotPassword, tvAccount, tvRegister;
 
     private View view;
 
@@ -72,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
         view = findViewById(R.id.btnLogin);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         etPassword = findViewById(R.id.etPassword);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        tvAccount = findViewById(R.id.tvAccount);
+        tvRegister = findViewById(R.id.tvRegister);
     }
 
 
@@ -85,7 +91,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginWithPhone() {
-        userController.loginWithPhoneAndPassword(etPhoneNumber, etPassword, LoginActivity.this, view);
+
+        userController.loginWithPhoneAndPassword(etPhoneNumber, etPassword, LoginActivity.this, view, btnFbLogin, tvForgotPassword, tvAccount, tvRegister);
     }
 
     public void callForgotPasswordActivity(View view){
@@ -104,6 +111,13 @@ public class LoginActivity extends AppCompatActivity {
         }*/
         ProgressButton progressButton = new ProgressButton(this, view);
         progressButton.progressInitiation();
+        btnFbLogin.setClickable(true);
+        view.setClickable(true);
+        etPhoneNumber.setClickable(true);
+        etPassword.setClickable(true);
+        tvForgotPassword.setClickable(true);
+        tvAccount.setClickable(true);
+        tvRegister.setClickable(true);
     }
 
     @Override
