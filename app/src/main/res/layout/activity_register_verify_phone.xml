@@ -131,6 +131,14 @@
                     android:paddingRight="45dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginLeft="10dp"
+                android:text="@string/passwordTextview"
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
             <!--            <EditText-->
             <!--                android:inputType="numberDecimal"-->
             <!--                android:id="@+id/etPassword"-->
