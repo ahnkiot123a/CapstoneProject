@@ -43,6 +43,6 @@ public class SplashActivity extends AppCompatActivity {
                                           startActivity(intent, options.toBundle());
                                       }
                                   }
-                , 800);
+                , 200);
     }
 }

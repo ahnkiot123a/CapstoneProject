@@ -31,108 +31,111 @@
             android:textSize="28sp" />
 
     </Toolbar>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animationView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/feedback" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etName"
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingLeft="10dp"
-                    android:hint="Họ và tên"
-                    android:textColor="@color/gray"
-                    android:textSize="15sp"
-                    android:windowSoftInputMode="stateUnchanged">
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_height="wrap_content"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/feedback" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etName"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:hint="Họ và tên"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gray"
+                        android:textSize="15sp"
+                        android:windowSoftInputMode="stateUnchanged"></com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:hint="Số điện thoại"
+                        android:inputType="phone"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gray"
+                        android:textSize="15sp"
+                        android:windowSoftInputMode="stateUnchanged"></com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFeedback"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:hint="Nhập phản hồi"
+                        android:inputType="textMultiLine"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gray"
+                        android:textSize="15sp"
+                        android:windowSoftInputMode="stateUnchanged"></com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.hsalf.smileyrating.SmileyRating
+                android:id="@+id/smile_rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPhoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingLeft="10dp"
-                    android:hint="Số điện thoại"
-                    android:textColor="@color/gray"
-                    android:textSize="15sp"
-                    android:inputType="phone"
-                    android:windowSoftInputMode="stateUnchanged">
-                </com.google.android.material.textfield.TextInputEditText>
-        </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp" />
+
+            <Button
+                android:id="@+id/btnSendFeedback"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etFeedback"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingLeft="10dp"
-                    android:hint="Nhập phản hồi"
-                    android:textColor="@color/gray"
-                    android:textSize="15sp"
-                    android:inputType="textMultiLine"
-                    android:windowSoftInputMode="stateUnchanged">
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_btn_login"
+                android:fontFamily="sans-serif-medium"
+                android:onClick="sendFeedBack"
+                android:padding="10dp"
+                android:text="Gửi phản hồi"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
         </LinearLayout>
-
-        <com.hsalf.smileyrating.SmileyRating
-            android:id="@+id/smile_rating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            />
-
-        <Button
-            android:id="@+id/btnSendFeedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/background_btn_login"
-            android:fontFamily="sans-serif-medium"
-            android:onClick="sendFeedBack"
-            android:padding="10dp"
-            android:text="Gửi phản hồi"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-    </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>

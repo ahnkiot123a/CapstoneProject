@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
@@ -68,13 +69,14 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                LoginManager.getInstance().logOut();
-                AccessToken.setCurrentAccessToken(null);
+
                 SharedPrefs.getInstance().clear();
+                LoginManager.getInstance().logOut();
+                FirebaseAuth.getInstance().signOut();
                 Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                MainActivity.this.finish();
             }
         });
         AlertDialog dialog = builder.create();

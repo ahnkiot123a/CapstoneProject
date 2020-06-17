@@ -1,16 +1,25 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.app.Dialog;
+
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.WindowCallbackWrapper;
 
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
@@ -20,7 +29,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Controller.UserController;
 import com.koit.capstonproject_version_1.Model.UIModel.ProgressButton;
-import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private UserController userController;
     private FirebaseAuth firebaseAuth;
     private CallbackManager callbackManager;
-    private Button btnFbLogin, btnLogin;
+    private Button btnFbLogin;
     private LoginButton loginFbButton;
     private TextInputEditText etPhoneNumber, etPassword;
     private TextView tvForgotPassword, tvAccount, tvRegister;
@@ -102,6 +110,23 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
 
         //init where start login activity
+        initStartLoginActivity();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            Log.i("currentUser", user.toString());
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        if (SharedPrefs.getInstance().getCurrentUser(CURRENT_USER) != null) {
+            Log.i("currentUser", SharedPrefs.getInstance().getCurrentUser(CURRENT_USER).toString());
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void initStartLoginActivity() {
         ProgressButton progressButton = new ProgressButton(this, view);
         progressButton.progressInitiation();
         btnFbLogin.setClickable(true);
@@ -112,27 +137,31 @@ public class LoginActivity extends AppCompatActivity {
         tvAccount.setClickable(true);
         tvRegister.setClickable(true);
 
+        checkConnectedNetwork();
+    }
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        /*if(user != null){
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        }*/
-
-//        if(PreferenceManager.getInstance(this).fetchObject("currentUser", User.class) != null){
-//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
-//        }
-
-        if (SharedPrefs.getInstance().getCurrentUser(CURRENT_USER) != null) {
-            Log.i("currentUser", SharedPrefs.getInstance().getCurrentUser(CURRENT_USER).toString());
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+    private void checkConnectedNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if(networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable()){
+            final Dialog dialog =  new Dialog(this);
+            dialog.setContentView(R.layout.alert_dialog_network_checking);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+            Button btnOk = dialog.findViewById(R.id.btnOk);
+            btnOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recreate();
+                }
+            });
+            dialog.show();
         }
 
-
-
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -147,23 +176,23 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
+                        //No button clicked
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
                         //Yes button clicked
                         Intent a = new Intent(Intent.ACTION_MAIN);
                         a.addCategory(Intent.CATEGORY_HOME);
                         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(a);
                         break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
                 }
             }
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        builder.setMessage("Bạn muốn tắt ứng dụng?").setPositiveButton("Có", dialogClickListener)
-                .setNegativeButton("Không", dialogClickListener).show();
+        builder.setMessage("Bạn có muốn tắt ứng dụng?").setPositiveButton("Không", dialogClickListener)
+                .setNegativeButton("Có", dialogClickListener).show();
 
     }
 }

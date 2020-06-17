@@ -115,6 +115,6 @@ public class SharedPrefs {
 
 
     public void clear() {
-        mSharedPreferences.edit().clear().apply();
+        mSharedPreferences.edit().clear().commit();
     }
 }
