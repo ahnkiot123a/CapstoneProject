@@ -26,9 +26,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/toolbar_top"
-        android:layout_marginTop="-2dp">
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,14 +92,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:drawableLeft="@drawable/ic_action_change_password"
+            android:drawableLeft="@drawable/ic_baseline_lock_24"
             android:drawableRight="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Đổi mật khẩu"
             android:fontFamily="sans-serif-medium"
-
             android:onClick="changePassword"
             android:textAlignment="textStart"
             android:textAllCaps="false"
@@ -176,6 +176,7 @@
             android:drawableLeft="@drawable/ic_exit_to_app_black_24dp"
             android:drawableRight="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="10dp"
+            android:onClick="logout"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Đăng xuất"

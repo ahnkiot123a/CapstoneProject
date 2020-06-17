@@ -20,7 +20,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private TextInputEditText etOTP;
     private TextInputEditText etPassword;
     private TextInputEditText etConfirmPassword;
-
     private ForgotPasswordController forgotPasswordController;
     private String phoneNumber;
 
@@ -73,9 +72,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
 
 
-    public TextInputEditText getEtPhoneNumberRVP() {
-        return etPhoneNumberRVP;
-    }
 
     public TextInputEditText getEtOTP() {
         return etOTP;

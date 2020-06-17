@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,12 +20,11 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
+import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Model.UIModel.ProgressButton;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.View.ChangePasswordActivity;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 import com.koit.capstonproject_version_1.View.UserInformationActivity;
@@ -117,6 +115,9 @@ public class UserController {
                             public void run() {
                                 Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
                                 intent.putExtra("currentUser", currentUser);
+
+                                //save user in to sharedpreference
+                                SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, currentUser);
                                 activity.startActivity(intent);
                             }
                         }, 500); // afterDelay will be executed after 500 milliseconds.

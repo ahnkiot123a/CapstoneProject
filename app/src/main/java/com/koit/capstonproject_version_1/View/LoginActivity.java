@@ -3,15 +3,10 @@ package com.koit.capstonproject_version_1.View;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -22,14 +17,15 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Controller.UserController;
 import com.koit.capstonproject_version_1.Model.UIModel.ProgressButton;
+import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 public class LoginActivity extends AppCompatActivity {
+
+    public static final String CURRENT_USER = "CURRENT_USER";
 
     private UserController userController;
     private FirebaseAuth firebaseAuth;
@@ -65,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginWithPhone();
             }
         });
+
 
 
     }
@@ -104,11 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        /*if(user != null){
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        }*/
+        //init where start login activity
         ProgressButton progressButton = new ProgressButton(this, view);
         progressButton.progressInitiation();
         btnFbLogin.setClickable(true);
@@ -118,6 +111,27 @@ public class LoginActivity extends AppCompatActivity {
         tvForgotPassword.setClickable(true);
         tvAccount.setClickable(true);
         tvRegister.setClickable(true);
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        /*if(user != null){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }*/
+
+//        if(PreferenceManager.getInstance(this).fetchObject("currentUser", User.class) != null){
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            startActivity(intent);
+//        }
+
+        if (SharedPrefs.getInstance().getCurrentUser(CURRENT_USER) != null) {
+            Log.i("currentUser", SharedPrefs.getInstance().getCurrentUser(CURRENT_USER).toString());
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+
+
+
     }
 
     @Override

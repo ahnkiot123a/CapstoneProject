@@ -65,23 +65,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
         return edOldPassword;
     }
 
-    public void setEdOldPassword(EditText edOldPassword) {
-        this.edOldPassword = edOldPassword;
-    }
 
     public EditText getEdNewPassword() {
         return edNewPassword;
     }
 
-    public void setEdNewPassword(EditText edNewPassword) {
-        this.edNewPassword = edNewPassword;
-    }
 
     public EditText getEdConfirmNewPassword() {
         return edConfirmNewPassword;
     }
 
-    public void setEdConfirmNewPassword(EditText edConfirmNewPassword) {
-        this.edConfirmNewPassword = edConfirmNewPassword;
-    }
+
 }

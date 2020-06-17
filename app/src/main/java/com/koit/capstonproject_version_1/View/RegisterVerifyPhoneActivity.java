@@ -84,7 +84,7 @@ public class RegisterVerifyPhoneActivity extends AppCompatActivity {
     }
 
     //resend OTP code
-    public void resendOTPCode(android.view.View view) {
+        public void resendOTPCode(android.view.View view) {
         registerController.resendOTPCode();
     }
 
@@ -97,9 +97,6 @@ public class RegisterVerifyPhoneActivity extends AppCompatActivity {
         return etStoreNameRVP;
     }
 
-    public Button getBtnDone() {
-        return btnDone;
-    }
 
     public TextInputEditText getEtOTP() {
         return etOTP;
