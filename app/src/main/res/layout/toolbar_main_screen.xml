@@ -9,8 +9,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_menu_left_nav"
-        android:onClick="getMenuLeft"/>
+        android:src="@drawable/ic_menu_left_nav"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

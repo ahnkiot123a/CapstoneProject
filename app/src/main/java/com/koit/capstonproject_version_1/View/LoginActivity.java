@@ -1,6 +1,7 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,14 +13,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.app.Dialog;
-
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.WindowCallbackWrapper;
 
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
@@ -137,14 +136,14 @@ public class LoginActivity extends AppCompatActivity {
         tvAccount.setClickable(true);
         tvRegister.setClickable(true);
 
-        checkConnectedNetwork();
+//        checkConnectedNetwork();
     }
 
     private void checkConnectedNetwork() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if(networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable()){
-            final Dialog dialog =  new Dialog(this);
+        if (networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable()) {
+            final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.alert_dialog_network_checking);
             dialog.setCanceledOnTouchOutside(false);
             dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
@@ -155,6 +154,12 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     recreate();
+                    InputMethodManager imm = (InputMethodManager)
+                            LoginActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    if (imm != null){
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                    }
                 }
             });
             dialog.show();

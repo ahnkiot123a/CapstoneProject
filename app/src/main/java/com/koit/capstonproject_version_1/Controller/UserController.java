@@ -115,7 +115,6 @@ public class UserController {
                             public void run() {
                                 Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
                                 intent.putExtra("currentUser", currentUser);
-
                                 //save user in to sharedpreference
                                 SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, currentUser);
                                 activity.startActivity(intent);

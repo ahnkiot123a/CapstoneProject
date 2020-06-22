@@ -57,7 +57,7 @@ public class ProgressButton {
         linearLayoutAnimation.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         textView.setVisibility(View.VISIBLE);
-        textView.setText("Đăng nhập");
+        textView.setText("ĐĂNG NHẬP");
     }
 
 }
