@@ -37,7 +37,7 @@
         android:id="@+id/imageViewEmpty"
         android:layout_width="match_parent"
         android:layout_height="314dp"
-        android:src="@drawable/emptyItem"/>
+        android:src="@drawable/empty_item"/>
 
     <TextView
         android:id="@+id/textView"
