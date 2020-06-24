@@ -45,7 +45,7 @@ public class InputControllerUnitTest {
     @Test
     public void isEmail_isCorrect() {
         // Test empty Email
-        assertFalse(inputController.isEmail(""));
+        assertTrue(inputController.isEmail(""));
         // Test email not include special characters
         assertFalse( inputController.isEmail("anhtunb98"));
         // Test email include only 1 "@"

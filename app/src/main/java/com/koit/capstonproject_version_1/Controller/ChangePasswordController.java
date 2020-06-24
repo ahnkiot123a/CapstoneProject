@@ -14,8 +14,7 @@ import com.koit.capstonproject_version_1.View.MainActivity;
 
 public class ChangePasswordController {
 
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
+
     private User user;
     private ValidateController validateController;
     private ChangePasswordActivity changePasswordActivity;

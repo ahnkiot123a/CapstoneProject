@@ -24,10 +24,10 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_create_product);
+        setContentView(R.layout.activity_splash);
 
-//        imgView_logo = findViewById(R.id.imgView_logo);
-//       handlerChangeActivity();
+       imgView_logo = findViewById(R.id.imgView_logo);
+       handlerChangeActivity();
 
 
     }
