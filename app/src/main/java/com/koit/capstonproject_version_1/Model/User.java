@@ -2,7 +2,6 @@ package com.koit.capstonproject_version_1.Model;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Controller.RegisterController;
-import com.koit.capstonproject_version_1.Controller.ValidateController;
 import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
@@ -31,8 +29,6 @@ import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
 import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 
@@ -243,10 +239,9 @@ public class User implements Serializable {
                             Intent intent = new Intent(registerVerifyPhoneActivity, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             registerVerifyPhoneActivity.startActivity(intent);
-
+                            Toast.makeText(registerVerifyPhoneActivity.getApplicationContext(), "Đăng kí thành công!", Toast.LENGTH_LONG).show();
                         } else {
                             registerVerifyPhoneActivity.showTextError("Mã OTP không chính xác.", registerVerifyPhoneActivity.getEtOTP());
-
                             // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }

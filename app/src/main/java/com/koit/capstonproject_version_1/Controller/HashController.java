@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class ValidateController {
+public class HashController {
 
     // ma hoa MD5
     //dung de ma hoa mat khau

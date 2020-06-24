@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+   android:orientation="vertical">
+    <Toolbar
+        android:id="@+id/toolbar_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/AppTheme">
+
+        <ImageButton
+            android:id="@+id/backToLogin"
+            android:onClick="back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:src="@drawable/ic_baseline_arrow_white_ios_24"/>
+
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#FFF"
+            android:textSize="28sp"
+            android:text="Sản phẩm" />
+
+
+    </Toolbar>
+    <ImageView
+        android:id="@+id/imageViewEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="314dp"
+        android:src="@drawable/emptyItem"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+
+        android:text="Chưa có sản phẩm nào!"
+        android:textColor="#302E2E"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="THViet giúp bạn tạo và quản lý \nthông tin giá, tồn kho,... chi tiết từng sản phẩm" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="182dp"
+        android:layout_height="49dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="100dp"
+        android:background="@drawable/background_btn_login"
+        android:gravity="center"
+        android:text="Thêm sản phẩm"
+        android:textColor="@color/white" />
+
+</LinearLayout>

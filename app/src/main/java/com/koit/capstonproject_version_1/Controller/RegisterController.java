@@ -99,7 +99,7 @@ public class RegisterController {
         verifyCode(otpCode);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("User");
-        ValidateController validateController = new ValidateController();
+        HashController validateController = new HashController();
         //ma hoa mat khau
         pass = validateController.getMd5(pass);
         User user = new User("", "", "", storeName, "", pass, "", false, false);
@@ -115,7 +115,7 @@ public class RegisterController {
         verifyCodeFromResetPassword(otpCode);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("User");
-        ValidateController validateController = new ValidateController();
+        HashController validateController = new HashController();
         //ma hoa mat khau
         password = validateController.getMd5(password);
         databaseReference.child(phoneNumber).child("password").setValue(user);
@@ -213,7 +213,7 @@ public class RegisterController {
                                        PhoneAuthProvider.ForceResendingToken token) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+84" + phoneNumber,        // Phone number to verify
-                90,                 // Timeout duration
+                120,                 // Timeout duration
                 TimeUnit.SECONDS,   // Unit of timeout
                 TaskExecutors.MAIN_THREAD,               // Activity (for callback binding)
                 mCallBack,         // OnVerificationStateChangedCallbacks
@@ -224,7 +224,7 @@ public class RegisterController {
     public void sendVerificationCode(String number) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+84" + number,
-                90,
+                120,
                 TimeUnit.SECONDS,
                 TaskExecutors.MAIN_THREAD,
                 mCallBack

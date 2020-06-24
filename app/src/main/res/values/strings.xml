@@ -9,7 +9,7 @@
     <string name="password_otp">Nhập mật khẩu</string>
 
     <string name="sendOTPTextView"><u>Gửi lại mã OTP</u></string>
-    <string name="passwordTextview"><u>Mật khẩu bao gồm 6 kí tự số trở lên</u></string>
+    <string name="passwordTextview">Mật khẩu bao gồm 6 kí tự số trở lên</string>
     <string name="forgotPasswordTextView"><u>Quên mật khẩu?</u></string>
     <string name="registerTextView"><u>Đăng ký ngay!</u></string>
     <string name="resendOTP"><u>Gửi lại OTP</u></string>

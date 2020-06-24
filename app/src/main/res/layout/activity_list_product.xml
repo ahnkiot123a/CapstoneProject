@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:app="http://schemas.android.com/apk/res-auto"
+         xmlns:tools="http://schemas.android.com/tools"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+    tools:context=".View.ListProductActivity">
+
+         <Toolbar
+             android:id="@+id/toolbar_top"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@color/colorAccent"
+             android:minHeight="?attr/actionBarSize"
+             app:theme="@style/AppTheme"
+             tools:ignore="MissingConstraints">
+
+             <ImageButton
+                 android:id="@+id/backToLogin"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:background="@color/colorAccent"
+                 android:src="@drawable/ic_baseline_arrow_white_ios_24" />
+
+
+             <TextView
+                 android:id="@+id/toolbar_title"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:text="Sản phẩm"
+                 android:textColor="#FFF"
+                 android:textSize="28sp" />
+
+
+         </Toolbar>
+
+    <EditText
+        android:id="@+id/etSeachField"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/search_layout"
+        android:ems="10"
+        android:imeOptions="actionSearch"
+        android:inputType="textPersonName"
+        android:paddingLeft="50dp"
+        android:paddingTop="10dp"
+        android:paddingRight="100dp"
+        android:paddingBottom="10dp"
+        android:text="Nhập tên, mã Barcode"
+        android:textColor="#74000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_top"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="256dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etSeachField"
+        app:layout_constraintEnd_toStartOf="@+id/imgbtnBarcode"
+        app:layout_constraintHorizontal_bias="0.923"
+        app:layout_constraintStart_toStartOf="@+id/etSeachField"
+        app:layout_constraintTop_toTopOf="@+id/etSeachField"
+        app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
+
+    <ImageButton
+        android:id="@+id/imgbtnBarcode"
+        android:layout_width="51dp"
+        android:layout_height="33dp"
+        android:background="@drawable/barcode_icon_layout"
+        android:left="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etSeachField"
+        app:layout_constraintEnd_toEndOf="@+id/etSeachField"
+        app:layout_constraintHorizontal_bias="0.944"
+        app:layout_constraintStart_toStartOf="@+id/etSeachField"
+        app:layout_constraintTop_toTopOf="@+id/etSeachField"
+        app:srcCompat="@drawable/barcode"
+        tools:ignore="MissingConstraints"></ImageButton>
+
+    <Spinner
+        android:id="@+id/category_Spinner"
+        android:layout_width="203dp"
+        android:layout_height="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSeachField"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="416dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/quantity_layout"
+        android:paddingLeft="25dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="0 sản phẩm"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSeachField" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="409dp"
+        android:layout_height="453dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

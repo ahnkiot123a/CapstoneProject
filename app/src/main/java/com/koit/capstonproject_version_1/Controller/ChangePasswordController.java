@@ -1,6 +1,5 @@
 package com.koit.capstonproject_version_1.Controller;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -9,25 +8,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.View.ChangePasswordActivity;
-import com.koit.capstonproject_version_1.View.ForgotPasswordActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 
 public class ChangePasswordController {
 
 
     private User user;
-    private ValidateController validateController;
+    private HashController validateController;
     private ChangePasswordActivity changePasswordActivity;
 
     public ChangePasswordController() {
-        validateController = new ValidateController();
+        validateController = new HashController();
         user = new User();
     }
 
     public ChangePasswordController(ChangePasswordActivity changePasswordActivity) {
         this.changePasswordActivity = changePasswordActivity;
         user = new User();
-        validateController = new ValidateController();
+        validateController = new HashController();
 
     }
     public void changePassword(EditText edOldPassword, EditText edNewPassword,

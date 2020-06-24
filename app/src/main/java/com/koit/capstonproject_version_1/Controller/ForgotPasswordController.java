@@ -86,7 +86,7 @@ public class ForgotPasswordController {
         verifyCodeFromResetPassword(otpCode);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("User");
-        ValidateController validateController = new ValidateController();
+        HashController validateController = new HashController();
         //ma hoa mat khau
         password = validateController.getMd5(password);
         databaseReference.child(phoneNumber).child("password").setValue(password);
