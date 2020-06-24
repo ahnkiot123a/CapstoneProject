@@ -86,7 +86,7 @@
         android:id="@+id/category_Spinner"
         android:layout_width="203dp"
         android:layout_height="26dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintBottom_toTopOf="@+id/tvTotalQuantity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.086"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +94,7 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tvTotalQuantity"
         android:layout_width="416dp"
         android:layout_height="36dp"
         android:layout_marginTop="38dp"

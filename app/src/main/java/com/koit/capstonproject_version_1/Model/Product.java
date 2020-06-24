@@ -1,7 +1,14 @@
 package com.koit.capstonproject_version_1.Model;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
+import com.koit.capstonproject_version_1.View.LoginActivity;
+
 public class Product {
-    private String userId, productId, barcode,categoryName, productDescription, productImageUrl;
+    private String userId, productId, barcode, categoryName, productDescription, productImageUrl;
     private String productName;
     private Unit units;
 
@@ -81,5 +88,19 @@ public class Product {
 
     public void setUnits(Unit units) {
         this.units = units;
+    }
+
+    public DatabaseReference getMyRef() {
+        String curUser;
+        User user = SharedPrefs.getInstance().getCurrentUser(LoginActivity.CURRENT_USER);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            curUser = user.getPhoneNumber();
+        } else {
+            curUser = firebaseUser.getUid();
+        }
+        DatabaseReference myRef;
+        myRef = FirebaseDatabase.getInstance().getReference("Products").child(curUser);
+        return myRef;
     }
 }
