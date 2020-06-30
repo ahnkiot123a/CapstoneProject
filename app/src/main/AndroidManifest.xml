@@ -23,6 +23,12 @@
         <activity
             android:name=".View.SplashActivity"
             android:noHistory="true">
+
+        </activity>
+        <activity android:name=".View.DetailProductActivity">
+
+        </activity>
+        <activity android:name=".View.UpdateProductActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
