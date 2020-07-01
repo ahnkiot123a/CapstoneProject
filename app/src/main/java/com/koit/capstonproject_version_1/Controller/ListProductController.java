@@ -5,9 +5,7 @@ import android.util.Log;
 
 import com.koit.capstonproject_version_1.Adapter.ItemAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
-import com.koit.capstonproject_version_1.Controller.Interface.ListUnitInterface;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
@@ -23,6 +21,7 @@ public class ListProductController {
     private Context context;
     private Product product;
     ItemAdapter itemAdapter;
+
     public ListProductController(Context context) {
         this.context = context;
         product = new Product();
@@ -30,23 +29,10 @@ public class ListProductController {
 
     public void getListProduct(Context context, RecyclerView recyclerViewListProduct) {
         final List<Product> listProduct = new ArrayList<>();
-//        final List <Unit> unitList = new ArrayList<>();
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
         itemAdapter = new ItemAdapter(context, listProduct, R.layout.item_layout);
         recyclerViewListProduct.setAdapter(itemAdapter);
-
-//        final ListUnitInterface listUnitInterface = new ListUnitInterface() {
-//
-//            @Override
-//            public void getListUnitModel(Unit unit) {
-//                Log.d("kiemtra", unit.getUnitName() + "");
-//                unitList.add(unit);
-//                itemAdapter.notifyDataSetChanged();
-//            }
-//        };
-
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
             public void getListProductModel(Product product) {
