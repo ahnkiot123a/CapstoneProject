@@ -61,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void callCreateProductActivity(View view){
+        Intent intent = new Intent(MainActivity.this, CreateProductActivity.class);
+        startActivity(intent);
+    }
+
     public void logout(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Bạn có muốn đăng xuất không?");
