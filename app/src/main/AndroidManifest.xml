@@ -19,15 +19,11 @@
         <activity
             android:name=".View.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".View.SplashActivity"
             android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".View.RegisterActivity" />
         <activity
@@ -39,6 +35,15 @@
         <activity android:name=".View.ChangePasswordActivity" />
         <activity android:name=".View.ForgotPasswordActivity" />
         <activity android:name=".View.ResetPasswordActivity" />
+        <activity
+            android:name=".View.ListProductActivity"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
