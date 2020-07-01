@@ -14,14 +14,14 @@ import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
 
-public class ConvertRateRecyclerAdapter extends RecyclerView.Adapter<ConvertRateRecyclerAdapter.ViewHolder> {
+public class UnitRecyclerAdapter  extends RecyclerView.Adapter<UnitRecyclerAdapter.ViewHolder>{
     ArrayList<Unit> unitArrayList;
     Context context;
 
-    public ConvertRateRecyclerAdapter() {
+    public UnitRecyclerAdapter() {
     }
 
-    public ConvertRateRecyclerAdapter(ArrayList<Unit> unitArrayList, Context context) {
+    public UnitRecyclerAdapter(ArrayList<Unit> unitArrayList, Context context) {
         this.unitArrayList = unitArrayList;
         this.context = context;
     }
@@ -30,28 +30,27 @@ public class ConvertRateRecyclerAdapter extends RecyclerView.Adapter<ConvertRate
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.custom_layout_recyclerview_convert_rate,parent,false);
-        return new ConvertRateRecyclerAdapter.ViewHolder(itemView);
+        View itemView = layoutInflater.inflate(R.layout.custom_product_unit_layout,parent,false);
+        return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvSmallestUnitName.setText(unitArrayList.get(position+1).getConvertRate() + "  " + unitArrayList.get(0).getUnitName());
-        holder.tvBigUnitName.setText(unitArrayList.get(position + 1).getUnitName() + " = ");
+        holder.tvUnitName.setText(unitArrayList.get(position).getUnitName());
+        holder.tvUnitPrice.setText(unitArrayList.get(position).getUnitPrice() + "");
     }
 
     @Override
     public int getItemCount() {
-       return unitArrayList.size() - 1;
+        return unitArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvBigUnitName, tvSmallestUnitName;
+        TextView tvUnitName, tvUnitPrice;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvBigUnitName = (TextView) itemView.findViewById(R.id.tvBigUnitName);
-            tvSmallestUnitName = (TextView) itemView.findViewById(R.id.tvSmallestUnitName);
+            tvUnitName = (TextView) itemView.findViewById(R.id.tvUnitName);
+            tvUnitPrice = (TextView) itemView.findViewById(R.id.tvUnitPrice);
         }
-
     }
 }

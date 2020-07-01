@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/tvBigUnitName"
+        android:id="@+id/tvUnitName"
         android:layout_width="129dp"
         android:layout_height="wrap_content"
         android:layout_x="17dp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvSmallestUnitName"
+        android:id="@+id/tvUnitPrice"
         android:layout_width="129dp"
         android:layout_height="wrap_content"
         android:layout_x="210dp"

@@ -2,19 +2,27 @@ package com.koit.capstonproject_version_1.Model;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Product {
+import androidx.annotation.NonNull;
+
+public class Product implements Serializable {
     private String userId, productId, barcode, categoryName, productDescription, productImageUrl;
     private String productName;
-    private  boolean active;
-
+    private boolean active;
+    DatabaseReference nodeRoot;
     private List<Unit> units;
+    private List<Product> listProduct;
 
     public Product(String userId, String productId, String barcode, String categoryName, String productDescription, String productImageUrl, String productName, boolean active, List<Unit> units) {
         this.userId = userId;
@@ -29,6 +37,7 @@ public class Product {
     }
 
     public Product() {
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
     }
 
     public String getUserId() {
@@ -95,13 +104,6 @@ public class Product {
         this.active = active;
     }
 
-    public List<Unit> getUnits() {
-        return units;
-    }
-
-    public void setUnits(List<Unit> units) {
-        this.units = units;
-    }
 
     public DatabaseReference getMyRef() {
         String curUser;
@@ -116,5 +118,87 @@ public class Product {
         //test
         myRef = FirebaseDatabase.getInstance().getReference("Products").child("0399271212");
         return myRef;
+    }
+
+    private DataSnapshot dataRoot;
+
+    public void getListProduct(final ListProductInterface listProductInterface) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataRoot = dataSnapshot;
+                LayDanhSachSanPham(dataSnapshot, listProductInterface);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        if (dataRoot != null) {
+            LayDanhSachSanPham(dataRoot, listProductInterface);
+        } else {
+            nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+        }
+
+    }
+
+    private void LayDanhSachSanPham(DataSnapshot dataSnapshot, ListProductInterface listProductInterface) {
+        DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
+        //Lấy danh sách san pham
+        for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
+            Product product = valueProduct.getValue(Product.class);
+            product.setProductId(product.getProductId());
+            //Lấy danh sách hình ảnh của quán ăn theo mã
+//            DataSnapshot dataSnapshotHinhQuanAn = dataSnapshot.child("hinhanhquanans").child(valueQuanAn.getKey());
+//
+//            List<String> hinhanhlist = new ArrayList<>();
+//
+//            for (DataSnapshot valueHinhQuanAn : dataSnapshotHinhQuanAn.getChildren()){
+//                hinhanhlist.add(valueHinhQuanAn.getValue(String.class));
+//            }
+//            quanAnModel.setHinhanhquanan(hinhanhlist);
+
+            //Lấy danh sách bình luân của quán ăn
+//            DataSnapshot snapshotBinhLuan = dataSnapshot.child("binhluans").child(quanAnModel.getMaquanan());
+//            List<BinhLuanModel> binhLuanModels = new ArrayList<>();
+//
+//            for (DataSnapshot valueBinhLuan : snapshotBinhLuan.getChildren()){
+//                BinhLuanModel binhLuanModel = valueBinhLuan.getValue(BinhLuanModel.class);
+//                binhLuanModel.setManbinhluan(valueBinhLuan.getKey());
+//                ThanhVienModel thanhVienModel = dataSnapshot.child("thanhviens").child(binhLuanModel.getMauser()).getValue(ThanhVienModel.class);
+//                binhLuanModel.setThanhVienModel(thanhVienModel);
+//
+//                List<String> hinhanhBinhLuanList = new ArrayList<>();
+//                DataSnapshot snapshotNodeHinhAnhBL = dataSnapshot.child("hinhanhbinhluans").child(binhLuanModel.getManbinhluan());
+//                for (DataSnapshot valueHinhBinhLuan : snapshotNodeHinhAnhBL.getChildren()){
+//                    hinhanhBinhLuanList.add(valueHinhBinhLuan.getValue(String.class));
+//                }
+//                binhLuanModel.setHinhanhBinhLuanList(hinhanhBinhLuanList);
+//
+//                binhLuanModels.add(binhLuanModel);
+//            }
+//            quanAnModel.setBinhLuanModelList(binhLuanModels);
+
+            //Lấy chi nhánh quán ăn
+//            DataSnapshot snapshotChiNhanhQuanAn = dataSnapshot.child("chinhanhquanans").child(quanAnModel.getMaquanan());
+//            List<ChiNhanhQuanAnModel> chiNhanhQuanAnModels = new ArrayList<>();
+//
+//            for (DataSnapshot valueChiNhanhQuanAn : snapshotChiNhanhQuanAn.getChildren()){
+//                ChiNhanhQuanAnModel chiNhanhQuanAnModel = valueChiNhanhQuanAn.getValue(ChiNhanhQuanAnModel.class);
+//                Location vitriquanan = new Location("");
+//                vitriquanan.setLatitude(chiNhanhQuanAnModel.getLatitude());
+//                vitriquanan.setLongitude(chiNhanhQuanAnModel.getLongitude());
+//
+//                double khoangcach = vitrihientai.distanceTo(vitriquanan)/1000;
+//                chiNhanhQuanAnModel.setKhoangcach(khoangcach);
+//
+//                chiNhanhQuanAnModels.add(chiNhanhQuanAnModel);
+//            }
+//
+//            quanAnModel.setChiNhanhQuanAnModelList(chiNhanhQuanAnModels);
+//
+            listProductInterface.getListProductModel(product);
+        }
     }
 }
