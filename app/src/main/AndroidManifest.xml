@@ -14,12 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
+        <activity android:name=".View.CreateProductActivity" android:windowSoftInputMode="stateHidden">
 
-
+        </activity>
         <activity
             android:name=".View.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".View.SplashActivity"
             android:noHistory="true">
@@ -39,6 +40,7 @@
         <activity android:name=".View.ChangePasswordActivity" />
         <activity android:name=".View.ForgotPasswordActivity" />
         <activity android:name=".View.ResetPasswordActivity" />
+        <activity android:name=".View.CustomScreenScanActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
