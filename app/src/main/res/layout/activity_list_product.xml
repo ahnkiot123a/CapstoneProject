@@ -35,10 +35,8 @@
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:background="@color/colorAccent"
         android:minHeight="?attr/actionBarSize"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -73,12 +71,9 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/search_layout"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/category_Spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_top"
-        app:layout_constraintVertical_chainStyle="spread">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_top">
 
 
         <SearchView
@@ -110,21 +105,17 @@
         android:id="@+id/category_Spinner"
         android:layout_width="203dp"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@id/tvTotalQuantity"
         app:layout_constraintStart_toStartOf="@+id/linearLayoutSearch"
-        app:layout_constraintTop_toBottomOf="@id/linearLayoutSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSearch" />
 
     <TextView
         android:id="@+id/tvTotalQuantity"
         android:layout_width="350dp"
         android:layout_height="40dp"
-        android:layout_marginTop="28dp"
         android:background="@drawable/quantity_layout"
         android:paddingLeft="25dp"
         android:paddingTop="9dp"
         android:text="0 sản phẩm"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct"
         app:layout_constraintEnd_toStartOf="@+id/btnAddNewProduct"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintHorizontal_chainStyle="spread"
@@ -133,9 +124,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewListProduct"
-        android:layout_width="409dp"
-        android:layout_height="417dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTotalQuantity" />
@@ -145,17 +135,10 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="359dp"
-        android:layout_marginTop="141dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="10dp"
         android:text="Thêm"
         app:layout_constraintBottom_toTopOf="@+id/btnAddNewProduct"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_top"
-        app:layout_constraintVertical_bias="0.687" />
+        app:layout_constraintEnd_toEndOf="@+id/btnAddNewProduct" />
 
     <ImageButton
         android:id="@+id/btnAddNewProduct"

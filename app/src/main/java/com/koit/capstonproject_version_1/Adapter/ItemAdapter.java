@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,43 +9,27 @@ import android.widget.TextView;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
 
-    ArrayList<Product> list;
+    List<Product> listProduct;
+    //item layout
+    int resourse;
+    Context context;
 
-    public ItemAdapter(ArrayList<Product> list) {
-        this.list = list;
-    }
-
-    @NonNull
-    @Override
-    public ItemAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
-        return new MyViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        MyViewHolder.setDetails(
-                "list.get(position).getProductImageUrl()",
-                list.get(position).getProductName(),
-                list.get(position).getProductName(),
-                list.get(position).getProductName()
-        );
-    }
-
-    @Override
-    public int getItemCount() {
-        return list.size();
+    public ItemAdapter(Context context, List<Product> list, int resourse) {
+        this.listProduct = list;
+        this.resourse = resourse;
+        this.context = context;
     }
 
     //View Holder class
     public static class MyViewHolder extends RecyclerView.ViewHolder {
+
         static View mView;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -62,4 +47,30 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             itemPrice.setText(price);
         }
     }
+
+    @NonNull
+    @Override
+    public ItemAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+        MyViewHolder viewHolder = new MyViewHolder(view);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Product product = listProduct.get(position);
+        MyViewHolder.setDetails(
+                "list.get(position).getProductImageUrl()",
+                product.getProductName(),
+                product.getProductName(),
+                product.getProductName()
+        );
+    }
+
+    @Override
+    public int getItemCount() {
+        return listProduct.size();
+    }
+
+
 }

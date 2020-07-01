@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.CustomScreenScanActivity">
+
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:id="@+id/zxing_barcode_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:zxing_scanner_layout="@layout/custom_barcode_scanner" />
+
+    <ImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="back"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:src="@drawable/ic_close_white_24dp" />
+
+    <TextView
+        android:id="@+id/tvMessageFlashOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnClose"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:textSize="24sp"
+        android:text="Đã bật đèn flash"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/tvPaused"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvMessagePause"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="tạm dừng quét! "
+        android:textStyle="bold"
+        android:textColor="#F44336" />
+
+    <TextView
+        android:id="@+id/tvMessagePause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnContinuousFlash"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="30dp"
+        android:text="ấn 'TIẾP TỤC' để bắt đầu lại" />
+
+    <Button
+        android:id="@+id/btnContinuousFlash"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="50dp"
+        android:onClick="continuousFlashLight"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/custom_button_scan_screen"
+        android:text="Tạm dừng" />
+
+
+    <Button
+        android:id="@+id/btnSwitchFlash"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="50dp"
+        android:onClick="switchFlashLight"
+        android:textColor="@color/colorAccent"
+        android:padding="5dp"
+        android:background="@drawable/custom_button_scan_screen"
+        android:text="Bật đèn flash" />
+
+
+</RelativeLayout>

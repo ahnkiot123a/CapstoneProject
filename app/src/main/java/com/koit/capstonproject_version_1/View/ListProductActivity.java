@@ -35,7 +35,9 @@ public class ListProductActivity extends AppCompatActivity {
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
 
-        listProductController = new ListProductController(this);
+        listProductController = new ListProductController(this.getApplicationContext());
+        listProductController.getListProduct(getApplicationContext(),recyclerViewListProduct);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -44,9 +46,10 @@ public class ListProductActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                listProductController.firebaseProductSearch(recyclerViewListProduct, newText);
+              //  listProductController.firebaseProductSearch(recyclerViewListProduct, newText);
                 return true;
             }
+
         });
 
     }
