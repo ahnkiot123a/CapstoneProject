@@ -1,11 +1,19 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.R;
 
@@ -20,6 +28,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     //item layout
     int resourse;
     Context context;
+    private ImageView imageViewProduct;
 
     public ItemAdapter(Context context, List<Product> list, int resourse) {
         this.listProduct = list;
@@ -30,21 +39,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     //View Holder class
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        static View mView;
+        ImageView imageView;
+        TextView itemName;
+        TextView itemQuantity;
+        TextView itemPrice;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            mView = itemView;
-        }
-
-        public static void setDetails(String itemImage, String name, String quantity, String price) {
-            TextView itemName = mView.findViewById(R.id.tvProductName);
-            TextView itemQuantity = mView.findViewById(R.id.tvProductQuantity);
-            TextView itemPrice = mView.findViewById(R.id.tvProductPrice);
-
-            itemName.setText(name);
-            itemQuantity.setText(quantity);
-            itemPrice.setText(price);
+            itemName = (TextView) itemView.findViewById(R.id.tvProductName);
+            itemQuantity = (TextView) itemView.findViewById(R.id.tvProductQuantity);
+            itemPrice = itemView.findViewById(R.id.tvProductPrice);
+            imageView = itemView.findViewById(R.id.imgViewProductPicture);
         }
     }
 
@@ -57,14 +62,23 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         Product product = listProduct.get(position);
-        MyViewHolder.setDetails(
-                "list.get(position).getProductImageUrl()",
-                product.getProductName(),
-                product.getProductName(),
-                product.getProductName()
-        );
+        holder.itemName.setText(product.getProductName());
+        StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
+        long ONE_MEGABYTE = 1024 * 1024;
+        storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                holder.imageView.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Failed loaded uri: ", e.getMessage());
+            }
+        });
     }
 
     @Override

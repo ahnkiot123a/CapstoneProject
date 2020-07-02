@@ -33,42 +33,50 @@
 
 
     </Toolbar>
-    <ImageView
-        android:id="@+id/imageViewEmpty"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="314dp"
-        android:src="@drawable/empty_item"/>
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageViewEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_item"/>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Chưa có sản phẩm nào!"
+            android:textColor="#302E2E"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        android:text="Chưa có sản phẩm nào!"
-        android:textColor="#302E2E"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        <TextView
+            android:gravity="center"
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="THViet giúp bạn tạo và quản lý \nthông tin giá, tồn kho,... chi tiết từng sản phẩm" />
 
-    <TextView
-        android:gravity="center"
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="THViet giúp bạn tạo và quản lý \nthông tin giá, tồn kho,... chi tiết từng sản phẩm" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/background_btn_login"
+            android:gravity="center"
+            android:text="Thêm sản phẩm"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="182dp"
-        android:layout_height="49dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="100dp"
-        android:background="@drawable/background_btn_login"
-        android:gravity="center"
-        android:text="Thêm sản phẩm"
-        android:textColor="@color/white" />
 
 </LinearLayout>

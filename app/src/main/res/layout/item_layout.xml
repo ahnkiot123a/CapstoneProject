@@ -9,9 +9,10 @@
 
     <ImageView
         android:id="@+id/imgViewProductPicture"
-        android:layout_width="77dp"
-        android:layout_height="75dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_marginStart="28dp"
+        android:scaleType="fitXY"
         android:layout_weight="1"
         android:background="@drawable/shape_box_border"
         app:layout_constraintBottom_toBottomOf="@+id/tvsl"
