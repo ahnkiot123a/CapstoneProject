@@ -2,75 +2,84 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="100dp"
+    android:layout_margin="50dp"
     android:id="@+id/bottomSheetCont"
     android:gravity="center"
     android:orientation="vertical">
-    <Button
-        android:id="@+id/btnTakePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:drawableLeft="@drawable/icons8_camera_50px"
-        android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-        android:drawablePadding="10dp"
-        android:fontFamily="sans-serif-medium"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="Chụp ảnh"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textColor="@color/blue" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light_gray" />
-
-    <Button
-        android:id="@+id/btnTakeFromAlbum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:drawableLeft="@drawable/icons8_photo_gallery_50px"
-        android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-        android:drawablePadding="10dp"
-        android:fontFamily="sans-serif-medium"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="Lấy từ Album"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textColor="@color/blue" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light_gray" />
 
     <LinearLayout
-        android:id="@+id/btnCancelPhoto"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:src="@drawable/icons8_cancel_50px" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        android:background="@drawable/radius_linearlayout"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btnTakePhoto"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:drawableLeft="@drawable/icons8_camera_26px"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:drawablePadding="20dp"
             android:fontFamily="sans-serif-medium"
-            android:gravity="center_vertical"
-            android:text="Hủy"
-            android:textColor="@color/blue"
-            android:textSize="18sp" />
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Chụp ảnh"
+            android:textAlignment="textStart"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:textColor="@color/gray" />
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:background="@color/light_gray" />
+
+        <Button
+            android:id="@+id/btnTakeFromAlbum"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:drawableLeft="@drawable/icons8_photo_gallery_26px"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:drawablePadding="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Lấy từ Album"
+            android:textSize="16sp"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/gray" />
+
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCancelPhoto"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/radius_linearlayout"
+        android:drawablePadding="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Hủy"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/gray" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+    </LinearLayout>
 
 </LinearLayout>

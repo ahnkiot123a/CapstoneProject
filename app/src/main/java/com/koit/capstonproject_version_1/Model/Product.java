@@ -16,12 +16,12 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-public class Product implements Serializable {
+public class Product {
     private String userId, productId, barcode, categoryName, productDescription, productImageUrl;
     private String productName;
     private boolean active;
     DatabaseReference nodeRoot;
-    private List<Unit> units;
+   private List<Unit> units;
     private List<Product> listProduct;
 
     public Product(String userId, String productId, String barcode, String categoryName, String productDescription, String productImageUrl, String productName, boolean active, List<Unit> units) {

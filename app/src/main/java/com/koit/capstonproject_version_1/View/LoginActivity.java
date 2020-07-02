@@ -95,8 +95,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginWithPhone() {
-
-        userController.loginWithPhoneAndPassword(etPhoneNumber, etPassword, LoginActivity.this, view);
+       userController.loginWithPhoneAndPassword(etPhoneNumber, etPassword, LoginActivity.this, view, btnFbLogin, tvForgotPassword, tvAccount, tvRegister);
     }
 
     public void callForgotPasswordActivity(View view){

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -83,8 +84,7 @@ public class UserController {
 
     }
 
-    public void loginWithPhoneAndPassword(final TextInputEditText etPhoneNumber, final TextInputEditText etPassword, final Activity activity, View view) {
-
+    public void loginWithPhoneAndPassword(final TextInputEditText etPhoneNumber, final TextInputEditText etPassword, final Activity activity, View view, Button btnFbLogin, TextView tvForgotPassword, TextView tvAccount, TextView tvRegister) {
         final ProgressButton progressButton = new ProgressButton(activity, view);
         final IUser iUser = new IUser() {
             @Override

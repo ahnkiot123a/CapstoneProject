@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_page_account"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:padding="20dp">
 
                 <ImageButton
@@ -118,8 +118,14 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:background="@drawable/custom_image_btn"
+                    android:layout_marginRight="20dp"
                     android:onClick="showPhotoDialog"
                     android:src="@drawable/ic_camera"/>
+
+                <ImageView
+                    android:id="@+id/ivProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <LinearLayout
@@ -149,6 +155,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tvCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Loại sản phẩm"
