@@ -42,6 +42,7 @@ public class ListProductController {
             }
         };
         product.getListProduct(listProductInterface);
+
     }
 
 //    public void firebaseProductSearch(final RecyclerView recyclerViewListProduct, String searchText) {
