@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,9 +40,12 @@ import java.util.Date;
 
 public class CreateProductActivity extends AppCompatActivity {
 
-    private static final int CAMERA_PER_CODE = 101;
-    private static final int CAMERA_REQUEST_CODE = 102;
-    static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int BARCODE_PER_CODE = 101;
+    private static final int TAKE_PHOTO_PER_CODE = 102;
+    private static final int CAMERA_REQUEST_CODE = 103;
+    private static final int REQUEST_TAKE_PHOTO = 1;
+    private static final String BARCODE = "barcode";
+    private static final String TAKE_PHOTO = "take_photo";
 
     private TextInputEditText etBarcode;
     private Toolbar toolbar;
@@ -50,7 +55,7 @@ public class CreateProductActivity extends AppCompatActivity {
     private TextView tvCategory;
     private BottomSheetDialog bottomSheetDialog;
     private ImageView ivProduct;
-    String currentPhotoPath;
+    String currentPhotoPath = "";
 
 
     @Override
@@ -89,8 +94,11 @@ public class CreateProductActivity extends AppCompatActivity {
     }
 
     public void scanCustomScanner(View view) {
-        //set permission camera
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PackageManager.PERMISSION_GRANTED);
+        askCameraPermission(BARCODE);
+
+    }
+
+    private void scanBarcode() {
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setOrientationLocked(true);
         integrator.setCaptureActivity(CustomScreenScanActivity.class);
@@ -100,6 +108,7 @@ public class CreateProductActivity extends AppCompatActivity {
         integrator.initiateScan();
     }
 
+
     public void showPhotoDialog(View view) {
 
         View bottomSheet = LayoutInflater.from(getApplicationContext())
@@ -108,8 +117,7 @@ public class CreateProductActivity extends AppCompatActivity {
         bottomSheet.findViewById(R.id.btnTakePhoto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                askCameraPermission();
-                takeProductPhoto();
+                askCameraPermission(TAKE_PHOTO);
             }
         });
 
@@ -130,26 +138,29 @@ public class CreateProductActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
 
-    private void askCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PER_CODE);
-        } else {
-            dispatchTakePictureIntent();
+    private void askCameraPermission(String feature) {
+        switch (feature){
+            case BARCODE:
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, BARCODE_PER_CODE);
+                } else {
+                    scanBarcode();
+                }
+                break;
+            case TAKE_PHOTO:
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO_PER_CODE);
+                } else {
+                    captureImage();
+                }
+                break;
         }
-    }
 
-    private void openCamera() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
-        }
     }
 
     private void takeProductPhotoFromAlbum() {
     }
 
-    private void takeProductPhoto() {
-    }
 
     public void cancelTakePhoto() {
         bottomSheetDialog.cancel();
@@ -173,11 +184,12 @@ public class CreateProductActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+        Log.i("path", currentPhotoPath);
         return image;
     }
 
 
-    private void dispatchTakePictureIntent() {
+    private void captureImage() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -191,7 +203,7 @@ public class CreateProductActivity extends AppCompatActivity {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.koit.android.fileprovider",
+                        "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -214,22 +226,32 @@ public class CreateProductActivity extends AppCompatActivity {
 
             }
         }
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             Log.i("image", currentPhotoPath);
             File file = new File(currentPhotoPath);
             ivProduct.setImageURI(Uri.fromFile(file));
-            ivProduct.setVisibility(View.VISIBLE);
+
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            ivProduct.setImageBitmap(imageBitmap);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == CAMERA_PER_CODE) {
+        if (requestCode == TAKE_PHOTO_PER_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //open camera
-                dispatchTakePictureIntent();
+                captureImage();
             } else {
-                Toast.makeText(this, "Bạn cần cấp quyền này để sử dụng chức năng chụp ảnh", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Bạn cần cấp quyền này để sử dụng chức năng chụp ảnh", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (requestCode == BARCODE_PER_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                scanBarcode();
+            } else {
+                Toast.makeText(this, "Bạn cần cấp quyền này để sử dụng chức năng quét mã vạch", Toast.LENGTH_SHORT).show();
             }
         }
     }

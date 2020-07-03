@@ -118,14 +118,15 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:background="@drawable/custom_image_btn"
-                    android:layout_marginRight="20dp"
                     android:onClick="showPhotoDialog"
+                    android:layout_gravity="center"
                     android:src="@drawable/ic_camera"/>
 
                 <ImageView
                     android:id="@+id/ivProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="80dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="20dp"/>
             </LinearLayout>
 
             <LinearLayout

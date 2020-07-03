@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
     <external-path
-        name="external"
-        path="." />
-    <external-files-path
-        name="external-files"
-        path="." />
-    <cache-path
-        name="cache"
-        path="." />
-    <external-cache-path
-        name="external-cache"
-        path="." />
-    <files-path
-        name="files"
-        path="." />
+        name="my images"
+        path="Android/data/com.koit.capstonproject_version_1/files/Pictures" />
 </paths>
