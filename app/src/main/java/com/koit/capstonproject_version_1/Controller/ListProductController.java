@@ -21,6 +21,7 @@ public class ListProductController {
     private Context context;
     private Product product;
     ItemAdapter itemAdapter;
+    private int item_count;
 
     public ListProductController(Context context) {
         this.context = context;
@@ -42,9 +43,15 @@ public class ListProductController {
             }
         };
         product.getListProduct(listProductInterface);
-
+        item_count = recyclerViewListProduct.getAdapter().getItemCount();
+        Log.d("kiemtra1", item_count + "");
     }
 
+    public int getItemInRecyclerView(RecyclerView recyclerView) {
+        item_count = recyclerView.getAdapter().getItemCount();
+        Log.d("kiemtra1", item_count + "");
+        return item_count;
+    }
 //    public void firebaseProductSearch(final RecyclerView recyclerViewListProduct, String searchText) {
 //        Product product = new Product();
 //        myRef = product.getMyRef();

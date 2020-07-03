@@ -37,7 +37,7 @@ public class ListProductActivity extends AppCompatActivity {
 
         listProductController = new ListProductController(this.getApplicationContext());
         listProductController.getListProduct(getApplicationContext(),recyclerViewListProduct);
-
+        tvTotalQuantity.setText(listProductController.getItemInRecyclerView(recyclerViewListProduct)+" sản phẩm");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
