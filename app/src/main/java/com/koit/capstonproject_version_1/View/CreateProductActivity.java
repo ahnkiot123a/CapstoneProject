@@ -230,6 +230,7 @@ public class CreateProductActivity extends AppCompatActivity {
             Log.i("image", currentPhotoPath);
             File file = new File(currentPhotoPath);
             ivProduct.setImageURI(Uri.fromFile(file));
+            ivProduct.setRotation(ivProduct.getRotation() + 90);
 
 //            Bundle extras = data.getExtras();
 //            Bitmap imageBitmap = (Bitmap) extras.get("data");
