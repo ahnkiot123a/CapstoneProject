@@ -35,10 +35,6 @@ public class ForgotPasswordController {
     private DatabaseReference databaseReference;
     private User user;
 
-    public ForgotPasswordController() {
-    }
-
-
     public ForgotPasswordController(ForgotPasswordActivity forgotPasswordActivity) {
         this.forgotPasswordActivity = forgotPasswordActivity;
         user = new User();
