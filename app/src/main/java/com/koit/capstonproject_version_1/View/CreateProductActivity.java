@@ -2,10 +2,9 @@ package com.koit.capstonproject_version_1.View;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,6 +12,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,7 +43,7 @@ public class CreateProductActivity extends AppCompatActivity {
     private static final int BARCODE_PER_CODE = 101;
     private static final int TAKE_PHOTO_PER_CODE = 102;
     private static final int CAMERA_REQUEST_CODE = 103;
-    private static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int GALLERY_REQ_CODE = 104;
     private static final String BARCODE = "barcode";
     private static final String TAKE_PHOTO = "take_photo";
 
@@ -159,6 +159,8 @@ public class CreateProductActivity extends AppCompatActivity {
     }
 
     private void takeProductPhotoFromAlbum() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, GALLERY_REQ_CODE);
     }
 
 
@@ -206,7 +208,7 @@ public class CreateProductActivity extends AppCompatActivity {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
         }
     }
@@ -226,17 +228,29 @@ public class CreateProductActivity extends AppCompatActivity {
 
             }
         }
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Log.i("image", currentPhotoPath);
             File file = new File(currentPhotoPath);
             ivProduct.setImageURI(Uri.fromFile(file));
             ivProduct.setRotation(ivProduct.getRotation() + 90);
 
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            ivProduct.setImageBitmap(imageBitmap);
+
+        }
+
+        if (requestCode == GALLERY_REQ_CODE && resultCode == Activity.RESULT_OK) {
+            Uri contentUri = data.getData();
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imgFileName = "JPEG" + "_"  + timeStamp + "." + getFileExt(contentUri);
+            Log.i("gallery", "onActivityResult: Gallery Image Uri " + imgFileName);
+            ivProduct.setImageURI(contentUri);
         }
     }
+
+    private String getFileExt(Uri contentUri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(contentUri));
+        }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

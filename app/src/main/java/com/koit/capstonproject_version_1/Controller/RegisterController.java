@@ -43,16 +43,9 @@ public class RegisterController {
     private DatabaseReference databaseReference;
     private User user;
 
-    public RegisterController() {
-    }
 
     public RegisterController(RegisterActivity registerActivity) {
         this.registerActivity = registerActivity;
-        user = new User();
-    }
-
-    public RegisterController(ForgotPasswordActivity forgotPasswordActivity) {
-        this.forgotPasswordActivity = forgotPasswordActivity;
         user = new User();
     }
 
@@ -61,10 +54,6 @@ public class RegisterController {
         this.phoneNumber = phoneNumber;
     }
 
-    public RegisterController(ResetPasswordActivity resetPasswordActivity, String phoneNumber) {
-        this.resetPasswordActivity = resetPasswordActivity;
-        this.phoneNumber = phoneNumber;
-    }
 
     //check phone number is valid form or not
     public void checkPhone(final String phone) {
@@ -107,20 +96,6 @@ public class RegisterController {
         databaseReference.child(phoneNumber).setValue(user);
     }
 
-    //check Store name, password, confirmPassword, OTP
-    public void checkInputFromResetPasswordActivity(String password, String confirmPassword, String otpCode) {
-        if (!checkPasswordFromForgot(password)) return;
-        if (!checkConfirmPasswordFromForgot(password, confirmPassword)) return;
-        if (!checkOTPCodeForgotPassword(otpCode)) return;
-        verifyCodeFromResetPassword(otpCode);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("User");
-        HashController validateController = new HashController();
-        //ma hoa mat khau
-        password = validateController.getMd5(password);
-        databaseReference.child(phoneNumber).child("password").setValue(user);
-    }
-
     //otp code is 6 number degits or not
     private boolean checkOTPCode(String otpCode) {
         if (otpCode.isEmpty()) {
@@ -158,46 +133,6 @@ public class RegisterController {
         }
         return false;
     }
-
-    //otp code is 6 number degits or not
-    private boolean checkOTPCodeForgotPassword(String otpCode) {
-        if (otpCode.isEmpty()) {
-            forgotPasswordActivity.showTextError("Vui lòng nhập OTP", registerVerifyPhoneActivity.getEtOTP());
-            return false;
-        } else if (otpCode.length() != 6) {
-            forgotPasswordActivity.showTextError("Mã OTP phải bao gồm 6 kí tự", registerVerifyPhoneActivity.getEtOTP());
-            return false;
-        }
-        return true;
-    }
-
-    private boolean checkConfirmPasswordFromForgot(String pass, String confirmPass) {
-        if (pass.equals(confirmPass))
-            return true;
-        else {
-            forgotPasswordActivity.showTextError("Mật khẩu không khớp.", registerVerifyPhoneActivity.getEtConfirmPassword());
-        }
-        return false;
-    }
-
-    //check password is true format(>=6 number digits) or not
-    private boolean checkPasswordFromForgot(String pass) {
-        inputController = new InputController();
-        if (pass.isEmpty()) {
-            forgotPasswordActivity.showTextError("Vui lòng nhập mật khẩu.", registerVerifyPhoneActivity.getEtPassword());
-        } else {
-            //gom it nhat 6 ki tu so
-            String regexStr = "^[0-9]{6,}$";
-            if (pass.matches(regexStr)) {
-                return true;
-            } else {
-                forgotPasswordActivity.showTextError("Vui lòng nhập 6 kí tự số trở lên.", registerVerifyPhoneActivity.getEtPassword());
-            }
-        }
-        return false;
-    }
-
-
 
     //check store name is empty or not
     public boolean checkStoreName(String storeName) {
