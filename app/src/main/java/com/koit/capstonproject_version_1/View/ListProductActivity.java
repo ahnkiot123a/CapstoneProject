@@ -38,7 +38,7 @@ public class ListProductActivity extends AppCompatActivity {
 
         listProductController = new ListProductController(this.getApplicationContext());
         listProductController.getListProduct(getApplicationContext(),recyclerViewListProduct);
-        tvTotalQuantity.setText(listProductController.getItemInRecyclerView(recyclerViewListProduct)+" sản phẩm");
+        listProductController.setTVTotalProductInCate(tvTotalQuantity);
         imgbtnBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

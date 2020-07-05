@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Model;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,7 +29,6 @@ public class Product {
     private boolean active;
     DatabaseReference nodeRoot;
     private List<Unit> units;
-    private List<Product> listProduct;
 
     public Product(String userId, String productId, String barcode, String categoryName, String productDescription, String productImageUrl, String productName, boolean active, List<Unit> units) {
         this.userId = userId;
@@ -155,8 +155,24 @@ public class Product {
 //        }
     }
 
+    public void setTotalProductCate(final TextView textView) {
+        nodeRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int totalProduct = (int) snapshot.child("Products").child("0399271212").getChildrenCount();
+                textView.setText(totalProduct + " sản phẩm");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface) {
         DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
+        int totalProduct = (int) dataSnapshot.child("Products").child("0399271212").getChildrenCount();
         DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child("0399271212");
         //Lấy danh sách san pham
         for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {

@@ -1,7 +1,7 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.content.Context;
-import android.util.Log;
+import android.widget.TextView;
 
 import com.koit.capstonproject_version_1.Adapter.ItemAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
@@ -43,25 +43,13 @@ public class ListProductController {
                 itemAdapter.notifyDataSetChanged();
             }
 
-            @Override
-            public void getListSize(List<Product> list) {
-                listProduct.size();
-                //show UI
-            }
-
-            @Override
-            public void getListProduct(List<Product> list) {
-                //return List Product
-            }
         };
         product.getListProduct(listProductInterface);
 
     }
 
-    public int getItemInRecyclerView(RecyclerView recyclerView) {
-        item_count = recyclerView.getAdapter().getItemCount();
-        Log.d("kiemtra1", item_count + "");
-        return item_count;
+    public void setTVTotalProductInCate(TextView textView) {
+         product.setTotalProductCate(textView);
     }
 
     public void firebaseProductSearch(RecyclerView recyclerViewListProduct, String searchText, Context context) {

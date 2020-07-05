@@ -69,7 +69,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.itemName.setText(product.getProductName());
         holder.itemPrice.setText(getMinProductPrice(product.getUnits()) + "");
         holder.itemQuantity.setText(getProductQuantity(product.getUnits()) + "");
-        holder.tvMinconvertRate.setText(getMinProductName(product.getUnits()));
+        holder.tvMinconvertRate.setText(getMinUnitProductName(product.getUnits()));
 
         StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
         long ONE_MEGABYTE = 1024 * 1024;
@@ -96,7 +96,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         return minPrice;
     }
 
-    public String getMinProductName(List<Unit> unitList) {
+    public String getMinUnitProductName(List<Unit> unitList) {
         String minProductName = "";
         for (Unit unit : unitList) {
             if (unit.getConvertRate() == 1) minProductName = unit.getUnitName();
