@@ -1,6 +1,7 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -38,6 +39,12 @@ public class ListProductActivity extends AppCompatActivity {
         listProductController = new ListProductController(this.getApplicationContext());
         listProductController.getListProduct(getApplicationContext(),recyclerViewListProduct);
         tvTotalQuantity.setText(listProductController.getItemInRecyclerView(recyclerViewListProduct)+" sản phẩm");
+        imgbtnBarcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -46,7 +53,7 @@ public class ListProductActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-              //  listProductController.firebaseProductSearch(recyclerViewListProduct, newText);
+                listProductController.firebaseProductSearch(recyclerViewListProduct, newText,getApplicationContext());
                 return true;
             }
 

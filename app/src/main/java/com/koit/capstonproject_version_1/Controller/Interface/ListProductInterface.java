@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface ListProductInterface {
     void getListProductModel(Product product);
+
+    void getListSize(List<Product> list);
+    void getListProduct(List<Product> list);
 }

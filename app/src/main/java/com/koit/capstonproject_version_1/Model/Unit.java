@@ -1,10 +1,12 @@
 package com.koit.capstonproject_version_1.Model;
 
 public class Unit {
+    private String id;
     private String unitName;
     private long convertRate, unitPrice, unitQuantity;
 
-    public Unit(String unitName, long convertRate, long unitPrice, long unitQuantity) {
+    public Unit(String id, String unitName, long convertRate, long unitPrice, long unitQuantity) {
+        this.id = id;
         this.unitName = unitName;
         this.convertRate = convertRate;
         this.unitPrice = unitPrice;
@@ -12,6 +14,14 @@ public class Unit {
     }
 
     public Unit() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUnitName() {

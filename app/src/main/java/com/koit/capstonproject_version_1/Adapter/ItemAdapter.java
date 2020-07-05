@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.List;
@@ -28,7 +29,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     //item layout
     int resourse;
     Context context;
-    private ImageView imageViewProduct;
 
     public ItemAdapter(Context context, List<Product> list, int resourse) {
         this.listProduct = list;
@@ -43,13 +43,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         TextView itemName;
         TextView itemQuantity;
         TextView itemPrice;
+        TextView tvMinconvertRate;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemName = (TextView) itemView.findViewById(R.id.tvProductName);
-            itemQuantity = (TextView) itemView.findViewById(R.id.tvProductQuantity);
+            itemName = itemView.findViewById(R.id.tvProductName);
+            itemQuantity = itemView.findViewById(R.id.tvProductQuantity);
             itemPrice = itemView.findViewById(R.id.tvProductPrice);
             imageView = itemView.findViewById(R.id.imgViewProductPicture);
+            tvMinconvertRate = itemView.findViewById(R.id.tvMinconvertRate);
         }
     }
 
@@ -65,6 +67,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         Product product = listProduct.get(position);
         holder.itemName.setText(product.getProductName());
+        holder.itemPrice.setText(getMinProductPrice(product.getUnits()) + "");
+        holder.itemQuantity.setText(getProductQuantity(product.getUnits()) + "");
+        holder.tvMinconvertRate.setText(getMinProductName(product.getUnits()));
+
         StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
         long ONE_MEGABYTE = 1024 * 1024;
         storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -79,6 +85,36 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                 Log.d("Failed loaded uri: ", e.getMessage());
             }
         });
+    }
+
+    public long getMinProductPrice(List<Unit> unitList) {
+        long minPrice = 0;
+        for (Unit unit : unitList) {
+            if (unit.getConvertRate() == 1) minPrice = unit.getUnitPrice();
+            break;
+        }
+        return minPrice;
+    }
+
+    public String getMinProductName(List<Unit> unitList) {
+        String minProductName = "";
+        for (Unit unit : unitList) {
+            if (unit.getConvertRate() == 1) minProductName = unit.getUnitName();
+            break;
+        }
+        return minProductName;
+    }
+
+    public long getProductQuantity(List<Unit> unitList) {
+        long totalQuantity = 0;
+        long convertRate = 1;
+        long quantity = 0;
+        for (Unit unit : unitList) {
+            convertRate = unit.getConvertRate();
+            quantity = unit.getUnitQuantity();
+            totalQuantity += convertRate * quantity;
+        }
+        return totalQuantity;
     }
 
     @Override

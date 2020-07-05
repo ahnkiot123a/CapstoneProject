@@ -89,27 +89,27 @@ public class DetailProductActivity extends AppCompatActivity implements Serializ
         btnDeleteProduct = findViewById(R.id.btnDeleteProduct);
     }
     private void getProduct(){
-         Intent intent = getIntent();
-         product =(Product) intent.getSerializableExtra("product");
-         if (product == null) {
-             Unit unit1 = new Unit("GOI", 1, 6000, 200);
-             Unit unit2 = new Unit("THUNG", 30, 160000, 6);
-             Unit unit3 = new Unit("LOC", 6, 30000, 33);
-          unitList = new ArrayList<>();
-             unitList.add(unit2);
-           unitList.add(unit1);
-
-             unitList.add(unit3);
-             Collections.sort(unitList, new Comparator<Unit>() {
-                 @Override
-                 public int compare(Unit o1, Unit o2) {
-                     return (int) (o1.getUnitPrice() - o2.getUnitPrice());
-                 }
-
-
-             });
-             product = new Product("0399271212", "03", "8936017361143", "mì tôm", "omachi sườn", "", "omachi sườn", true, unitList);
-         }
+//         Intent intent = getIntent();
+//         product =(Product) intent.getSerializableExtra("product");
+//         if (product == null) {
+//             Unit unit1 = new Unit("GOI", 1, 6000, 200);
+//             Unit unit2 = new Unit("THUNG", 30, 160000, 6);
+//             Unit unit3 = new Unit("LOC", 6, 30000, 33);
+//          unitList = new ArrayList<>();
+//             unitList.add(unit2);
+//           unitList.add(unit1);
+//
+//             unitList.add(unit3);
+//             Collections.sort(unitList, new Comparator<Unit>() {
+//                 @Override
+//                 public int compare(Unit o1, Unit o2) {
+//                     return (int) (o1.getUnitPrice() - o2.getUnitPrice());
+//                 }
+//
+//
+//             });
+//             product = new Product("0399271212", "03", "8936017361143", "mì tôm", "omachi sườn", "", "omachi sườn", true, unitList);
+//         }
     }
     private void setProductInformation(){
         edBarcode.setText(product.getBarcode());

@@ -1,5 +1,8 @@
 package com.koit.capstonproject_version_1.Model;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -7,21 +10,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.koit.capstonproject_version_1.Adapter.ItemAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
+import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class Product {
     private String userId, productId, barcode, categoryName, productDescription, productImageUrl;
     private String productName;
     private boolean active;
     DatabaseReference nodeRoot;
-   private List<Unit> units;
+    private List<Unit> units;
     private List<Product> listProduct;
 
     public Product(String userId, String productId, String barcode, String categoryName, String productDescription, String productImageUrl, String productName, boolean active, List<Unit> units) {
@@ -104,6 +110,13 @@ public class Product {
         this.active = active;
     }
 
+    public List<Unit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(List<Unit> units) {
+        this.units = units;
+    }
 
     public DatabaseReference getMyRef() {
         String curUser;
@@ -127,7 +140,7 @@ public class Product {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataRoot = dataSnapshot;
-                LayDanhSachSanPham(dataSnapshot, listProductInterface);
+                getListProduct(dataSnapshot, listProductInterface);
             }
 
             @Override
@@ -135,70 +148,65 @@ public class Product {
 
             }
         };
-        if (dataRoot != null) {
-            LayDanhSachSanPham(dataRoot, listProductInterface);
-        } else {
-            nodeRoot.addListenerForSingleValueEvent(valueEventListener);
-        }
-
+//        if (dataRoot != null) {
+//            LayDanhSachSanPham(dataRoot, listProductInterface);
+//        } else {
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+//        }
     }
 
-    private void LayDanhSachSanPham(DataSnapshot dataSnapshot, ListProductInterface listProductInterface) {
+    private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface) {
         DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
+        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child("0399271212");
         //Lấy danh sách san pham
         for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
             Product product = valueProduct.getValue(Product.class);
-            product.setProductId(product.getProductId());
-            //Lấy danh sách hình ảnh của quán ăn theo mã
-//            DataSnapshot dataSnapshotHinhQuanAn = dataSnapshot.child("hinhanhquanans").child(valueQuanAn.getKey());
-//
-//            List<String> hinhanhlist = new ArrayList<>();
-//
-//            for (DataSnapshot valueHinhQuanAn : dataSnapshotHinhQuanAn.getChildren()){
-//                hinhanhlist.add(valueHinhQuanAn.getValue(String.class));
-//            }
-//            quanAnModel.setHinhanhquanan(hinhanhlist);
+            product.setProductId(valueProduct.getKey());
 
-            //Lấy danh sách bình luân của quán ăn
-//            DataSnapshot snapshotBinhLuan = dataSnapshot.child("binhluans").child(quanAnModel.getMaquanan());
-//            List<BinhLuanModel> binhLuanModels = new ArrayList<>();
-//
-//            for (DataSnapshot valueBinhLuan : snapshotBinhLuan.getChildren()){
-//                BinhLuanModel binhLuanModel = valueBinhLuan.getValue(BinhLuanModel.class);
-//                binhLuanModel.setManbinhluan(valueBinhLuan.getKey());
-//                ThanhVienModel thanhVienModel = dataSnapshot.child("thanhviens").child(binhLuanModel.getMauser()).getValue(ThanhVienModel.class);
-//                binhLuanModel.setThanhVienModel(thanhVienModel);
-//
-//                List<String> hinhanhBinhLuanList = new ArrayList<>();
-//                DataSnapshot snapshotNodeHinhAnhBL = dataSnapshot.child("hinhanhbinhluans").child(binhLuanModel.getManbinhluan());
-//                for (DataSnapshot valueHinhBinhLuan : snapshotNodeHinhAnhBL.getChildren()){
-//                    hinhanhBinhLuanList.add(valueHinhBinhLuan.getValue(String.class));
-//                }
-//                binhLuanModel.setHinhanhBinhLuanList(hinhanhBinhLuanList);
-//
-//                binhLuanModels.add(binhLuanModel);
-//            }
-//            quanAnModel.setBinhLuanModelList(binhLuanModels);
+            DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
 
-            //Lấy chi nhánh quán ăn
-//            DataSnapshot snapshotChiNhanhQuanAn = dataSnapshot.child("chinhanhquanans").child(quanAnModel.getMaquanan());
-//            List<ChiNhanhQuanAnModel> chiNhanhQuanAnModels = new ArrayList<>();
-//
-//            for (DataSnapshot valueChiNhanhQuanAn : snapshotChiNhanhQuanAn.getChildren()){
-//                ChiNhanhQuanAnModel chiNhanhQuanAnModel = valueChiNhanhQuanAn.getValue(ChiNhanhQuanAnModel.class);
-//                Location vitriquanan = new Location("");
-//                vitriquanan.setLatitude(chiNhanhQuanAnModel.getLatitude());
-//                vitriquanan.setLongitude(chiNhanhQuanAnModel.getLongitude());
-//
-//                double khoangcach = vitrihientai.distanceTo(vitriquanan)/1000;
-//                chiNhanhQuanAnModel.setKhoangcach(khoangcach);
-//
-//                chiNhanhQuanAnModels.add(chiNhanhQuanAnModel);
-//            }
-//
-//            quanAnModel.setChiNhanhQuanAnModelList(chiNhanhQuanAnModels);
-//
+            Log.d("kiemtraProductID", product.getProductId() + "");
+            //lay unit theo ma san pham
+            List<Unit> unitList = new ArrayList<>();
+            for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                Log.d("kiemtraUnit", valueUnit + "");
+                Unit unit = valueUnit.getValue(Unit.class);
+
+                unit.setId(valueUnit.getKey());
+                unitList.add(unit);
+            }
+            product.setUnits(unitList);
             listProductInterface.getListProductModel(product);
         }
     }
+
+    public void firebaseProductSearch(final RecyclerView recyclerViewListProduct, String searchText, List<Product> productList, Context context) {
+        List<Product> productSearch = new ArrayList<>();
+        for (Product product : productList) {
+            if (product.getProductName().toLowerCase().contains(searchText.toLowerCase())) {
+                productSearch.add(product);
+            }
+        }
+        ItemAdapter itemAdapter = new ItemAdapter(context, productSearch, R.layout.item_layout);
+        recyclerViewListProduct.setAdapter(itemAdapter);
+        itemAdapter.notifyDataSetChanged();
+//        nodeRoot.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    productList.add(ds.getValue(Product.class));
+//                }
+//                ItemAdapter adapter = new ItemAdapter(list);
+//                recyclerViewListProduct.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
+    }
+
 }

@@ -12,9 +12,9 @@
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_marginStart="28dp"
-        android:scaleType="fitXY"
         android:layout_weight="1"
         android:background="@drawable/shape_box_border"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/tvsl"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/icon_item_picture_empty" />
@@ -63,4 +63,13 @@
         app:layout_constraintStart_toEndOf="@+id/tvsl"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.941" />
+
+    <TextView
+        android:id="@+id/tvMinconvertRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Chiec"
+        app:layout_constraintBottom_toBottomOf="@+id/tvsl"
+        app:layout_constraintStart_toEndOf="@+id/tvProductQuantity" />
 </androidx.constraintlayout.widget.ConstraintLayout>
