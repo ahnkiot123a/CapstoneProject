@@ -235,39 +235,6 @@ public class RegisterController {
         user.signInTheUserByCredentials(credential);
     }
 
-    //check OTP code is valid or not
-    private void verifyCodeFromResetPassword(String code) {
-        //OTP code must be check <=3 times
-        Log.d("verifyCodeafter", "1");
-        otpCounter++;
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        //OPT expired
-        if (otpCounter >= 3) {
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case DialogInterface.BUTTON_POSITIVE:
-                            //Yes button clicked
-                            resendOTPCode();
-                            break;
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            //No button clicked
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(registerVerifyPhoneActivity);
-            builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
-                    .setNegativeButton("Thoát", dialogClickListener).show();
-        }
-        User user = new User(resetPasswordActivity);
-        Log.d("beforesignIn", "1");
-        user.signInTheUserByCredentialsFromResetPassword(credential);
-    }
-
-
     //Chuyen sang man hinh verify OTP code va mat khau
     public void tranIntent(Activity fromActivity, String number) {
         Intent intent = new Intent(fromActivity, RegisterVerifyPhoneActivity.class);
