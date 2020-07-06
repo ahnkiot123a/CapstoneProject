@@ -242,9 +242,9 @@ public class Product implements Serializable {
         }
     }
 
-    public void firebaseProductSearch(final RecyclerView recyclerViewListProduct, String searchText, List<Product> productList, Context context) {
+    public void firebaseProductSearch(final RecyclerView recyclerViewListProduct, String searchText, Context context) {
         List<Product> productSearch = new ArrayList<>();
-        for (Product product : productList) {
+        for (Product product : productSearch) {
             if (product.getProductName().toLowerCase().contains(searchText.toLowerCase())) {
                 productSearch.add(product);
             }
