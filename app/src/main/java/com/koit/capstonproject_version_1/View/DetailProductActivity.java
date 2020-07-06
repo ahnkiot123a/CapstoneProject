@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hsalf.smileyrating.SmileyRating;
 import com.koit.capstonproject_version_1.Adapter.ConvertRateRecyclerAdapter;
 import com.koit.capstonproject_version_1.Adapter.UnitRecyclerAdapter;
+import com.koit.capstonproject_version_1.Controller.UpdateProductController;
+import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.Model.User;
@@ -31,7 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class DetailProductActivity extends AppCompatActivity implements Serializable {
+public class DetailProductActivity extends AppCompatActivity   {
     private ImageView productImage;
     private EditText edProductName, edBarcode, edDescription;
     private TextView categoryName,tvUnitQuantity;
@@ -41,6 +44,7 @@ public class DetailProductActivity extends AppCompatActivity implements Serializ
     private Product product;
     private Button btnUpdateProduct;
     private Button btnDeleteProduct;
+    Category category;
     ArrayList<Unit> unitList;
 
     @Override
@@ -68,8 +72,9 @@ public class DetailProductActivity extends AppCompatActivity implements Serializ
         btnUpdateProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UpdateProductActivity.class);
-              //  intent.putExtra("product",  product);
+
+                Intent intent = new Intent(DetailProductActivity.this, UpdateProductActivity.class);
+               intent.putExtra("product",  product);
                 startActivity(intent);
             }
         });

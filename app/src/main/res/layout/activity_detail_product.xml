@@ -120,24 +120,38 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:orientation="vertical">
+                        android:background="@drawable/custom_page_account"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
 
-                        <TextView
+                        <Button
+                            android:id="@+id/btnCategory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:drawableLeft="@drawable/ic_baseline_category_24"
+                            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                            android:drawablePadding="10dp"
+                            android:paddingRight="20dp"
                             android:text="Phân loại"
+                            android:textSize="20sp"
                             android:fontFamily="sans-serif-medium"
-                            android:textColor="@color/black"/>
+                            android:textAlignment="textStart"
+                            android:textAllCaps="false"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/categoryName"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Loại sản phẩm: "
+                            android:text="Loại sản phẩm"
                             android:fontFamily="sans-serif-medium"
-                            android:textColor="@color/black"/>
+                            android:layout_marginTop="10dp"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray"/>
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

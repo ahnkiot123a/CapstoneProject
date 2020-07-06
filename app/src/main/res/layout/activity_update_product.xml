@@ -26,15 +26,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/custom_page_account"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:padding="20dp">
 
                     <ImageButton
                         android:id="@+id/btnCamera"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:background="@drawable/custom_et_input"
+                        android:background="@drawable/custom_image_btn"
+                        android:layout_marginRight="20dp"
+                        android:onClick="showPhotoDialog"
                         android:src="@drawable/ic_camera"/>
+
+                    <ImageView
+                        android:id="@+id/ivProduct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -93,6 +100,7 @@
                             android:layout_height="50dp"
                             android:layout_marginTop="10dp"
                             android:layout_weight="0.8"
+                            android:onClick="scanCustomScanner"
                             app:lottie_autoPlay="true"
                             app:lottie_loop="true"
                             app:lottie_rawRes="@raw/scan_barcode" />
@@ -126,15 +134,26 @@
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
 
-                        <TextView
+                        <Button
+                            android:id="@+id/btnCategory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Phân loại" />
+                            android:background="@color/white"
+                            android:drawableLeft="@drawable/ic_baseline_category_24"
+                            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                            android:drawablePadding="10dp"
+                            android:paddingRight="20dp"
+                            android:text="Phân loại"
+                            android:textSize="20sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textAlignment="textStart"
+                            android:textAllCaps="false"
+                            android:textColor="@color/black" />
 
                         <Spinner
-                            android:id="@+id/spinner"
+                            android:id="@+id/spinnerCategoryName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="38dp"
                             android:layout_marginTop="5dp" />
                     </LinearLayout>
 
@@ -153,6 +172,7 @@
                         <Button
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
+                            android:id="@+id/btnAddUnits"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             android:background="@drawable/background_btn_login"
@@ -170,9 +190,13 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Chuyển đổi đơn vị" />
+                            android:text="Chuyển đổi đơn vị"
+                            android:layout_marginTop="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="20dp"
+                            android:fontFamily="sans-serif-medium"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerConvertRate"
@@ -205,17 +229,21 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="20dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5" />
+                            android:id="@+id/tvProductQuantity"
+                            android:text="5"
+                            />
 
                         <Spinner
-                            android:id="@+id/spinner2"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content" />
+                            android:id="@+id/spinnerUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            />
                         <Button
                             android:layout_width="wrap_content"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnAddQuantity"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             android:background="@drawable/background_btn_login"
@@ -224,7 +252,26 @@
                             android:paddingLeft="5dp"
                             android:text="Thêm số lượng "
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/custom_page_account"
+                        android:padding="20dp">
+
+                        <Switch
+                            android:id="@+id/switchActive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cho phép bán"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            android:layout_weight="1" />
+
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -234,6 +281,7 @@
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
+                            android:id="@+id/btnDoneUpdate"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             android:background="@drawable/background_login_fb"
