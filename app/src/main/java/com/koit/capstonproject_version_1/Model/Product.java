@@ -17,13 +17,14 @@ import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPref
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Product {
+public class Product implements Serializable {
     private String userId, productId, barcode, categoryName, productDescription, productImageUrl;
     private String productName;
     private boolean active;
@@ -188,7 +189,7 @@ public class Product {
                 Log.d("kiemtraUnit", valueUnit + "");
                 Unit unit = valueUnit.getValue(Unit.class);
 
-                unit.setId(valueUnit.getKey());
+                unit.setUnitId(valueUnit.getKey());
                 unitList.add(unit);
             }
             product.setUnits(unitList);

@@ -1,12 +1,14 @@
 package com.koit.capstonproject_version_1.Model;
 
-public class Unit {
-    private String id;
+import java.io.Serializable;
+
+public class Unit implements Serializable {
+    private String unitId;
     private String unitName;
     private long convertRate, unitPrice, unitQuantity;
 
-    public Unit(String id, String unitName, long convertRate, long unitPrice, long unitQuantity) {
-        this.id = id;
+    public Unit(String unitId, String unitName, long convertRate, long unitPrice, long unitQuantity) {
+        this.unitId = unitId;
         this.unitName = unitName;
         this.convertRate = convertRate;
         this.unitPrice = unitPrice;
@@ -16,12 +18,12 @@ public class Unit {
     public Unit() {
     }
 
-    public String getId() {
-        return id;
+    public String getUnitId() {
+        return unitId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUnitId(String unitId) {
+        this.unitId = unitId;
     }
 
     public String getUnitName() {

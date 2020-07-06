@@ -98,10 +98,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     public String getMinUnitProductName(List<Unit> unitList) {
         String minProductName = "";
-        for (Unit unit : unitList) {
-            if (unit.getConvertRate() == 1) minProductName = unit.getUnitName();
-            break;
-        }
+        if (unitList != null)
+            for (Unit unit : unitList) {
+                if (unit.getConvertRate() == 1) minProductName = unit.getUnitName();
+                break;
+            }
         return minProductName;
     }
 
@@ -109,11 +110,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         long totalQuantity = 0;
         long convertRate = 1;
         long quantity = 0;
-        for (Unit unit : unitList) {
-            convertRate = unit.getConvertRate();
-            quantity = unit.getUnitQuantity();
-            totalQuantity += convertRate * quantity;
-        }
+        if (unitList != null)
+            for (Unit unit : unitList) {
+                convertRate = unit.getConvertRate();
+                quantity = unit.getUnitQuantity();
+                totalQuantity += convertRate * quantity;
+            }
         return totalQuantity;
     }
 
