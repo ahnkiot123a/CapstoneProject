@@ -53,7 +53,7 @@ public class ListProductController {
     }
 
     public void firebaseProductSearch(RecyclerView recyclerViewListProduct, String searchText, Context context) {
-        product.firebaseProductSearch(recyclerViewListProduct, searchText, productList, context);
+        product.firebaseProductSearch(recyclerViewListProduct, searchText, context);
     }
 
 
