@@ -2,12 +2,14 @@ package com.koit.capstonproject_version_1.View;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.ListProductController;
 import com.koit.capstonproject_version_1.R;
 
@@ -23,6 +25,7 @@ public class ListProductActivity extends AppCompatActivity {
     private SearchView searchView;
     private RecyclerView recyclerViewListProduct;
     private ListProductController listProductController;
+    private ListCategoryController listCategoryController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,29 @@ public class ListProductActivity extends AppCompatActivity {
             }
 
         });
+
+        listCategoryController = new ListCategoryController(this.getApplicationContext());
+        listCategoryController.getListCategory(getApplicationContext(),category_Spinner);
+
+        category_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String categoryName = category_Spinner.getSelectedItem().toString();
+                if (categoryName.equals("Tất cả các loại sản phẩm")) {
+                    listProductController.getListProduct(getApplicationContext(),recyclerViewListProduct);
+                    listProductController.setTVTotalProductInCate(tvTotalQuantity);
+                } else  {
+                    listProductController.getListProduct(getApplicationContext(),recyclerViewListProduct,categoryName);
+                    listProductController.setTVTotalProductInCate(tvTotalQuantity);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
     }
 

@@ -142,10 +142,10 @@ public class DetailProductActivity extends AppCompatActivity   {
 
         spinnerUnit.setAdapter(adapter);
        spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-           @Override
-           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               tvUnitQuantity.setText(unitList.get(position).getUnitQuantity() + "");
-           }
+               @Override
+               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                   tvUnitQuantity.setText(unitList.get(position).getUnitQuantity() + "");
+               }
 
            @Override
            public void onNothingSelected(AdapterView<?> parent) {

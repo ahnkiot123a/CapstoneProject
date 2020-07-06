@@ -47,7 +47,24 @@ public class ListProductController {
         product.getListProduct(listProductInterface);
 
     }
+    public void getListProduct(Context context, RecyclerView recyclerViewListProduct, String categoryName) {
+        final List<Product> listProduct = new ArrayList<>();
 
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerViewListProduct.setLayoutManager(layoutManager);
+        itemAdapter = new ItemAdapter(context, listProduct, R.layout.item_layout);
+        recyclerViewListProduct.setAdapter(itemAdapter);
+        ListProductInterface listProductInterface = new ListProductInterface() {
+            @Override
+            public void getListProductModel(Product product) {
+                listProduct.add(product);
+                itemAdapter.notifyDataSetChanged();
+            }
+
+        };
+        product.getListProduct(listProductInterface,categoryName);
+
+    }
     public void setTVTotalProductInCate(TextView textView) {
          product.setTotalProductCate(textView);
     }

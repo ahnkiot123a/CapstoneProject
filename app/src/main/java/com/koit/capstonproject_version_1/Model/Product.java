@@ -155,6 +155,25 @@ public class Product implements Serializable {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
 //        }
     }
+    public void getListProduct(final ListProductInterface listProductInterface, final String categoryName) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataRoot = dataSnapshot;
+                getListProduct(dataSnapshot, listProductInterface,categoryName);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+//        if (dataRoot != null) {
+//            LayDanhSachSanPham(dataRoot, listProductInterface);
+//        } else {
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+//        }
+    }
 
     public void setTotalProductCate(final TextView textView) {
         nodeRoot.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -193,6 +212,32 @@ public class Product implements Serializable {
                 unitList.add(unit);
             }
             product.setUnits(unitList);
+            listProductInterface.getListProductModel(product);
+        }
+    }
+    private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName) {
+        DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
+        int totalProduct = (int) dataSnapshot.child("Products").child("0399271212").getChildrenCount();
+        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child("0399271212");
+        //Lấy danh sách san pham
+        for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
+            Product product = valueProduct.getValue(Product.class);
+            product.setProductId(valueProduct.getKey());
+
+            DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
+
+            Log.d("kiemtraProductID", product.getProductId() + "");
+            //lay unit theo ma san pham
+            List<Unit> unitList = new ArrayList<>();
+            for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                Log.d("kiemtraUnit", valueUnit + "");
+                Unit unit = valueUnit.getValue(Unit.class);
+
+                unit.setUnitId(valueUnit.getKey());
+                unitList.add(unit);
+            }
+            product.setUnits(unitList);
+            if (product.getCategoryName().equals(categoryName))
             listProductInterface.getListProductModel(product);
         }
     }
