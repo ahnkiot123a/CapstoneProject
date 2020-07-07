@@ -24,6 +24,7 @@ public class Category implements Serializable {
     private String categoryId, categoryName;
     private DataSnapshot dataRoot;
     DatabaseReference nodeRoot;
+    User currentUser;
 
     public Category(String categoryId, String categoryName) {
         this.categoryId = categoryId;
@@ -83,7 +84,6 @@ public class Category implements Serializable {
         for (DataSnapshot valueCategory : dataSnapshotCategory.getChildren()) {
             Category category = valueCategory.getValue(Category.class);
             category.setCategoryId(category.getCategoryId());
-
             iCategory.getCategory(category);
         }
     }

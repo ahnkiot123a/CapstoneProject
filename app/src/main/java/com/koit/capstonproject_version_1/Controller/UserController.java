@@ -22,10 +22,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
+import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Model.UIModel.ProgressButton;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.ChangePasswordActivity;
+import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 import com.koit.capstonproject_version_1.View.UserInformationActivity;
 
@@ -97,6 +99,7 @@ public class UserController {
                     String password = etPassword.getText().toString();
                     password = validateController.getMd5(password);
                     if (password.equals(currentUser.getPassword())) {
+                        SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, currentUser);
                         Toast.makeText(activity.getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
                         progressButton.progressSuccess();
                         Handler handler = new Handler();

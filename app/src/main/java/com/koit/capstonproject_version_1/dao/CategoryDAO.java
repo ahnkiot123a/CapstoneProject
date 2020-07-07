@@ -43,10 +43,7 @@ public class CategoryDAO {
                         new ArrayAdapter<>(context,
                                 android.R.layout.simple_list_item_1,
                                 categoryList);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
                 listView.setAdapter(adapter);
-                // itemAdapter.notifyDataSetChanged();
             }
         };
         category.getListCategory(iCategory);
