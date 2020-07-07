@@ -44,6 +44,8 @@ public class CreateProductActivity extends AppCompatActivity {
     private static final int TAKE_PHOTO_PER_CODE = 102;
     private static final int CAMERA_REQUEST_CODE = 103;
     private static final int GALLERY_REQ_CODE = 104;
+    static final int REQUEST_CATEGORY_CODE = 2;
+
     private static final String BARCODE = "barcode";
     private static final String TAKE_PHOTO = "take_photo";
 
@@ -88,7 +90,6 @@ public class CreateProductActivity extends AppCompatActivity {
         super.onStart();
         //set default view
         tetProductName.setText("");
-        tvCategory.setText("");
 
         bottomSheetDialog.dismiss();
     }
@@ -213,6 +214,11 @@ public class CreateProductActivity extends AppCompatActivity {
         }
     }
 
+    public void categoryAction(View view){
+        Intent intent = new Intent(CreateProductActivity.this, CategoryActivity.class);
+        startActivityForResult(intent, REQUEST_CATEGORY_CODE);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -243,6 +249,13 @@ public class CreateProductActivity extends AppCompatActivity {
             String imgFileName = "JPEG" + "_"  + timeStamp + "." + getFileExt(contentUri);
             Log.i("gallery", "onActivityResult: Gallery Image Uri " + imgFileName);
             ivProduct.setImageURI(contentUri);
+            ivProduct.setRotation(ivProduct.getRotation() + 180);
+        }
+
+        if(requestCode == REQUEST_CATEGORY_CODE && resultCode == Activity.RESULT_OK){
+            String category = data.getStringExtra(CategoryActivity.CATEGORY_DATA);
+            Log.d("category", category);
+            tvCategory.setText(category);
         }
     }
 

@@ -149,6 +149,7 @@
                     android:drawablePadding="10dp"
                     android:paddingRight="20dp"
                     android:text="Phân loại"
+                    android:onClick="categoryAction"
                     android:textSize="20sp"
                     android:fontFamily="sans-serif-medium"
                     android:textAlignment="textStart"

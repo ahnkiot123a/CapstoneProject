@@ -35,15 +35,15 @@
         <activity
             android:name=".View.SplashActivity"
             android:noHistory="true">
-
-        </activity>
-
-        <activity android:name=".View.ListProductActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".View.ListProductActivity">
+
         </activity>
         <activity android:name=".View.RegisterActivity" />
         <activity
@@ -56,6 +56,7 @@
         <activity android:name=".View.ForgotPasswordActivity" />
         <activity android:name=".View.ResetPasswordActivity" />
         <activity android:name=".View.CustomScreenScanActivity" />
+        <activity android:name=".View.CategoryActivity"/>
 
 
         <meta-data
