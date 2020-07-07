@@ -28,7 +28,7 @@ public class Product implements Serializable {
     private String userId, productId, barcode, categoryName, productDescription, productImageUrl;
     private String productName;
     private boolean active;
-    DatabaseReference nodeRoot;
+    private DatabaseReference nodeRoot;
     private List<Unit> units;
 
     public Product(String userId, String productId, String barcode, String categoryName, String productDescription, String productImageUrl, String productName, boolean active, List<Unit> units) {
@@ -44,7 +44,7 @@ public class Product implements Serializable {
     }
 
     public Product() {
-        nodeRoot = FirebaseDatabase.getInstance().getReference();
+
     }
 
     public String getUserId() {
@@ -137,6 +137,7 @@ public class Product implements Serializable {
     private DataSnapshot dataRoot;
 
     public void getListProduct(final ListProductInterface listProductInterface) {
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -176,6 +177,7 @@ public class Product implements Serializable {
     }
 
     public void setTotalProductCate(final TextView textView) {
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
         nodeRoot.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

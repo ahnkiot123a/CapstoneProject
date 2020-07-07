@@ -1,6 +1,7 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -17,10 +18,12 @@ import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.DetailProductActivity;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
@@ -44,6 +47,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         TextView itemQuantity;
         TextView itemPrice;
         TextView tvMinconvertRate;
+        ConstraintLayout itemProduct;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,6 +56,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             itemPrice = itemView.findViewById(R.id.tvProductPrice);
             imageView = itemView.findViewById(R.id.imgViewProductPicture);
             tvMinconvertRate = itemView.findViewById(R.id.tvMinconvertRate);
+            itemProduct = itemView.findViewById(R.id.itemProduct);
         }
     }
 
@@ -65,7 +70,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        Product product = listProduct.get(position);
+        final Product product = listProduct.get(position);
         holder.itemName.setText(product.getProductName());
         holder.itemPrice.setText(getMinProductPrice(product.getUnits()) + "");
         holder.itemQuantity.setText(getProductQuantity(product.getUnits()) + "");
@@ -83,6 +88,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("Failed loaded uri: ", e.getMessage());
+            }
+        });
+        holder.itemProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentProduct = new Intent(context, DetailProductActivity.class);
+                intentProduct.putExtra("product",product);
+                intentProduct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intentProduct);
             }
         });
     }

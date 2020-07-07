@@ -78,7 +78,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".View.DetailProductActivity">
 
+        </activity>
+        <activity android:name=".View.UpdateProductActivity">
+
+        </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
