@@ -89,8 +89,6 @@ public class CreateProductActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //set default view
-        tetProductName.setText("");
-
         bottomSheetDialog.dismiss();
     }
 
