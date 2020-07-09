@@ -13,6 +13,11 @@ public class Unit implements Serializable {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
+    public Unit(String unitId, String unitName) {
+        this.unitId = unitId;
+        this.unitName = unitName;
+    }
+
     public Unit(String unitName, long convertRate, long unitPrice, long unitQuantity) {
         this.unitName = unitName;
         this.convertRate = convertRate;

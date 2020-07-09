@@ -6,48 +6,82 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2.5">
-            <EditText
-                android:id="@+id/etUnitName"
+            android:weightSum="2.6">
+
+            <TextView
+                android:id="@+id/tvNumberOrder"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="@null"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
                 android:fontFamily="sans-serif-medium"
-                android:hint="Nhập tên đơn vị"
-                android:padding="10dp"
+                android:gravity="center"
+                android:text="1"
                 android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:background="@color/light_gray" />
 
-            <EditText
-                android:id="@+id/etUnitPrice"
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="@null"
-                android:layout_weight="1.2"
-                android:fontFamily="sans-serif-medium"
-                android:hint="Nhập giá"
-                android:padding = "10dp"
-                android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUnitName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:hint="Tên đơn vị"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    android:windowSoftInputMode="stateUnchanged" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@color/light_gray" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUnitPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:hint="Giá"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    android:windowSoftInputMode="stateUnchanged" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/ibtnDeleteUnit"
                 android:layout_width="wrap_content"
+                android:layout_weight="0.2"
                 android:layout_height="50dp"
-                android:layout_weight="0.3"
                 android:layout_gravity="center"
                 android:background="@null"
                 android:src="@drawable/icons8_trash_can_24px" />
