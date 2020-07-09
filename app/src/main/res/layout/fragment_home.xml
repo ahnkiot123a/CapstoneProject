@@ -204,6 +204,7 @@
                     android:layout_columnWeight="1"
                     android:layout_margin="18dp"
                     app:cardBackgroundColor="@color/white"
+                    android:onClick="callListProductActivity"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="6dp">
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutUnit"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp">
+
+    <TableLayout
+        android:id="@+id/tbCreateUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="sans-serif-medium"
+                android:hint="Tên đơn vị"
+                android:padding="10dp"
+                android:textColor="@color/gray"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@color/light_gray" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_weight="1.2"
+                android:background="@null"
+                android:fontFamily="sans-serif-medium"
+                android:hint="Giá"
+                android:padding = "10dp"
+                android:textColor="@color/gray"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.3"
+                android:background="@null"
+                android:src="@drawable/icons8_trash_can_24px" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

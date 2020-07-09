@@ -33,23 +33,20 @@ public class CategoryDAO {
     }
 
     public void getListCategory(final Context context, final ListView listView) {
-            final List<Category> categoryList = new ArrayList<>();
-
+        final List<Category> categoryList = new ArrayList<>();
         ICategory iCategory = new ICategory() {
             @Override
             public void getCategory(Category category) {
+                Log.d("kiemtra", category.getCategoryName() + "");
                 categoryList.add(category);
-                final ArrayAdapter<Category> adapter =
+                ArrayAdapter<Category> adapter =
                         new ArrayAdapter<>(context,
                                 android.R.layout.simple_list_item_1,
                                 categoryList);
                 listView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
             }
         };
         category.getListCategory(iCategory);
     }
-
 
 }

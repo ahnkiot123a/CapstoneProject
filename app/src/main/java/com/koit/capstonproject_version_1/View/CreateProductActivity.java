@@ -26,17 +26,22 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class CreateProductActivity extends AppCompatActivity {
@@ -58,6 +63,9 @@ public class CreateProductActivity extends AppCompatActivity {
     private TextView tvCategory;
     private BottomSheetDialog bottomSheetDialog;
     private ImageView ivProduct;
+    private RecyclerView recyclerCreateUnit;
+    private ArrayList<Unit> list;
+
     String currentPhotoPath = "";
 
 
@@ -72,6 +80,15 @@ public class CreateProductActivity extends AppCompatActivity {
         bottomSheetDialog = new BottomSheetDialog(CreateProductActivity.this, R.style.BottomSheet);
 
         tvToolbarTitle.setText("Thêm sản phẩm");
+
+        recyclerCreateUnit.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerCreateUnit.setLayoutManager(linearLayoutManager);
+
+        list = new ArrayList<>();
+        list.add(new Unit("01","abc", 1, 1000,60));
+        CreateUnitAdapter adapter = new CreateUnitAdapter(this, list);
+        recyclerCreateUnit.setAdapter(adapter);
     }
 
     private void initView() {
@@ -83,6 +100,7 @@ public class CreateProductActivity extends AppCompatActivity {
         tvCategory = findViewById(R.id.tvCategory);
         tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
         ivProduct = findViewById(R.id.ivProduct);
+        recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
 
     }
 
