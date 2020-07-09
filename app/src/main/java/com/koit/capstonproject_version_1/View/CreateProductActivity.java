@@ -2,7 +2,6 @@ package com.koit.capstonproject_version_1.View;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,8 +33,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
+import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
-import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
 import java.io.File;
@@ -46,11 +45,11 @@ import java.util.Date;
 
 public class CreateProductActivity extends AppCompatActivity {
 
-    private static final int BARCODE_PER_CODE = 101;
-    private static final int TAKE_PHOTO_PER_CODE = 102;
-    private static final int CAMERA_REQUEST_CODE = 103;
-    private static final int GALLERY_REQ_CODE = 104;
-    static final int REQUEST_CATEGORY_CODE = 2;
+    public static final int BARCODE_PER_CODE = 101;
+    public static final int TAKE_PHOTO_PER_CODE = 102;
+    public static final int CAMERA_REQUEST_CODE = 103;
+    public static final int GALLERY_REQ_CODE = 104;
+    public static  final int REQUEST_CATEGORY_CODE = 2;
 
     private static final String BARCODE = "barcode";
     private static final String TAKE_PHOTO = "take_photo";
@@ -64,9 +63,10 @@ public class CreateProductActivity extends AppCompatActivity {
     private BottomSheetDialog bottomSheetDialog;
     private ImageView ivProduct;
     private RecyclerView recyclerCreateUnit;
-    private ArrayList<Unit> list;
+    private ArrayList<Integer> list;
+    private CameraController cameraController;
 
-    String currentPhotoPath = "";
+
 
 
     @Override
@@ -79,14 +79,28 @@ public class CreateProductActivity extends AppCompatActivity {
         controller = new CreateProductController();
         bottomSheetDialog = new BottomSheetDialog(CreateProductActivity.this, R.style.BottomSheet);
 
+        cameraController = new CameraController(this);
+
         tvToolbarTitle.setText("Thêm sản phẩm");
 
+        //create list in recyclerview
+        createListRecyclerview();
+
+        //build recyclerview unit
+        buildRvUnit();
+
+
+    }
+
+    private void buildRvUnit() {
+        list = new ArrayList<>();
+        list.add(1);
+    }
+
+    private void createListRecyclerview() {
         recyclerCreateUnit.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerCreateUnit.setLayoutManager(linearLayoutManager);
-
-        list = new ArrayList<>();
-        list.add(new Unit("01","abc", 1, 1000,60));
         CreateUnitAdapter adapter = new CreateUnitAdapter(this, list);
         recyclerCreateUnit.setAdapter(adapter);
     }
@@ -111,20 +125,16 @@ public class CreateProductActivity extends AppCompatActivity {
         bottomSheetDialog.dismiss();
     }
 
+    //event click camera scan
     public void scanCustomScanner(View view) {
-        askCameraPermission(BARCODE);
+        cameraController.askCameraPermission(BARCODE_PER_CODE);
+    }
+
+    //event click thêm đơn vị button
+    public void addUnitRv(View view){
 
     }
 
-    private void scanBarcode() {
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setOrientationLocked(true);
-        integrator.setCaptureActivity(CustomScreenScanActivity.class);
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-        integrator.setPrompt("Đặt mã vạch vào trong khung để quét.");
-//        integrator.setTimeout(10000);
-        integrator.initiateScan();
-    }
 
 
     public void showPhotoDialog(View view) {
@@ -135,7 +145,7 @@ public class CreateProductActivity extends AppCompatActivity {
         bottomSheet.findViewById(R.id.btnTakePhoto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                askCameraPermission(TAKE_PHOTO);
+                cameraController.askCameraPermission(TAKE_PHOTO_PER_CODE);
             }
         });
 
@@ -156,25 +166,7 @@ public class CreateProductActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
 
-    private void askCameraPermission(String feature) {
-        switch (feature){
-            case BARCODE:
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, BARCODE_PER_CODE);
-                } else {
-                    scanBarcode();
-                }
-                break;
-            case TAKE_PHOTO:
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO_PER_CODE);
-                } else {
-                    captureImage();
-                }
-                break;
-        }
 
-    }
 
     private void takeProductPhotoFromAlbum() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -188,47 +180,6 @@ public class CreateProductActivity extends AppCompatActivity {
 
     public void back(View view) {
         onBackPressed();
-    }
-
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        Log.i("path", currentPhotoPath);
-        return image;
-    }
-
-
-    private void captureImage() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
-            }
-        }
     }
 
     public void categoryAction(View view){
@@ -252,8 +203,8 @@ public class CreateProductActivity extends AppCompatActivity {
             }
         }
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Log.i("image", currentPhotoPath);
-            File file = new File(currentPhotoPath);
+            Log.i("image", cameraController.getCurrentPhotoPath());
+            File file = new File(cameraController.getCurrentPhotoPath());
             ivProduct.setImageURI(Uri.fromFile(file));
             ivProduct.setRotation(ivProduct.getRotation() + 90);
 
@@ -286,7 +237,7 @@ public class CreateProductActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == TAKE_PHOTO_PER_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                captureImage();
+                cameraController.captureImage();
             } else {
                 Toast.makeText(this, "Bạn cần cấp quyền này để sử dụng chức năng chụp ảnh", Toast.LENGTH_SHORT).show();
             }
@@ -294,7 +245,7 @@ public class CreateProductActivity extends AppCompatActivity {
 
         if (requestCode == BARCODE_PER_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                scanBarcode();
+                cameraController.scanBarcode();
             } else {
                 Toast.makeText(this, "Bạn cần cấp quyền này để sử dụng chức năng quét mã vạch", Toast.LENGTH_SHORT).show();
             }

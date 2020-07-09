@@ -75,6 +75,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:fontFamily="sans-serif-medium"
+                        android:singleLine="true"
                         android:hint="Tên sản phẩm"
                         android:paddingLeft="10dp"
                         android:textColor="@color/gray"
@@ -193,6 +194,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerCreateUnit"
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -203,6 +205,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Thêm đơn vị"
                     android:textColor="@color/white"
+                    android:onClick="addUnitRv"
                     android:padding="10dp"
                     android:textSize="12sp"
                     android:background="@drawable/custom_btn_add_unit"
