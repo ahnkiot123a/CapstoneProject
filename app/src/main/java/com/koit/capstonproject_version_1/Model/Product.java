@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.View.LoginActivity;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class Product implements Serializable {
     private static List<Product> productListSearch;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    UserDAO userDAO;
 
     public Product(String userId, String productId, String barcode, String categoryName, String productDescription,
                    String productImageUrl, String productName, boolean active, List<Unit> units) {
@@ -170,9 +172,10 @@ public class Product implements Serializable {
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
                                 String searchText, TextView textView, LinearLayout linearLayoutEmpty,
                                 ConstraintLayout constraintLayoutfound, LinearLayout layoutNotFoundItem, Spinner category_Spinner) {
+        userDAO = new UserDAO();
         DataSnapshot dataSnapshotProduct;
-        dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
-        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child("0399271212");
+        dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
+        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
         boolean isFound = false;
         if (dataSnapshotProduct == null) {
             linearLayoutEmpty.setVisibility(View.VISIBLE);
@@ -251,8 +254,9 @@ public class Product implements Serializable {
 
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName,
                                 LinearLayout linearLayoutEmpty, ConstraintLayout constraintLayout, LinearLayout layoutNotFoundItem, TextView textView) {
-        DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
-        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child("0399271212");
+        userDAO = new UserDAO();
+        DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
+        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
         boolean isFound = false;
         if (dataSnapshotProduct == null) {
             linearLayoutEmpty.setVisibility(View.VISIBLE);
