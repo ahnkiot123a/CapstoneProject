@@ -200,10 +200,10 @@ public class Product implements Serializable {
                     unitList.add(unit);
                 }
                 product.setUnits(unitList);
-                //user searched
                 if (searchText == null) {
                     listProductInterface.getListProductModel(product);
                 } else {
+                    //user searched
                     category_Spinner.setSelection(0);
                     if (searchText == "") {
                         //list product in first time or list all product
