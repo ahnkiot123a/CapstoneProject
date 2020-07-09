@@ -75,6 +75,7 @@ public class UserInformationActivity extends AppCompatActivity {
     }
     public void updateUserInfo(View view){
         userController.updateUserInformation(edFullname,edEmail,edPhoneNumber,edDob,rbMale,edAddress,edStoreName,currentUser);
+
     }
     public void getNewDate(View view) {
         DatePickerDialog.OnDateSetListener mListener = mListener = new DatePickerDialog.OnDateSetListener() {

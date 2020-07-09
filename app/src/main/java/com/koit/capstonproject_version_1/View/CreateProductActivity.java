@@ -114,7 +114,7 @@ public class CreateProductActivity extends AppCompatActivity {
         tvCategory = findViewById(R.id.tvCategory);
         tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
         ivProduct = findViewById(R.id.ivProduct);
-        recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
+//        recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
 
     }
 

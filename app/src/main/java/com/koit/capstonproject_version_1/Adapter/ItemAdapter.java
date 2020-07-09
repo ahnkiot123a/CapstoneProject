@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Model.Product;
@@ -20,6 +21,8 @@ import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DetailProductActivity;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -47,8 +50,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         TextView itemQuantity;
         TextView itemPrice;
         TextView tvMinconvertRate;
+        TextView tvBarcode;
         ConstraintLayout itemProduct;
-
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.tvProductName);
@@ -56,6 +59,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             itemPrice = itemView.findViewById(R.id.tvProductPrice);
             imageView = itemView.findViewById(R.id.imgViewProductPicture);
             tvMinconvertRate = itemView.findViewById(R.id.tvMinconvertRate);
+            tvBarcode = itemView.findViewById(R.id.tvBarcode);
             itemProduct = itemView.findViewById(R.id.itemProduct);
         }
     }
@@ -75,21 +79,42 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.itemPrice.setText(getMinProductPrice(product.getUnits()) + "");
         holder.itemQuantity.setText(getProductQuantity(product.getUnits()) + "");
         holder.tvMinconvertRate.setText(getMinUnitProductName(product.getUnits()));
-
+        holder.tvBarcode.setText(product.getBarcode());
         StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
-        long ONE_MEGABYTE = 1024 * 1024;
-        storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                holder.imageView.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Failed loaded uri: ", e.getMessage());
-            }
-        });
+//        long ONE_MEGABYTE = 1024 * 1024;
+//        storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//            @Override
+//            public void onSuccess(byte[] bytes) {
+//                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                holder.imageView.setImageBitmap(bitmap);
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d("Failed loaded uri: ", e.getMessage());
+//            }
+//        });
+        //save iamge offline
+        try {
+            final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
+            storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("SaveFileFSuccess", taskSnapshot.toString());
+                    // Local temp file has been created
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    holder.imageView.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Log.d("SaveFileFailed", exception.getMessage());
+                    // Handle any errors
+                }
+            });
+        } catch (IOException e) {
+            Log.d("SaveFileFailed", e.getMessage());
+        }
         holder.itemProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +124,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                 context.startActivity(intentProduct);
             }
         });
+
     }
 
     public long getMinProductPrice(List<Unit> unitList) {

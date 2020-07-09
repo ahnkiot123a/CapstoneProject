@@ -1,8 +1,13 @@
 package com.koit.capstonproject_version_1.Model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -11,29 +16,31 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.koit.capstonproject_version_1.Adapter.ItemAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
-import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.LoginActivity;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class Product implements Serializable {
     private String userId, productId, barcode, categoryName, productDescription, productImageUrl;
     private String productName;
     private boolean active;
-    private DatabaseReference nodeRoot;
+    DatabaseReference nodeRoot;
     private List<Unit> units;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
+    private static List<Product> productListSearch;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    UserDAO userDAO;
 
-    public Product(String userId, String productId, String barcode, String categoryName, String productDescription, String productImageUrl, String productName, boolean active, List<Unit> units) {
+    public Product(String userId, String productId, String barcode, String categoryName, String productDescription,
+                   String productImageUrl, String productName, boolean active, List<Unit> units) {
         this.userId = userId;
         this.productId = productId;
         this.barcode = barcode;
@@ -46,6 +53,7 @@ public class Product implements Serializable {
     }
 
     public Product() {
+
 
     }
 
@@ -136,15 +144,18 @@ public class Product implements Serializable {
         return myRef;
     }
 
-    private DataSnapshot dataRoot;
+    public static void show(Context c, String message) {
+        Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
+    }
 
-    public void getListProduct(final ListProductInterface listProductInterface) {
-        nodeRoot = FirebaseDatabase.getInstance().getReference();
+
+    public void getListProduct(final String searchText, final ListProductInterface
+            listProductInterface, final TextView textView, final LinearLayout linearLayoutEmpty,
+                               final ConstraintLayout layoutSearch, final LinearLayout layoutNotFoundItem, final Spinner category_Spinner) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataRoot = dataSnapshot;
-                getListProduct(dataSnapshot, listProductInterface);
+                getListProduct(dataSnapshot, listProductInterface, searchText, textView, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner);
             }
 
             @Override
@@ -152,18 +163,83 @@ public class Product implements Serializable {
 
             }
         };
-//        if (dataRoot != null) {
-//            LayDanhSachSanPham(dataRoot, listProductInterface);
-//        } else {
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
-//        }
     }
-    public void getListProduct(final ListProductInterface listProductInterface, final String categoryName) {
+
+    @SuppressLint("WrongConstant")
+    private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
+                                String searchText, TextView textView, LinearLayout linearLayoutEmpty,
+                                ConstraintLayout constraintLayoutfound, LinearLayout layoutNotFoundItem, Spinner category_Spinner) {
+        userDAO = new UserDAO();
+        DataSnapshot dataSnapshotProduct;
+        dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
+        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
+        boolean isFound = false;
+        if (dataSnapshotProduct == null) {
+            linearLayoutEmpty.setVisibility(View.VISIBLE);
+            constraintLayoutfound.setVisibility(View.GONE);
+            layoutNotFoundItem.setVisibility(View.GONE);
+        } else {
+            layoutNotFoundItem.setVisibility(View.GONE);
+            linearLayoutEmpty.setVisibility(View.GONE);
+            constraintLayoutfound.setVisibility(View.VISIBLE);
+            //Lấy danh sách san pham
+            for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
+                Product product = valueProduct.getValue(Product.class);
+                product.setProductId(valueProduct.getKey());
+
+                DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
+
+                Log.d("kiemtraProductID", product.getProductId() + "");
+                //lay unit theo ma san pham
+                List<Unit> unitList = new ArrayList<>();
+                for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                    Log.d("kiemtraUnit", valueUnit + "");
+                    Unit unit = valueUnit.getValue(Unit.class);
+
+                    unit.setUnitId(valueUnit.getKey());
+                    unitList.add(unit);
+                }
+                product.setUnits(unitList);
+                if (searchText == null) {
+                    listProductInterface.getListProductModel(product);
+                } else {
+                    //user searched
+                    category_Spinner.setSelection(0);
+                    if (searchText == "") {
+                        //list product in first time or list all product
+                        listProductInterface.getListProductModel(product);
+                    } else {
+                        //product contains searched characters or barcode
+                        if (product.getProductName().toLowerCase().contains(searchText.toLowerCase()) || product.getBarcode().contains(searchText)) {
+                            isFound = true;
+                            listProductInterface.getListProductModel(product);
+                        }
+                        if (!isFound) {
+                            textView.setText("0 sản phẩm");
+                            layoutNotFoundItem.setVisibility(View.VISIBLE);
+                        } else {
+                            layoutNotFoundItem.setVisibility(View.GONE);
+
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
+    //Cate Tu Beo
+    public void getListProduct(final ListProductInterface listProductInterface, final String categoryName,
+                               final LinearLayout linearLayoutEmpty, final ConstraintLayout constraintLayout, final LinearLayout layoutNotFoundItem, final TextView textView, Spinner category_Spinner) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataRoot = dataSnapshot;
-                getListProduct(dataSnapshot, listProductInterface,categoryName);
+                getListProduct(dataSnapshot, listProductInterface, categoryName, linearLayoutEmpty, constraintLayout, layoutNotFoundItem, textView);
             }
 
             @Override
@@ -171,110 +247,59 @@ public class Product implements Serializable {
 
             }
         };
-//        if (dataRoot != null) {
-//            LayDanhSachSanPham(dataRoot, listProductInterface);
-//        } else {
-        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
-//        }
-    }
-
-    public void setTotalProductCate(final TextView textView) {
         nodeRoot = FirebaseDatabase.getInstance().getReference();
-        nodeRoot.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int totalProduct = (int) snapshot.child("Products").child("0399271212").getChildrenCount();
-                textView.setText(totalProduct + " sản phẩm");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface) {
-        DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
-        int totalProduct = (int) dataSnapshot.child("Products").child("0399271212").getChildrenCount();
-        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child("0399271212");
-        //Lấy danh sách san pham
-        for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
-            Product product = valueProduct.getValue(Product.class);
-            product.setProductId(valueProduct.getKey());
+    private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName,
+                                LinearLayout linearLayoutEmpty, ConstraintLayout constraintLayout, LinearLayout layoutNotFoundItem, TextView textView) {
+        userDAO = new UserDAO();
+        DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
+        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
+        boolean isFound = false;
+        if (dataSnapshotProduct == null) {
+            linearLayoutEmpty.setVisibility(View.VISIBLE);
+            constraintLayout.setVisibility(View.GONE);
+            layoutNotFoundItem.setVisibility(View.GONE);
+        } else {
+            layoutNotFoundItem.setVisibility(View.GONE);
+            linearLayoutEmpty.setVisibility(View.GONE);
+            constraintLayout.setVisibility(View.VISIBLE);
+            //Lấy danh sách san pham
+            for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
+                Product product = valueProduct.getValue(Product.class);
+                product.setProductId(valueProduct.getKey());
 
-            DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
+                DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
 
-            Log.d("kiemtraProductID", product.getProductId() + "");
-            //lay unit theo ma san pham
-            List<Unit> unitList = new ArrayList<>();
-            for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
-                Log.d("kiemtraUnit", valueUnit + "");
-                Unit unit = valueUnit.getValue(Unit.class);
+                Log.d("kiemtraProductID", product.getProductId() + "");
+                //lay unit theo ma san pham
+                List<Unit> unitList = new ArrayList<>();
+                for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                    Log.d("kiemtraUnit", valueUnit + "");
+                    Unit unit = valueUnit.getValue(Unit.class);
 
-                unit.setUnitId(valueUnit.getKey());
-                unitList.add(unit);
+                    unit.setUnitId(valueUnit.getKey());
+                    unitList.add(unit);
+                }
+                product.setUnits(unitList);
+                if (product.getCategoryName().equals(categoryName)) {
+                    isFound = true;
+                    listProductInterface.getListProductModel(product);
+                }
+                if (!isFound) {
+                    textView.setText("0 sản phẩm");
+                    layoutNotFoundItem.setVisibility(View.VISIBLE);
+                } else {
+                    layoutNotFoundItem.setVisibility(View.GONE);
+
+                }
             }
-            product.setUnits(unitList);
-            listProductInterface.getListProductModel(product);
-        }
-    }
-    private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName) {
-        DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
-        int totalProduct = (int) dataSnapshot.child("Products").child("0399271212").getChildrenCount();
-        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child("0399271212");
-        //Lấy danh sách san pham
-        for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
-            Product product = valueProduct.getValue(Product.class);
-            product.setProductId(valueProduct.getKey());
-
-            DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
-
-            Log.d("kiemtraProductID", product.getProductId() + "");
-            //lay unit theo ma san pham
-            List<Unit> unitList = new ArrayList<>();
-            for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
-                Log.d("kiemtraUnit", valueUnit + "");
-                Unit unit = valueUnit.getValue(Unit.class);
-
-                unit.setUnitId(valueUnit.getKey());
-                unitList.add(unit);
-            }
-            product.setUnits(unitList);
-            if (product.getCategoryName().equals(categoryName))
-            listProductInterface.getListProductModel(product);
         }
     }
 
-    public void firebaseProductSearch(final RecyclerView recyclerViewListProduct, String searchText, Context context) {
-        List<Product> productSearch = new ArrayList<>();
-        for (Product product : productSearch) {
-            if (product.getProductName().toLowerCase().contains(searchText.toLowerCase())) {
-                productSearch.add(product);
-            }
-        }
-        ItemAdapter itemAdapter = new ItemAdapter(context, productSearch, R.layout.item_layout);
-        recyclerViewListProduct.setAdapter(itemAdapter);
-        itemAdapter.notifyDataSetChanged();
-//        nodeRoot.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child("0399271212");
-//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    productList.add(ds.getValue(Product.class));
-//                }
-//                ItemAdapter adapter = new ItemAdapter(list);
-//                recyclerViewListProduct.setAdapter(adapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
-    }
-    public void removeProduct(String userId,String productId){
+    public void removeProduct(String userId, String productId) {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Products").child(userId).child(productId);
         databaseReference.removeValue();

@@ -6,8 +6,10 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.View.ChangePasswordActivity;
+import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 
 public class ChangePasswordController {
@@ -60,6 +62,8 @@ public class ChangePasswordController {
             Toast.makeText(changePasswordActivity.getApplicationContext(),"Đổi mật khẩu thành công!",Toast.LENGTH_SHORT).show();
 
             currentUser.setPassword(validateController.getMd5(confirmNewPassword));
+            SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, currentUser);
+
             Intent intent = new Intent(changePasswordActivity.getApplicationContext().getApplicationContext(), MainActivity.class);
             intent.putExtra("currentUser", currentUser);
             changePasswordActivity.startActivity(intent);

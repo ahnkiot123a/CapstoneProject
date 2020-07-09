@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.ICategory;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -26,6 +27,7 @@ public class Category implements Serializable {
     DatabaseReference nodeRoot;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    UserDAO userDAO;
     User currentUser;
 
     public Category(String categoryName) {
@@ -39,6 +41,7 @@ public class Category implements Serializable {
 
     public Category() {
         nodeRoot = FirebaseDatabase.getInstance().getReference();
+        userDAO = new UserDAO();
     }
 
     @Override
@@ -85,7 +88,7 @@ public class Category implements Serializable {
     }
 
     private void getListCategory(DataSnapshot dataSnapshot, ICategory iCategory) {
-        DataSnapshot dataSnapshotCategory = dataSnapshot.child("Categories").child("0399271212");
+        DataSnapshot dataSnapshotCategory = dataSnapshot.child("Categories").child(userDAO.getUserID());
         //Lấy danh sách san pham
         for (DataSnapshot valueCategory : dataSnapshotCategory.getChildren()) {
             Category category = valueCategory.getValue(Category.class);
