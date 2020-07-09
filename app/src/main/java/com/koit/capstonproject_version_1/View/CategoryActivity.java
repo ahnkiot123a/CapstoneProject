@@ -114,4 +114,8 @@ public class CategoryActivity extends AppCompatActivity {
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
     }
+    public void back(View v){
+        onBackPressed();
+    }
+
 }
