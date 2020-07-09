@@ -63,8 +63,9 @@ public class CreateProductActivity extends AppCompatActivity {
     private BottomSheetDialog bottomSheetDialog;
     private ImageView ivProduct;
     private RecyclerView recyclerCreateUnit;
-    private ArrayList<Integer> list;
+    private ArrayList<Integer> listUnit;
     private CameraController cameraController;
+    private CreateUnitAdapter createUnitAdapter;
 
 
 
@@ -93,16 +94,16 @@ public class CreateProductActivity extends AppCompatActivity {
     }
 
     private void buildRvUnit() {
-        list = new ArrayList<>();
-        list.add(1);
-    }
-
-    private void createListRecyclerview() {
         recyclerCreateUnit.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerCreateUnit.setLayoutManager(linearLayoutManager);
-        CreateUnitAdapter adapter = new CreateUnitAdapter(this, list);
-        recyclerCreateUnit.setAdapter(adapter);
+        createUnitAdapter = new CreateUnitAdapter(this, listUnit);
+        recyclerCreateUnit.setAdapter(createUnitAdapter);
+    }
+
+    private void createListRecyclerview() {
+        listUnit = new ArrayList<>();
+        listUnit.add(1);
     }
 
     private void initView() {
@@ -114,7 +115,7 @@ public class CreateProductActivity extends AppCompatActivity {
         tvCategory = findViewById(R.id.tvCategory);
         tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
         ivProduct = findViewById(R.id.ivProduct);
-//        recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
+        recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
 
     }
 
@@ -132,9 +133,14 @@ public class CreateProductActivity extends AppCompatActivity {
 
     //event click thêm đơn vị button
     public void addUnitRv(View view){
-
+        int position = listUnit.size()+1;
+        insertItem(position);
     }
 
+    private void insertItem(int position) {
+        listUnit.add(position);
+        createUnitAdapter.notifyDataSetChanged();
+    }
 
 
     public void showPhotoDialog(View view) {
