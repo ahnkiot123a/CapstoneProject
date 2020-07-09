@@ -3,7 +3,6 @@ package com.koit.capstonproject_version_1.View;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,7 +10,6 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.ListProductController;
 import com.koit.capstonproject_version_1.R;
@@ -34,6 +32,7 @@ public class ListProductActivity extends AppCompatActivity {
     private ConstraintLayout layoutSearch;
     private LinearLayout layoutNotFoundItem;
     ImageButton btnAddNewProduct;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +48,7 @@ public class ListProductActivity extends AppCompatActivity {
         linearLayoutEmpty = findViewById(R.id.linearLayoutEmptyProduct);
         layoutSearch = findViewById(R.id.layoutSearch);
         layoutNotFoundItem = findViewById(R.id.layout_not_found_item);
-        btnAddNewProduct =findViewById(R.id.btnAddNewProduct);
+        btnAddNewProduct = findViewById(R.id.btnAddNewProduct);
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
         btnAddNewProduct.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +59,7 @@ public class ListProductActivity extends AppCompatActivity {
         });
 
         listProductController = new ListProductController(this.getApplicationContext());
-        listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity, linearLayoutEmpty, layoutSearch, layoutNotFoundItem,category_Spinner);
+        listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner);
         imgbtnBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +74,7 @@ public class ListProductActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                listProductController.getListProduct(newText,recyclerViewListProduct, tvTotalQuantity, linearLayoutEmpty, layoutSearch,layoutNotFoundItem,category_Spinner);
+                listProductController.getListProduct(newText, recyclerViewListProduct, tvTotalQuantity, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner);
                 return true;
             }
 
@@ -89,11 +88,11 @@ public class ListProductActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String categoryName = category_Spinner.getSelectedItem().toString();
                 if (categoryName.equals("Tất cả các loại sản phẩm")) {
-                    listProductController.getListProduct(null,recyclerViewListProduct, tvTotalQuantity,
-                            linearLayoutEmpty, layoutSearch,layoutNotFoundItem,category_Spinner);
+                    listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
+                            linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner);
                 } else {
                     listProductController.getListProduct(getApplicationContext(), recyclerViewListProduct,
-                            categoryName, tvTotalQuantity, linearLayoutEmpty, layoutSearch,layoutNotFoundItem,category_Spinner);
+                            categoryName, tvTotalQuantity, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner);
                 }
             }
 
@@ -105,5 +104,10 @@ public class ListProductActivity extends AppCompatActivity {
 
 
     }
+
+    public void back(View view) {
+        onBackPressed();
+    }
+
 
 }

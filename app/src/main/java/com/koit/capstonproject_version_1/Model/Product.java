@@ -9,16 +9,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
-import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
-import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
@@ -129,20 +125,6 @@ public class Product implements Serializable {
         this.units = units;
     }
 
-    public DatabaseReference getMyRef() {
-        String curUser;
-        User user = SharedPrefs.getInstance().getCurrentUser(LoginActivity.CURRENT_USER);
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        if (user != null) {
-//            curUser = user.getPhoneNumber();
-//        } else {
-//            curUser = firebaseUser.getUid();
-//        }
-        DatabaseReference myRef;
-        //test
-        myRef = FirebaseDatabase.getInstance().getReference("Products").child("0399271212");
-        return myRef;
-    }
 
     public static void show(Context c, String message) {
         Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
@@ -175,21 +157,21 @@ public class Product implements Serializable {
         userDAO = new UserDAO();
         DataSnapshot dataSnapshotProduct;
         dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
-        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
         boolean isFound = false;
-        if (dataSnapshotProduct == null) {
+        if (dataSnapshotProduct.getValue() == null) {
             linearLayoutEmpty.setVisibility(View.VISIBLE);
             constraintLayoutfound.setVisibility(View.GONE);
             layoutNotFoundItem.setVisibility(View.GONE);
         } else {
+            DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
             layoutNotFoundItem.setVisibility(View.GONE);
             linearLayoutEmpty.setVisibility(View.GONE);
             constraintLayoutfound.setVisibility(View.VISIBLE);
             //Lấy danh sách san pham
             for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
                 Product product = valueProduct.getValue(Product.class);
-                product.setProductId(valueProduct.getKey());
 
+                product.setProductId(valueProduct.getKey());
                 DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
 
                 Log.d("kiemtraProductID", product.getProductId() + "");
@@ -227,8 +209,8 @@ public class Product implements Serializable {
                     }
                 }
             }
-
         }
+
 
     }
 
