@@ -45,7 +45,7 @@ public class ListCategoryController {
                 adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
 
                 spinnerCategory.setAdapter(adapter);
-               // itemAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
         };
         category.getListCategory(iCategory);

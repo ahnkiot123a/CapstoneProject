@@ -103,11 +103,10 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edDescription"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="wrap_content"
                             android:editable="false"
                             android:fontFamily="sans-serif-medium"
                             android:hint="Mô tả"
-                            android:inputType="textMultiLine"
                             android:paddingLeft="10dp"
                             android:textColor="@color/gray"
                             android:textSize="18sp"
@@ -133,11 +132,10 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:drawableLeft="@drawable/ic_baseline_category_24"
-                            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
                             android:drawablePadding="10dp"
                             android:paddingRight="20dp"
                             android:text="Phân loại"
-                            android:textSize="20sp"
+                            android:textSize="15sp"
                             android:fontFamily="sans-serif-medium"
                             android:textAlignment="textStart"
                             android:textAllCaps="false"
@@ -158,7 +156,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
-
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Đơn vị sản phẩm"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/black"/>
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerUnits"
                             android:layout_width="match_parent"
@@ -215,12 +218,15 @@
 
                         <TextView
                             android:id="@+id/tvUnitQuantity"
-                            android:layout_width="20dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5" />
+                            android:text="5"
+                            android:textColor="#1EB524"
+                            />
 
                         <Spinner
                             android:id="@+id/spinnerUnit"
+                            android:layout_marginLeft="20dp"
                             android:layout_width="174dp"
                             android:layout_height="wrap_content" />
 
@@ -247,6 +253,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:weightSum="3"
                         android:orientation="horizontal">
                         <Button
                             android:id="@+id/btnUpdateProduct"
@@ -262,6 +269,12 @@
                             android:text="Chỉnh sửa "
                             android:textColor="@color/white"
                             android:textSize="12sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                        </TextView>
 
                         <Button
                             android:id="@+id/btnDeleteProduct"
@@ -274,7 +287,6 @@
                             android:fontFamily="sans-serif-medium"
                             android:paddingLeft="5dp"
                             android:layout_weight="1"
-
                             android:text="Xoá sản phẩm "
                             android:textColor="@color/white"
                             android:textSize="12sp" />

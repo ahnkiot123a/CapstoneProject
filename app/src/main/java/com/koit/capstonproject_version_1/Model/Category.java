@@ -24,7 +24,13 @@ public class Category implements Serializable {
     private String categoryId, categoryName;
     private DataSnapshot dataRoot;
     DatabaseReference nodeRoot;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     User currentUser;
+
+    public Category(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
     public Category(String categoryId, String categoryName) {
         this.categoryId = categoryId;
@@ -62,7 +68,7 @@ public class Category implements Serializable {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataRoot = dataSnapshot;
-                LayDanhSachCategory(dataSnapshot, iCategory);
+                getListCategory(dataSnapshot, iCategory);
             }
 
             @Override
@@ -71,14 +77,14 @@ public class Category implements Serializable {
             }
         };
         if (dataRoot != null) {
-            LayDanhSachCategory(dataRoot, iCategory);
+            getListCategory(dataRoot, iCategory);
         } else {
             nodeRoot.addListenerForSingleValueEvent(valueEventListener);
         }
 
     }
 
-    private void LayDanhSachCategory(DataSnapshot dataSnapshot, ICategory iCategory) {
+    private void getListCategory(DataSnapshot dataSnapshot, ICategory iCategory) {
         DataSnapshot dataSnapshotCategory = dataSnapshot.child("Categories").child("0399271212");
         //Lấy danh sách san pham
         for (DataSnapshot valueCategory : dataSnapshotCategory.getChildren()) {
@@ -86,5 +92,11 @@ public class Category implements Serializable {
             category.setCategoryId(category.getCategoryId());
             iCategory.getCategory(category);
         }
+    }
+
+    public void addCategoryToFireBase(String userId){
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("Categories").child(userId);
+        databaseReference.push().setValue(this);
     }
 }

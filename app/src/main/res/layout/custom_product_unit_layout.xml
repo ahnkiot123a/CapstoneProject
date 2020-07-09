@@ -10,11 +10,24 @@
 
     <TextView
         android:id="@+id/tvUnitName"
-        android:layout_width="129dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_x="17dp"
-        android:layout_y="17dp"
+        android:layout_x="22dp"
+        android:layout_y="19dp"
         android:text="Bánh mì"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_x="138dp"
+        android:layout_y="19dp"
+        android:gravity="center"
+        android:text="="
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.131"
@@ -25,10 +38,11 @@
         android:id="@+id/tvUnitPrice"
         android:layout_width="129dp"
         android:layout_height="wrap_content"
-        android:layout_x="210dp"
-        android:layout_y="17dp"
-        android:text="Bánh mì"
-        android:textColor="#000000"
+        android:layout_x="228dp"
+        android:layout_y="19dp"
+        android:text="5000"
+
+        android:textColor="#1EB524"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.131"
         app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"

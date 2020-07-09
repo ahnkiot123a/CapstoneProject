@@ -9,10 +9,24 @@
 
 
     <TextView
-        android:id="@+id/tvBigUnitName"
-        android:layout_width="129dp"
+        android:id="@+id/tvBigUnitName2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="17dp"
+        android:layout_x="169dp"
+        android:layout_y="17dp"
+        android:gravity="center"
+        android:text="="
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvBigUnitName"
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:layout_x="19dp"
         android:layout_y="17dp"
         android:text="Bánh mì"
         android:textColor="#000000"
@@ -23,9 +37,9 @@
 
     <TextView
         android:id="@+id/tvSmallestUnitName"
-        android:layout_width="129dp"
+        android:layout_width="127dp"
         android:layout_height="wrap_content"
-        android:layout_x="210dp"
+        android:layout_x="253dp"
         android:layout_y="17dp"
         android:text="Bánh mì"
         android:textColor="#000000"

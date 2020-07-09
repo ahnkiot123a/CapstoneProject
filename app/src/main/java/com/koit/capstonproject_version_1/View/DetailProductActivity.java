@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,8 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +38,7 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,11 +54,15 @@ public class DetailProductActivity extends AppCompatActivity   {
     private Switch switchActive;
     private Spinner spinnerUnit;
     private Product product;
+    private Unit unit;
     private Button btnUpdateProduct;
     private Button btnDeleteProduct;
     private DetailProductController detailProductController;
+    private TextView tvToolbarTitle;
+
     Category category;
     ArrayList<Unit> unitList;
+    UserDAO userDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +80,25 @@ public class DetailProductActivity extends AppCompatActivity   {
         btnDeleteProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailProductActivity.this);
+                builder.setMessage("Bạn có chắc chắn muốn xoá sản phẩm này không? ")
+                        .setCancelable(false)
+                        .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                product.removeProduct(userDAO.getUserID(),product.getProductId());
+                                unit.removeProductUnits(userDAO.getUserID(),product.getProductId());
+                                Intent intent = new Intent(DetailProductActivity.this,ListProductActivity.class);
+                                startActivity(intent);
+                               Toast.makeText(getApplicationContext(),"Bạn đã xoá thành công sản phẩm",Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
     }
@@ -101,48 +127,22 @@ public class DetailProductActivity extends AppCompatActivity   {
         tvConvertRate = findViewById(R.id.tvConvertRate);
         btnUpdateProduct = findViewById(R.id.btnUpdateProduct);
         btnDeleteProduct = findViewById(R.id.btnDeleteProduct);
+        tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
         detailProductController = new DetailProductController();
+        tvToolbarTitle.setText("Chi tiết sản phẩm");
+        userDAO = new UserDAO();
+        unit= new Unit();
+
     }
     private void getProduct(){
        Intent intent = getIntent();
         product =(Product) intent.getSerializableExtra("product");
         unitList = (ArrayList<Unit>) product.getUnits();
         detailProductController.sortUnitByPrice(unitList);
-   /*    if (product == null) {
-           Unit unit1 = new Unit("GOI", 1, 6000, 200);
-            Unit unit2 = new Unit("THUNG", 30, 160000, 6);
-          Unit unit3 = new Unit("LOC", 6, 30000, 33);
-        unitList = new ArrayList<>();
-          unitList.add(unit2);
-         unitList.add(unit1);
 
-         unitList.add(unit3);
-           Collections.sort(unitList, new Comparator<Unit>() {
-                 @Override
-                 public int compare(Unit o1, Unit o2) {
-                     return (int) (o1.getUnitPrice() - o2.getUnitPrice());
-                 }
-
-
-             });
-             product = new Product("0399271212", "03", "8936017361143", "mì tôm", "omachi sườn", "", "omachi sườn", true, unitList);
-         }*/
     }
     private void setProductInformation(){
-       /* StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
-        long ONE_MEGABYTE = 1024 * 1024;
-        storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                productImage.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Failed loaded uri: ", e.getMessage());
-            }
-        });*/
+
        detailProductController.setProductImageView(productImage,product);
         edBarcode.setText(product.getBarcode());
         edProductName.setText(product.getProductName());
@@ -168,7 +168,6 @@ public class DetailProductActivity extends AppCompatActivity   {
         ArrayAdapter<Unit> adapter =
                 new ArrayAdapter<Unit>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, unitList);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-
         spinnerUnit.setAdapter(adapter);
        spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                @Override
@@ -184,6 +183,10 @@ public class DetailProductActivity extends AppCompatActivity   {
     if (product.isActive())   switchActive.setChecked(true);
     switchActive.setEnabled(false);
     }
+    public void back(View view) {
+        onBackPressed();
+    }
+
 
 
 

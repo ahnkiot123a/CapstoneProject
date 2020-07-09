@@ -30,6 +30,8 @@ public class Product implements Serializable {
     private boolean active;
     private DatabaseReference nodeRoot;
     private List<Unit> units;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     public Product(String userId, String productId, String barcode, String categoryName, String productDescription, String productImageUrl, String productName, boolean active, List<Unit> units) {
         this.userId = userId;
@@ -271,6 +273,11 @@ public class Product implements Serializable {
 //            }
 //        });
 
+    }
+    public void removeProduct(String userId,String productId){
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("Products").child(userId).child(productId);
+        databaseReference.removeValue();
     }
 
 }

@@ -36,8 +36,8 @@ public class UnitRecyclerAdapter  extends RecyclerView.Adapter<UnitRecyclerAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvUnitName.setText(unitArrayList.get(position).getUnitName());
-        holder.tvUnitPrice.setText(unitArrayList.get(position).getUnitPrice() + "");
+        holder.tvUnitName.setText("1 " + unitArrayList.get(position).getUnitName());
+        holder.tvUnitPrice.setText(unitArrayList.get(position).getUnitPrice() + " VNĐ");
     }
 
     @Override

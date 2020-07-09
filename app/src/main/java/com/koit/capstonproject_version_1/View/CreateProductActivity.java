@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.View;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;

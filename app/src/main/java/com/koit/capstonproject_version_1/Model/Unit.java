@@ -1,12 +1,17 @@
 package com.koit.capstonproject_version_1.Model;
 
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.Serializable;
 
 public class Unit implements Serializable {
     private String unitId;
     private String unitName;
     private long convertRate, unitPrice, unitQuantity;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     public Unit(String unitName, long convertRate, long unitPrice, long unitQuantity) {
         this.unitName = unitName;
@@ -69,5 +74,10 @@ public class Unit implements Serializable {
     @Override
     public String toString() {
         return unitName;
+    }
+    public void removeProductUnits(String userId,String productId){
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("Units").child(userId).child(productId);
+        databaseReference.removeValue();
     }
 }
