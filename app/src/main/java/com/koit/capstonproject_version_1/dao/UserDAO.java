@@ -35,4 +35,10 @@ public class UserDAO {
         }
         return UID;
     }
+    public User getUser(){
+
+       return SharedPrefs.getInstance().getCurrentUser(LoginActivity.CURRENT_USER);
+
+
+    }
 }

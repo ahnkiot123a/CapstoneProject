@@ -20,9 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 public class MainActivity extends AppCompatActivity {
     private User currentUser;
+    private UserDAO userDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +41,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        Intent intent = getIntent();
-        currentUser =(User)intent.getSerializableExtra("currentUser");
+       // Intent intent = getIntent();
+        userDAO = new UserDAO();
+        currentUser = userDAO.getUser();
+//        currentUser =(User)intent.getSerializableExtra("currentUser");
+
 
     }
     public void displayUserInfo(View view){

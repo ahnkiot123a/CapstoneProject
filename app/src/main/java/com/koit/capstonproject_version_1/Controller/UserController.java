@@ -174,9 +174,12 @@ public class UserController {
             currentUser.setDateOfBirth(dob);
             currentUser.setAddress(address);
             currentUser.setStoreName(storeName);
-            Intent intent = new Intent(userInformationActivity.getApplicationContext(), MainActivity.class);
-            intent.putExtra("currentUser", currentUser);
-            userInformationActivity.startActivity(intent);
+            SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, currentUser);
+
+           Intent intent = new Intent(userInformationActivity.getApplicationContext(), MainActivity.class);
+           intent.putExtra("currentUser", currentUser);
+          userInformationActivity.startActivity(intent);
+            //userInformationActivity.onBackPressed();
         }
     }
 

@@ -25,6 +25,7 @@ import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class AccountFragment extends Fragment {
     private ImageView profile_img;
     private Button btnAccountInfo;
     private Button btnChangePassword;
+    private UserDAO userDAO;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         accountViewModel =
@@ -48,7 +50,9 @@ public class AccountFragment extends Fragment {
     //    final TextView textView = root.findViewById(R.id.text_notifications);
        tvNameProfile = root.findViewById(R.id.tvNameProfile);
         profile_img = root.findViewById(R.id.profile_img);
-        User user = (User)getActivity().getIntent().getSerializableExtra("currentUser");
+//        User user = (User)getActivity().getIntent().getSerializableExtra("currentUser");
+        userDAO = new UserDAO();
+        User user = userDAO.getUser();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         btnAccountInfo = root.findViewById(R.id.accountInfo);
         btnChangePassword = root.findViewById(R.id.changePassword);
