@@ -8,6 +8,17 @@
     android:orientation="vertical"
     android:id="@+id/itemProduct">
 
+    <TextView
+        android:id="@+id/tvBarcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="8909876781234"
+        android:textColor="#90000000"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/tvProductName"
+        app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
+
     <ImageView
         android:id="@+id/imgViewProductPicture"
         android:layout_width="65dp"
@@ -56,12 +67,12 @@
         android:id="@+id/tvProductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
         android:text="1000"
         android:textColor="#1EB524"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.857"
-        app:layout_constraintStart_toEndOf="@+id/tvsl"
+        app:layout_constraintStart_toEndOf="@+id/tvMinconvertRate"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.941" />
 

@@ -169,7 +169,7 @@
                     android:paddingLeft="5dp"
                     android:textSize="12sp"
                     android:background="@drawable/custom_btn_add_unit"
-                    android:drawableLeft="@drawable/ic_baseline_add_24"/>
+                    android:drawableLeft="@drawable/ic_baseline_add_product"/>
 
 
             </LinearLayout>
