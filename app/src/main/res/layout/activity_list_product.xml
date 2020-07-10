@@ -104,40 +104,83 @@
 
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/search_layout"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-
-                <SearchView
-                    android:id="@+id/searchView"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutSearchHome"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btnLeftMenu">
 
-                    android:queryHint="Tên, mã sản phẩm">
+                    <EditText
 
-                </SearchView>
+                        android:id="@+id/searchViewInList"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_margin="5dp"
+                        android:layout_marginTop="32dp"
+                        android:background="@drawable/layout_search_no_border"
+                        android:drawableLeft="?android:attr/actionModeWebSearchDrawable"
+                        android:drawablePadding="10dp"
+                        android:ems="10"
+                        android:hint="Nhập tên, mã Barcode"
+                        android:imeOptions="actionSearch"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="20dp"
+                        android:textColor="@color/gray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.555"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints" />
 
-                <ImageButton
-                    android:id="@+id/imgbtnBarcode"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="0.8"
-                    android:background="@drawable/barcode_icon_layout"
-                    android:left="5dp"
-                    app:srcCompat="@drawable/barcode"
+                    <ImageButton
+                        android:id="@+id/imgbtnBarcodeInList"
+                        android:layout_width="51dp"
+                        android:layout_height="40dp"
+                        android:onClick="searchByBarcode"
+                        android:background="@drawable/barcode_icon_layout"
+                        android:left="5dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/searchViewInList"
+                        app:layout_constraintEnd_toEndOf="@+id/searchViewInList"
+                        app:layout_constraintHorizontal_bias="0.944"
+                        app:layout_constraintStart_toStartOf="@+id/searchViewInList"
+                        app:layout_constraintTop_toTopOf="@+id/searchViewInList"
+                        app:srcCompat="@drawable/barcode"
+                        tools:ignore="MissingConstraints" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    ></ImageButton>
+<!--                <SearchView-->
+<!--                    android:id="@+id/searchView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="0.2"-->
+
+<!--                    android:queryHint="Tên, mã sản phẩm">-->
+
+<!--                </SearchView>-->
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/imgbtnBarcode"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:onClick="searchByBarcode"-->
+<!--                    android:layout_marginBottom="5dp"-->
+<!--                    android:layout_weight="0.3"-->
+<!--                    android:background="@drawable/barcode_icon_layout"-->
+<!--                    android:left="5dp"-->
+<!--                    app:srcCompat="@drawable/barcode"-->
+
+<!--                    />-->
             </LinearLayout>
 
             <Spinner
                 android:id="@+id/category_Spinner"
-                android:layout_width="203dp"
+                android:layout_width="270dp"
                 android:layout_height="40dp"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/linearLayoutSearch"
@@ -225,7 +268,15 @@
 
             </TextView>
         </LinearLayout>
+        <ProgressBar
+            android:id="@+id/pBarList"
+            android:layout_gravity="center_horizontal"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true">
 
+        </ProgressBar>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewListProduct"
             android:layout_width="match_parent"

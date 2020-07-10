@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -133,11 +134,11 @@ public class Product implements Serializable {
 
     public void getListProduct(final String searchText, final ListProductInterface
             listProductInterface, final TextView textView, final LinearLayout linearLayoutEmpty,
-                               final ConstraintLayout layoutSearch, final LinearLayout layoutNotFoundItem, final Spinner category_Spinner) {
+                               final ConstraintLayout layoutSearch, final LinearLayout layoutNotFoundItem, final Spinner category_Spinner, final ProgressBar pBarList) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getListProduct(dataSnapshot, listProductInterface, searchText, textView, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner);
+                getListProduct(dataSnapshot, listProductInterface, searchText, textView, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
             }
 
             @Override
@@ -153,7 +154,8 @@ public class Product implements Serializable {
     @SuppressLint("WrongConstant")
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
                                 String searchText, TextView textView, LinearLayout linearLayoutEmpty,
-                                ConstraintLayout constraintLayoutfound, LinearLayout layoutNotFoundItem, Spinner category_Spinner) {
+                                ConstraintLayout constraintLayoutfound, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
+        pBarList.setVisibility(View.VISIBLE);
         userDAO = new UserDAO();
         DataSnapshot dataSnapshotProduct;
         dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
@@ -162,11 +164,13 @@ public class Product implements Serializable {
             linearLayoutEmpty.setVisibility(View.VISIBLE);
             constraintLayoutfound.setVisibility(View.GONE);
             layoutNotFoundItem.setVisibility(View.GONE);
+            pBarList.setVisibility(View.GONE);
         } else {
             DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
             layoutNotFoundItem.setVisibility(View.GONE);
             linearLayoutEmpty.setVisibility(View.GONE);
             constraintLayoutfound.setVisibility(View.VISIBLE);
+            pBarList.setVisibility(View.GONE);
             //Lấy danh sách san pham
             for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
                 Product product = valueProduct.getValue(Product.class);
@@ -217,11 +221,12 @@ public class Product implements Serializable {
 
     //Cate Tu Beo
     public void getListProduct(final ListProductInterface listProductInterface, final String categoryName,
-                               final LinearLayout linearLayoutEmpty, final ConstraintLayout constraintLayout, final LinearLayout layoutNotFoundItem, final TextView textView, Spinner category_Spinner) {
+                               final LinearLayout linearLayoutEmpty, final ConstraintLayout constraintLayout,
+                               final LinearLayout layoutNotFoundItem, final TextView textView, Spinner category_Spinner, final ProgressBar pBarList) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getListProduct(dataSnapshot, listProductInterface, categoryName, linearLayoutEmpty, constraintLayout, layoutNotFoundItem, textView);
+                getListProduct(dataSnapshot, listProductInterface, categoryName, linearLayoutEmpty, constraintLayout, layoutNotFoundItem, textView, pBarList);
             }
 
             @Override
@@ -235,8 +240,9 @@ public class Product implements Serializable {
     }
 
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName,
-                                LinearLayout linearLayoutEmpty, ConstraintLayout constraintLayout, LinearLayout layoutNotFoundItem, TextView textView) {
+                                LinearLayout linearLayoutEmpty, ConstraintLayout constraintLayout, LinearLayout layoutNotFoundItem, TextView textView, ProgressBar pBarList) {
         userDAO = new UserDAO();
+        pBarList.setVisibility(View.VISIBLE);
         DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
         DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
         boolean isFound = false;
@@ -244,10 +250,14 @@ public class Product implements Serializable {
             linearLayoutEmpty.setVisibility(View.VISIBLE);
             constraintLayout.setVisibility(View.GONE);
             layoutNotFoundItem.setVisibility(View.GONE);
+            pBarList.setVisibility(View.GONE);
         } else {
             layoutNotFoundItem.setVisibility(View.GONE);
             linearLayoutEmpty.setVisibility(View.GONE);
             constraintLayout.setVisibility(View.VISIBLE);
+            pBarList.setVisibility(View.GONE);
+
+
             //Lấy danh sách san pham
             for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
                 Product product = valueProduct.getValue(Product.class);
