@@ -75,7 +75,7 @@ public class ListProductActivity extends AppCompatActivity {
 
         listProductController = new ListProductController(this.getApplicationContext());
         //swipe
-        listProductController.setupRecyclerView(recyclerViewListProduct);
+        listProductController.setupRecyclerView(recyclerViewListProduct, this);
         listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
                 linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
         imgbtnBarcode.setOnClickListener(new View.OnClickListener() {

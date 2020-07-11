@@ -250,5 +250,8 @@ public class UpdateProductActivity extends AppCompatActivity {
             }
         }
     }
+    public void back(View view) {
+        onBackPressed();
+    }
 
 }

@@ -16,7 +16,9 @@ import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterfa
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.DetailProductActivity;
 import com.koit.capstonproject_version_1.View.ListProductActivity;
+import com.koit.capstonproject_version_1.View.UpdateProductActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class ListProductController extends AppCompatActivity {
     private Product product;
     ItemAdapter itemAdapter;
     private int item_count;
-    private List<Product> productList;
+    private List<Product> listProduct;
     SwipeController swipeController = null;
 
     public ListProductController(Context context) {
@@ -48,7 +50,7 @@ public class ListProductController extends AppCompatActivity {
     public void getListProduct(String searchText, RecyclerView recyclerViewListProduct, final TextView textView,
                                LinearLayout linearLayoutEmpty, ConstraintLayout constraintLayout,
                                LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
-        final List<Product> listProduct = new ArrayList<>();
+        listProduct = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
         itemAdapter = new ItemAdapter(context, listProduct, R.layout.item_layout);
@@ -69,7 +71,7 @@ public class ListProductController extends AppCompatActivity {
     public void getListProduct(Context context, RecyclerView recyclerViewListProduct, String categoryName,
                                final TextView textView, LinearLayout linearLayoutEmpty, ConstraintLayout
                                        constraintLayout, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
-        final List<Product> listProduct = new ArrayList<>();
+        listProduct = new ArrayList<>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
@@ -82,39 +84,33 @@ public class ListProductController extends AppCompatActivity {
                 textView.setText(listProduct.size() + " sản phẩm");
                 itemAdapter.notifyDataSetChanged();
             }
-
         };
         product.getListProduct(listProductInterface, categoryName, linearLayoutEmpty, constraintLayout,
                 layoutNotFoundItem, textView, category_Spinner, pBarList);
 
     }
 
-    public void tranIntent(Activity activity1, Class activity2) {
-        Intent intent = new Intent(activity1.getApplicationContext(), activity2);
-        activity1.startActivity(intent);
-    }
 
-    public void setupRecyclerView(RecyclerView recyclerView) {
+    public void setupRecyclerView(RecyclerView recyclerView, final ListProductActivity listProductActivity) {
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
-            public void onRightClicked(int position) {
-                //remove item on right click
-                itemAdapter.notifyItemRemoved(position);
-                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
-                //remove tu beo
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            public void onRightClicked(final int position) {
+                //confirm to delete
+                AlertDialog.Builder builder = new AlertDialog.Builder(listProductActivity);
                 builder.setMessage("Bạn có chắc chắn muốn xoá sản phẩm này không? ")
                         .setCancelable(false)
                         .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                //remove item on right click
+                                itemAdapter.notifyItemRemoved(position);
+                                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
                                 UserDAO userDAO = new UserDAO();
                                 Unit unit = new Unit();
                                 product.removeProduct(userDAO.getUserID(), product.getProductId());
                                 unit.removeProductUnits(userDAO.getUserID(), product.getProductId());
-                                Intent intent = new Intent(context, ListProductActivity.class);
-                                context.startActivity(intent);
-                                Toast.makeText(context, "Bạn đã xoá thành công sản phẩm", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(listProductActivity, ListProductActivity.class);
+                                listProductActivity.startActivity(intent);
+                                Toast.makeText(listProductActivity, "Bạn đã xoá thành công sản phẩm", Toast.LENGTH_LONG).show();
                             }
                         })
                         .setNegativeButton("Không", new DialogInterface.OnClickListener() {
@@ -124,12 +120,18 @@ public class ListProductController extends AppCompatActivity {
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
+
             }
 
             @Override
             public void onLeftClicked(int position) {
                 super.onLeftClicked(position);
                 //Itent sang man hinh edit
+                Product product = listProduct.get(position);
+                Intent intentProduct = new Intent(context, UpdateProductActivity.class);
+                intentProduct.putExtra("product",product);
+                intentProduct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intentProduct);
             }
         });
 
@@ -142,5 +144,10 @@ public class ListProductController extends AppCompatActivity {
                 swipeController.onDraw(c);
             }
         });
+    }
+
+    public void tranIntent(Activity activity1, Class activity2) {
+        Intent intent = new Intent(activity1.getApplicationContext(), activity2);
+        activity1.startActivity(intent);
     }
 }
