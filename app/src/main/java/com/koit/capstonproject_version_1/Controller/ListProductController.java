@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.os.Handler;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -16,7 +17,6 @@ import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterfa
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.View.DetailProductActivity;
 import com.koit.capstonproject_version_1.View.ListProductActivity;
 import com.koit.capstonproject_version_1.View.UpdateProductActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
@@ -91,6 +91,7 @@ public class ListProductController extends AppCompatActivity {
     }
 
 
+
     public void setupRecyclerView(RecyclerView recyclerView, final ListProductActivity listProductActivity) {
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
@@ -106,6 +107,7 @@ public class ListProductController extends AppCompatActivity {
                                 itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
                                 UserDAO userDAO = new UserDAO();
                                 Unit unit = new Unit();
+                                Product product = listProduct.get(position);
                                 product.removeProduct(userDAO.getUserID(), product.getProductId());
                                 unit.removeProductUnits(userDAO.getUserID(), product.getProductId());
                                 Intent intent = new Intent(listProductActivity, ListProductActivity.class);
@@ -129,7 +131,7 @@ public class ListProductController extends AppCompatActivity {
                 //Itent sang man hinh edit
                 Product product = listProduct.get(position);
                 Intent intentProduct = new Intent(context, UpdateProductActivity.class);
-                intentProduct.putExtra("product",product);
+                intentProduct.putExtra("product", product);
                 intentProduct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentProduct);
             }

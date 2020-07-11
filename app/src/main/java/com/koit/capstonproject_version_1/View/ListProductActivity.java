@@ -30,7 +30,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ListProductActivity extends AppCompatActivity {
     private ImageView imageView;
-    private ImageButton imgbtnBarcode;
     private Spinner category_Spinner;
     private TextView tvTotalQuantity;
     private TextView searchView;
@@ -42,8 +41,8 @@ public class ListProductActivity extends AppCompatActivity {
     private LinearLayout layoutNotFoundItem;
     private ImageButton btnAddNewProduct;
     private ProgressBar pBarList;
-    SwipeController swipeController = null;
-
+    private SwipeController swipeController = null;
+    private ImageButton imgbtnBarcodeInList;
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,6 @@ public class ListProductActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_list_product);
         searchView = findViewById(R.id.searchViewInList);
-        imgbtnBarcode = findViewById(R.id.imgbtnBarcodeInList);
         category_Spinner = findViewById(R.id.category_Spinner);
         tvTotalQuantity = findViewById(R.id.tvTotalQuantity);
         recyclerViewListProduct = findViewById(R.id.recyclerViewListProduct);
@@ -62,8 +60,7 @@ public class ListProductActivity extends AppCompatActivity {
         layoutNotFoundItem = findViewById(R.id.layout_not_found_item);
         btnAddNewProduct = findViewById(R.id.btnAddNewProduct);
         pBarList = findViewById(R.id.pBarList);
-
-
+        imgbtnBarcodeInList = findViewById(R.id.imgbtnBarcodeInList);
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
         btnAddNewProduct.setOnClickListener(new View.OnClickListener() {
@@ -78,12 +75,6 @@ public class ListProductActivity extends AppCompatActivity {
         listProductController.setupRecyclerView(recyclerViewListProduct, this);
         listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
                 linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
-        imgbtnBarcode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
