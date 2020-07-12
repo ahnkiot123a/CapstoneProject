@@ -1,13 +1,11 @@
 package com.koit.capstonproject_version_1.View;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,9 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,10 +30,11 @@ import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
+import com.koit.capstonproject_version_1.Model.UIModel.LinearLayoutManagerWrapper;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,6 +62,7 @@ public class CreateProductActivity extends AppCompatActivity {
     private ArrayList<Integer> listUnit;
     private CameraController cameraController;
     private CreateUnitAdapter createUnitAdapter;
+    private LinearLayoutManagerWrapper layoutManagerWrapper;
 
 
 
@@ -96,9 +93,17 @@ public class CreateProductActivity extends AppCompatActivity {
     private void buildRvUnit() {
         recyclerCreateUnit.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
         recyclerCreateUnit.setLayoutManager(linearLayoutManager);
         createUnitAdapter = new CreateUnitAdapter(this, listUnit);
         recyclerCreateUnit.setAdapter(createUnitAdapter);
+
+        createUnitAdapter.setOnItemClickLister(new CreateUnitAdapter.OnItemClickLister() {
+            @Override
+            public void onDeleteClick(int position) {
+                removeItem(position);
+            }
+        });
     }
 
     private void createListRecyclerview() {
@@ -132,8 +137,8 @@ public class CreateProductActivity extends AppCompatActivity {
     }
 
     //event click thêm đơn vị button
-    public void addUnitRv(View view){
-        int position = listUnit.size()+1;
+    public void addUnitRv(View view) {
+        int position = listUnit.size() + 1;
         insertItem(position);
     }
 
@@ -142,6 +147,32 @@ public class CreateProductActivity extends AppCompatActivity {
         createUnitAdapter.notifyDataSetChanged();
     }
 
+    private void removeItem(int position) {
+        listUnit.remove(position);
+        createUnitAdapter.notifyItemChanged(position);
+    }
+
+    public void addProduct(View view) {
+        getUnitFromRv();
+    }
+
+    private ArrayList<Unit> getUnitFromRv(){
+        ArrayList<Unit> list = new ArrayList<>();
+        for (int i = 0; i < createUnitAdapter.getItemCount(); i++) {
+            CreateUnitAdapter.ViewHolder viewHolder = (CreateUnitAdapter.ViewHolder) recyclerCreateUnit.findViewHolderForAdapterPosition(i);
+            String unitName = viewHolder.getEtUnitName().getText().toString().trim();
+            String unitPrice = viewHolder.getEtUnitPrice().getText().toString().trim();
+            Log.i("price", unitPrice);
+            if(!unitName.isEmpty() && !unitPrice.isEmpty()){
+                Unit unit = new Unit();
+                unit.setUnitName(unitName);
+                unit.setUnitPrice(Long.parseLong(unitPrice));
+                list.add(unit);
+            }
+        }
+        Log.i("listUnit", list.get(0).getUnitPrice() +"");
+        return list;
+    }
 
     public void showPhotoDialog(View view) {
 

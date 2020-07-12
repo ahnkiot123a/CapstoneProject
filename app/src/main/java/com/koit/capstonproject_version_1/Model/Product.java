@@ -34,6 +34,8 @@ public class Product implements Serializable {
     private boolean active;
     DatabaseReference nodeRoot;
     private List<Unit> units;
+
+
     private static List<Product> productListSearch;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;

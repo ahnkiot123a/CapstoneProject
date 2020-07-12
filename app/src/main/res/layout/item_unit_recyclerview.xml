@@ -24,20 +24,14 @@
                 android:gravity="center"
                 android:text="1"
                 android:textColor="@color/gray"
+                android:visibility="gone"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="45dp"
-                android:layout_gravity="center"
-                android:background="@color/light_gray" />
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2">
+                android:layout_weight="1.4">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUnitName"

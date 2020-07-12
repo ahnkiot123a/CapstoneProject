@@ -222,7 +222,7 @@
                 android:padding="20dp">
 
                 <Switch
-                    android:id="@+id/switch1"
+                    android:id="@+id/switchActive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cho phép bán"
@@ -244,6 +244,7 @@
                 android:background="@drawable/background_btn_login"
                 android:fontFamily="sans-serif-medium"
                 android:padding="10dp"
+                android:onClick="addProduct"
                 android:text="Thêm sản phẩm"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
