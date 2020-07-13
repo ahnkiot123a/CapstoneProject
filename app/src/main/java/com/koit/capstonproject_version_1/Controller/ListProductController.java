@@ -19,6 +19,7 @@ import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.ListProductActivity;
 import com.koit.capstonproject_version_1.View.UpdateProductActivity;
+import com.koit.capstonproject_version_1.View.UpdateProductInformationActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
@@ -97,6 +98,8 @@ public class ListProductController extends AppCompatActivity {
             @Override
             public void onRightClicked(final int position) {
                 //confirm to delete
+                final Product product = listProduct.get(position);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(listProductActivity);
                 builder.setMessage("Bạn có chắc chắn muốn xoá sản phẩm này không? ")
                         .setCancelable(false)
@@ -130,7 +133,7 @@ public class ListProductController extends AppCompatActivity {
                 super.onLeftClicked(position);
                 //Itent sang man hinh edit
                 Product product = listProduct.get(position);
-                Intent intentProduct = new Intent(context, UpdateProductActivity.class);
+                Intent intentProduct = new Intent(context, UpdateProductInformationActivity.class);
                 intentProduct.putExtra("product", product);
                 intentProduct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentProduct);

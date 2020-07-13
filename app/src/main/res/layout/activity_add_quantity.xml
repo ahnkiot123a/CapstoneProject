@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.AddQuantityActivity">
+
+    <include layout="@layout/toolbar_general_activity" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerUnitQuantity"
+        android:layout_below="@+id/toolbarGeneral"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recyclerUnitQuantity"
+        android:id="@+id/btnAddProductQuantiy"
+        android:layout_weight="1"
+
+        android:layout_margin="10dp"
+        android:background="@drawable/custom_btn_add_unit"
+        android:drawablePadding="5dp"
+        android:fontFamily="sans-serif-medium"
+        android:padding="10dp"
+        android:text="Thêm số lượng"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+</RelativeLayout>

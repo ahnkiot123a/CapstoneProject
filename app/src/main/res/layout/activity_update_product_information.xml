@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_gray">
+
+
+    <include layout="@layout/toolbar_general_activity" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbarGeneral"
+        android:layout_marginBottom="5dp"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:background="@drawable/custom_page_account"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etBarcode"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:hint="Barcode"
+                            android:paddingLeft="10dp"
+                            android:enabled="false"
+                            android:textColor="@color/gray"
+                            android:textSize="18sp"
+                            android:windowSoftInputMode="stateUnchanged">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/animationView"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="0.8"
+                        app:lottie_autoPlay="true"
+                        android:layout_marginTop="2dp"
+                        app:lottie_loop="true"
+                        android:background="@drawable/custom_image_btn"
+                        app:lottie_rawRes="@raw/scan_barcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:onClick="scanCustomScanner"/>
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etProductName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:singleLine="true"
+                        android:hint="Tên sản phẩm"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gray"
+                        android:textSize="18sp"
+                        android:windowSoftInputMode="stateUnchanged">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:hint="Mô tả"
+                        android:inputType="textMultiLine"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gray"
+                        android:textSize="18sp"
+                        android:windowSoftInputMode="stateUnchanged">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_page_account"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+                <ImageButton
+                    android:id="@+id/btnCamera"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/custom_image_btn"
+                    android:onClick="showPhotoDialog"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_camera"/>
+
+                <ImageView
+                    android:id="@+id/ivProduct"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="20dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_page_account"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <Button
+                    android:id="@+id/btnCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_baseline_category_24"
+                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:paddingRight="20dp"
+                    android:text="Phân loại"
+                    android:onClick="categoryAction"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loại sản phẩm"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_page_account"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đơn vị sản phẩm"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerUnits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp" />
+
+
+
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:id="@+id/btnEditUnits"
+                    android:text="Chỉnh sửa đơn vị"
+                    android:textColor="@color/white"
+                    android:padding="10dp"
+                    android:textSize="12sp"
+                    android:background="@drawable/custom_btn_add_unit"
+
+                    android:drawablePadding="5dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_page_account"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chuyển đổi đơn vị"
+                    android:id="@+id/tvConvertRate"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/black"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerConvertRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:id="@+id/btnEditConvertRate"
+                    android:text="Chỉnh sửa chuyển đổi đơn vị"
+                    android:textColor="@color/white"
+                    android:padding="10dp"
+                    android:textSize="12sp"
+                    android:background="@drawable/custom_btn_add_unit"
+
+                    android:drawablePadding="5dp"/>
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_page_account"
+            android:orientation="vertical"
+            android:padding="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Số lượng ước tính trong kho"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/black"/>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:weightSum="3"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvUnitQuantity"
+                    android:layout_width="63dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:text="1000"
+                    android:textColor="#1EB524"
+                    android:textSize="15sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerUnit"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="174dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/custom_btn_add_unit"
+                    android:drawableLeft="@drawable/ic_baseline_add_24"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:id="@+id/btnAddProductQuantiy"
+                    android:onClick="addProductQuantity"
+                    android:padding="10dp"
+                    android:text="Thêm số lượng"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_page_account"
+                android:padding="20dp">
+
+                <Switch
+                    android:id="@+id/switchActive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cho phép bán"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/btnSendFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_btn_login"
+                android:fontFamily="sans-serif-medium"
+                android:padding="10dp"
+                android:text="Thêm sản phẩm"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

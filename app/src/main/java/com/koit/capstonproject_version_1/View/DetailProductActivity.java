@@ -1,11 +1,13 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -59,10 +62,12 @@ public class DetailProductActivity extends AppCompatActivity   {
     private Button btnDeleteProduct;
     private DetailProductController detailProductController;
     private TextView tvToolbarTitle;
+    public static  final int REQUEST_QUANTITY_CODE = 3;
 
     Category category;
     ArrayList<Unit> unitList;
     UserDAO userDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +112,7 @@ public class DetailProductActivity extends AppCompatActivity   {
         btnUpdateProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailProductActivity.this, UpdateProductActivity.class);
+                Intent intent = new Intent(DetailProductActivity.this, UpdateProductInformationActivity.class);
                 intent.putExtra("product",  product);
                 startActivity(intent);
             }
@@ -164,30 +169,48 @@ public class DetailProductActivity extends AppCompatActivity   {
         ConvertRateRecyclerAdapter convertRateRecyclerAdapter = new ConvertRateRecyclerAdapter(unitList,getApplicationContext());
         recyclerConvertRate.setAdapter(convertRateRecyclerAdapter);
 
+        setSpinnerUnit();
 
+    if (product.isActive())   switchActive.setChecked(true);
+    switchActive.setEnabled(false);
+    }
+
+    private void setSpinnerUnit(){
         ArrayAdapter<Unit> adapter =
                 new ArrayAdapter<Unit>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, unitList);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinnerUnit.setAdapter(adapter);
-       spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-               @Override
-               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                   tvUnitQuantity.setText(unitList.get(position).getUnitQuantity() + "");
-               }
+        spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tvUnitQuantity.setText(unitList.get(position).getUnitQuantity() + "");
+            }
 
-           @Override
-           public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-           }
-       });
-    if (product.isActive())   switchActive.setChecked(true);
-    switchActive.setEnabled(false);
+            }
+        });
     }
     public void back(View view) {
         onBackPressed();
     }
+    public  void addProductQuantity(View view){
+        Intent intent = new Intent(DetailProductActivity.this, AddQuantityActivity.class);
+        intent.putExtra("product",product);
 
+        startActivityForResult(intent, REQUEST_QUANTITY_CODE);
+    }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_QUANTITY_CODE && resultCode == Activity.RESULT_OK){
+            product = (Product) data.getSerializableExtra("product");
+            unitList = (ArrayList<Unit>) product.getUnits();
+            setSpinnerUnit();
+//            Log.d("category", category);
+//            tvCategory.setText(category);
+        }
+    }
 }

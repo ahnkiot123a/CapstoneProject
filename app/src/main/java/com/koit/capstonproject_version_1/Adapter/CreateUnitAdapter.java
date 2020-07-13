@@ -34,9 +34,6 @@ public class CreateUnitAdapter extends RecyclerView.Adapter<CreateUnitAdapter.Vi
         return listUnitResult;
     }
 
-    public CreateUnitAdapter() {
-
-    }
 
     public CreateUnitAdapter(Context context, ArrayList<Integer> listNumberOrder) {
         this.listNumberOrder = listNumberOrder;

@@ -1,51 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="50dp"
     android:background="@drawable/shape_box_border"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:weightSum="2.5">
+
+
 
 
     <TextView
         android:id="@+id/tvUnitName"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="22dp"
-        android:layout_y="19dp"
+        android:layout_weight="1"
         android:text="Bánh mì"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
-        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center"
+        />
 
     <TextView
-        android:layout_width="64dp"
+        android:id="@+id/tvBigUnitName2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="138dp"
-        android:layout_y="19dp"
+        android:layout_weight="0.5"
         android:gravity="center"
         android:text="="
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
-        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
     <TextView
         android:id="@+id/tvUnitPrice"
-        android:layout_width="129dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="228dp"
-        android:layout_y="19dp"
-        android:text="5000"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Bánh mì"
+        android:textColor="#000000"
+        />
 
-        android:textColor="#1EB524"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
-        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</AbsoluteLayout>
+</LinearLayout>

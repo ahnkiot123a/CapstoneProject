@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -16,10 +17,14 @@ import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
+import com.koit.capstonproject_version_1.Adapter.ItemAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.ListProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
+import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
 import androidx.annotation.Nullable;
@@ -27,6 +32,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class ListProductActivity extends AppCompatActivity {
     private ImageView imageView;
@@ -43,6 +50,7 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

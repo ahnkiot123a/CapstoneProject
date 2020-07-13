@@ -40,7 +40,7 @@ public class DetailProductController {
         Collections.sort(unitList, new Comparator<Unit>() {
             @Override
             public int compare(Unit o1, Unit o2) {
-                return (int) (o1.getUnitPrice() - o2.getUnitPrice());
+                return (int) (o2.getUnitPrice() - o1.getUnitPrice());
             }
 
 

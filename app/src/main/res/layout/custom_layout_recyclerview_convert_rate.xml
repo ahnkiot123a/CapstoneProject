@@ -1,51 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="50dp"
     android:background="@drawable/shape_box_border"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:weightSum="2.5">
 
+
+
+
+    <TextView
+        android:id="@+id/tvBigUnitName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Bánh mì"
+        android:textColor="#000000"
+        android:gravity="center"
+       />
 
     <TextView
         android:id="@+id/tvBigUnitName2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="169dp"
-        android:layout_y="17dp"
+        android:layout_weight="0.5"
         android:gravity="center"
         android:text="="
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
-        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvBigUnitName"
-        android:layout_width="101dp"
-        android:layout_height="wrap_content"
-        android:layout_x="19dp"
-        android:layout_y="17dp"
-        android:text="Bánh mì"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
-        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
     <TextView
         android:id="@+id/tvSmallestUnitName"
-        android:layout_width="127dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="253dp"
-        android:layout_y="17dp"
+        android:layout_weight="1"
+        android:gravity="center"
         android:text="Bánh mì"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
-        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
-        app:layout_constraintTop_toTopOf="parent" />
+         />
 
-</AbsoluteLayout>
+</LinearLayout>

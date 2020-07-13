@@ -5,6 +5,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Unit implements Serializable {
     private String unitId;
@@ -84,5 +85,11 @@ public class Unit implements Serializable {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Units").child(userId).child(productId);
         databaseReference.removeValue();
+    }
+    public void addUnitsToFirebase(String userId, String productId, List<Unit> unitList){
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("Units").child(userId).child(productId);
+//        databaseReference.push().setValue(this);
+        databaseReference.setValue(unitList);
     }
 }

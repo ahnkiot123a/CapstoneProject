@@ -36,8 +36,9 @@ public class ConvertRateRecyclerAdapter extends RecyclerView.Adapter<ConvertRate
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvSmallestUnitName.setText(unitArrayList.get(position+1).getConvertRate() + "  " + unitArrayList.get(0).getUnitName());
-        holder.tvBigUnitName.setText("1 " + unitArrayList.get(position + 1).getUnitName() );
+        int last = unitArrayList.size()-1;
+        holder.tvSmallestUnitName.setText(unitArrayList.get(position).getConvertRate() + "  " + unitArrayList.get(last).getUnitName());
+        holder.tvBigUnitName.setText("1 " + unitArrayList.get(position).getUnitName() );
     }
 
     @Override
