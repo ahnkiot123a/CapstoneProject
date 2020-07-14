@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -52,6 +53,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         TextView tvMinconvertRate;
         TextView tvBarcode;
         ConstraintLayout itemProduct;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.tvProductName);
@@ -119,7 +121,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 Intent intentProduct = new Intent(context, DetailProductActivity.class);
-                intentProduct.putExtra("product",product);
+                intentProduct.putExtra("product", product);
                 intentProduct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentProduct);
             }
@@ -129,10 +131,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     public long getMinProductPrice(List<Unit> unitList) {
         long minPrice = 0;
-        for (Unit unit : unitList) {
-            if (unit.getConvertRate() == 1) minPrice = unit.getUnitPrice();
-            break;
-        }
+        Log.d("CheckList",unitList.toString());
+        if (unitList != null)
+            for (Unit unit : unitList) {
+                Log.d("CheckListUnit",unit.toString());
+
+                if (unit.getConvertRate() == 1)
+                {minPrice = unit.getUnitPrice();
+                break;}
+            }
         return minPrice;
     }
 
@@ -140,23 +147,23 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         String minProductName = "";
         if (unitList != null)
             for (Unit unit : unitList) {
-                if (unit.getConvertRate() == 1) minProductName = unit.getUnitName();
-                break;
+                if (unit.getConvertRate() == 1) {
+                    minProductName = unit.getUnitName();
+                    break;
+                }
+
             }
         return minProductName;
     }
 
     public long getProductQuantity(List<Unit> unitList) {
-        long totalQuantity = 0;
-        long convertRate = 1;
-        long quantity = 0;
+        long minProductQuantity = 0;
         if (unitList != null)
             for (Unit unit : unitList) {
-                convertRate = unit.getConvertRate();
-                quantity = unit.getUnitQuantity();
-                totalQuantity += convertRate * quantity;
+                if (unit.getConvertRate() == 1) minProductQuantity = unit.getUnitQuantity();
+                break;
             }
-        return totalQuantity;
+        return minProductQuantity;
     }
 
     @Override
@@ -164,5 +171,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         return listProduct.size();
     }
 
+    public List<Product> getListProduct() {
+        return listProduct;
+    }
 
 }

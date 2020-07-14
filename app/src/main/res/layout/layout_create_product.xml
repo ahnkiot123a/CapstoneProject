@@ -164,12 +164,12 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Thêm đơn vị"
+                    android:text="Thêm "
                     android:textColor="@color/white"
                     android:paddingLeft="5dp"
                     android:textSize="12sp"
                     android:background="@drawable/custom_btn_add_unit"
-                    android:drawableLeft="@drawable/ic_baseline_add_24"/>
+                    android:drawableLeft="@drawable/ic_baseline_add_product"/>
 
 
             </LinearLayout>

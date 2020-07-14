@@ -180,17 +180,19 @@ public class Product implements Serializable {
                 product.setProductId(valueProduct.getKey());
                 DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
 
-                Log.d("kiemtraProductID", product.getProductId() + "");
                 //lay unit theo ma san pham
                 List<Unit> unitList = new ArrayList<>();
                 for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
-                    Log.d("kiemtraUnit", valueUnit + "");
                     Unit unit = valueUnit.getValue(Unit.class);
 
-                    unit.setUnitId(valueUnit.getKey());
-                    unitList.add(unit);
+                    if (unit != null) {
+                        unit.setUnitId(valueUnit.getKey());
+                        unitList.add(unit);
+                    }
                 }
                 product.setUnits(unitList);
+                Log.d("kiemtraProduct", unitList + "");
+
                 if (searchText == null) {
                     listProductInterface.getListProductModel(product);
                 } else {

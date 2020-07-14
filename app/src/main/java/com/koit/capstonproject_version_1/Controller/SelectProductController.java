@@ -18,12 +18,9 @@ import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.ListProductActivity;
 import com.koit.capstonproject_version_1.View.UpdateProductActivity;
-import com.koit.capstonproject_version_1.View.UpdateProductInformationActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
@@ -33,10 +30,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ListProductController extends AppCompatActivity {
-    //    private ListProductActivity listProductActivity;
-//    private DatabaseReference myRef;
-//    private ArrayList<Product> list;
+public class SelectProductController extends AppCompatActivity {
     private Context context;
     private Product product;
     ItemAdapter itemAdapter;
@@ -44,7 +38,7 @@ public class ListProductController extends AppCompatActivity {
     SwipeController swipeController = null;
     RecyclerView recyclerView;
 
-    public ListProductController(Context context) {
+    public SelectProductController(Context context) {
         this.context = context;
         product = new Product();
     }
@@ -99,8 +93,6 @@ public class ListProductController extends AppCompatActivity {
             @Override
             public void onRightClicked(final int position) {
                 //confirm to delete
-                final Product product = listProduct.get(position);
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(listProductActivity);
                 builder.setMessage("Bạn có chắc chắn muốn xoá sản phẩm này không? ")
                         .setCancelable(false)
@@ -134,10 +126,7 @@ public class ListProductController extends AppCompatActivity {
                 super.onLeftClicked(position);
                 //Itent sang man hinh edit
                 Product product = listProduct.get(position);
-                ArrayList<Unit> unitList = (ArrayList<Unit>) product.getUnits();
-                sortUnitByPrice(unitList);
-                product.setUnits(unitList);
-                Intent intentProduct = new Intent(context, UpdateProductInformationActivity.class);
+                Intent intentProduct = new Intent(context, UpdateProductActivity.class);
                 intentProduct.putExtra("product", product);
                 intentProduct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentProduct);
@@ -162,15 +151,5 @@ public class ListProductController extends AppCompatActivity {
     public void tranIntent(Activity activity1, Class activity2) {
         Intent intent = new Intent(activity1.getApplicationContext(), activity2);
         activity1.startActivity(intent);
-    }
-    public void sortUnitByPrice(ArrayList<Unit> unitList){
-        Collections.sort(unitList, new Comparator<Unit>() {
-            @Override
-            public int compare(Unit o1, Unit o2) {
-                return (int) (o2.getUnitPrice() - o1.getUnitPrice());
-            }
-
-
-        });
     }
 }

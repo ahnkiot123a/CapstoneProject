@@ -23,12 +23,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
-        <activity android:name=".View.EditConvertRateActivity"></activity>
-        <activity android:name=".View.EditProductUnitsActivity" />
-        <activity android:name=".View.AddQuantityActivity" />
         <activity
             android:name=".View.CreateProductActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
         <activity
             android:name=".View.MainActivity"
             android:label="@string/title_activity_main"
@@ -42,8 +41,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.UpdateProductInformationActivity" />
-        <activity android:name=".View.ListProductActivity" />
+
+        <activity android:name=".View.ListProductActivity">
+
+        </activity>
         <activity android:name=".View.RegisterActivity" />
         <activity
             android:name=".View.LoginActivity"
@@ -55,7 +56,8 @@
         <activity android:name=".View.ForgotPasswordActivity" />
         <activity android:name=".View.ResetPasswordActivity" />
         <activity android:name=".View.CustomScreenScanActivity" />
-        <activity android:name=".View.CategoryActivity" />
+        <activity android:name=".View.CategoryActivity"/>
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -77,9 +79,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.DetailProductActivity" />
-        <activity android:name=".View.UpdateProductActivity" />
+        <activity android:name=".View.DetailProductActivity">
 
+        </activity>
+        <activity android:name=".View.UpdateProductActivity">
+
+        </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
@@ -89,6 +94,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>
