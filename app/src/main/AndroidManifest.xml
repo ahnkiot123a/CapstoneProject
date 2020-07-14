@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
-        <activity android:name=".View.EditProductUnitsActivity"></activity>
+        <activity android:name=".View.EditConvertRateActivity"></activity>
+        <activity android:name=".View.EditProductUnitsActivity" />
         <activity android:name=".View.AddQuantityActivity" />
         <activity
             android:name=".View.CreateProductActivity"

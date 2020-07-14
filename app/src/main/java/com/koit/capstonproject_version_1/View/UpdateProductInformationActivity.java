@@ -58,6 +58,8 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
     public static  final int REQUEST_CATEGORY_CODE = 2;
     public static  final int REQUEST_QUANTITY_CODE = 3;
     public static  final int REQUEST_UNIT_CODE = 4;
+    public static  final int REQUEST_CONVERT_RATE_CODE = 5;
+
 
     private static final String BARCODE = "barcode";
     private static final String TAKE_PHOTO = "take_photo";
@@ -102,7 +104,20 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         setProductInformation();
          actionBtnEditUnits();
          actionBtnAddProductQuantiy();
+         actionBtnEditConvertRate();
 
+
+    }
+
+    private void actionBtnEditConvertRate() {
+        btnEditConvertRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UpdateProductInformationActivity.this, EditConvertRateActivity.class);
+                intent.putExtra("product",currentProduct);
+                startActivityForResult(intent, REQUEST_CONVERT_RATE_CODE);
+            }
+        });
     }
 
     private void actionBtnAddProductQuantiy() {
@@ -327,6 +342,11 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
             currentProduct = (Product) data.getSerializableExtra("product");
             listUnit = (ArrayList<Unit>) currentProduct.getUnits();
             setRecyclerUnits();
+        }
+        if(requestCode == REQUEST_CONVERT_RATE_CODE && resultCode == Activity.RESULT_OK){
+            currentProduct = (Product) data.getSerializableExtra("product");
+            listUnit = (ArrayList<Unit>) currentProduct.getUnits();
+            setRecyclerConvertRate();
         }
     }
 

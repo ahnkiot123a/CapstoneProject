@@ -22,6 +22,8 @@ import java.util.List;
 public class ListCategoryController {
     private Context context;
     private Category category;
+    private List<Category> categoryList;
+
 
     public ListCategoryController(Context context) {
         this.context = context;
@@ -31,8 +33,8 @@ public class ListCategoryController {
     public ListCategoryController() {
     }
     public void getListCategory(final Context context, final Spinner spinnerCategory) {
-        final List<Category> categoryList = new ArrayList<>();
-       categoryList.add(new Category("00","Tất cả các loại sản phẩm"));
+        categoryList = new ArrayList<>();
+        categoryList.add(new Category("00","Tất cả các loại sản phẩm"));
         ICategory iCategory = new ICategory() {
             @Override
             public void getCategory(Category category) {
@@ -51,4 +53,7 @@ public class ListCategoryController {
         category.getListCategory(iCategory);
     }
 
+    public List<Category> getCategories() {
+        return categoryList;
+    }
 }

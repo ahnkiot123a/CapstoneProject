@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditProductUnitsActivity extends AppCompatActivity {
-    private TextView tvToolbarTitle,tvConvertRate;
+    private TextView tvToolbarTitle;
     private Product currentProduct;
-    private RecyclerView recyclerUnits,recyclerConvertRate;
+    private RecyclerView recyclerUnits;
     private Button btnEditUnits;
     private List<Unit> unitList;
     private EditUnitAdapter editUnitAdapter;
@@ -70,8 +70,6 @@ public class EditProductUnitsActivity extends AppCompatActivity {
         tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
         recyclerUnits = findViewById(R.id.recyclerUnits);
         btnEditUnits = findViewById(R.id.btnEditUnits);
-        tvConvertRate = findViewById(R.id.tvConvertRate);
-        recyclerConvertRate = findViewById(R.id.recyclerConvertRate);
         addProductQuantityController = new AddProductQuantityController();
     }
     private void buildRecyclerViewUnits() {

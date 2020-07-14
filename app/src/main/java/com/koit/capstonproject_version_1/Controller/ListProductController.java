@@ -23,6 +23,8 @@ import com.koit.capstonproject_version_1.View.UpdateProductInformationActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
@@ -133,6 +135,9 @@ public class ListProductController extends AppCompatActivity {
                 super.onLeftClicked(position);
                 //Itent sang man hinh edit
                 Product product = listProduct.get(position);
+                ArrayList<Unit> unitList = (ArrayList<Unit>) product.getUnits();
+                sortUnitByPrice(unitList);
+                product.setUnits(unitList);
                 Intent intentProduct = new Intent(context, UpdateProductInformationActivity.class);
                 intentProduct.putExtra("product", product);
                 intentProduct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -154,5 +159,15 @@ public class ListProductController extends AppCompatActivity {
     public void tranIntent(Activity activity1, Class activity2) {
         Intent intent = new Intent(activity1.getApplicationContext(), activity2);
         activity1.startActivity(intent);
+    }
+    public void sortUnitByPrice(ArrayList<Unit> unitList){
+        Collections.sort(unitList, new Comparator<Unit>() {
+            @Override
+            public int compare(Unit o1, Unit o2) {
+                return (int) (o2.getUnitPrice() - o1.getUnitPrice());
+            }
+
+
+        });
     }
 }

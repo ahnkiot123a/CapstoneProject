@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.View;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.ListProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
+import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
@@ -34,6 +36,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListProductActivity extends AppCompatActivity {
     private ImageView imageView;
@@ -50,6 +53,7 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
+    private List<Category> categoryList;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -126,6 +130,12 @@ public class ListProductActivity extends AppCompatActivity {
         });
 
 
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               categoryList = listCategoryController.getCategories();
+            }
+        }, 3000L);
     }
 
     public void back(View view) {
