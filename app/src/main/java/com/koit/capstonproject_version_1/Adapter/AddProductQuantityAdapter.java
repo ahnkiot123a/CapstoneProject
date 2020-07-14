@@ -42,13 +42,13 @@ public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQu
     @Override
     public AddProductQuantityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.custom_add_quantity_recyclerview,parent,false);
+        View itemView = layoutInflater.inflate(R.layout.item_add_quantity_rv,parent,false);
         return new AddProductQuantityAdapter.ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final AddProductQuantityAdapter.ViewHolder holder, final int position) {
-        holder.etUnitName.setText(unitArrayList.get(position).getUnitName());
+        holder.tvUnitName.setText(unitArrayList.get(position).getUnitName());
         holder.etProductQuantity.setText("0");
         //unitArrayList.get(position).setUnitQuantity(0);
         holder.ibAddQuantity.setOnClickListener(new View.OnClickListener() {
@@ -74,11 +74,12 @@ public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQu
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextInputEditText etUnitName, etProductQuantity;
+        TextInputEditText etProductQuantity;
+        TextView tvUnitName;
         ImageButton ibMinusQuantity, ibAddQuantity;
 
-        public TextInputEditText getEtUnitName() {
-            return etUnitName;
+        public TextView getTvUnitName() {
+            return tvUnitName;
         }
 
         public TextInputEditText getEtProductQuantity() {
@@ -88,7 +89,7 @@ public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQu
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            etUnitName =  itemView.findViewById(R.id.etUnitName);
+            tvUnitName =  itemView.findViewById(R.id.tvUnitName);
             etProductQuantity =  itemView.findViewById(R.id.etProductQuantity);
             ibMinusQuantity =  itemView.findViewById(R.id.ibMinusQuantity);
             ibAddQuantity =  itemView.findViewById(R.id.ibAddQuantity);

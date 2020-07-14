@@ -24,8 +24,8 @@ import java.util.Date;
 
 public class CameraController {
 
-    Activity activity;
-    String currentPhotoPath = "";
+    private Activity activity;
+    private String currentPhotoPath = "";
 
     public String getCurrentPhotoPath() {
         return currentPhotoPath;
@@ -51,6 +51,8 @@ public class CameraController {
             }
         }
     }
+
+
 
     public void scanBarcode() {
         IntentIntegrator integrator = new IntentIntegrator(activity);
@@ -95,6 +97,7 @@ public class CameraController {
                 storageDir      /* directory */
         );
 
+        Log.i("imageName", imageFileName + storageDir);
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         Log.i("path", currentPhotoPath);

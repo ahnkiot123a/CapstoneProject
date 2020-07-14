@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
+import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
 
 public class CreateProductDAO {
@@ -45,4 +46,7 @@ public class CreateProductDAO {
         });
     }
 
+    public void addProductInFirebase(Product product) {
+
+    }
 }

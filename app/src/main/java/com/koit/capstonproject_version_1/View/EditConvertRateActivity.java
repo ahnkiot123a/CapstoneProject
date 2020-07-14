@@ -51,7 +51,6 @@ public class EditConvertRateActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("product",currentProduct);
                 setResult(Activity.RESULT_OK, intent);
-
                 finish();
             }
         });
@@ -95,7 +94,5 @@ public class EditConvertRateActivity extends AppCompatActivity {
         Intent intent = getIntent();
         currentProduct =(Product) intent.getSerializableExtra("product");
         unitList = currentProduct.getUnits();
-
-
     }
 }

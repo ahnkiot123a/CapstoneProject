@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,10 +65,11 @@ public class EditConvertRateAdapter extends RecyclerView.Adapter<EditConvertRate
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            etBigUnitName =  itemView.findViewById(R.id.etBigUnitName);
-            etConvertRate =  itemView.findViewById(R.id.etConvertRate);
-            etSmallUnitName =  itemView.findViewById(R.id.etSmallUnitName);
+            etBigUnitName = itemView.findViewById(R.id.etBigUnitName);
+            etConvertRate = itemView.findViewById(R.id.etConvertRate);
+            etSmallUnitName = itemView.findViewById(R.id.etSmallUnitName);
 
 
-        }    }
+        }
+    }
 }

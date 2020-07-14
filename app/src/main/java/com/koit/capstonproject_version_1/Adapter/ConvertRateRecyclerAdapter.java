@@ -50,8 +50,8 @@ public class ConvertRateRecyclerAdapter extends RecyclerView.Adapter<ConvertRate
         TextView tvBigUnitName, tvSmallestUnitName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvBigUnitName = (TextView) itemView.findViewById(R.id.tvBigUnitName);
-            tvSmallestUnitName = (TextView) itemView.findViewById(R.id.tvSmallestUnitName);
+            tvBigUnitName = itemView.findViewById(R.id.tvBigUnitName);
+            tvSmallestUnitName = itemView.findViewById(R.id.tvSmallestUnitName);
         }
 
     }

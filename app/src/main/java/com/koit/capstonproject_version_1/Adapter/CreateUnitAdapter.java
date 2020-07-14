@@ -115,47 +115,6 @@ public class CreateUnitAdapter extends RecyclerView.Adapter<CreateUnitAdapter.Vi
                     }
                 }
             });
-
-            etUnitName.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    Log.i("unitname", s.toString());
-                    if(s.length() > 0){
-                        unit.setUnitName(s.toString());
-                    }
-                }
-            });
-
-            etUnitPrice.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    Log.i("unitname", s.toString());
-
-                    if(s.length() > 0){
-                        unit.setUnitPrice(Long.parseLong(s.toString()));
-                    }
-                }
-            });
         }
 
         public void setTvNumberOrder(int numberOrder){

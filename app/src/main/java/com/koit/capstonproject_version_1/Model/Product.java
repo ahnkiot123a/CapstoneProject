@@ -29,7 +29,7 @@ public class Product implements Serializable {
     private String userId, productId, barcode, categoryName, productDescription, productImageUrl;
     private String productName;
     private boolean active;
-    DatabaseReference nodeRoot;
+    private DatabaseReference nodeRoot;
     private List<Unit> units;
 
 
@@ -128,6 +128,21 @@ public class Product implements Serializable {
         this.units = units;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "userId='" + userId + '\'' +
+                ", productId='" + productId + '\'' +
+                ", barcode='" + barcode + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", productDescription='" + productDescription + '\'' +
+                ", productImageUrl='" + productImageUrl + '\'' +
+                ", productName='" + productName + '\'' +
+                ", active=" + active +
+                ", units=" + units +
+                ", userDAO=" + userDAO +
+                '}';
+    }
 
     public static void show(Context c, String message) {
         Toast.makeText(c, message, Toast.LENGTH_SHORT).show();

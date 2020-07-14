@@ -86,7 +86,7 @@ public class AddQuantityActivity extends AppCompatActivity {
         List<Unit> list = new ArrayList<>();
         for (int i = 0; i < addProductQuantityAdapter.getItemCount(); i++) {
             AddProductQuantityAdapter.ViewHolder viewHolder = (AddProductQuantityAdapter.ViewHolder) recyclerUnitQuantity.findViewHolderForAdapterPosition(i);
-            String unitName = viewHolder.getEtUnitName().getText().toString().trim();
+            String unitName = viewHolder.getTvUnitName().getText().toString().trim();
             String unitQuantity = viewHolder.getEtProductQuantity().getText().toString().trim();
           //  Log.i("quantity after ", unitQuantity);
             if(!unitName.isEmpty() && !unitQuantity.isEmpty()){

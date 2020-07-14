@@ -13,6 +13,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
+import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.LinearLayoutManagerWrapper;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
@@ -46,9 +48,9 @@ public class CreateProductActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST_CODE = 103;
     public static final int GALLERY_REQ_CODE = 104;
     public static  final int REQUEST_CATEGORY_CODE = 2;
+    public static final String NEW_PRODUCT = "PRODUCT";
 
-    private static final String BARCODE = "barcode";
-    private static final String TAKE_PHOTO = "take_photo";
+    public static String photoName;
 
     private TextInputEditText etBarcode;
     private Toolbar toolbar;
@@ -58,12 +60,12 @@ public class CreateProductActivity extends AppCompatActivity {
     private TextView tvCategory;
     private BottomSheetDialog bottomSheetDialog;
     private ImageView ivProduct;
-    private RecyclerView recyclerCreateUnit;
+    private static RecyclerView recyclerCreateUnit;
+    private Switch switchActive;
+
     private ArrayList<Integer> listUnit;
     private CameraController cameraController;
-    private CreateUnitAdapter createUnitAdapter;
-    private LinearLayoutManagerWrapper layoutManagerWrapper;
-
+    private static CreateUnitAdapter createUnitAdapter;
 
 
 
@@ -74,7 +76,7 @@ public class CreateProductActivity extends AppCompatActivity {
 
         //init activity
         initView();
-        controller = new CreateProductController();
+        controller = new CreateProductController(CreateProductActivity.this);
         bottomSheetDialog = new BottomSheetDialog(CreateProductActivity.this, R.style.BottomSheet);
 
         cameraController = new CameraController(this);
@@ -92,8 +94,7 @@ public class CreateProductActivity extends AppCompatActivity {
 
     private void buildRvUnit() {
         recyclerCreateUnit.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
         recyclerCreateUnit.setLayoutManager(linearLayoutManager);
         createUnitAdapter = new CreateUnitAdapter(this, listUnit);
         recyclerCreateUnit.setAdapter(createUnitAdapter);
@@ -121,6 +122,7 @@ public class CreateProductActivity extends AppCompatActivity {
         tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
         ivProduct = findViewById(R.id.ivProduct);
         recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
+        switchActive = findViewById(R.id.switchActive);
 
     }
 
@@ -142,21 +144,25 @@ public class CreateProductActivity extends AppCompatActivity {
         insertItem(position);
     }
 
+    //insert one unit item in recycler view
     private void insertItem(int position) {
         listUnit.add(position);
         createUnitAdapter.notifyDataSetChanged();
     }
 
+    //remove one unit item in recycler view
     private void removeItem(int position) {
         listUnit.remove(position);
-        createUnitAdapter.notifyItemChanged(position);
+        createUnitAdapter.notifyDataSetChanged();
     }
 
+    //create product
     public void addProduct(View view) {
-        getUnitFromRv();
+        controller.createProduct(etBarcode, tetProductName, tetDescription, tvCategory,switchActive.isChecked());
+
     }
 
-    private ArrayList<Unit> getUnitFromRv(){
+    public static ArrayList<Unit> getUnitFromRv(){
         ArrayList<Unit> list = new ArrayList<>();
         for (int i = 0; i < createUnitAdapter.getItemCount(); i++) {
             CreateUnitAdapter.ViewHolder viewHolder = (CreateUnitAdapter.ViewHolder) recyclerCreateUnit.findViewHolderForAdapterPosition(i);
@@ -170,7 +176,7 @@ public class CreateProductActivity extends AppCompatActivity {
                 list.add(unit);
             }
         }
-        Log.i("listUnit", list.get(0).getUnitPrice() +"");
+        Log.i("listUnit", list.toString());
         return list;
     }
 
@@ -241,9 +247,13 @@ public class CreateProductActivity extends AppCompatActivity {
         }
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Log.i("image", cameraController.getCurrentPhotoPath());
-            File file = new File(cameraController.getCurrentPhotoPath());
+            String photoPath = cameraController.getCurrentPhotoPath();
+            File file = new File(photoPath);
             ivProduct.setImageURI(Uri.fromFile(file));
             ivProduct.setRotation(ivProduct.getRotation() + 90);
+            String [] arrayPath = photoPath.split("[/]");
+            photoName = arrayPath[arrayPath.length-1];
+            Log.i("photoName", photoName);
 
 
         }
@@ -253,6 +263,7 @@ public class CreateProductActivity extends AppCompatActivity {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imgFileName = "JPEG" + "_"  + timeStamp + "." + getFileExt(contentUri);
             Log.i("gallery", "onActivityResult: Gallery Image Uri " + imgFileName);
+            photoName = imgFileName;
             ivProduct.setImageURI(contentUri);
             ivProduct.setRotation(ivProduct.getRotation() + 180);
         }

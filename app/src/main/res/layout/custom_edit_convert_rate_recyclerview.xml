@@ -52,7 +52,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:fontFamily="sans-serif-medium"
-                    android:hint="Quy đổi"
                     android:inputType="number"
                     android:padding="10dp"
                     android:singleLine="true"
