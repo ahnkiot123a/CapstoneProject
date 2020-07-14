@@ -160,8 +160,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         long minProductQuantity = 0;
         if (unitList != null)
             for (Unit unit : unitList) {
-                if (unit.getConvertRate() == 1) minProductQuantity = unit.getUnitQuantity();
-                break;
+                if (unit.getConvertRate() == 1) {
+                    minProductQuantity = unit.getUnitQuantity();
+                    break;
+                }
             }
         return minProductQuantity;
     }

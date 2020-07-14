@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -32,7 +33,7 @@ public class ListProductActivity extends AppCompatActivity {
     private ImageView imageView;
     private Spinner category_Spinner;
     private TextView tvTotalQuantity;
-    private TextView searchView;
+    private SearchView searchView;
     private RecyclerView recyclerViewListProduct;
     private ListProductController listProductController;
     private ListCategoryController listCategoryController;
@@ -75,25 +76,19 @@ public class ListProductActivity extends AppCompatActivity {
         listProductController.setupRecyclerView(recyclerViewListProduct, this);
         listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
                 linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
-        searchView.addTextChangedListener(new TextWatcher() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            public boolean onQueryTextSubmit(String query) {
+                return true;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                listProductController.getListProduct(s.toString(), recyclerViewListProduct, tvTotalQuantity,
+            public boolean onQueryTextChange(String newText) {
+                listProductController.getListProduct(newText, recyclerViewListProduct, tvTotalQuantity,
                         linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+                return true;
             }
         });
-
 
         listCategoryController = new ListCategoryController(this.getApplicationContext());
         listCategoryController.getListCategory(getApplicationContext(), category_Spinner);
@@ -116,7 +111,6 @@ public class ListProductActivity extends AppCompatActivity {
 
             }
         });
-
 
     }
 
