@@ -20,7 +20,7 @@ import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
 
-public class CreateUnitAdapter extends RecyclerView.Adapter<CreateUnitAdapter.ViewHolder> {
+public class  CreateUnitAdapter extends RecyclerView.Adapter<CreateUnitAdapter.ViewHolder> {
 
     private OnItemClickLister mLister;
 
