@@ -2,6 +2,8 @@ package com.koit.capstonproject_version_1.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -9,8 +11,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.View;
 
 import com.koit.capstonproject_version_1.Adapter.AddProductQuantityAdapter;
 import com.koit.capstonproject_version_1.Adapter.EditConvertRateAdapter;
@@ -20,6 +20,7 @@ import com.koit.capstonproject_version_1.Controller.DetailProductController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.CreateProductDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,15 +75,16 @@ public class ConvertRateActivity extends AppCompatActivity {
 
     private void addProductToFirebase() {
         addUnitToFirebase();
-
+        CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
     }
 
     private void addUnitToFirebase() {
         if(unitList.size() >1){
-            getUnitFromRv();
+            setConvertRateFromRv();
         }else{
             unitList.get(0).setConvertRate(1);
         }
+        setUnitQuantityFromRV();
         currentProduct.setUnits(unitList);
         addProductQuantityController.addUnitsToFireBase(currentProduct,unitList);
     }
@@ -116,13 +118,26 @@ public class ConvertRateActivity extends AppCompatActivity {
         addProductQuantityAdapter = new AddProductQuantityAdapter( unitList,this);
         rvUnitQuantity.setAdapter(addProductQuantityAdapter);
     }
-    private void getUnitFromRv() {
+
+    private void setConvertRateFromRv() {
         for (int i = 0; i < editConvertRateAdapter.getItemCount(); i++) {
             EditConvertRateAdapter.ViewHolder viewHolder = (EditConvertRateAdapter.ViewHolder) rvConvertRate.findViewHolderForAdapterPosition(i);
             String convertRate = viewHolder.getEtConvertRate().getText().toString().trim();
             long rate = convertRate.isEmpty() ? 1 : Long.parseLong(convertRate);
             unitList.get(i).setConvertRate(rate);
         }
+    }
+
+    private void setUnitQuantityFromRV() {
+        List<Unit> list = new ArrayList<>();
+        for (int i = 0; i < addProductQuantityAdapter.getItemCount(); i++) {
+            AddProductQuantityAdapter.ViewHolder viewHolder = (AddProductQuantityAdapter.ViewHolder) rvUnitQuantity.findViewHolderForAdapterPosition(i);
+            String unitQuantity = viewHolder.getEtProductQuantity().getText().toString().trim();
+            long quantity = unitQuantity.isEmpty() ? 0 : Long.parseLong(unitQuantity);
+            unitList.get(i).setUnitQuantity(quantity);
+        }
+        Log.i("unitList", unitList.toString());
+        addProductQuantityController.convertUnitList2(unitList);
     }
 
 

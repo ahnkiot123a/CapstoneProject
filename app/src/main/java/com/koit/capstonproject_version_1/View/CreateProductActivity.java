@@ -173,6 +173,7 @@ public class CreateProductActivity extends AppCompatActivity {
                 Unit unit = new Unit();
                 unit.setUnitName(unitName);
                 unit.setUnitPrice(Long.parseLong(unitPrice));
+                unit.setConvertRate(1);
                 list.add(unit);
             }
         }

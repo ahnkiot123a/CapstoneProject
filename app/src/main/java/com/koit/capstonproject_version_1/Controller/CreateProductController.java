@@ -44,7 +44,7 @@ public class CreateProductController {
                 if (product != null) {
                     Log.i("product", product.toString());
                     tetProductName.setText(product.getName().trim());
-                    tvCategory.setText(product.getCategoryName().trim());
+                    tvCategory.setText("Loại sản phẩm" + product.getCategoryName().trim());
                 }
             }
         };

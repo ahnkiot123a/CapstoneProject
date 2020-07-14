@@ -47,6 +47,9 @@ public class CreateProductDAO {
     }
 
     public void addProductInFirebase(Product product) {
-
+        product.setUnits(null);
+        String userId = UserDAO.getInstance().getUserID();
+        databaseReference = databaseReference.child("Products").child(userId).child(product.getProductId());
+        databaseReference.setValue(product);
     }
 }
