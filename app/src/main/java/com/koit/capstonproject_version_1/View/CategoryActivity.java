@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
@@ -37,8 +39,9 @@ public class CategoryActivity extends AppCompatActivity {
     private Button btnAddNewCategory,btnCancelAddNewCategory;
     private EditText edAddNewCategory;
     private List<Category> categoryList;
+    private ListCategoryController listCategoryController;
     private UserDAO userDAO;
-    CategoryDAO categoryDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +50,20 @@ public class CategoryActivity extends AppCompatActivity {
 
         initView();
         userDAO = new UserDAO();
-        categoryDAO = new CategoryDAO();
-        categoryDAO.getListCategory(this,lvCategory);
+        listCategoryController = new ListCategoryController(this);
+        listCategoryController.getListCategory(this,lvCategory);
       //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
         getCategoryListView();
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                categoryList = listCategoryController.getCategories();
+
+            }
+        }, 1000);
+
+
     }
 
     private void initView() {
@@ -79,10 +92,6 @@ public class CategoryActivity extends AppCompatActivity {
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.custome_add_new_category_dialog, null);
 
-
-//        final Dialog dialog = new Dialog(CategoryActivity.this);
-//        //dialog.setTitle("Thêm loại sản phẩm");
-//        dialog.setContentView(R.layout.custome_add_new_category_dialog);
         btnAddNewCategory = dialogView.findViewById(R.id.btnAddNewCategory);
        btnCancelAddNewCategory = dialogView.findViewById(R.id.btnCancelAddNewCategory);
        edAddNewCategory = dialogView.findViewById(R.id.edAddNewCategory);
@@ -91,17 +100,36 @@ public class CategoryActivity extends AppCompatActivity {
         btnAddNewCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String categoryName = edAddNewCategory.getText().toString();
-                Category category = new Category(categoryName);
-                category.addCategoryToFireBase(userDAO.getUserID());
-               // CategoryDAO.getInstance().getListCategory(CategoryActivity.this, lvCategory);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        String categoryName = edAddNewCategory.getText().toString().trim();
+                        categoryList = listCategoryController.getCategories();
+
+                        boolean flag = true;
+                        for (int i = 0;i<categoryList.size();i++){
+                            if(categoryName.equals(categoryList.get(i).getCategoryName()))
+                                flag = false;
+                        }
+                           // Log.i("categoryList", categoryList.get(i).getCategoryName());
+
+                        if(flag) {
+                            Category category = new Category(categoryName);
+                            category.addCategoryToFireBase(userDAO.getUserID());
+                            // CategoryDAO.getInstance().getListCategory(CategoryActivity.this, lvCategory);
 
 
-                Intent intent = new Intent();
-               intent.putExtra(CATEGORY_DATA, categoryName);
-               setResult(Activity.RESULT_OK, intent);
+                            Intent intent = new Intent();
+                            intent.putExtra(CATEGORY_DATA, categoryName);
+                            setResult(Activity.RESULT_OK, intent);
 
-            finish();
+                            finish();
+                        } else {
+                            Toast.makeText(CategoryActivity.this, "Loại sản phẩm đã có trong hệ thống", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },1000);
+
             }
         });
         btnCancelAddNewCategory.setOnClickListener(new View.OnClickListener() {

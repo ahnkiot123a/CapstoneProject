@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.Controller;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,6 +49,25 @@ public class ListCategoryController {
 
                 spinnerCategory.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+            }
+        };
+        category.getListCategory(iCategory);
+    }
+
+
+
+    public void getListCategory(final Context context, final ListView listView) {
+        categoryList = new ArrayList<>();
+        ICategory iCategory = new ICategory() {
+            @Override
+            public void getCategory(Category category) {
+                Log.d("kiemtra", category.getCategoryName() + "");
+                categoryList.add(category);
+                ArrayAdapter<Category> adapter =
+                        new ArrayAdapter<>(context,
+                                android.R.layout.simple_list_item_1,
+                                categoryList);
+                listView.setAdapter(adapter);
             }
         };
         category.getListCategory(iCategory);

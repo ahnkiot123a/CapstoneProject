@@ -193,7 +193,10 @@ public class DetailProductActivity extends AppCompatActivity   {
         });
     }
     public void back(View view) {
-        onBackPressed();
+
+
+        Intent intent = new Intent(DetailProductActivity.this, ListProductActivity.class);
+        startActivity(intent);
     }
     public  void addProductQuantity(View view){
         Intent intent = new Intent(DetailProductActivity.this, AddQuantityActivity.class);

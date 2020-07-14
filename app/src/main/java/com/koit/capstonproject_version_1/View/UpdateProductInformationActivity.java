@@ -118,21 +118,16 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
                 String name = tetProductName.getText().toString().trim();
                 String description = tetDescription.getText().toString().trim();
                 String categoryName = tvCategory.getText().toString().trim();
-
                 Boolean active = (switchActive.isChecked()) ? true : false;
-
                 currentProduct.setBarcode(barcode);
                 currentProduct.setProductName(name);
                 currentProduct.setCategoryName(categoryName);
                 currentProduct.setProductDescription(description);
                 currentProduct.setActive(active);
-
-                currentProduct.updateProductToFirebase(userDAO.getUserID(),currentProduct);
-
-
-
-                Intent intent = new Intent(UpdateProductInformationActivity.this, ListProductActivity.class);
-                //intent.putExtra("product",currentProduct);
+                Product productDAO = new Product();
+                productDAO.updateProductToFirebase(userDAO.getUserID(),currentProduct);
+                Intent intent = new Intent(UpdateProductInformationActivity.this, DetailProductActivity.class);
+                intent.putExtra("product",  currentProduct);
                 startActivity(intent);
             }
         });
