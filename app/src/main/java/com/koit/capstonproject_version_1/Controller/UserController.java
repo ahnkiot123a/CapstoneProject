@@ -145,12 +145,12 @@ public class UserController {
                                       EditText edStorename, User currentUser
                                         ) {
 
-        String fullName = edFullname.getText().toString();
-        String email = edEmail.getText().toString();
-        String phoneNumber = edPhoneNumber.getText().toString();
-        String address = edAddress.getText().toString();
-        String storeName = edStorename.getText().toString();
-        String dob = edDob.getText().toString();
+        String fullName = edFullname.getText().toString().trim();
+        String email = edEmail.getText().toString().trim();
+        String phoneNumber = edPhoneNumber.getText().toString().trim();
+        String address = edAddress.getText().toString().trim();
+        String storeName = edStorename.getText().toString().trim();
+        String dob = edDob.getText().toString().trim();
         boolean gender = (rbMale.isChecked()) ? true : false;
 
         if (fullName.isEmpty()){

@@ -62,15 +62,14 @@ public class EditConvertRateActivity extends AppCompatActivity {
             EditConvertRateAdapter.ViewHolder viewHolder = (EditConvertRateAdapter.ViewHolder) recyclerConvertRate.findViewHolderForAdapterPosition(i);
             String unitBigName = viewHolder.getEtBigUnitName().getText().toString().trim();
             String convertRate = viewHolder.getEtConvertRate().getText().toString().trim();
-
+            long unitSmallestQuantity = unitList.get(unitList.size()-1).getUnitQuantity();
             //Log.i("price", unitPrice);
             if(!unitBigName.isEmpty() && !convertRate.isEmpty()){
-                //unitList.get(i).setUnitName(unitName);
+                long newConvertRate = Long.parseLong(convertRate);
                 unitList.get(i).setConvertRate(Long.parseLong(convertRate));
-//                Unit unit = new Unit();
-//                unit
-//                unit.setUnitPrice(Long.parseLong(unitPrice));
-//                list.add(unit);
+                long quantity = (int) unitSmallestQuantity / newConvertRate;
+                unitList.get(i).setUnitQuantity(quantity);
+
             }
         }
         //Log.i("listUnit", list.get(0).getUnitPrice() +"");

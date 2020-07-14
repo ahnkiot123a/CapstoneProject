@@ -41,7 +41,9 @@ import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.DetailProductController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
+import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -70,7 +72,7 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
     private CreateProductController controller;
     private TextInputEditText tetProductName, tetDescription;
     private TextView tvCategory;
-    private Button btnEditUnits,btnEditConvertRate, btnAddProductQuantiy;
+    private Button btnEditUnits,btnEditConvertRate, btnAddProductQuantiy,btnUpdateProduct;
     private BottomSheetDialog bottomSheetDialog;
     private ImageView ivProduct;
     private RecyclerView recyclerUnits,recyclerConvertRate;
@@ -81,7 +83,7 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
     private Switch switchActive;
     private Spinner spinnerUnit;
     private DetailProductController detailProductController;
-
+    private UserDAO userDAO;
 
 
     @Override
@@ -105,10 +107,36 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
          actionBtnEditUnits();
          actionBtnAddProductQuantiy();
          actionBtnEditConvertRate();
-
+        actionBtnUpdateProduct();
 
     }
+    private void actionBtnUpdateProduct(){
+        btnUpdateProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String barcode = etBarcode.getText().toString().trim();
+                String name = tetProductName.getText().toString().trim();
+                String description = tetDescription.getText().toString().trim();
+                String categoryName = tvCategory.getText().toString().trim();
 
+                Boolean active = (switchActive.isChecked()) ? true : false;
+
+                currentProduct.setBarcode(barcode);
+                currentProduct.setProductName(name);
+                currentProduct.setCategoryName(categoryName);
+                currentProduct.setProductDescription(description);
+                currentProduct.setActive(active);
+
+                currentProduct.updateProductToFirebase(userDAO.getUserID(),currentProduct);
+
+
+
+                Intent intent = new Intent(UpdateProductInformationActivity.this, ListProductActivity.class);
+                //intent.putExtra("product",currentProduct);
+                startActivity(intent);
+            }
+        });
+    }
     private void actionBtnEditConvertRate() {
         btnEditConvertRate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,15 +179,17 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         tetDescription.setText(currentProduct.getProductDescription());
         if(currentProduct.isActive()) switchActive.setChecked(true);
         detailProductController.setProductImageView(ivProduct,currentProduct);
-        tvCategory.setText("Loại sản phẩm: " + currentProduct.getCategoryName());
+        tvCategory.setText(currentProduct.getCategoryName());
 
       setRecyclerUnits();
 
        setRecyclerConvertRate();
 
        setSpinnerUnit();
+
         // setSpinnerUnit(currentProduct.getUnits());
     }
+
     private void setRecyclerUnits(){
         recyclerUnits.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -226,7 +256,9 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         btnAddProductQuantiy = findViewById(R.id.btnAddProductQuantiy);
         spinnerUnit = findViewById(R.id.spinnerUnit);
         tvUnitQuantity = findViewById(R.id.tvUnitQuantity);
+        btnUpdateProduct = findViewById(R.id.btnUpdateProduct);
         detailProductController = new DetailProductController();
+        userDAO = new UserDAO();
     }
 
     @Override
@@ -342,11 +374,14 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
             currentProduct = (Product) data.getSerializableExtra("product");
             listUnit = (ArrayList<Unit>) currentProduct.getUnits();
             setRecyclerUnits();
+            setRecyclerConvertRate();
+            setSpinnerUnit();
         }
         if(requestCode == REQUEST_CONVERT_RATE_CODE && resultCode == Activity.RESULT_OK){
             currentProduct = (Product) data.getSerializableExtra("product");
             listUnit = (ArrayList<Unit>) currentProduct.getUnits();
             setRecyclerConvertRate();
+            setSpinnerUnit();
         }
     }
 

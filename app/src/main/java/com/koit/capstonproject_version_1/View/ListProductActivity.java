@@ -53,7 +53,6 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
-    private List<Category> categoryList;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -133,7 +132,10 @@ public class ListProductActivity extends AppCompatActivity {
         (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
-               categoryList = listCategoryController.getCategories();
+
+            List<Category> categoryList = listCategoryController.getCategories();
+            for (int i = 0;i<categoryList.size();i++)
+                Log.i("categoryList", categoryList.get(i).getCategoryName());
             }
         }, 3000L);
     }

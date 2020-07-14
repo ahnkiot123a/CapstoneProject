@@ -299,5 +299,16 @@ public class Product implements Serializable {
         databaseReference = firebaseDatabase.getReference().child("Products").child(userId).child(productId);
         databaseReference.removeValue();
     }
+    public void updateProductToFirebase(String userId,Product product ){
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Products")
+                                            .child(userId).child(product.getProductId());
+        databaseReference.child("active").setValue(product.isActive());
+        databaseReference.child("barcode").setValue(product.getBarcode());
+        databaseReference.child("categoryName").setValue(product.getCategoryName());
+        databaseReference.child("productDescription").setValue(product.getProductDescription());
+        databaseReference.child("productImageUrl").setValue(product.getProductImageUrl());
+        databaseReference.child("productName").setValue(product.getProductName());
+
+    }
 
 }
