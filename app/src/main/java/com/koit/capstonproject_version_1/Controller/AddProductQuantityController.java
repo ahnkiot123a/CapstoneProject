@@ -10,15 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class AddProductQuantityController {
-    private Unit unit;
-    private UserDAO userDAO;
-
-
-
-
     public AddProductQuantityController() {
-        unit = new Unit();
-        userDAO = new UserDAO();
     }
     public void convertUnitList(List<Unit> unitList){
        // Collections.reverse(unitList);
@@ -44,7 +36,8 @@ public class AddProductQuantityController {
 
 
     public void addUnitsToFireBase(Product product, List<Unit> unitList){
-        unit.addUnitsToFirebase(userDAO.getUserID(),product.getProductId(),unitList);
+        Unit unit = new Unit();
+        unit.addUnitsToFirebase(UserDAO.getInstance().getUserID(),product.getProductId(),unitList);
     }
 
 

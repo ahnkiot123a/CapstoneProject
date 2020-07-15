@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ProviderInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,8 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,30 +23,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.koit.capstonproject_version_1.Adapter.ConvertRateRecyclerAdapter;
-import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
-import com.koit.capstonproject_version_1.Adapter.UnitRecyclerAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.DetailProductController;
+import com.koit.capstonproject_version_1.Controller.UpdateProductController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
-import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class UpdateProductInformationActivity extends AppCompatActivity {
 
@@ -57,33 +48,35 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
     public static final int TAKE_PHOTO_PER_CODE = 102;
     public static final int CAMERA_REQUEST_CODE = 103;
     public static final int GALLERY_REQ_CODE = 104;
-    public static  final int REQUEST_CATEGORY_CODE = 2;
-    public static  final int REQUEST_QUANTITY_CODE = 3;
-    public static  final int REQUEST_UNIT_CODE = 4;
-    public static  final int REQUEST_CONVERT_RATE_CODE = 5;
+    public static final int REQUEST_CATEGORY_CODE = 2;
+    public static final int REQUEST_QUANTITY_CODE = 3;
+    public static final int REQUEST_UNIT_CODE = 4;
+    public static final int REQUEST_CONVERT_RATE_CODE = 5;
 
+    public static String photoName;
+    public static Uri photoUri;
 
     private static final String BARCODE = "barcode";
     private static final String TAKE_PHOTO = "take_photo";
 
     private TextInputEditText etBarcode;
     private Toolbar toolbar;
-    private TextView tvToolbarTitle,tvConvertRate,tvUnitQuantity;
+    private TextView tvToolbarTitle, tvConvertRate, tvUnitQuantity;
     private CreateProductController controller;
     private TextInputEditText tetProductName, tetDescription;
     private TextView tvCategory;
-    private Button btnEditUnits,btnEditConvertRate, btnAddProductQuantiy,btnUpdateProduct;
+    private Button btnEditUnits, btnEditConvertRate, btnAddProductQuantiy, btnUpdateProduct;
     private BottomSheetDialog bottomSheetDialog;
     private ImageView ivProduct;
-    private RecyclerView recyclerUnits,recyclerConvertRate;
+    private RecyclerView recyclerUnits, recyclerConvertRate;
     private ArrayList<Unit> listUnit;
     private CameraController cameraController;
-    private CreateUnitAdapter createUnitAdapter;
     private Product currentProduct;
     private Switch switchActive;
     private Spinner spinnerUnit;
     private DetailProductController detailProductController;
-    private UserDAO userDAO;
+
+    private UpdateProductController updateProductController;
 
 
     @Override
@@ -96,48 +89,36 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         controller = new CreateProductController();
         bottomSheetDialog = new BottomSheetDialog(UpdateProductInformationActivity.this, R.style.BottomSheet);
 
+        detailProductController = new DetailProductController(this);
         cameraController = new CameraController(this);
-
+        updateProductController = new UpdateProductController(this);
         tvToolbarTitle.setText("Cập nhật sản phẩm");
 
-
         //build recyclerview unit
-       // buildRvUnit();
+        // buildRvUnit();
         setProductInformation();
-         actionBtnEditUnits();
-         actionBtnAddProductQuantiy();
-         actionBtnEditConvertRate();
+        actionBtnEditUnits();
+        actionBtnAddProductQuantiy();
+        actionBtnEditConvertRate();
         actionBtnUpdateProduct();
 
     }
-    private void actionBtnUpdateProduct(){
+
+    private void actionBtnUpdateProduct() {
         btnUpdateProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String barcode = etBarcode.getText().toString().trim();
-                String name = tetProductName.getText().toString().trim();
-                String description = tetDescription.getText().toString().trim();
-                String categoryName = tvCategory.getText().toString().trim();
-                Boolean active = (switchActive.isChecked()) ? true : false;
-                currentProduct.setBarcode(barcode);
-                currentProduct.setProductName(name);
-                currentProduct.setCategoryName(categoryName);
-                currentProduct.setProductDescription(description);
-                currentProduct.setActive(active);
-                Product productDAO = new Product();
-                productDAO.updateProductToFirebase(userDAO.getUserID(),currentProduct);
-                Intent intent = new Intent(UpdateProductInformationActivity.this, DetailProductActivity.class);
-                intent.putExtra("product",  currentProduct);
-                startActivity(intent);
+                updateProductController.updateProduct(etBarcode,tetProductName,tetDescription,tvCategory,switchActive,currentProduct);
             }
         });
     }
+
     private void actionBtnEditConvertRate() {
         btnEditConvertRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UpdateProductInformationActivity.this, EditConvertRateActivity.class);
-                intent.putExtra("product",currentProduct);
+                intent.putExtra("product", currentProduct);
                 startActivityForResult(intent, REQUEST_CONVERT_RATE_CODE);
             }
         });
@@ -148,7 +129,7 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UpdateProductInformationActivity.this, AddQuantityActivity.class);
-                intent.putExtra("product",currentProduct);
+                intent.putExtra("product", currentProduct);
                 startActivityForResult(intent, REQUEST_QUANTITY_CODE);
             }
         });
@@ -159,69 +140,41 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UpdateProductInformationActivity.this, EditProductUnitsActivity.class);
-                intent.putExtra("product",  currentProduct);
-                startActivityForResult(intent,REQUEST_UNIT_CODE);
+                intent.putExtra("product", currentProduct);
+                startActivityForResult(intent, REQUEST_UNIT_CODE);
             }
         });
     }
 
-    private void setProductInformation(){
+    private void setProductInformation() {
         Intent intent = getIntent();
-        currentProduct =(Product) intent.getSerializableExtra("product");
+        currentProduct = (Product) intent.getSerializableExtra("product");
         listUnit = (ArrayList<Unit>) currentProduct.getUnits();
         etBarcode.setText(currentProduct.getBarcode());
         tetProductName.setText(currentProduct.getProductName());
         tetDescription.setText(currentProduct.getProductDescription());
-        if(currentProduct.isActive()) switchActive.setChecked(true);
-        detailProductController.setProductImageView(ivProduct,currentProduct);
+        if (currentProduct.isActive()) switchActive.setChecked(true);
+        detailProductController.setProductImageView(ivProduct, currentProduct);
         tvCategory.setText(currentProduct.getCategoryName());
 
-      setRecyclerUnits();
-
-       setRecyclerConvertRate();
-
-       setSpinnerUnit();
-
-        // setSpinnerUnit(currentProduct.getUnits());
+        photoName = currentProduct.getProductImageUrl();
+        setRecyclerUnits();
+        setRecyclerConvertRate();
+        setSpinnerUnit();
     }
 
-    private void setRecyclerUnits(){
-        recyclerUnits.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerUnits.setLayoutManager(linearLayoutManager);
-
-        UnitRecyclerAdapter unitRecyclerAdapter = new UnitRecyclerAdapter(listUnit,getApplicationContext());
-        recyclerUnits.setAdapter(unitRecyclerAdapter);
+    private void setRecyclerUnits() {
+        detailProductController.setRecyclerViewUnits(recyclerUnits,listUnit);
     }
-    private void setRecyclerConvertRate(){
-        if (listUnit.size() <2 ) {
-            tvConvertRate.setVisibility(View.INVISIBLE);
-            btnEditConvertRate.setVisibility(View.INVISIBLE);
-        }
-        recyclerConvertRate.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
-        recyclerConvertRate.setLayoutManager(linearLayoutManager1);
 
-        ConvertRateRecyclerAdapter convertRateRecyclerAdapter = new ConvertRateRecyclerAdapter(listUnit,getApplicationContext());
-        recyclerConvertRate.setAdapter(convertRateRecyclerAdapter);
+    private void setRecyclerConvertRate() {
+        detailProductController.setRecyclerConvertRate(listUnit,tvConvertRate,btnEditConvertRate,recyclerConvertRate);
     }
-    private void setSpinnerUnit(){
-        ArrayAdapter<Unit> adapter =
-                new ArrayAdapter<Unit>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, listUnit);
-        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-        spinnerUnit.setAdapter(adapter);
-        spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tvUnitQuantity.setText(listUnit.get(position).getUnitQuantity() + "");
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+    private void setSpinnerUnit() {
+        detailProductController.setSpinnerUnit(listUnit,spinnerUnit,tvUnitQuantity);
     }
+
     private void initView() {
         //find view by id
         etBarcode = findViewById(R.id.etBarcode);
@@ -241,19 +194,20 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         spinnerUnit = findViewById(R.id.spinnerUnit);
         tvUnitQuantity = findViewById(R.id.tvUnitQuantity);
         btnUpdateProduct = findViewById(R.id.btnUpdateProduct);
-        detailProductController = new DetailProductController();
-        userDAO = new UserDAO();
     }
+
     @Override
     protected void onStart() {
         super.onStart();
         //set default view
         bottomSheetDialog.dismiss();
     }
+
     //event click camera scan
     public void scanCustomScanner(View view) {
         cameraController.askCameraPermission(BARCODE_PER_CODE);
     }
+
     public void showPhotoDialog(View view) {
 
         View bottomSheet = LayoutInflater.from(getApplicationContext())
@@ -282,20 +236,25 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         bottomSheetDialog.setContentView(bottomSheet);
         bottomSheetDialog.show();
     }
+
     private void takeProductPhotoFromAlbum() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, GALLERY_REQ_CODE);
     }
+
     public void cancelTakePhoto() {
         bottomSheetDialog.cancel();
     }
+
     public void back(View view) {
         onBackPressed();
     }
-    public void categoryAction(View view){
+
+    public void categoryAction(View view) {
         Intent intent = new Intent(UpdateProductInformationActivity.this, CategoryActivity.class);
         startActivityForResult(intent, REQUEST_CATEGORY_CODE);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -311,42 +270,45 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
             }
         }
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Log.i("image", cameraController.getCurrentPhotoPath());
             File file = new File(cameraController.getCurrentPhotoPath());
             ivProduct.setImageURI(Uri.fromFile(file));
             ivProduct.setRotation(ivProduct.getRotation() + 90);
-
-
+            Uri uri = Uri.fromFile(file);
+            photoName = file.getName();
+            photoUri = uri;
         }
 
         if (requestCode == GALLERY_REQ_CODE && resultCode == Activity.RESULT_OK) {
             Uri contentUri = data.getData();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String imgFileName = "JPEG" + "_"  + timeStamp + "." + getFileExt(contentUri);
+            String imgFileName = "JPEG" + "_" + timeStamp + "." + getFileExt(contentUri);
             Log.i("gallery", "onActivityResult: Gallery Image Uri " + imgFileName);
             ivProduct.setImageURI(contentUri);
             ivProduct.setRotation(ivProduct.getRotation() + 180);
+            photoName = imgFileName;
+            Log.i("photoNameGallery", photoName);
+            photoUri = contentUri;
         }
 
-        if(requestCode == REQUEST_CATEGORY_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == REQUEST_CATEGORY_CODE && resultCode == Activity.RESULT_OK) {
             String category = data.getStringExtra(CategoryActivity.CATEGORY_DATA);
             Log.d("category", category);
             tvCategory.setText(category);
         }
 
-        if(requestCode == REQUEST_QUANTITY_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == REQUEST_QUANTITY_CODE && resultCode == Activity.RESULT_OK) {
             currentProduct = (Product) data.getSerializableExtra("product");
             listUnit = (ArrayList<Unit>) currentProduct.getUnits();
             setSpinnerUnit();
         }
-        if(requestCode == REQUEST_UNIT_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == REQUEST_UNIT_CODE && resultCode == Activity.RESULT_OK) {
             currentProduct = (Product) data.getSerializableExtra("product");
             listUnit = (ArrayList<Unit>) currentProduct.getUnits();
             setRecyclerUnits();
             setRecyclerConvertRate();
             setSpinnerUnit();
         }
-        if(requestCode == REQUEST_CONVERT_RATE_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == REQUEST_CONVERT_RATE_CODE && resultCode == Activity.RESULT_OK) {
             currentProduct = (Product) data.getSerializableExtra("product");
             listUnit = (ArrayList<Unit>) currentProduct.getUnits();
             setRecyclerConvertRate();
@@ -357,8 +319,8 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
     private String getFileExt(Uri contentUri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(contentUri));
-        }
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(contentUri));
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

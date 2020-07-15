@@ -17,7 +17,6 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.ListProductActivity;
-import com.koit.capstonproject_version_1.View.UpdateProductActivity;
 import com.koit.capstonproject_version_1.View.UpdateProductInformationActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 

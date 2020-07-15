@@ -42,7 +42,7 @@ public class CreateProductDAO {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 SuggestedProduct product = dataSnapshot.getValue(SuggestedProduct.class);
                 iProduct.getSuggestedProduct(product);
-                if(product != null){
+                if (product != null) {
                     Log.i("suggestedProduct", product.toString());
                 }
             }
@@ -79,5 +79,20 @@ public class CreateProductDAO {
                 Log.i("saveImageProduct", "save failed");
             }
         });
+    }
+    public void deleteImageProduct( String imgName) {
+//        final StorageReference image = storageReference
+        final StorageReference image = storageReference.child("ProductPictures/" + imgName);
+     image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+         @Override
+         public void onSuccess(Void aVoid) {
+
+         }
+     }).addOnFailureListener(new OnFailureListener() {
+         @Override
+         public void onFailure(@NonNull Exception e) {
+
+         }
+     });
     }
 }

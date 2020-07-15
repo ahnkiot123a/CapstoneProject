@@ -28,13 +28,14 @@ import java.util.List;
 public class AddQuantityActivity extends AppCompatActivity {
     private TextView tvToolbarTitle;
     private Product currentProduct;
-   private RecyclerView recyclerUnitQuantity;
-   private Button btnAddProductQuantiy;
+    private RecyclerView recyclerUnitQuantity;
+    private Button btnAddProductQuantiy;
     private List<Unit> unitList;
     private AddProductQuantityAdapter addProductQuantityAdapter;
     private AddProductQuantityController addProductQuantityController;
     UserDAO userDAO;
     Unit unit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,25 +52,17 @@ public class AddQuantityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-              List<Unit> addUnitList =   getListUnitAdd();
-              for (int i =0 ; i < unitList.size();i++){
-                  long quantity = unitList.get(i).getUnitQuantity() + addUnitList.get(i).getUnitQuantity();
-                  unitList.get(i).setUnitQuantity(quantity);
-                 // Log.i(" after them san pham ", unitList.get(i).getUnitName() + " " + unitList.get(i).getUnitQuantity());
-
-              }
-
-              addProductQuantityController.convertUnitList2(unitList);
-
-//              unit.addUnitsToFirebase(userDAO.getUserID(),currentProduct.getProductId(),unitList);
-                addProductQuantityController.addUnitsToFireBase(currentProduct,unitList);
-//                Collections.reverse(unitList);
+                List<Unit> addUnitList = getListUnitAdd();
+                for (int i = 0; i < unitList.size(); i++) {
+                    long quantity = unitList.get(i).getUnitQuantity() + addUnitList.get(i).getUnitQuantity();
+                    unitList.get(i).setUnitQuantity(quantity);
+                }
+                addProductQuantityController.convertUnitList2(unitList);
+                addProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
                 currentProduct.setUnits(unitList);
-             //   Intent intent = new Intent(AddQuantityActivity.this, DetailProductActivity.class);
                 Intent intent = new Intent();
-                intent.putExtra("product",currentProduct);
+                intent.putExtra("product", currentProduct);
                 setResult(Activity.RESULT_OK, intent);
-
                 finish();
             }
         });
@@ -79,26 +72,26 @@ public class AddQuantityActivity extends AppCompatActivity {
         recyclerUnitQuantity.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerUnitQuantity.setLayoutManager(linearLayoutManager);
-        addProductQuantityAdapter = new AddProductQuantityAdapter( unitList,this);
+        addProductQuantityAdapter = new AddProductQuantityAdapter(unitList, this);
         recyclerUnitQuantity.setAdapter(addProductQuantityAdapter);
     }
-    private List<Unit> getListUnitAdd(){
+
+    private List<Unit> getListUnitAdd() {
         List<Unit> list = new ArrayList<>();
         for (int i = 0; i < addProductQuantityAdapter.getItemCount(); i++) {
             AddProductQuantityAdapter.ViewHolder viewHolder = (AddProductQuantityAdapter.ViewHolder) recyclerUnitQuantity.findViewHolderForAdapterPosition(i);
             String unitName = viewHolder.getTvUnitName().getText().toString().trim();
             String unitQuantity = viewHolder.getEtProductQuantity().getText().toString().trim();
-          //  Log.i("quantity after ", unitQuantity);
-            if(!unitName.isEmpty() && !unitQuantity.isEmpty()){
+            if (!unitName.isEmpty() && !unitQuantity.isEmpty()) {
                 Unit unit = new Unit();
                 unit.setUnitName(unitName);
                 unit.setUnitQuantity(Long.parseLong(unitQuantity));
                 list.add(unit);
             }
         }
-     //   Log.i("listUnit", list.get(0).getUnitPrice() +"");
         return list;
     }
+
     private void initView() {
         tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
         recyclerUnitQuantity = findViewById(R.id.recyclerUnitQuantity);
@@ -106,21 +99,22 @@ public class AddQuantityActivity extends AppCompatActivity {
         addProductQuantityController = new AddProductQuantityController();
         userDAO = new UserDAO();
         unit = new Unit();
-
     }
-    private void setProductInformation(){
+
+    private void setProductInformation() {
         Intent intent = getIntent();
-        currentProduct =(Product) intent.getSerializableExtra("product");
+        currentProduct = (Product) intent.getSerializableExtra("product");
         unitList = currentProduct.getUnits();
 //        Collections.reverse(unitList);
-       addProductQuantityController.convertUnitList(unitList);
-      //addProductQuantityController.convertUnitList2(unitList);
+        addProductQuantityController.convertUnitList(unitList);
+        //addProductQuantityController.convertUnitList2(unitList);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     public void back(View view) {
         onBackPressed();
     }
