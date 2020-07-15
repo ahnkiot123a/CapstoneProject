@@ -176,8 +176,12 @@ public class DetailProductActivity extends AppCompatActivity   {
     }
 
     private void setSpinnerUnit(){
-        ArrayAdapter<Unit> adapter =
-                new ArrayAdapter<Unit>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, unitList);
+        List<String> listUnitName = new ArrayList<>();
+        for(int i =0 ; i<unitList.size(); i++){
+            listUnitName.add(unitList.get(i).getUnitName());
+        }
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, listUnitName);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinnerUnit.setAdapter(adapter);
         spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

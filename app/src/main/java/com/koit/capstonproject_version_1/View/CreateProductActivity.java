@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,8 @@ import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
+import com.koit.capstonproject_version_1.Controller.ListCategoryController;
+import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.LinearLayoutManagerWrapper;
 import com.koit.capstonproject_version_1.Model.Unit;
@@ -40,6 +44,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CreateProductActivity extends AppCompatActivity {
 
@@ -68,6 +73,10 @@ public class CreateProductActivity extends AppCompatActivity {
     private CameraController cameraController;
     private static CreateUnitAdapter createUnitAdapter;
 
+    private ListView lvCategory;
+    private ListCategoryController listCategoryController;
+    private List<Category> categoryList;
+
 
 
     @Override
@@ -89,6 +98,20 @@ public class CreateProductActivity extends AppCompatActivity {
 
         //build recyclerview unit
         buildRvUnit();
+        /*listCategoryController = new ListCategoryController(this);
+        listCategoryController.getListCategory(this);
+        //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                categoryList = listCategoryController.getCategories();
+                for (Category category : categoryList){
+                    Log.i("kiemtraCategory",category.getCategoryName());
+                }
+
+            }
+        }, 5000);*/
 
 
     }
@@ -124,6 +147,8 @@ public class CreateProductActivity extends AppCompatActivity {
         ivProduct = findViewById(R.id.ivProduct);
         recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
         switchActive = findViewById(R.id.switchActive);
+        lvCategory = findViewById(R.id.lvCategory);
+
 
     }
 

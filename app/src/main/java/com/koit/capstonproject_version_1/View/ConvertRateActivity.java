@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,8 @@ import com.koit.capstonproject_version_1.Adapter.EditConvertRateAdapter;
 import com.koit.capstonproject_version_1.Controller.AddProductQuantityController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.DetailProductController;
+import com.koit.capstonproject_version_1.Controller.ListCategoryController;
+import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
@@ -39,6 +42,9 @@ public class ConvertRateActivity extends AppCompatActivity {
     private CreateProductController createProductController;
     private AddProductQuantityController addProductQuantityController;
     private DetailProductController detailProductController;
+
+    private ListCategoryController listCategoryController;
+    private List<Category> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +73,37 @@ public class ConvertRateActivity extends AppCompatActivity {
         addProductQuantityController = new AddProductQuantityController();
         detailProductController = new DetailProductController();
 
+        listCategoryController = new ListCategoryController(this);
+        listCategoryController.getListCategory(this);
+        //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                categoryList = listCategoryController.getCategories();
+                for (Category category : categoryList){
+                    Log.i("kiemtraCategory",category.getCategoryName());
+                }
+
+            }
+        }, 3000);
+
     }
 
     public void addProduct(View view){
-        addProductToFirebase();
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addProductToFirebase();
+            }
+        },2000)   ;
     }
 
     private void addProductToFirebase() {
         addUnitToFirebase();
         createProductController.addImageProduct();
         createProductController.addProductInFirebase(currentProduct);
+        createProductController.addCategoryToFirebase(currentProduct,categoryList);
     }
 
     private void addUnitToFirebase() {

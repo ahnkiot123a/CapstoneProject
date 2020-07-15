@@ -72,6 +72,18 @@ public class ListCategoryController {
         };
         category.getListCategory(iCategory);
     }
+    public void getListCategory(final Context context) {
+        categoryList = new ArrayList<>();
+        ICategory iCategory = new ICategory() {
+            @Override
+            public void getCategory(Category category) {
+              //  Log.d("kiemtra", category.getCategoryName() + "");
+                categoryList.add(category);
+
+            }
+        };
+        category.getListCategory(iCategory);
+    }
 
     public List<Category> getCategories() {
         return categoryList;

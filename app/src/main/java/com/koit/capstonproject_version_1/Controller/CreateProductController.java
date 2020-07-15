@@ -10,14 +10,17 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
+import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.View.ConvertRateActivity;
 import com.koit.capstonproject_version_1.View.CreateProductActivity;
 import com.koit.capstonproject_version_1.dao.CreateProductDAO;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateProductController {
 
@@ -46,7 +49,7 @@ public class CreateProductController {
                 if (product != null) {
                     Log.i("product", product.toString());
                     tetProductName.setText(product.getName().trim());
-                    tvCategory.setText("Loại sản phẩm" + product.getCategoryName().trim());
+                    tvCategory.setText(product.getCategoryName().trim());
                 }
             }
         };
@@ -93,6 +96,22 @@ public class CreateProductController {
 
     public void addProductInFirebase(Product currentProduct) {
         CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
+    }
+    public void addCategoryToFirebase(Product currentProduct, List<Category> categoryList) {
+        String userId = UserDAO.getInstance().getUserID();
+
+        boolean flag = true;
+        for (int i = 0;i<categoryList.size();i++){
+            if(currentProduct.getCategoryName().equals(categoryList.get(i).getCategoryName()))
+                flag = false;
+        }
+        // Log.i("categoryList", categoryList.get(i).getCategoryName());
+
+        if(flag) {
+            Category category = new Category(currentProduct.getCategoryName());
+            category.addCategoryToFireBase(userId);
+        }
+//        CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
     }
 
 

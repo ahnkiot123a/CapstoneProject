@@ -222,17 +222,6 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
             }
         });
     }
-
-    /*private void buildRvUnit() {
-        recyclerCreateUnit.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerCreateUnit.setLayoutManager(linearLayoutManager);
-        createUnitAdapter = new CreateUnitAdapter(this, listUnit);
-        recyclerCreateUnit.setAdapter(createUnitAdapter);
-    }*/
-
-
-
     private void initView() {
         //find view by id
         etBarcode = findViewById(R.id.etBarcode);
@@ -255,22 +244,16 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         detailProductController = new DetailProductController();
         userDAO = new UserDAO();
     }
-
     @Override
     protected void onStart() {
         super.onStart();
         //set default view
         bottomSheetDialog.dismiss();
     }
-
     //event click camera scan
     public void scanCustomScanner(View view) {
         cameraController.askCameraPermission(BARCODE_PER_CODE);
     }
-
-
-
-
     public void showPhotoDialog(View view) {
 
         View bottomSheet = LayoutInflater.from(getApplicationContext())
@@ -299,29 +282,20 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         bottomSheetDialog.setContentView(bottomSheet);
         bottomSheetDialog.show();
     }
-
-
-
     private void takeProductPhotoFromAlbum() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, GALLERY_REQ_CODE);
     }
-
-
     public void cancelTakePhoto() {
         bottomSheetDialog.cancel();
     }
-
     public void back(View view) {
         onBackPressed();
     }
-
     public void categoryAction(View view){
         Intent intent = new Intent(UpdateProductInformationActivity.this, CategoryActivity.class);
         startActivityForResult(intent, REQUEST_CATEGORY_CODE);
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
