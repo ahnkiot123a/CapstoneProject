@@ -1,14 +1,20 @@
 package com.koit.capstonproject_version_1.dao;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
@@ -16,9 +22,11 @@ import com.koit.capstonproject_version_1.Model.SuggestedProduct;
 public class CreateProductDAO {
     private static CreateProductDAO mInstance;
     private DatabaseReference databaseReference;
+    private StorageReference storageReference;
 
     public CreateProductDAO() {
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     public static CreateProductDAO getInstance() {
@@ -51,5 +59,25 @@ public class CreateProductDAO {
         String userId = UserDAO.getInstance().getUserID();
         databaseReference = databaseReference.child("Products").child(userId).child(product.getProductId());
         databaseReference.setValue(product);
+    }
+
+    public void addImageProduct(Uri uri, String imgName) {
+        final StorageReference image = storageReference.child("ProductPictures/" + imgName);
+        image.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + uri.toString());
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("saveImageProduct", "save failed");
+            }
+        });
     }
 }

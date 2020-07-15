@@ -75,7 +75,8 @@ public class ConvertRateActivity extends AppCompatActivity {
 
     private void addProductToFirebase() {
         addUnitToFirebase();
-        CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
+        createProductController.addImageProduct();
+        createProductController.addProductInFirebase(currentProduct);
     }
 
     private void addUnitToFirebase() {

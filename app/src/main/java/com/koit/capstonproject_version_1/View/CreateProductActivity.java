@@ -51,6 +51,7 @@ public class CreateProductActivity extends AppCompatActivity {
     public static final String NEW_PRODUCT = "PRODUCT";
 
     public static String photoName;
+    public static Uri photoUri;
 
     private TextInputEditText etBarcode;
     private Toolbar toolbar;
@@ -250,11 +251,12 @@ public class CreateProductActivity extends AppCompatActivity {
             Log.i("image", cameraController.getCurrentPhotoPath());
             String photoPath = cameraController.getCurrentPhotoPath();
             File file = new File(photoPath);
-            ivProduct.setImageURI(Uri.fromFile(file));
+            Uri uri = Uri.fromFile(file);
+            ivProduct.setImageURI(uri);
             ivProduct.setRotation(ivProduct.getRotation() + 90);
-            String [] arrayPath = photoPath.split("[/]");
-            photoName = arrayPath[arrayPath.length-1];
+            photoName = file.getName();
             Log.i("photoName", photoName);
+            photoUri = uri;
 
 
         }
@@ -266,7 +268,9 @@ public class CreateProductActivity extends AppCompatActivity {
             Log.i("gallery", "onActivityResult: Gallery Image Uri " + imgFileName);
             photoName = imgFileName;
             ivProduct.setImageURI(contentUri);
+            Log.i("contentUri", contentUri.toString());
             ivProduct.setRotation(ivProduct.getRotation() + 180);
+            photoUri = contentUri;
         }
 
         if(requestCode == REQUEST_CATEGORY_CODE && resultCode == Activity.RESULT_OK){

@@ -1,7 +1,9 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetHost;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,34 +91,14 @@ public class CreateProductController {
         }
     }
 
+    public void addProductInFirebase(Product currentProduct) {
+        CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
+    }
 
-//    public boolean checkUnitList(ArrayList<Unit> list) {
-//        return list.size() > 1;
-//    }
-//
-//    public void buildRVUnit(LinearLayout layout, RecyclerView rvConvertRate){
-//        if(!checkUnitList(listUnit)){
-//            layout.setVisibility(View.GONE);
-//        }else{
-//            detailProductController.sortUnitByPrice(listUnit);
-//            EditConvertRateAdapter editConvertRateAdapter = new EditConvertRateAdapter( listUnit,activity);
-//            buildRecyclerViewUnits(rvConvertRate, editConvertRateAdapter);
-//        }
-//
-//    }
 
-//    private void buildRecyclerViewUnits(@org.jetbrains.annotations.NotNull RecyclerView rvConvertRate, EditConvertRateAdapter editConvertRateAdapter) {
-//        rvConvertRate.setHasFixedSize(true);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-//        rvConvertRate.setLayoutManager(linearLayoutManager);
-//        rvConvertRate.setAdapter(editConvertRateAdapter);
-//    }
-//    private void getUnitFromRv(EditConvertRateAdapter editConvertRateAdapter) {
-//        for (int i = 0; i < editConvertRateAdapter.getItemCount(); i++) {
-//            EditConvertRateAdapter.ViewHolder viewHolder = (EditConvertRateAdapter.ViewHolder) rvConvertRate.findViewHolderForAdapterPosition(i);
-//            String convertRate = viewHolder.getEtConvertRate().getText().toString().trim();
-//            long rate = convertRate.isEmpty() ? 0 : Long.parseLong(convertRate);
-//            unitList.get(i).setConvertRate(rate);
-//        }
-//    }
+    public void addImageProduct() {
+        Uri uri = CreateProductActivity.photoUri;
+        String imgName = CreateProductActivity.photoName;
+        CreateProductDAO.getInstance().addImageProduct(uri, imgName);
+    }
 }
