@@ -8,13 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.koit.capstonproject_version_1.Adapter.AddProductQuantityAdapter;
-import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.AddProductQuantityController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
@@ -22,7 +20,6 @@ import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AddQuantityActivity extends AppCompatActivity {
@@ -51,7 +48,6 @@ public class AddQuantityActivity extends AppCompatActivity {
         btnAddProductQuantiy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 List<Unit> addUnitList = getListUnitAdd();
                 for (int i = 0; i < unitList.size(); i++) {
                     long quantity = unitList.get(i).getUnitQuantity() + addUnitList.get(i).getUnitQuantity();
