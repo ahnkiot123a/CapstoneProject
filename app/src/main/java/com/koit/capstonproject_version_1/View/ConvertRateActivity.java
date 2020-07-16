@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,7 @@ import java.util.List;
 
 public class ConvertRateActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
     private TextView tvToolbarTitle;
     private Product currentProduct;
     private RecyclerView rvConvertRate;
@@ -50,7 +52,7 @@ public class ConvertRateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convert_rate);
-//        tvToolbarTitle.setText("Thêm sản phẩm");
+        tvToolbarTitle.setText("Thêm sản phẩm");
 
         initView();
 
@@ -63,7 +65,8 @@ public class ConvertRateActivity extends AppCompatActivity {
 
 
     private void initView() {
-        tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
+        toolbar = findViewById(R.id.toolbarGeneral);
+        tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
         btnSuccess = findViewById(R.id.btnSuccess);
         rvConvertRate = findViewById(R.id.rvConvertRate);
         rvUnitQuantity = findViewById(R.id.rvQuantityAdd);

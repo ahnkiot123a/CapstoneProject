@@ -114,6 +114,12 @@ public class ListProductActivity extends AppCompatActivity {
 
     }
 
+    public void addNewProduct(View view){
+        Intent intent = new Intent(this, CreateProductActivity.class);
+        startActivity(intent);
+    }
+
+
     public void back(View view) {
         onBackPressed();
     }

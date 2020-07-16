@@ -42,7 +42,7 @@ public class CreateProductDAO {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 SuggestedProduct product = dataSnapshot.getValue(SuggestedProduct.class);
                 iProduct.getSuggestedProduct(product);
-                if (product != null) {
+                if(product != null){
                     Log.i("suggestedProduct", product.toString());
                 }
             }
@@ -50,6 +50,38 @@ public class CreateProductDAO {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w("TAG", "Failed to read value.", databaseError.toException());
+            }
+        });
+    }
+
+    public void isExistBarcode(final String barcode, final IProduct iProduct) {
+        databaseReference.child("Products").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean exists = false;
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    Product product = child.getValue(Product.class);
+                    if (product != null) {
+                        if (product.getBarcode().equals(barcode)) {
+                            exists = true;
+                            break;
+                        }
+                    }
+                }
+                if (exists) {
+                    // This product already exists in firebase.
+                    iProduct.isExistBarcode(true);
+
+                } else {
+                    // This product doesn't exists in firebase.
+                    iProduct.isExistBarcode(false);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
             }
         });
     }
@@ -80,19 +112,6 @@ public class CreateProductDAO {
             }
         });
     }
-    public void deleteImageProduct( String imgName) {
-//        final StorageReference image = storageReference
-        final StorageReference image = storageReference.child("ProductPictures/" + imgName);
-     image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-         @Override
-         public void onSuccess(Void aVoid) {
 
-         }
-     }).addOnFailureListener(new OnFailureListener() {
-         @Override
-         public void onFailure(@NonNull Exception e) {
 
-         }
-     });
-    }
 }

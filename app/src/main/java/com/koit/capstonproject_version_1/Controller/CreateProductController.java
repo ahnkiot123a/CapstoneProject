@@ -52,6 +52,11 @@ public class CreateProductController {
                     tvCategory.setText(product.getCategoryName().trim());
                 }
             }
+
+            @Override
+            public void isExistBarcode(boolean existed) {
+
+            }
         };
         CreateProductDAO.getInstance().getSuggestedProduct(barcode, iProduct);
     }
