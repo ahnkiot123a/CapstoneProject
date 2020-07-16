@@ -80,6 +80,8 @@ public class CreateProductDAO {
             }
         });
     }
+
+
     public void deleteImageProduct( String imgName) {
 //        final StorageReference image = storageReference
         final StorageReference image = storageReference.child("ProductPictures/" + imgName);

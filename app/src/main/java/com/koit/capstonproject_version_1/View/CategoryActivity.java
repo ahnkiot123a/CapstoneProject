@@ -36,7 +36,7 @@ public class CategoryActivity extends AppCompatActivity {
     public static final String CATEGORY_DATA = "CATEGORY_DATA";
 
     private ListView lvCategory;
-    private Button btnAddNewCategory,btnCancelAddNewCategory;
+    private Button btnAddNewCategory, btnCancelAddNewCategory;
     private EditText edAddNewCategory;
     private List<Category> categoryList;
     private ListCategoryController listCategoryController;
@@ -51,8 +51,8 @@ public class CategoryActivity extends AppCompatActivity {
         initView();
         userDAO = new UserDAO();
         listCategoryController = new ListCategoryController(this);
-        listCategoryController.getListCategory(this,lvCategory);
-      //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
+        listCategoryController.getListCategory(this, lvCategory);
+        //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
         getCategoryListView();
         (new Handler()).postDelayed(new Runnable() {
             @Override
@@ -87,14 +87,14 @@ public class CategoryActivity extends AppCompatActivity {
         });
     }
 
-    public void addNewCategory(final View view){
+    public void addNewCategory(final View view) {
         final AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.custome_add_new_category_dialog, null);
 
         btnAddNewCategory = dialogView.findViewById(R.id.btnAddNewCategory);
-       btnCancelAddNewCategory = dialogView.findViewById(R.id.btnCancelAddNewCategory);
-       edAddNewCategory = dialogView.findViewById(R.id.edAddNewCategory);
+        btnCancelAddNewCategory = dialogView.findViewById(R.id.btnCancelAddNewCategory);
+        edAddNewCategory = dialogView.findViewById(R.id.edAddNewCategory);
 
 
         btnAddNewCategory.setOnClickListener(new View.OnClickListener() {
@@ -105,44 +105,37 @@ public class CategoryActivity extends AppCompatActivity {
                     public void run() {
                         String categoryName = edAddNewCategory.getText().toString().trim();
                         categoryList = listCategoryController.getCategories();
-
                         boolean flag = true;
-                        for (int i = 0;i<categoryList.size();i++){
-                            if(categoryName.equals(categoryList.get(i).getCategoryName()))
+                        for (int i = 0; i < categoryList.size(); i++) {
+                            if (categoryName.equals(categoryList.get(i).getCategoryName()))
                                 flag = false;
                         }
-                           // Log.i("categoryList", categoryList.get(i).getCategoryName());
-
-                        if(flag) {
+                        if (flag) {
                             Category category = new Category(categoryName);
                             category.addCategoryToFireBase(userDAO.getUserID());
-                            // CategoryDAO.getInstance().getListCategory(CategoryActivity.this, lvCategory);
-
-
                             Intent intent = new Intent();
                             intent.putExtra(CATEGORY_DATA, categoryName);
                             setResult(Activity.RESULT_OK, intent);
-
                             finish();
                         } else {
                             Toast.makeText(CategoryActivity.this, "Loại sản phẩm đã có trong hệ thống", Toast.LENGTH_SHORT).show();
                         }
                     }
-                },1000);
+                }, 1000);
 
             }
         });
         btnCancelAddNewCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-           dialogBuilder.cancel();
+                dialogBuilder.cancel();
             }
         });
-       // dialog.show();
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
     }
-    public void back(View v){
+
+    public void back(View v) {
         onBackPressed();
     }
 
