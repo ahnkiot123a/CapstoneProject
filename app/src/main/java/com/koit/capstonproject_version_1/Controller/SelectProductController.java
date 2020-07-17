@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.koit.capstonproject_version_1.Adapter.ItemAdapter;
@@ -43,8 +42,8 @@ public class SelectProductController extends AppCompatActivity {
         product = new Product();
     }
 
-    public void getListProduct(String searchText, RecyclerView recyclerViewListProduct, final TextView textView,
-                               LinearLayout linearLayoutEmpty, ConstraintLayout constraintLayout,
+    public void getListProduct(String searchText, RecyclerView recyclerViewListProduct,
+                               LinearLayout linearLayoutEmpty, LinearLayout layoutSearch,
                                LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
         listProduct = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -56,18 +55,16 @@ public class SelectProductController extends AppCompatActivity {
             @Override
             public void getListProductModel(Product product) {
                 listProduct.add(product);
-                textView.setText(listProduct.size() + " sản phẩm");
                 itemAdapter.notifyDataSetChanged();
             }
 
         };
-        product.getListProduct(searchText, listProductInterface, textView, linearLayoutEmpty,
-                constraintLayout, layoutNotFoundItem, category_Spinner, pBarList);
+        product.getListProduct(searchText, listProductInterface, linearLayoutEmpty,
+                layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
     }
 
-    public void getListProduct(Context context, RecyclerView recyclerViewListProduct, String categoryName,
-                               final TextView textView, LinearLayout linearLayoutEmpty, ConstraintLayout
-                                       constraintLayout, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
+    public void getListProduct(Context context, RecyclerView recyclerViewListProduct, String categoryName, LinearLayout linearLayoutEmpty, LinearLayout
+            layoutSearch, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
         listProduct = new ArrayList<>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -78,75 +75,15 @@ public class SelectProductController extends AppCompatActivity {
             @Override
             public void getListProductModel(Product product) {
                 listProduct.add(product);
-                textView.setText(listProduct.size() + " sản phẩm");
                 itemAdapter.notifyDataSetChanged();
             }
         };
-        product.getListProduct(listProductInterface, categoryName, linearLayoutEmpty, constraintLayout,
-                layoutNotFoundItem, textView, category_Spinner, pBarList);
+        product.getListProduct( listProductInterface, categoryName,linearLayoutEmpty, layoutSearch,
+                        layoutNotFoundItem, pBarList);
 
     }
 
 
-    public void setupRecyclerView(RecyclerView recyclerView, final ListProductActivity listProductActivity) {
-        swipeController = new SwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(final int position) {
-                //confirm to delete
-                AlertDialog.Builder builder = new AlertDialog.Builder(listProductActivity);
-                builder.setMessage("Bạn có chắc chắn muốn xoá sản phẩm này không? ")
-                        .setCancelable(false)
-                        .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //remove item on right click
-                                itemAdapter.notifyItemRemoved(position);
-                                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
-                                UserDAO userDAO = new UserDAO();
-                                Unit unit = new Unit();
-                                Product product = listProduct.get(position);
-                                product.removeProduct(userDAO.getUserID(), product.getProductId());
-                                unit.removeProductUnits(userDAO.getUserID(), product.getProductId());
-                                Intent intent = new Intent(listProductActivity, ListProductActivity.class);
-                                listProductActivity.startActivity(intent);
-                                Toast.makeText(listProductActivity, "Bạn đã xoá thành công sản phẩm", Toast.LENGTH_LONG).show();
-                            }
-                        })
-                        .setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-
-            }
-
-            @Override
-            public void onLeftClicked(int position) {
-                super.onLeftClicked(position);
-                //Itent sang man hinh edit
-                Product product = listProduct.get(position);
-                Intent intentProduct = new Intent(context, UpdateProductActivity.class);
-                intentProduct.putExtra("product", product);
-                intentProduct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intentProduct);
-            }
-        });
-
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
-        itemTouchhelper.attachToRecyclerView(recyclerView);
-
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                swipeController.onDraw(c);
-            }
-        });
-    }
-
-    public List<Product> getListProduct() {
-        return itemAdapter.getListProduct();
-    }
 
     public void tranIntent(Activity activity1, Class activity2) {
         Intent intent = new Intent(activity1.getApplicationContext(), activity2);

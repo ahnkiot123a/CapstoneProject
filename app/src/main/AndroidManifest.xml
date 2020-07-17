@@ -23,6 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
+        <activity android:name=".View.ListItemInOrderActivity"></activity>
         <activity android:name=".View.ConvertRateActivity" />
         <activity
             android:name=".View.CreateProductActivity"
@@ -47,6 +48,7 @@
         <activity
             android:name=".View.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".View.SelectProductActivity" />
         <activity android:name=".View.RegisterVerifyPhoneActivity" />
         <activity android:name=".View.FeedbackActivity" />
         <activity android:name=".View.UserInformationActivity" />
@@ -55,7 +57,7 @@
         <activity android:name=".View.ResetPasswordActivity" />
         <activity android:name=".View.CustomScreenScanActivity" />
         <activity android:name=".View.CategoryActivity" />
-        <activity android:name=".View.UpdateProductInformationActivity"/>
+        <activity android:name=".View.UpdateProductInformationActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
