@@ -13,6 +13,8 @@ public class UserDAO {
     private static UserDAO mInstance;
     private DatabaseReference databaseReference;
 
+
+
     public UserDAO() {
         databaseReference = FirebaseDatabase.getInstance().getReference();
     }
@@ -36,9 +38,22 @@ public class UserDAO {
         return UID;
     }
     public User getUser(){
-
-       return SharedPrefs.getInstance().getCurrentUser(LoginActivity.CURRENT_USER);
-
-
+        User user = new User();
+        User currentUser = SharedPrefs.getInstance().getCurrentUser(LoginActivity.CURRENT_USER);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            user = currentUser;
+        } else{
+            user.setUserID(firebaseUser.getUid());
+            user.setFullName(firebaseUser.getDisplayName());
+            user.setEmail(firebaseUser.getEmail());
+            user.setPhoneNumber("");
+            user.setGender(true);
+            user.setRoleID("1");
+            user.setHasFingerprint(false);
+            user.setStoreName("");
+            user.setDateOfBirth(null);
+        }
+        return user;
     }
 }

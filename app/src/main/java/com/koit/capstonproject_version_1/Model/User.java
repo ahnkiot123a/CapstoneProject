@@ -36,7 +36,8 @@ public class User implements Serializable {
     RegisterVerifyPhoneActivity registerVerifyPhoneActivity;
     ResetPasswordActivity resetPasswordActivity;
     RegisterController registerController;
-    private String fullName, address, email, storeName;
+
+    private String userID, fullName, address, email, storeName;
     private String dateOfBirth;
     private String phoneNumber, password, roleID;
     boolean hasFingerprint, gender;
@@ -46,10 +47,7 @@ public class User implements Serializable {
 
     public User(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-//        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        if (firebaseUser != null) {
-//            databaseReference = FirebaseDatabase.getInstance().getReference().child("User").child("FrwiGmQyScgZ6RZRRE25BHO56Ws2");
-//        }
+
     }
 
     public User(RegisterVerifyPhoneActivity registerVerifyPhoneActivity) {
@@ -61,10 +59,7 @@ public class User implements Serializable {
     }
 
     public User() {
-//        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        if (firebaseUser != null) {
-//            databaseReference = FirebaseDatabase.getInstance().getReference().child("User").child("FrwiGmQyScgZ6RZRRE25BHO56Ws2");
-//        }
+
     }
 
     public User(String storeName, String password) {
@@ -84,6 +79,14 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 
     public String getFullName() {
         return fullName;

@@ -17,6 +17,7 @@
         android:id="@+id/btnLeftMenu"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
+        android:onClick="navigationMenuLeft"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/icons8_menu_100px_1"/>

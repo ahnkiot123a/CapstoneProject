@@ -89,8 +89,10 @@ public class CreateProductDAO {
     public void addProductInFirebase(Product product) {
         product.setUnits(null);
         String userId = UserDAO.getInstance().getUserID();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         databaseReference = databaseReference.child("Products").child(userId).child(product.getProductId());
         databaseReference.setValue(product);
+        databaseReference.keepSynced(true);
     }
 
     public void addImageProduct(Uri uri, String imgName) {
@@ -109,6 +111,22 @@ public class CreateProductDAO {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("saveImageProduct", "save failed");
+            }
+        });
+    }
+
+    public void deleteImageProduct( String imgName) {
+//        final StorageReference image = storageReference
+        final StorageReference image = storageReference.child("ProductPictures/" + imgName);
+        image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
             }
         });
     }

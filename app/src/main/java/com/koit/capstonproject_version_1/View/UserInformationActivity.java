@@ -49,10 +49,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
     private void setCurrentUserInfo(){
         edFullname.setText(currentUser.getFullName());
-
         edEmail.setText(currentUser.getEmail());
-
-
         edPhoneNumber.setText(currentUser.getPhoneNumber());
         edDob.setText(currentUser.getDateOfBirth());
         edAddress.setText(currentUser.getAddress());

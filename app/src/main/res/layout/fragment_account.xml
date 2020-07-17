@@ -39,14 +39,23 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/profile_img"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/user_icon" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_img"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/user_icon" />
+
+<!--        <ImageView-->
+<!--            android:id="@+id/profile_img"-->
+<!--            android:layout_width="96dp"-->
+<!--            android:layout_height="96dp"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:src="@drawable/user_icon" />-->
 
         <TextView
             android:id="@+id/tvNameProfile"
