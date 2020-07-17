@@ -1,6 +1,5 @@
 package com.koit.capstonproject_version_1.Model;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -168,7 +167,6 @@ public class Product implements Serializable {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    @SuppressLint("WrongConstant")
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
                                 String searchText, TextView textView, LinearLayout linearLayoutEmpty,
                                 ConstraintLayout constraintLayoutfound, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
@@ -316,9 +314,10 @@ public class Product implements Serializable {
         databaseReference = firebaseDatabase.getReference().child("Products").child(userId).child(productId);
         databaseReference.removeValue();
     }
-    public void updateProductToFirebase(String userId,Product product ){
+
+    public void updateProductToFirebase(String userId, Product product) {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Products")
-                                            .child(userId).child(product.getProductId());
+                .child(userId).child(product.getProductId());
         databaseReference.child("active").setValue(product.isActive());
         databaseReference.child("barcode").setValue(product.getBarcode());
         databaseReference.child("categoryName").setValue(product.getCategoryName());
@@ -326,6 +325,163 @@ public class Product implements Serializable {
         databaseReference.child("productImageUrl").setValue(product.getProductImageUrl());
         databaseReference.child("productName").setValue(product.getProductName());
 
+    }
+
+    //for SelectProductController
+    public void getListProduct(final String searchText, final ListProductInterface
+            listProductInterface, final LinearLayout linearLayoutEmpty,
+                               final LinearLayout layoutSearch, final LinearLayout layoutNotFoundItem, final Spinner category_Spinner, final ProgressBar pBarList) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getListProduct(dataSnapshot, listProductInterface, searchText, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
+                                String searchText, LinearLayout linearLayoutEmpty,
+                                LinearLayout layoutSearch, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
+        pBarList.setVisibility(View.VISIBLE);
+        userDAO = new UserDAO();
+        DataSnapshot dataSnapshotProduct;
+        dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
+        boolean isFound = false;
+        if (dataSnapshotProduct.getValue() == null) {
+            linearLayoutEmpty.setVisibility(View.VISIBLE);
+            layoutSearch.setVisibility(View.GONE);
+            layoutNotFoundItem.setVisibility(View.GONE);
+            pBarList.setVisibility(View.GONE);
+        } else {
+            DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
+            layoutNotFoundItem.setVisibility(View.GONE);
+            linearLayoutEmpty.setVisibility(View.GONE);
+            layoutSearch.setVisibility(View.VISIBLE);
+            pBarList.setVisibility(View.GONE);
+            //Lấy danh sách san pham
+            for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
+                Product product = valueProduct.getValue(Product.class);
+
+                product.setProductId(valueProduct.getKey());
+                DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
+
+                //lay unit theo ma san pham
+                List<Unit> unitList = new ArrayList<>();
+                for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                    Unit unit = valueUnit.getValue(Unit.class);
+
+                    if (unit != null) {
+                        unit.setUnitId(valueUnit.getKey());
+                        unitList.add(unit);
+                    }
+                }
+                product.setUnits(unitList);
+
+                if (searchText == null) {
+                    listProductInterface.getListProductModel(product);
+                } else {
+                    //user searched
+                    category_Spinner.setSelection(0);
+                    if (searchText == "") {
+                        //list product in first time or list all product
+                        listProductInterface.getListProductModel(product);
+                    } else {
+                        //product contains searched characters or barcode
+                        if (product.getProductName().toLowerCase().contains(searchText.toLowerCase()) || product.getBarcode().contains(searchText)) {
+                            isFound = true;
+                            listProductInterface.getListProductModel(product);
+                        }
+                        if (!isFound) {
+//                            textView.setText("0 sản phẩm");
+                            layoutNotFoundItem.setVisibility(View.VISIBLE);
+                        } else {
+                            layoutNotFoundItem.setVisibility(View.GONE);
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Cate tus beo for SelectProductController
+    public void getListProduct(final ListProductInterface listProductInterface, final String categoryName,
+                               final LinearLayout linearLayoutEmpty, final LinearLayout layoutSearch,
+                               final LinearLayout layoutNotFoundItem, final ProgressBar pBarList) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getListProduct(dataSnapshot, listProductInterface, categoryName, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, pBarList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName,
+                                LinearLayout linearLayoutEmpty, LinearLayout layoutSearch, LinearLayout layoutNotFoundItem, ProgressBar pBarList) {
+        userDAO = new UserDAO();
+        pBarList.setVisibility(View.VISIBLE);
+        DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
+        DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
+        boolean isFound = false;
+        if (dataSnapshotProduct == null) {
+            linearLayoutEmpty.setVisibility(View.VISIBLE);
+            layoutSearch.setVisibility(View.GONE);
+            layoutNotFoundItem.setVisibility(View.GONE);
+            pBarList.setVisibility(View.GONE);
+        } else {
+            layoutNotFoundItem.setVisibility(View.GONE);
+            linearLayoutEmpty.setVisibility(View.GONE);
+            layoutSearch.setVisibility(View.VISIBLE);
+            pBarList.setVisibility(View.GONE);
+
+
+            //Lấy danh sách san pham
+            for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
+                Product product = valueProduct.getValue(Product.class);
+                product.setProductId(valueProduct.getKey());
+
+                DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
+
+                Log.d("kiemtraProductID", product.getProductId() + "");
+                //lay unit theo ma san pham
+                List<Unit> unitList = new ArrayList<>();
+                for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                    Log.d("kiemtraUnit", valueUnit + "");
+                    Unit unit = valueUnit.getValue(Unit.class);
+
+                    unit.setUnitId(valueUnit.getKey());
+                    unitList.add(unit);
+                }
+                product.setUnits(unitList);
+                if (product.getCategoryName().equals(categoryName)) {
+                    isFound = true;
+                    listProductInterface.getListProductModel(product);
+                }
+                if (!isFound) {
+//                    textView.setText("0 sản phẩm");
+                    layoutNotFoundItem.setVisibility(View.VISIBLE);
+                } else {
+                    layoutNotFoundItem.setVisibility(View.GONE);
+
+                }
+            }
+        }
     }
 
 }

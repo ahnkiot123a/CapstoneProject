@@ -3,8 +3,6 @@ package com.koit.capstonproject_version_1.View;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -44,6 +42,7 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +109,7 @@ public class ListProductActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     public void addNewProduct(View view){
@@ -119,7 +119,8 @@ public class ListProductActivity extends AppCompatActivity {
 
 
     public void back(View view) {
-        onBackPressed();
+        Intent intent = new Intent(this.getApplicationContext(), MainActivity.class);
+        this.startActivity(intent);
     }
 
     public void searchByBarcode(View view) {
@@ -138,35 +139,10 @@ public class ListProductActivity extends AppCompatActivity {
                 String barcode = intentResult.getContents();
                 listProductController.getListProduct(barcode, recyclerViewListProduct, tvTotalQuantity,
                         linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                searchView.setQuery(barcode, false);
             }
         }
     }
-//    public void setupRecyclerView() {
-//        swipeController = new SwipeController(new SwipeControllerActions() {
-//            @Override
-//            public void onRightClicked(int position) {
-//                //remove item on right click
-////                itemAdapter.notifyItemRemoved(position);
-////                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
-//                //remove tu beo
-//            }
-//
-//            @Override
-//            public void onLeftClicked(int position) {
-//                super.onLeftClicked(position);
-//                //Itent sang man hinh edit
-//            }
-//        });
-//
-//        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
-//        itemTouchhelper.attachToRecyclerView(recyclerViewListProduct);
-//
-//        recyclerViewListProduct.addItemDecoration(new RecyclerView.ItemDecoration() {
-//            @Override
-//            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-//                swipeController.onDraw(c);
-//            }
-//        });
-//    }
+
 
 }
