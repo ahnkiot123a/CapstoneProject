@@ -48,8 +48,6 @@ public class ListProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //t1
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         setContentView(R.layout.activity_list_product);
         searchView = findViewById(R.id.searchViewInList);
