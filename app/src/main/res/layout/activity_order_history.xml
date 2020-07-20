@@ -14,14 +14,17 @@
         android:layout_below="@+id/toolbarGeneral"
         android:padding="10dp"
         android:orientation="vertical">
-
         <SearchView
             android:id="@+id/svOrder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_bg_search"
             app:iconifiedByDefault="false"
-            app:queryBackground="@null" />
+            app:queryBackground="@null"
+            app:submitBackground="@null"
+            />
+        <!--            android:clickable="true"-->
+        <!--            android:focusable="true"-->
     </LinearLayout>
 
 
