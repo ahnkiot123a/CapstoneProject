@@ -29,7 +29,7 @@
         android:drawablePadding="5dp"
         android:fontFamily="sans-serif-medium"
         android:padding="10dp"
-        android:text="Chỉnh sửa đơn vị"
+        android:text="Hoàn tất"
         android:textColor="@color/white"
         android:textSize="12sp" />
 

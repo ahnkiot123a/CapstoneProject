@@ -95,4 +95,7 @@ public class EditConvertRateActivity extends AppCompatActivity {
         currentProduct =(Product) intent.getSerializableExtra("product");
         unitList = currentProduct.getUnits();
     }
+    public void back(View view) {
+        onBackPressed();
+    }
 }

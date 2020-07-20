@@ -352,7 +352,7 @@
                 android:background="@drawable/background_btn_login"
                 android:fontFamily="sans-serif-medium"
                 android:padding="10dp"
-                android:text="Cập nhật sản phẩm"
+                android:text="Hoàn tất"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="15sp" />

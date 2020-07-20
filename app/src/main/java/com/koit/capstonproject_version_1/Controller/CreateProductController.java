@@ -78,7 +78,7 @@ public class CreateProductController {
                     ArrayList<Unit> listUnit = CreateProductActivity.getUnitFromRv();
                     String photoName = CreateProductActivity.photoName;
                     String productID = RandomStringController.getInstance().randomString();
-                    Log.i("photoPath", photoName);
+//                    Log.i("photoPath", photoName);
                     Product product = new Product();
                     product.setProductId(productID);
                     product.setBarcode(barcode);

@@ -78,6 +78,7 @@ public class AddQuantityActivity extends AppCompatActivity {
             AddProductQuantityAdapter.ViewHolder viewHolder = (AddProductQuantityAdapter.ViewHolder) recyclerUnitQuantity.findViewHolderForAdapterPosition(i);
             String unitName = viewHolder.getTvUnitName().getText().toString().trim();
             String unitQuantity = viewHolder.getEtProductQuantity().getText().toString().trim();
+            if (unitQuantity.trim().equals("")) unitQuantity = "0";
             if (!unitName.isEmpty() && !unitQuantity.isEmpty()) {
                 Unit unit = new Unit();
                 unit.setUnitName(unitName);

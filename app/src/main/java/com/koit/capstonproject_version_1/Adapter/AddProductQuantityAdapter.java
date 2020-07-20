@@ -54,14 +54,28 @@ public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQu
         holder.ibAddQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int quantity = Integer.parseInt(String.valueOf(holder.etProductQuantity.getText()));
+                int quantity = 0;
+             try{
+                 quantity = Integer.parseInt(String.valueOf(holder.etProductQuantity.getText()));
+             } catch (Exception e){
+                 quantity = 0;
+             }
+
+
+
+
                 holder.etProductQuantity.setText(quantity+1+"");
             }
         });
         holder.ibMinusQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int quantity = Integer.parseInt(String.valueOf(holder.etProductQuantity.getText()));
+                int quantity = 0;
+                try{
+                    quantity = Integer.parseInt(String.valueOf(holder.etProductQuantity.getText()));
+                } catch (Exception e){
+                    quantity = 0;
+                }
                if(quantity > 0) holder.etProductQuantity.setText(quantity-1+"");
             }
         });

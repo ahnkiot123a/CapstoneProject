@@ -99,5 +99,8 @@ public class EditProductUnitsActivity extends AppCompatActivity {
         //Log.i("listUnit", list.get(0).getUnitPrice() +"");
         return unitList;
     }
+    public void back(View view) {
+        onBackPressed();
+    }
 
 }

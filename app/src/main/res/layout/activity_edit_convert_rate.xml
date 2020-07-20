@@ -26,7 +26,7 @@
         android:drawablePadding="5dp"
         android:fontFamily="sans-serif-medium"
         android:padding="10dp"
-        android:text="Chỉnh sửa chuyển đổi đơn vị"
+        android:text="Hoàn tất"
         android:textColor="@color/white"
         android:textSize="12sp" />
 

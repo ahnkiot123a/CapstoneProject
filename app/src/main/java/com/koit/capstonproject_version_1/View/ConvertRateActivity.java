@@ -52,9 +52,9 @@ public class ConvertRateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convert_rate);
-        tvToolbarTitle.setText("Thêm sản phẩm");
 
         initView();
+        tvToolbarTitle.setText("Thêm sản phẩm");
 
         getProduct();
         buildRecyclerViewUnits();

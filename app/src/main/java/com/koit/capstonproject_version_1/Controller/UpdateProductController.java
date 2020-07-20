@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,18 +57,24 @@ public class UpdateProductController {
         currentProduct.setActive(active);
         //  Uri uri = CreateProductActivity.photoUri;
         //  String imgName = CreateProductActivity.photoName;
+
         if(!currentProduct.getProductImageUrl().equals(UpdateProductInformationActivity.photoName)) {
             CreateProductDAO.getInstance().deleteImageProduct(currentProduct.getProductImageUrl());
             CreateProductDAO.getInstance().addImageProduct(UpdateProductInformationActivity.photoUri, UpdateProductInformationActivity.photoName);
             currentProduct.setProductImageUrl(UpdateProductInformationActivity.photoName);
         }
+        if (name.isEmpty()){
+            Toast.makeText(activity, "Tên của sản phẩm không được để trống", Toast.LENGTH_SHORT).show();
+        } else {
+            Product productDAO = new Product();
+            productDAO.updateProductToFirebase(UserDAO.getInstance().getUserID(), currentProduct);
+            Intent intent = new Intent(activity, DetailProductActivity.class);
+            intent.putExtra("product", currentProduct);
+            activity.startActivity(intent);
+            activity.finish();
+            Toast.makeText(activity, "Chỉnh sửa thành công", Toast.LENGTH_SHORT).show();
 
-        Product productDAO = new Product();
-        productDAO.updateProductToFirebase(UserDAO.getInstance().getUserID(), currentProduct);
-        Intent intent = new Intent(activity, DetailProductActivity.class);
-        intent.putExtra("product", currentProduct);
-        activity.startActivity(intent);
-        activity.finish();
+        }
     }
     public void setRecyclerViewUnits(RecyclerView recyclerUnits, ArrayList<Unit> listUnit){
         recyclerUnits.setHasFixedSize(true);
