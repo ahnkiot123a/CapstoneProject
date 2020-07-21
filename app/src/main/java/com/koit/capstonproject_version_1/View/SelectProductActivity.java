@@ -16,6 +16,7 @@ import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SelectProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 import androidx.annotation.Nullable;
@@ -42,7 +43,7 @@ public class SelectProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //t1
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_select_product);
         category_Spinner = findViewById(R.id.category_Spinner);
         recyclerViewListProduct = findViewById(R.id.recyclerViewListProduct);

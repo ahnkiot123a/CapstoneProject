@@ -31,6 +31,12 @@
                 android:resource="@xml/searchable"/>
         </activity>
         <activity android:name=".View.ConvertRateActivity" />
+        <activity android:name=".View.ListItemInOrderActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".View.CreateProductActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -43,10 +49,7 @@
         <activity
             android:name=".View.SplashActivity"
             android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".View.ListProductActivity" />
         <activity android:name=".View.RegisterActivity" />

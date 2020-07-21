@@ -7,11 +7,16 @@
     android:orientation="vertical"
     tools:context=".View.SelectProductActivity">
 
+    <View
+        android:id="@+id/main_activityStatusBarScrim"
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:background="@drawable/green_linear_color"/>
     <Toolbar
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@drawable/green_linear_color"
         android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +27,7 @@
             android:id="@+id/backToLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@null"
             android:onClick="back"
             android:src="@drawable/ic_baseline_arrow_white_ios_24" />
 
