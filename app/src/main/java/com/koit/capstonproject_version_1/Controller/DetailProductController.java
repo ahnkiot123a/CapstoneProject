@@ -14,10 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -36,6 +32,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class DetailProductController {
     private Activity activity;
 
@@ -46,8 +46,9 @@ public class DetailProductController {
         this.activity = activity;
     }
 
-    public  void setProductImageView(final ImageView productImage, Product product){
-        StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
+    public void setProductImageView(final ImageView productImage, Product product) {
+        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
         /*long ONE_MEGABYTE = 1024 * 1024;
         storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
@@ -61,28 +62,30 @@ public class DetailProductController {
                 Log.d("Failed loaded uri: ", e.getMessage());
             }
         });*/
-        try {
-            final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
-            storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("SaveFileFSuccess", taskSnapshot.toString());
-                    // Local temp file has been created
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    productImage.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Log.d("SaveFileFailed", exception.getMessage());
-                    // Handle any errors
-                }
-            });
-        } catch (IOException e) {
-            Log.d("SaveFileFailed", e.getMessage());
+            try {
+                final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
+                storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("SaveFileFSuccess", taskSnapshot.toString());
+                        // Local temp file has been created
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        productImage.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d("SaveFileFailed", exception.getMessage());
+                        // Handle any errors
+                    }
+                });
+            } catch (IOException e) {
+                Log.d("SaveFileFailed", e.getMessage());
+            }
         }
     }
-    public void sortUnitByPrice(ArrayList<Unit> unitList){
+
+    public void sortUnitByPrice(ArrayList<Unit> unitList) {
         Collections.sort(unitList, new Comparator<Unit>() {
             @Override
             public int compare(Unit o1, Unit o2) {
@@ -92,15 +95,17 @@ public class DetailProductController {
 
         });
     }
-    public void setRecyclerViewUnits(RecyclerView recyclerUnits, ArrayList<Unit> listUnit){
+
+    public void setRecyclerViewUnits(RecyclerView recyclerUnits, ArrayList<Unit> listUnit) {
         recyclerUnits.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerUnits.setLayoutManager(linearLayoutManager);
         UnitRecyclerAdapter unitRecyclerAdapter = new UnitRecyclerAdapter(listUnit, activity.getApplicationContext());
         recyclerUnits.setAdapter(unitRecyclerAdapter);
     }
+
     public void setRecyclerConvertRate(ArrayList<Unit> listUnit, TextView tvConvertRate,
-                                       Button btnEditConvertRate, RecyclerView recyclerConvertRate){
+                                       Button btnEditConvertRate, RecyclerView recyclerConvertRate) {
         if (listUnit.size() < 2) {
             tvConvertRate.setVisibility(View.INVISIBLE);
             btnEditConvertRate.setVisibility(View.INVISIBLE);
@@ -112,8 +117,9 @@ public class DetailProductController {
         ConvertRateRecyclerAdapter convertRateRecyclerAdapter = new ConvertRateRecyclerAdapter(listUnit, activity.getApplicationContext());
         recyclerConvertRate.setAdapter(convertRateRecyclerAdapter);
     }
+
     public void setRecyclerConvertRate(ArrayList<Unit> listUnit, TextView tvConvertRate,
-                                        RecyclerView recyclerConvertRate){
+                                       RecyclerView recyclerConvertRate) {
         if (listUnit.size() < 2) {
             tvConvertRate.setVisibility(View.INVISIBLE);
         }
@@ -124,9 +130,10 @@ public class DetailProductController {
         ConvertRateRecyclerAdapter convertRateRecyclerAdapter = new ConvertRateRecyclerAdapter(listUnit, activity.getApplicationContext());
         recyclerConvertRate.setAdapter(convertRateRecyclerAdapter);
     }
-    public  void setSpinnerUnit(final ArrayList<Unit> listUnit, Spinner spinnerUnit, final TextView tvUnitQuantity){
+
+    public void setSpinnerUnit(final ArrayList<Unit> listUnit, Spinner spinnerUnit, final TextView tvUnitQuantity) {
         ArrayList<String> listUnitname = new ArrayList<>();
-        for (int i = 0;i < listUnit.size();i++){
+        for (int i = 0; i < listUnit.size(); i++) {
             listUnitname.add(listUnit.get(i).getUnitName());
         }
         ArrayAdapter<String> adapter =
@@ -145,7 +152,8 @@ public class DetailProductController {
             }
         });
     }
-    public void removeProduct(Product product){
+
+    public void removeProduct(Product product) {
         product.removeProduct(UserDAO.getInstance().getUserID(), product.getProductId());
         Unit unit = new Unit();
         unit.removeProductUnits(UserDAO.getInstance().getUserID(), product.getProductId());

@@ -48,7 +48,11 @@
         <activity
             android:name=".View.SplashActivity"
             android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
 
+        </intent-filter>
         </activity>
         <activity android:name=".View.ListProductActivity" />
         <activity android:name=".View.RegisterActivity" />
@@ -72,10 +76,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".View.SelectProductActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
