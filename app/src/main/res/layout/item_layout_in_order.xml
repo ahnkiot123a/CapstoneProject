@@ -96,10 +96,10 @@
 
     <Spinner
         android:id="@+id/spinnerUnit"
-        android:layout_width="130dp"
+        android:layout_width="100dp"
         android:background="@drawable/shape_textview_border"
         android:layout_height="41dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="60dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton4"
         app:layout_constraintStart_toEndOf="@+id/imageButton4" />
 

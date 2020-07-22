@@ -11,7 +11,8 @@
         android:id="@+id/main_activityStatusBarScrim"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:background="@drawable/green_linear_color"/>
+        android:background="@drawable/green_linear_color" />
+
     <Toolbar
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
@@ -30,7 +31,6 @@
             android:background="@null"
             android:onClick="back"
             android:src="@drawable/ic_baseline_arrow_white_ios_24" />
-
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -91,143 +91,173 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@id/layoutSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@id/layoutSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical">
 
-            <SearchView
-                android:id="@+id/searchViewInList"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:clickable="true"
-                android:focusable="true"
-                android:iconifiedByDefault="false"
-                android:queryHint="Tên, mã sản phẩm">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            </SearchView>
+                <SearchView
+                    android:id="@+id/searchViewInList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Tên, mã sản phẩm">
 
-            <ImageButton
-                android:id="@+id/imgbtnBarcode"
+                </SearchView>
+
+                <ImageButton
+                    android:id="@+id/imgbtnBarcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="0.8"
+                    android:background="@drawable/barcode_icon_layout"
+                    android:left="5dp"
+                    android:onClick="searchByBarcode"
+                    app:srcCompat="@drawable/barcode"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.8"
-                android:background="@drawable/barcode_icon_layout"
-                android:left="5dp"
-                android:onClick="searchByBarcode"
-                app:srcCompat="@drawable/barcode"
+                android:layout_height="wrap_content"
+                android:background="@color/light_gray"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_account_box_24"
+                    android:gravity="center_vertical"
+                    android:text="Khách lẻ"
+                    android:textColor="@color/theme" />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:weightSum="1">
+
+                <Spinner
+                    android:id="@+id/category_Spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxSelectMultiProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="Chọn nhiều"
+                    android:textColor="#AB000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_not_found_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="40dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/not_found_product">
+
+            </ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_baseline_account_box_24"
-                android:gravity="center_vertical"
-                android:text="Khách lẻ"
-                android:textColor="@color/theme" />
+                android:layout_height="match_parent"
+                android:shadowColor="#FFFFFF"
+                android:text="Không có kết quả phù hợp"
+                android:textColor="#E4000000"
+                android:textSize="18dp">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Vui lòng nhập từ khóa khác để tìm kiếm"
+                android:textSize="13dp">
+
+            </TextView>
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ProgressBar
+            android:id="@+id/pBarList"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:indeterminate="true">
+
+        </ProgressBar>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewListProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutBtnSelectedProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0">
+
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:weightSum="1">
+            android:layout_weight="0.5"
+            android:background="@color/gray"
+            android:text="Chọn lại"
+            android:textColor="@color/white" />
 
-            <Spinner
-                android:id="@+id/category_Spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginBottom="2dp"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <CheckBox
-                android:id="@+id/checkBoxSelectMultiProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chọn nhiều"
-                android:textColor="#AB000000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/green_linear_color"
+            android:text="Xong"
+            android:textColor="@color/white" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_not_found_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingTop="40dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/not_found_product">
-
-        </ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:shadowColor="#FFFFFF"
-            android:text="Không có kết quả phù hợp"
-            android:textColor="#E4000000"
-            android:textSize="18dp">
-
-        </TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Vui lòng nhập từ khóa khác để tìm kiếm"
-            android:textSize="13dp">
-
-        </TextView>
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/pBarList"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:indeterminate="true">
-
-    </ProgressBar>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewListProduct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </LinearLayout>

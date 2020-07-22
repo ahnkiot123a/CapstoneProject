@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,6 +39,7 @@ public class SelectProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
+    private CheckBox checkBoxSelectMultiProduct;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,7 @@ public class SelectProductActivity extends AppCompatActivity {
         pBarList = findViewById(R.id.pBarList);
         imgbtnBarcodeInList = findViewById(R.id.imgbtnBarcodeInList);
         searchView = findViewById(R.id.searchViewInList);
-
+        checkBoxSelectMultiProduct = findViewById(R.id.checkBoxSelectMultiProduct);
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
 

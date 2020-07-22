@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemProduct"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@drawable/shape_box_border"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvBarcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="8909876781234"
+        android:textColor="#90000000"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/tvProductName"
+        app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
+    <RelativeLayout
+        android:id="@+id/RelativeImgViewProductPicture"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imgViewProductPicture"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="@drawable/shape_box_border"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/icon_item_picture_empty" />
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/widget_title_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitStart"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="-15dp"
+            android:layout_toRightOf="@+id/imgViewProductPicture"
+            android:src="@drawable/icons8_checkmark_512px" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="18dp"
+        android:text="Bánh mì"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/RelativeImgViewProductPicture"
+        app:layout_constraintTop_toTopOf="@+id/RelativeImgViewProductPicture" />
+
+    <LinearLayout
+        android:id="@+id/linearCountMultiSelectItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/tvDonViTien"
+        app:layout_constraintTop_toBottomOf="@+id/tvProductPrice">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="X  "
+            android:textColor="@color/black"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/itemQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="3"
+            android:textColor="@color/red" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvProductPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="45dp"
+        android:text="1000"
+        android:textColor="#1EB524"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvProductName" />
+
+    <TextView
+        android:id="@+id/tvDonViTien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="29dp"
+        android:text="đ"
+        android:textColor="#1EB524"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProductPrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvProductPrice" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

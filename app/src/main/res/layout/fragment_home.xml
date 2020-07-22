@@ -88,7 +88,7 @@
                 android:rowCount="2">
 
                 <androidx.cardview.widget.CardView
-                    android:onClick="intentToCreateOrder"
+                    android:onClick="intentToSelectProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"

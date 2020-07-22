@@ -97,7 +97,10 @@ public class MainActivity extends AppCompatActivity {
         // If the navigation drawer is not open then open it, if its already open then close it.
         if (!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
     }
-
+    public void intentToSelectProduct(View view){
+        Intent intent = new Intent(MainActivity.this, SelectProductActivity.class);
+        startActivity(intent);
+    }
 
     public void callCreateProductActivity(View view) {
         Intent intent = new Intent(MainActivity.this, CreateProductActivity.class);

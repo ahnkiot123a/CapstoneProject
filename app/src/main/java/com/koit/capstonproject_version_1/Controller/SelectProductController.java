@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.koit.capstonproject_version_1.Adapter.ItemAdapter;
+import com.koit.capstonproject_version_1.Adapter.ItemBeforeOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
@@ -32,7 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SelectProductController extends AppCompatActivity {
     private Context context;
     private Product product;
-    ItemAdapter itemAdapter;
+    ItemBeforeOrderAdapter itemAdapter;
     private List<Product> listProduct;
     SwipeController swipeController = null;
     RecyclerView recyclerView;
@@ -49,7 +50,7 @@ public class SelectProductController extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView = recyclerViewListProduct;
         recyclerViewListProduct.setLayoutManager(layoutManager);
-        itemAdapter = new ItemAdapter(context, listProduct, R.layout.item_layout);
+        itemAdapter = new ItemBeforeOrderAdapter(context, listProduct, R.layout.item_layout_before_order);
         recyclerViewListProduct.setAdapter(itemAdapter);
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
@@ -69,7 +70,7 @@ public class SelectProductController extends AppCompatActivity {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
-        itemAdapter = new ItemAdapter(context, listProduct, R.layout.item_layout);
+        itemAdapter = new ItemBeforeOrderAdapter(context, listProduct, R.layout.item_layout_before_order);
         recyclerViewListProduct.setAdapter(itemAdapter);
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
