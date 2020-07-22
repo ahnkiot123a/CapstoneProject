@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -45,12 +46,12 @@ public class SelectProductController extends AppCompatActivity {
 
     public void getListProduct(String searchText, RecyclerView recyclerViewListProduct,
                                LinearLayout linearLayoutEmpty, LinearLayout layoutSearch,
-                               LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
+                               LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList, CheckBox checkBoxSelectMultiProduct) {
         listProduct = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView = recyclerViewListProduct;
         recyclerViewListProduct.setLayoutManager(layoutManager);
-        itemAdapter = new ItemBeforeOrderAdapter(context, listProduct, R.layout.item_layout_before_order);
+        itemAdapter = new ItemBeforeOrderAdapter(context, listProduct, R.layout.item_layout_before_order,checkBoxSelectMultiProduct);
         recyclerViewListProduct.setAdapter(itemAdapter);
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
@@ -65,12 +66,12 @@ public class SelectProductController extends AppCompatActivity {
     }
 
     public void getListProduct(Context context, RecyclerView recyclerViewListProduct, String categoryName, LinearLayout linearLayoutEmpty, LinearLayout
-            layoutSearch, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
+            layoutSearch, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList,CheckBox checkBoxSelectMultiProduct) {
         listProduct = new ArrayList<>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
-        itemAdapter = new ItemBeforeOrderAdapter(context, listProduct, R.layout.item_layout_before_order);
+        itemAdapter = new ItemBeforeOrderAdapter(context, listProduct, R.layout.item_layout_before_order,checkBoxSelectMultiProduct);
         recyclerViewListProduct.setAdapter(itemAdapter);
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override

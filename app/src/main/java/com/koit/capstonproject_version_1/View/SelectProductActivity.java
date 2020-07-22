@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,6 +41,7 @@ public class SelectProductActivity extends AppCompatActivity {
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
     private CheckBox checkBoxSelectMultiProduct;
+    private LinearLayout layoutButton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +59,25 @@ public class SelectProductActivity extends AppCompatActivity {
         imgbtnBarcodeInList = findViewById(R.id.imgbtnBarcodeInList);
         searchView = findViewById(R.id.searchViewInList);
         checkBoxSelectMultiProduct = findViewById(R.id.checkBoxSelectMultiProduct);
+        layoutButton = findViewById(R.id.layoutBtnSelectedProduct);
+
+        checkBoxSelectMultiProduct.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    layoutButton.setVisibility(View.VISIBLE);
+                } else {
+                    layoutButton.setVisibility(View.GONE);
+                }
+            }
+        });
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
 
         selectProductController = new SelectProductController(this.getApplicationContext());
 
         selectProductController.getListProduct(null, recyclerViewListProduct,
-                linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct);
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -75,7 +89,7 @@ public class SelectProductActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 selectProductController.getListProduct(newText, recyclerViewListProduct,
-                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct);
                 return true;
             }
         });
@@ -88,10 +102,10 @@ public class SelectProductActivity extends AppCompatActivity {
                 String categoryName = category_Spinner.getSelectedItem().toString();
                 if (categoryName.equals("Tất cả các loại sản phẩm")) {
                     selectProductController.getListProduct(null, recyclerViewListProduct,
-                            linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                            linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct);
                 } else {
                     selectProductController.getListProduct(getApplicationContext(), recyclerViewListProduct,
-                            categoryName, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                            categoryName, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct);
                 }
             }
 
@@ -124,7 +138,7 @@ public class SelectProductActivity extends AppCompatActivity {
             } else {
                 String barcode = intentResult.getContents();
                 selectProductController.getListProduct(barcode, recyclerViewListProduct,
-                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct);
                 searchView.setQuery(barcode, false);
 
             }

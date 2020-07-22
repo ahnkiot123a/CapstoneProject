@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,15 +28,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrderAdapter.MyViewHolder> {
 
-    List<Product> listProduct;
-    //item layout
-    int resourse;
-    Context context;
+    private List<Product> listProduct;
+    private int resourse;
+    private Context context;
+    private CheckBox checkBoxCount;
 
-    public ItemBeforeOrderAdapter(Context context, List<Product> list, int resourse) {
+    public ItemBeforeOrderAdapter(Context context, List<Product> list, int resourse, CheckBox checkBoxCount) {
         this.listProduct = list;
         this.resourse = resourse;
         this.context = context;
+        this.checkBoxCount = checkBoxCount;
     }
 
     //View Holder class
@@ -76,7 +78,6 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
         final Product product = listProduct.get(position);
         //select product
         final int[] countItemSelected = {0};
-
 
         //set Value for Holder
         holder.itemName.setText(product.getProductName());
@@ -123,10 +124,12 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
             @Override
             public void onClick(View v) {
                 //selected items
-                setVisibleLayout(holder.imageViewCheckIcon, holder.layoutCount);
-                countItemSelected[0]++;
-                holder.itemCount.setText(countItemSelected[0]+"");
-                Log.d(holder.itemName + "", countItemSelected.toString());
+                if (checkBoxCount.isChecked()) {
+                    setVisibleLayout(holder.imageViewCheckIcon, holder.layoutCount);
+                    countItemSelected[0]++;
+                    holder.itemCount.setText(countItemSelected[0] + "");
+                    Log.d(holder.itemName + "", countItemSelected.toString());
+                }
             }
         });
 
