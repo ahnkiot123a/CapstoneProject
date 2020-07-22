@@ -19,6 +19,7 @@ import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.ListProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 import androidx.annotation.Nullable;
@@ -47,7 +48,7 @@ public class ListProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_list_product);
         searchView = findViewById(R.id.searchViewInList);
         category_Spinner = findViewById(R.id.category_Spinner);
