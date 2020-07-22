@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         getNavigationMenuLeft();
 
 
+
+
         // Intent intent = getIntent();
         currentUser = UserDAO.getInstance().getUser();
 
@@ -111,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void callListProductActivity(View view) {
         Intent intent = new Intent(MainActivity.this, ListProductActivity.class);
+        startActivity(intent);
+    }
+
+    public void invoiceHistoryEvent(View view){
+        Intent intent = new Intent(this, InvoiceHistoryActivity.class);
         startActivity(intent);
     }
 

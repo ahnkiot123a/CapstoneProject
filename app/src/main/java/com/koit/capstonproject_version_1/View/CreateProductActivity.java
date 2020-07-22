@@ -184,7 +184,11 @@ public class CreateProductActivity extends AppCompatActivity {
 
     //create product
     public void addProduct(View view) {
-        controller.createProduct(etBarcode, tetProductName, tetDescription, tvCategory,switchActive.isChecked());
+        try{
+            controller.createProduct(etBarcode, tetProductName, tetDescription, tvCategory, switchActive.isChecked());
+        }catch (Exception e){
+            Toast.makeText(this, "Thêm sản phẩm thất bại! Vui lòng thử lại...", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

@@ -64,55 +64,51 @@ public class CreateProductController {
     public void createProduct(TextInputEditText etBarcode, TextInputEditText tetProductName, TextInputEditText tetDescription,
                               TextView tvCategory, boolean checked) {
         String barcode = etBarcode.getText().toString().trim();
-        if (barcode.isEmpty()) {
-            etBarcode.setError("Bạn phải quét barcode trước!");
+
+        String productName = tetProductName.getText().toString().trim();
+        if (productName.isEmpty()) {
+            tetProductName.setError("Tên sản phẩm không được để trống");
         } else {
-            String productName = tetProductName.getText().toString().trim();
-            if (productName.isEmpty()) {
-                tetProductName.setError("Tên sản phẩm không được để trống");
-            } else {
-                String category = tvCategory.getText().toString().trim();
-                if (category.isEmpty()) {
-                    Toast.makeText(activity, "Bạn phải chọn phân loại cho sản phẩm!", Toast.LENGTH_LONG).show();
-                } else {
-                    ArrayList<Unit> listUnit = CreateProductActivity.getUnitFromRv();
-                    String photoName = CreateProductActivity.photoName;
-                    String productID = RandomStringController.getInstance().randomString();
+            String category = tvCategory.getText().toString().trim();
+
+            ArrayList<Unit> listUnit = CreateProductActivity.getUnitFromRv();
+            String photoName = CreateProductActivity.photoName;
+            String productID = RandomStringController.getInstance().randomString();
 //                    Log.i("photoPath", photoName);
-                    Product product = new Product();
-                    product.setProductId(productID);
-                    product.setBarcode(barcode);
-                    product.setProductName(productName);
-                    product.setProductDescription(tetDescription.getText().toString().trim());
-                    product.setCategoryName(category);
-                    product.setProductImageUrl(photoName);
-                    product.setActive(checked);
-                    product.setUnits(listUnit);
-                    Log.i("addProduct", product.toString());
+            Product product = new Product();
+            product.setProductId(productID);
+            product.setBarcode(barcode);
+            product.setProductName(productName);
+            product.setProductDescription(tetDescription.getText().toString().trim());
+            product.setCategoryName(category);
+            product.setProductImageUrl(photoName);
+            product.setActive(checked);
+            product.setUnits(listUnit);
+            Log.i("addProduct", product.toString());
 
-                    Intent intent = new Intent(activity, ConvertRateActivity.class);
-                    intent.putExtra(CreateProductActivity.NEW_PRODUCT, product);
-                    activity.startActivity(intent);
+            Intent intent = new Intent(activity, ConvertRateActivity.class);
+            intent.putExtra(CreateProductActivity.NEW_PRODUCT, product);
+            activity.startActivity(intent);
 
-                }
-            }
         }
+
     }
 
     public void addProductInFirebase(Product currentProduct) {
         CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
     }
+
     public void addCategoryToFirebase(Product currentProduct, List<Category> categoryList) {
         String userId = UserDAO.getInstance().getUserID();
 
         boolean flag = true;
-        for (int i = 0;i<categoryList.size();i++){
-            if(currentProduct.getCategoryName().equals(categoryList.get(i).getCategoryName()))
+        for (int i = 0; i < categoryList.size(); i++) {
+            if (currentProduct.getCategoryName().equals(categoryList.get(i).getCategoryName()))
                 flag = false;
         }
         // Log.i("categoryList", categoryList.get(i).getCategoryName());
 
-        if(flag) {
+        if (flag) {
             Category category = new Category(currentProduct.getCategoryName());
             category.addCategoryToFireBase(userId);
         }

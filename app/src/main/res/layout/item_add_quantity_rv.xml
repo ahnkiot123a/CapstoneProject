@@ -16,11 +16,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="200dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etProductQuantity"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="50dp"
                     android:fontFamily="sans-serif-medium"
                     android:hint="Số lượng"
@@ -36,9 +37,9 @@
                 android:id="@+id/tvUnitName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
                 android:fontFamily="sans-serif-medium"
-                android:gravity="center"
                 android:text="Thùng"
                 android:textColor="@color/gray"
                 android:textSize="18sp"
@@ -47,23 +48,26 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp">
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
                 <ImageButton
                     android:id="@+id/ibMinusQuantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/minus" />
+                    android:src="@drawable/ic_baseline_minus_24" />
 
                 <ImageButton
                     android:id="@+id/ibAddQuantity"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:background="@null"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/icons8_add_48px_3" />
+                    android:src="@drawable/ic_baseline_add_item_24" />
             </LinearLayout>
 
         </LinearLayout>

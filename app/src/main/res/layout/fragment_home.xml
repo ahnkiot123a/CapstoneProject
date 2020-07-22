@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/main_activityStatusBarScrim"
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:background="@drawable/green_linear_color" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,19 +21,20 @@
 
     <ImageButton
         android:id="@+id/btnLeftMenu"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:onClick="navigationMenuLeft"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/icons8_menu_100px_1"/>
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/main_activityStatusBarScrim"
+        android:onClick="navigationMenuLeft"
+        android:src="@drawable/icons8_menu_100px_1" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutSearchHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/btnLeftMenu">
+        android:layout_below="@+id/btnLeftMenu"
+        android:layout_margin="10dp">
 
         <EditText
             android:id="@+id/etSearchField"
@@ -88,12 +95,12 @@
                 android:rowCount="2">
 
                 <androidx.cardview.widget.CardView
-                    android:onClick="intentToSelectProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="18dp"
+                    android:onClick="intentToSelectProduct"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="6dp">
@@ -104,6 +111,7 @@
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="16dp">
+
                         <ImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
@@ -167,9 +175,9 @@
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="18dp"
+                    android:onClick="callCreateProductActivity"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="12dp"
-                    android:onClick="callCreateProductActivity"
                     app:cardElevation="6dp">
 
                     <LinearLayout
@@ -205,8 +213,8 @@
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="18dp"
-                    app:cardBackgroundColor="@color/white"
                     android:onClick="callListProductActivity"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="6dp">
 
