@@ -89,30 +89,33 @@ public class CreateProductDAO {
     public void addProductInFirebase(Product product) {
         product.setUnits(null);
         String userId = UserDAO.getInstance().getUserID();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         databaseReference = databaseReference.child("Products").child(userId).child(product.getProductId());
         databaseReference.setValue(product);
-        databaseReference.keepSynced(true);
+//        databaseReference.keepSynced(true);
     }
 
     public void addImageProduct(Uri uri, String imgName) {
         final StorageReference image = storageReference.child("ProductPictures/" + imgName);
-        image.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + uri.toString());
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("saveImageProduct", "save failed");
-            }
-        });
+        if(uri != null){
+            image.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + uri.toString());
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i("saveImageProduct", "save failed");
+                }
+            });
+        }
+
     }
 
     public void deleteImageProduct( String imgName) {

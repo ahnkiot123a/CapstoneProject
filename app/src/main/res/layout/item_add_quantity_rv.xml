@@ -10,22 +10,24 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:background="@null">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etProductQuantity"
-                    android:layout_width="200dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:fontFamily="sans-serif-medium"
                     android:hint="Số lượng"
                     android:inputType="number"
+                    android:background="@null"
                     android:padding="10dp"
                     android:singleLine="true"
                     android:textColor="@color/gray"

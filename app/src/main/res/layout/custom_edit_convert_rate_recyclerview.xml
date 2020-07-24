@@ -20,7 +20,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@null">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etBigUnitName"
@@ -28,6 +29,7 @@
                     android:layout_height="50dp"
                     android:fontFamily="sans-serif-medium"
                     android:editable="false"
+                    android:background="@null"
                     android:hint="Tên đơn vị"
                     android:padding="10dp"
                     android:singleLine="true"
@@ -67,7 +69,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@null">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etSmallUnitName"
@@ -75,6 +78,7 @@
                     android:layout_height="50dp"
                     android:fontFamily="sans-serif-medium"
                     android:editable="false"
+                    android:background="@null"
                     android:hint="Tên đơn vị"
                     android:padding="10dp"
                     android:singleLine="true"

@@ -96,6 +96,7 @@ public class CreateProductController {
 
     public void addProductInFirebase(Product currentProduct) {
         CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
+
     }
 
     public void addCategoryToFirebase(Product currentProduct, List<Category> categoryList) {

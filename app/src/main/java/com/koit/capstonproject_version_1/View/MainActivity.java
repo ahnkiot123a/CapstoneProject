@@ -3,6 +3,8 @@ package com.koit.capstonproject_version_1.View;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +22,18 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.koit.capstonproject_version_1.Controller.CreateProductController;
+import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
+import com.koit.capstonproject_version_1.Model.Category;
+import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.UserDAO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +41,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvNameProfileLeft;
     private TextView tvEmailProfileLeft;
 
+    private ListCategoryController listCategoryController;
+    private List<Category> categoryList;
+
     private User currentUser;
+    private CreateProductController createProductController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Intent intent = getIntent();
         currentUser = UserDAO.getInstance().getUser();
+
+        createProductController = new CreateProductController(this);
 
 
     }
@@ -158,6 +174,37 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        addProductOther();
+    }
+
+    private void addProductOther() {
+        listCategoryController = new ListCategoryController(this);
+        categoryList = new ArrayList<>();
+        listCategoryController.getListCategory(this);
+        //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                categoryList = listCategoryController.getCategories();
+                for (Category category : categoryList){
+                    Log.i("kiemtraCategory",category.getCategoryName());
+                }
+
+            }
+        }, 3000);
+        Intent intent = getIntent();
+        boolean success = intent.getBooleanExtra(ConvertRateActivity.IS_SUCCESS, false);
+        Product currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
+        if(success){
+            createProductController.addImageProduct();
+            createProductController.addCategoryToFirebase(currentProduct,categoryList);
+        }
     }
 
     @Override

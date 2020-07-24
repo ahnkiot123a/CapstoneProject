@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConvertRateActivity extends AppCompatActivity {
+
+    public static final String IS_SUCCESS = "SUCCESS";
 
     private Toolbar toolbar;
     private TextView tvToolbarTitle;
@@ -77,19 +80,19 @@ public class ConvertRateActivity extends AppCompatActivity {
         detailProductController = new DetailProductController();
 
         listCategoryController = new ListCategoryController(this);
-        listCategoryController.getListCategory(this);
-        //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                categoryList = listCategoryController.getCategories();
-                for (Category category : categoryList){
-                    Log.i("kiemtraCategory",category.getCategoryName());
-                }
-
-            }
-        }, 3000);
+//        listCategoryController.getListCategory(this);
+//        //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
+//        (new Handler()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                categoryList = listCategoryController.getCategories();
+//                for (Category category : categoryList){
+//                    Log.i("kiemtraCategory",category.getCategoryName());
+//                }
+//
+//            }
+//        }, 3000);
 
     }
 
@@ -103,10 +106,20 @@ public class ConvertRateActivity extends AppCompatActivity {
     }
 
     private void addProductToFirebase() {
-        addUnitToFirebase();
-        createProductController.addImageProduct();
-        createProductController.addProductInFirebase(currentProduct);
-        createProductController.addCategoryToFirebase(currentProduct,categoryList);
+
+        try{
+            addUnitToFirebase();
+            createProductController.addProductInFirebase(currentProduct);
+            Toast.makeText(this.getApplicationContext(), "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(IS_SUCCESS, true);
+            intent.putExtra(CreateProductActivity.NEW_PRODUCT, currentProduct);
+            startActivity(intent);
+            this.finish();
+        }catch (Exception e){
+            Toast.makeText(this, "Thêm sản phẩm thất bại! Vui lòng thử lại...", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void addUnitToFirebase() {
@@ -169,6 +182,10 @@ public class ConvertRateActivity extends AppCompatActivity {
         }
         Log.i("unitList", unitList.toString());
         addProductQuantityController.convertUnitList2(unitList);
+    }
+
+    public void back(View view){
+        onBackPressed();
     }
 
 
