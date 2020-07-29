@@ -1,10 +1,35 @@
 package com.koit.capstonproject_version_1.Model;
 
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.koit.capstonproject_version_1.Controller.Interface.ICategory;
+import com.koit.capstonproject_version_1.Controller.Interface.ICustomer;
+import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
+import com.koit.capstonproject_version_1.dao.UserDAO;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Customer implements Serializable {
     private String customerId, address, dateOfBirth, email, fullName, phoneNumber;
     private boolean gender;
+    private DatabaseReference nodeRoot;
+    private DataSnapshot dataRoot;
+
 
     public Customer(String customerId, String address, String dateOfBirth, String email, String fullName, String phoneNumber, boolean gender) {
         this.customerId = customerId;
@@ -86,5 +111,31 @@ public class Customer implements Serializable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", gender=" + gender +
                 '}';
+    }
+
+    public void getListCustomer(final ICustomer iCustomer) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getListCustomer(dataSnapshot, iCustomer);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    private void getListCustomer(DataSnapshot dataSnapshot, ICustomer iCustomer) {
+        DataSnapshot dataSnapshotCustomer = dataSnapshot.child("Customers").child(UserDAO.getInstance().getUserID());
+        if (dataSnapshotCustomer != null) {
+            for (DataSnapshot valueCustomer : dataSnapshotCustomer.getChildren()) {
+                Customer customer = valueCustomer.getValue(Customer.class);
+                customer.setCustomerId(valueCustomer.getKey());
+                iCustomer.getCustomer(customer);
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Model.Customer;
+import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.List;
@@ -36,7 +37,10 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        final Customer customer = customerList.get(position);
+        holder.tvCustomerName.setText(customer.getFullName());
+        holder.tvCustomerPhone.setText(customer.getPhoneNumber());
+        holder.tvCustomerId.setText(customer.getCustomerId());
     }
 
     @Override
@@ -45,7 +49,15 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvCustomerName, tvCustomerPhone;
+        private TextView tvCustomerName, tvCustomerPhone,tvCustomerId;
+
+        public TextView getTvCustomerId() {
+            return tvCustomerId;
+        }
+
+        public void setTvCustomerId(TextView tvCustomerId) {
+            this.tvCustomerId = tvCustomerId;
+        }
 
         public TextView getTvCustomerName() {
             return tvCustomerName;
@@ -67,6 +79,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             super(itemView);
             tvCustomerName = itemView.findViewById(R.id.tvCustomerName);
             tvCustomerPhone = itemView.findViewById(R.id.tvCustomerPhone);
+            tvCustomerId = itemView.findViewById(R.id.tvCustomerId);
         }
     }
 }

@@ -27,5 +27,12 @@ public class RandomStringController {
 
         return result;
     }
+    public String randomCustomerId(){
+        String userID = UserDAO.getInstance().getUserID();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String result = "KH" + "_" + timeStamp + "_" + userID;
+
+        return result;
+    }
 
 }

@@ -11,27 +11,28 @@
 
     <TextView
         android:id="@+id/tvCustomerPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
         android:text="0338711933"
         android:textColor="#90000000"
         android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@+id/tvCustomerName"
-        app:layout_constraintTop_toBottomOf="@+id/tvCustomerName" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgViewProductPicture"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="4dp"
         android:layout_weight="1"
         android:background="@drawable/shape_box_border"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.285"
+        app:layout_constraintVertical_bias="0.4"
         app:srcCompat="@drawable/user_icon" />
 
     <TextView
@@ -44,8 +45,15 @@
         app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
         app:layout_constraintTop_toTopOf="@+id/imgViewProductPicture" />
 
-
-
+    <TextView
+        android:id="@+id/tvCustomerId"
+        android:layout_width="99dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
+        app:layout_constraintTop_toBottomOf="@+id/tvCustomerName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
