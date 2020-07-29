@@ -68,7 +68,7 @@ public class ListProductActivity extends AppCompatActivity {
                 listProductController.tranIntent(ListProductActivity.this, CreateProductActivity.class);
             }
         });
-
+        searchView.clearFocus();
         listProductController = new ListProductController(this.getApplicationContext());
         //swipe
         listProductController.setupRecyclerView(recyclerViewListProduct, this);
@@ -113,7 +113,7 @@ public class ListProductActivity extends AppCompatActivity {
 
     }
 
-    public void addNewProduct(View view){
+    public void addNewProduct(View view) {
         Intent intent = new Intent(this, CreateProductActivity.class);
         startActivity(intent);
     }

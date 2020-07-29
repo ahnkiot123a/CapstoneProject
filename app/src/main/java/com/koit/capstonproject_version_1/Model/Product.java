@@ -51,8 +51,6 @@ public class Product implements Serializable {
     }
 
     public Product() {
-
-
     }
 
     public String getUserId() {
@@ -147,14 +145,15 @@ public class Product implements Serializable {
         Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
     }
 
-
     public void getListProduct(final String searchText, final ListProductInterface
             listProductInterface, final TextView textView, final LinearLayout linearLayoutEmpty,
-                               final ConstraintLayout layoutSearch, final LinearLayout layoutNotFoundItem, final Spinner category_Spinner, final ProgressBar pBarList) {
+                               final ConstraintLayout layoutSearch, final LinearLayout layoutNotFoundItem,
+                               final Spinner category_Spinner, final ProgressBar pBarList) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getListProduct(dataSnapshot, listProductInterface, searchText, textView, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                getListProduct(dataSnapshot, listProductInterface, searchText, textView, linearLayoutEmpty,
+                        layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
             }
 
             @Override
@@ -169,7 +168,8 @@ public class Product implements Serializable {
 
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
                                 String searchText, TextView textView, LinearLayout linearLayoutEmpty,
-                                ConstraintLayout constraintLayoutfound, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
+                                ConstraintLayout constraintLayoutfound, LinearLayout layoutNotFoundItem,
+                                Spinner category_Spinner, ProgressBar pBarList) {
         pBarList.setVisibility(View.VISIBLE);
         userDAO = new UserDAO();
         DataSnapshot dataSnapshotProduct;
@@ -216,7 +216,8 @@ public class Product implements Serializable {
                         listProductInterface.getListProductModel(product);
                     } else {
                         //product contains searched characters or barcode
-                        if (product.getProductName().toLowerCase().contains(searchText.toLowerCase()) || product.getBarcode().contains(searchText)) {
+                        if (product.getProductName().toLowerCase().contains(searchText.toLowerCase())
+                                || product.getBarcode().contains(searchText)) {
                             isFound = true;
                             listProductInterface.getListProductModel(product);
                         }
@@ -240,11 +241,13 @@ public class Product implements Serializable {
     //Cate Tu Beo
     public void getListProduct(final ListProductInterface listProductInterface, final String categoryName,
                                final LinearLayout linearLayoutEmpty, final ConstraintLayout constraintLayout,
-                               final LinearLayout layoutNotFoundItem, final TextView textView, Spinner category_Spinner, final ProgressBar pBarList) {
+                               final LinearLayout layoutNotFoundItem, final TextView textView,
+                               Spinner category_Spinner, final ProgressBar pBarList) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getListProduct(dataSnapshot, listProductInterface, categoryName, linearLayoutEmpty, constraintLayout, layoutNotFoundItem, textView, pBarList);
+                getListProduct(dataSnapshot, listProductInterface, categoryName, linearLayoutEmpty,
+                        constraintLayout, layoutNotFoundItem, textView, pBarList);
             }
 
             @Override
@@ -258,7 +261,8 @@ public class Product implements Serializable {
     }
 
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName,
-                                LinearLayout linearLayoutEmpty, ConstraintLayout constraintLayout, LinearLayout layoutNotFoundItem, TextView textView, ProgressBar pBarList) {
+                                LinearLayout linearLayoutEmpty, ConstraintLayout constraintLayout,
+                                LinearLayout layoutNotFoundItem, TextView textView, ProgressBar pBarList) {
         userDAO = new UserDAO();
         pBarList.setVisibility(View.VISIBLE);
         DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
@@ -330,11 +334,13 @@ public class Product implements Serializable {
     //for SelectProductController
     public void getListProduct(final String searchText, final ListProductInterface
             listProductInterface, final LinearLayout linearLayoutEmpty,
-                               final LinearLayout layoutSearch, final LinearLayout layoutNotFoundItem, final Spinner category_Spinner, final ProgressBar pBarList) {
+                               final LinearLayout layoutSearch, final LinearLayout layoutNotFoundItem,
+                               final Spinner category_Spinner, final ProgressBar pBarList) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getListProduct(dataSnapshot, listProductInterface, searchText, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                getListProduct(dataSnapshot, listProductInterface, searchText, linearLayoutEmpty,
+                        layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
             }
 
             @Override
@@ -349,7 +355,8 @@ public class Product implements Serializable {
 
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
                                 String searchText, LinearLayout linearLayoutEmpty,
-                                LinearLayout layoutSearch, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
+                                LinearLayout layoutSearch, LinearLayout layoutNotFoundItem,
+                                Spinner category_Spinner, ProgressBar pBarList) {
         pBarList.setVisibility(View.VISIBLE);
         userDAO = new UserDAO();
         DataSnapshot dataSnapshotProduct;
@@ -395,7 +402,8 @@ public class Product implements Serializable {
                         listProductInterface.getListProductModel(product);
                     } else {
                         //product contains searched characters or barcode
-                        if (product.getProductName().toLowerCase().contains(searchText.toLowerCase()) || product.getBarcode().contains(searchText)) {
+                        if (product.getProductName().toLowerCase().contains(searchText.toLowerCase())
+                                || product.getBarcode().contains(searchText)) {
                             isFound = true;
                             listProductInterface.getListProductModel(product);
                         }
@@ -419,7 +427,8 @@ public class Product implements Serializable {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getListProduct(dataSnapshot, listProductInterface, categoryName, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, pBarList);
+                getListProduct(dataSnapshot, listProductInterface, categoryName, linearLayoutEmpty,
+                        layoutSearch, layoutNotFoundItem, pBarList);
             }
 
             @Override
@@ -433,7 +442,8 @@ public class Product implements Serializable {
     }
 
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName,
-                                LinearLayout linearLayoutEmpty, LinearLayout layoutSearch, LinearLayout layoutNotFoundItem, ProgressBar pBarList) {
+                                LinearLayout linearLayoutEmpty, LinearLayout layoutSearch,
+                                LinearLayout layoutNotFoundItem, ProgressBar pBarList) {
         userDAO = new UserDAO();
         pBarList.setVisibility(View.VISIBLE);
         DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());

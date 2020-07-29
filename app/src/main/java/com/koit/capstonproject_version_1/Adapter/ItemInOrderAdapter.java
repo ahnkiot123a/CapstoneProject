@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,19 +24,17 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrderAdapter.MyViewHolder> {
+public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.MyViewHolder> {
 
     private List<Product> listProduct;
     private List<Product> listSelectedProduct;
     private int resourse;
     private Context context;
-    private CheckBox checkBoxCount;
 
-    public ItemBeforeOrderAdapter(Context context, List<Product> list, int resourse, CheckBox checkBoxCount, List<Product> listSelectedProduct) {
+    public ItemInOrderAdapter(Context context, List<Product> list, int resourse, List<Product> listSelectedProduct) {
         this.listProduct = list;
         this.resourse = resourse;
         this.context = context;
-        this.checkBoxCount = checkBoxCount;
         this.listSelectedProduct = listSelectedProduct;
     }
 
@@ -79,7 +76,7 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
 
     @NonNull
     @Override
-    public ItemBeforeOrderAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemInOrderAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_before_order, parent, false);
         MyViewHolder viewHolder = new MyViewHolder(view);
         return viewHolder;
@@ -138,29 +135,27 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
         holder.itemProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxCount.isChecked()) {
-                    boolean isProductExist = false;
-                    for (Product product1 : listSelectedProduct) {
-                        //selected list contain searched product or not
-                        if (product1.getProductId().equals(product.getProductId())) {
-                            isProductExist = true;
-                            listSelectedProduct.remove(product1);
-                            break;
-                        }
+                boolean isProductExist = false;
+                for (Product product1 : listSelectedProduct) {
+                    //selected list contain searched product or not
+                    if (product1.getProductId().equals(product.getProductId())) {
+                        isProductExist = true;
+                        listSelectedProduct.remove(product1);
+                        break;
                     }
-                    //contain
-                    if (isProductExist) {
-                        holder.imageViewCheckIcon.setVisibility(View.GONE);
-                        Log.d("ListSelectedProductRe", listSelectedProduct.size() + "");
-                    } else
-                    //not contain
-                    {
-                        holder.imageViewCheckIcon.setVisibility(View.VISIBLE);
-                        listSelectedProduct.add(product);
-                        Log.d("ListSelectedProductAd", listSelectedProduct.size() + "");
-                    }
-
                 }
+                //contain
+                if (isProductExist) {
+                    holder.imageViewCheckIcon.setVisibility(View.GONE);
+                    Log.d("ListSelectedProductRe", listSelectedProduct.size() + "");
+                } else
+                //not contain
+                {
+                    holder.imageViewCheckIcon.setVisibility(View.VISIBLE);
+                    listSelectedProduct.add(product);
+                    Log.d("ListSelectedProductAd", listSelectedProduct.size() + "");
+                }
+
             }
         });
     }

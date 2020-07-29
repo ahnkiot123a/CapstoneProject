@@ -1,7 +1,9 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -11,17 +13,27 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SelectProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
+import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.UserDAO;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,6 +72,7 @@ public class SelectProductActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchViewInList);
         checkBoxSelectMultiProduct = findViewById(R.id.checkBoxSelectMultiProduct);
         layoutButton = findViewById(R.id.layoutBtnSelectedProduct);
+        searchView.clearFocus();
 
         checkBoxSelectMultiProduct.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -137,16 +150,45 @@ public class SelectProductActivity extends AppCompatActivity {
 //                etBarcode.setText("");
             } else {
                 String barcode = intentResult.getContents();
-                selectProductController.getListProduct(barcode, recyclerViewListProduct,
-                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct);
+//                selectProductController.getListProduct(barcode, recyclerViewListProduct,
+//                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct);
                 searchView.setQuery(barcode, false);
-
+                searchView.clearFocus();
             }
         }
     }
 
-
     public void addNewProduct(View view) {
         selectProductController.tranIntent(SelectProductActivity.this, CreateProductActivity.class);
+    }
+
+//    public void reSelectProduct(View view) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Bạn có muốn xoá tất cả sản phẩm đã chọn không?")
+//                .setCancelable(false)
+//                .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        //remove selected items
+//                      selectProductController.deleteListItemSelected();
+//                      //hilde layout
+//                    }
+//                })
+//                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
+
+    public void tranToListItemsInOrder(View view) {
+        List<Product> listSelectedProduct = new ArrayList<>();
+        listSelectedProduct = selectProductController.getListSelectedProduct();
+        Intent intent = new Intent(SelectProductActivity.this, ListItemInOrderActivity.class);
+        Bundle args = new Bundle();
+        args.putSerializable("ListSelectedProduct", (Serializable) listSelectedProduct);
+        intent.putExtra("BUNDLE",args);
+        startActivity(intent);
     }
 }
