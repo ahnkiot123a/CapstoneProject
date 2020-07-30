@@ -92,7 +92,6 @@ public class Category implements Serializable {
         //Lấy danh sách san pham
         for (DataSnapshot valueCategory : dataSnapshotCategory.getChildren()) {
             Category category = valueCategory.getValue(Category.class);
-            category.setCategoryId(category.getCategoryId());
             iCategory.getCategory(category);
         }
     }

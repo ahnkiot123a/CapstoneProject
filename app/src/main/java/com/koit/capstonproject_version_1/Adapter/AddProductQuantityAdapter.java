@@ -23,7 +23,6 @@ import java.util.List;
 public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQuantityAdapter.ViewHolder> {
     List<Unit> unitArrayList;
     Context context;
-    private Unit unit = new Unit();
 
     public AddProductQuantityAdapter(List<Unit> unitArrayList, Context context) {
         this.unitArrayList = unitArrayList;
@@ -32,10 +31,6 @@ public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQu
     }
 
     public AddProductQuantityAdapter() {
-    }
-    public List<Unit> getListUnitAdd() {
-
-        return unitArrayList;
     }
 
     @NonNull

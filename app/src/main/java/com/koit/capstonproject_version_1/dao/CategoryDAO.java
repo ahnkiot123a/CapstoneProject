@@ -39,10 +39,8 @@ public class CategoryDAO {
             public void getCategory(Category category) {
                 Log.d("kiemtra", category.getCategoryName() + "");
                 categoryList.add(category);
-                ArrayAdapter<Category> adapter =
-                        new ArrayAdapter<>(context,
-                                android.R.layout.simple_list_item_1,
-                                categoryList);
+                ArrayAdapter<Category> adapter = new ArrayAdapter<>(context,
+                                android.R.layout.simple_list_item_1, categoryList);
                 listView.setAdapter(adapter);
             }
         };

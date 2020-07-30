@@ -59,8 +59,6 @@ public class CreateProductActivity extends AppCompatActivity {
     public static Uri photoUri;
 
     private TextInputEditText etBarcode;
-    private Toolbar toolbar;
-    private TextView tvToolbarTitle;
     private CreateProductController controller;
     private TextInputEditText tetProductName, tetDescription;
     private TextView tvCategory;
@@ -91,7 +89,6 @@ public class CreateProductActivity extends AppCompatActivity {
 
         cameraController = new CameraController(this);
 
-        tvToolbarTitle.setText("Thêm sản phẩm");
 
         //create list in recyclerview
         createListRecyclerview();
@@ -139,15 +136,19 @@ public class CreateProductActivity extends AppCompatActivity {
     private void initView() {
         //find view by id
         etBarcode = findViewById(R.id.etBarcode);
-        toolbar = findViewById(R.id.toolbarGeneral);
         tetProductName = findViewById(R.id.etProductName);
         tetDescription = findViewById(R.id.etDescription);
         tvCategory = findViewById(R.id.tvCategory);
-        tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
         ivProduct = findViewById(R.id.ivProduct);
         recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
         switchActive = findViewById(R.id.switchActive);
         lvCategory = findViewById(R.id.lvCategory);
+
+
+        Toolbar toolbar = findViewById(R.id.toolbarGeneral);
+        TextView tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
+        tvToolbarTitle.setText("Thêm sản phẩm");
+
 
 
     }

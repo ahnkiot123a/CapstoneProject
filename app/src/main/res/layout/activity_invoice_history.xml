@@ -15,22 +15,29 @@
         android:background="@color/super_light_gray"
         android:orientation="vertical">
 
-        <SearchView
-            android:id="@+id/svOrder"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_bg_search"
-            android:clickable="true"
-            android:focusable="true"
-            android:queryHint="@string/search_hint"
-            android:iconifiedByDefault="false"
-            android:layout_margin="10dp"
-            app:queryBackground="@null"
-            app:submitBackground="@null"/>
+            android:layout_margin="10dp">
+            <SearchView
+                android:id="@+id/svOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:clickable="true"
+                android:focusable="true"
+                android:queryHint="@string/search_hint"
+                android:iconifiedByDefault="false"
+                app:queryBackground="@null"
+                app:submitBackground="@null"/>
+        </LinearLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/textView7"
@@ -72,9 +79,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:layout_marginTop="10dp">
 
             <TextView
+                android:id="@+id/tvInvoiceCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -89,9 +99,9 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvInvoiceHistory"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

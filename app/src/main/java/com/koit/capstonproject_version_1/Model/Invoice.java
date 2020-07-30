@@ -1,22 +1,24 @@
 package com.koit.capstonproject_version_1.Model;
 
-public class Invoice {
-    private String invoiceId, customerId, invoiceDate, invoiceTime;
-    private long discount, paidAmount;
-    private boolean isDebt, isPaid;
+import java.io.Serializable;
+
+public class Invoice implements Serializable {
+    private String invoiceId, customerId, invoiceDate, invoiceTime, customerImage;
+    private long debitAmount, discount, firstPaid, total;
 
     public Invoice() {
     }
 
-    public Invoice(String invoiceId, String customerId, String invoiceDate, String invoiceTime, long discount, long paidAmount, boolean isDebt, boolean isPaid) {
+    public Invoice(String invoiceId, String customerId, String invoiceDate, String invoiceTime, String customerImage, long debitAmount, long discount, long firstPaid, long total) {
         this.invoiceId = invoiceId;
         this.customerId = customerId;
         this.invoiceDate = invoiceDate;
         this.invoiceTime = invoiceTime;
+        this.customerImage = customerImage;
+        this.debitAmount = debitAmount;
         this.discount = discount;
-        this.paidAmount = paidAmount;
-        this.isDebt = isDebt;
-        this.isPaid = isPaid;
+        this.firstPaid = firstPaid;
+        this.total = total;
     }
 
     public String getInvoiceId() {
@@ -59,28 +61,36 @@ public class Invoice {
         this.discount = discount;
     }
 
-    public long getPaidAmount() {
-        return paidAmount;
+    public String getCustomerImage() {
+        return customerImage;
     }
 
-    public void setPaidAmount(long paidAmount) {
-        this.paidAmount = paidAmount;
+    public void setCustomerImage(String customerImage) {
+        this.customerImage = customerImage;
     }
 
-    public boolean isDebt() {
-        return isDebt;
+    public long getDebitAmount() {
+        return debitAmount;
     }
 
-    public void setDebt(boolean debt) {
-        isDebt = debt;
+    public void setDebitAmount(long debitAmount) {
+        this.debitAmount = debitAmount;
     }
 
-    public boolean isPaid() {
-        return isPaid;
+    public long getFirstPaid() {
+        return firstPaid;
     }
 
-    public void setPaid(boolean paid) {
-        isPaid = paid;
+    public void setFirstPaid(long firstPaid) {
+        this.firstPaid = firstPaid;
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
     }
 
     @Override
@@ -90,10 +100,11 @@ public class Invoice {
                 ", customerId='" + customerId + '\'' +
                 ", invoiceDate='" + invoiceDate + '\'' +
                 ", invoiceTime='" + invoiceTime + '\'' +
+                ", customerImage='" + customerImage + '\'' +
+                ", debitAmount=" + debitAmount +
                 ", discount=" + discount +
-                ", paidAmount=" + paidAmount +
-                ", isDebt=" + isDebt +
-                ", isPaid=" + isPaid +
+                ", firstPaid=" + firstPaid +
+                ", total=" + total +
                 '}';
     }
 }
