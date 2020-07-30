@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.koit.capstonproject_version_1.Model.Invoice;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
@@ -62,10 +63,10 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 holder.tvOrderTime.setText(invoice.getInvoiceTime());
 
                 holder.tvTotalPrice.setBackground(null);
-                holder.tvTotalPrice.setText(String.valueOf(invoice.getTotal()));
+                holder.tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()));
 
                 holder.tvOrderStatus.setBackground(null);
-                if (invoice.getDebitAmount() == 0) {
+                if (invoice.getDebitAmount() != 0) {
                     holder.tvOrderStatus.setText("Đã thanh toán");
                 } else {
                     holder.tvOrderStatus.setTextColor(Color.rgb(236,135,14));
