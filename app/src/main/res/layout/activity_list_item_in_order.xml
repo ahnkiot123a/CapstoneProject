@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".View.ListItemInOrderActivity">
+
     <View
         android:id="@+id/main_activityStatusBarScrim"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:background="@drawable/green_linear_color"/>
+        android:background="@drawable/green_linear_color" />
+
     <Toolbar
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
@@ -98,9 +100,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/logover4">
-
-                </ImageView>
+                    android:src="@drawable/logover4"></ImageView>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -115,8 +115,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -143,9 +143,22 @@
                     app:layout_constraintStart_toEndOf="@+id/iconShoping"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageButton
+                    android:id="@+id/addNoneListedProduct"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@null"
+                    android:onClick="addNoneListedProduct"
+                    android:src="@drawable/icons8_add_48px_3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/tvTotalQuantity"
-                    android:layout_width="30dp"
+                    android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/shape_textview_border"
@@ -176,24 +189,27 @@
                     app:layout_constraintBottom_toBottomOf="@+id/tvTotalPrice"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:weightSum="1"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
                 <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
                     android:background="@drawable/blue_linear_color"
-                    android:layout_width="match_parent"
-                    android:layout_weight="0.5"
                     android:text="Cho nợ hết"
-                    android:textColor="@color/white"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/white" />
+
                 <Button
-                    android:background="@drawable/green_linear_color"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:background="@drawable/green_linear_color"
                     android:text="Thanh toán"
-                    android:textColor="@color/white"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
 

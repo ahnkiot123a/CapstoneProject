@@ -1,23 +1,24 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -26,158 +27,188 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.MyViewHolder> {
 
-    private List<Product> listProduct;
     private List<Product> listSelectedProduct;
     private int resourse;
     private Context context;
+    private TextView tvTotalQuantity;
+    private TextView tvTotalPrice;
+    private List<Product> listSelectedProductInOrder;
 
-    public ItemInOrderAdapter(Context context, List<Product> list, int resourse, List<Product> listSelectedProduct) {
-        this.listProduct = list;
+    public ItemInOrderAdapter(Context context, int resourse, List<Product> listSelectedProduct,
+                              TextView tvTotalQuantity, TextView tvTotalPrice, List<Product> listSelectedProductInOrder) {
         this.resourse = resourse;
         this.context = context;
         this.listSelectedProduct = listSelectedProduct;
+        this.tvTotalQuantity = tvTotalQuantity;
+        this.tvTotalPrice = tvTotalPrice;
+        this.listSelectedProductInOrder = listSelectedProductInOrder;
     }
 
     //View Holder class
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
         TextView itemName;
         TextView itemPrice;
-        TextView tvBarcode;
+        Spinner spinnerUnit;
         ConstraintLayout itemProduct;
-        ImageView imageViewCheckIcon;
-        //        LinearLayout layoutCount;
-//        TextView itemCount;
-
-        public ImageView getImageViewCheckIcon() {
-            return imageViewCheckIcon;
-        }
-
-//        public LinearLayout getLayoutCount() {
-//            return layoutCount;
-//        }
-
-//        public TextView getItemCount() {
-//            return itemCount;
-//        }
+        ImageButton imageButtonDecrease;
+        ImageButton imageButtonIncrease;
+        EditText editTextQuantity;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.tvProductName);
             itemPrice = itemView.findViewById(R.id.tvProductPrice);
-            imageView = itemView.findViewById(R.id.imgViewProductPicture);
-            tvBarcode = itemView.findViewById(R.id.tvBarcode);
-            imageViewCheckIcon = itemView.findViewById(R.id.widget_title_icon);
-//            layoutCount = itemView.findViewById(R.id.linearCountMultiSelectItem);
-//            itemCount = itemView.findViewById(R.id.itemQuantity);
+            spinnerUnit = itemView.findViewById(R.id.spinnerUnit);
             itemProduct = itemView.findViewById(R.id.itemProduct);
+            imageButtonDecrease = itemView.findViewById(R.id.imageButtonDecrease);
+            imageButtonIncrease = itemView.findViewById(R.id.imageButtonIncrease);
+            editTextQuantity = itemView.findViewById(R.id.editTextQuantity);
         }
     }
 
     @NonNull
     @Override
     public ItemInOrderAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_before_order, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_in_order, parent, false);
         MyViewHolder viewHolder = new MyViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        final Product product = listProduct.get(position);
-        for (Product product1 : listSelectedProduct) {
-            //set tick for selected product
-            if (product1.getProductId().equals(product.getProductId())) {
-                holder.imageViewCheckIcon.setVisibility(View.VISIBLE);
-            }
-        }
+        final Product product = listSelectedProduct.get(position);
+
         //set Value for Holder
         holder.itemName.setText(product.getProductName());
-        holder.itemPrice.setText(getMinProductPrice(product.getUnits()) + "");
-        holder.tvBarcode.setText(product.getBarcode());
-        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
-            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
-            long ONE_MEGABYTE = 1024 * 1024;
-            storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    holder.imageView.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("Failed loaded uri: ", e.getMessage());
-                }
-            });
-        }
-        //save iamge offline
-//        try {
-//            final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
-//            storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                    Log.d("SaveFileFSuccess", taskSnapshot.toString());
-//                    // Local temp file has been created
-//                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-//                    holder.imageView.setImageBitmap(bitmap);
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//                    Log.d("SaveFileFailed", exception.getMessage());
-//                    // Handle any errors
-//                }
-//            });
-//        } catch (IOException e) {
-//            Log.d("SaveFileFailed", e.getMessage());
-//    }
-        holder.itemProduct.setOnClickListener(new View.OnClickListener() {
+        setSpinnerUnit((ArrayList<Unit>) product.getUnits(), holder.spinnerUnit, holder.itemPrice, position,holder.editTextQuantity);
+
+        //set Total quantity
+        int totalQuantity = getTotalQuantity(listSelectedProductInOrder);
+        tvTotalQuantity.setText(totalQuantity + "");
+
+//        Log.d("ItemPriceTotal", tvTotalPrice.getText().toString());
+
+        holder.imageButtonDecrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isProductExist = false;
-                for (Product product1 : listSelectedProduct) {
-                    //selected list contain searched product or not
-                    if (product1.getProductId().equals(product.getProductId())) {
-                        isProductExist = true;
-                        listSelectedProduct.remove(product1);
-                        break;
-                    }
+                int quantity = 1;
+                try {
+                    quantity = Integer.parseInt(String.valueOf(holder.editTextQuantity.getText()));
+                } catch (Exception e) {
+                    quantity = 1;
+                    holder.editTextQuantity.setText("1");
                 }
-                //contain
-                if (isProductExist) {
-                    holder.imageViewCheckIcon.setVisibility(View.GONE);
-                    Log.d("ListSelectedProductRe", listSelectedProduct.size() + "");
-                } else
-                //not contain
+                if (quantity > 0) holder.editTextQuantity.setText(quantity - 1 + "");
+            }
+        });
+        holder.imageButtonIncrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = 1;
+                try {
+                    quantity = Integer.parseInt(String.valueOf(holder.editTextQuantity.getText()));
+                } catch (Exception e) {
+                    quantity = 1;
+                    holder.editTextQuantity.setText("1");
+                }
+                holder.editTextQuantity.setText(quantity + 1 + "");
+            }
+        });
+        holder.editTextQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //update change to list
+                //check number
                 {
-                    holder.imageViewCheckIcon.setVisibility(View.VISIBLE);
-                    listSelectedProduct.add(product);
-                    Log.d("ListSelectedProductAd", listSelectedProduct.size() + "");
+                    Unit unitInOrder = listSelectedProductInOrder.get(position).getUnits().get(0);
+                    unitInOrder.setUnitQuantity(Long.parseLong(holder.editTextQuantity.getText().toString()));
+                    List<Unit> unitList = new ArrayList<>();
+                    unitList.add(unitInOrder);
+                    //update unit's quantity
+                    listSelectedProductInOrder.get(position).setUnits(unitList);
                 }
+                //get total quantity
+                int totalQuantity = getTotalQuantity(listSelectedProductInOrder);
+                tvTotalQuantity.setText(totalQuantity+"");
+                // update total price
+                tvTotalPrice.setText(Money.getInstance().formatVN(getTotalPrice(listSelectedProductInOrder)));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
     }
 
-    public long getMinProductPrice(List<Unit> unitList) {
-        long minPrice = 0;
-        Log.d("CheckList", unitList.toString());
-        if (unitList != null)
-            for (Unit unit : unitList) {
-                Log.d("CheckListUnit", unit.toString());
+    private int getTotalQuantity(List<Product> listSelectedProductInOrder) {
+        int totalQuantity = 0;
+        for (Product p : listSelectedProductInOrder
+        ) {
+            //each product in selected product contain only 1 unit
+            Unit unitInOrder = p.getUnits().get(0);
+            totalQuantity += unitInOrder.getUnitQuantity();
+        }
+        return totalQuantity;
+    }
 
-                if (unit.getConvertRate() == 1) {
-                    minPrice = unit.getUnitPrice();
-                    break;
-                }
+
+    public void setSpinnerUnit(final ArrayList<Unit> listUnit, Spinner spinnerUnit, final TextView tvUnitPrice,
+                               final int positionProduct, final EditText editTextQuantity) {
+        ArrayList<String> listUnitname = new ArrayList<>();
+        for (int i = 0; i < listUnit.size(); i++) {
+            listUnitname.add(listUnit.get(i).getUnitName());
+        }
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, listUnitname);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerUnit.setAdapter(adapter);
+        spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tvUnitPrice.setText(Money.getInstance().formatVN(listUnit.get(position).getUnitPrice()));
+                //set Unit to listInOrder(name, price, quantity)
+                List<Unit> unitList = new ArrayList<>();
+                Unit unitInOrder = new Unit();
+                unitInOrder.setUnitId(listUnit.get(position).getUnitId());
+                unitInOrder.setUnitName(listUnit.get(position).getUnitName());
+                unitInOrder.setUnitPrice(listUnit.get(position).getUnitPrice());
+                //set quantity to 1 and update to UI
+                unitInOrder.setUnitQuantity(1);
+                unitList.add(unitInOrder);
+                editTextQuantity.setText("1");
+                listSelectedProductInOrder.get(positionProduct).setUnits(unitList);
+                //set total price
+                long totalPrice = getTotalPrice(listSelectedProductInOrder);
+                tvTotalPrice.setText(Money.getInstance().formatVN(totalPrice));
             }
-        return minPrice;
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    //return total price of selected product in list order
+    private long getTotalPrice(List<Product> listSelectedProductInOrder) {
+        long totalPrice = 0;
+        for (Product p : listSelectedProductInOrder
+        ) {
+            //each product in selected product contain only 1 unit
+            Unit unitInOrder = p.getUnits().get(0);
+            totalPrice += unitInOrder.getUnitPrice() * unitInOrder.getUnitQuantity();
+        }
+        return totalPrice;
     }
 
     @Override
     public int getItemCount() {
-        return listProduct.size();
+        return listSelectedProduct.size();
     }
 
 }
