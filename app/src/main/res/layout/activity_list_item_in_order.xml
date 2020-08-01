@@ -93,7 +93,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp">
 
@@ -120,6 +120,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:background="@color/white"
                 android:layout_height="30dp">
 
                 <ImageView
@@ -173,9 +174,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="3dp"
                     android:text="10000"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/textView10" />
 
@@ -184,8 +186,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="2dp"
                     android:text="đ"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/tvTotalPrice"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

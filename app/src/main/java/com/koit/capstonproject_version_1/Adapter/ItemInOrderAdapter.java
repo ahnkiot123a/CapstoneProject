@@ -19,6 +19,8 @@ import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -80,7 +82,10 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
 
         //set Value for Holder
         holder.itemName.setText(product.getProductName());
-        setSpinnerUnit((ArrayList<Unit>) product.getUnits(), holder.spinnerUnit, holder.itemPrice, position,holder.editTextQuantity);
+        List<Unit> unitListIncrease = new ArrayList<>();
+        unitListIncrease = product.getUnits();
+        sortUnitIncreaseByPrice(unitListIncrease);
+        setSpinnerUnit((ArrayList<Unit>) unitListIncrease, holder.spinnerUnit, holder.itemPrice, position, holder.editTextQuantity);
 
         //set Total quantity
         int totalQuantity = getTotalQuantity(listSelectedProductInOrder);
@@ -126,6 +131,11 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                 //check number
                 {
                     Unit unitInOrder = listSelectedProductInOrder.get(position).getUnits().get(0);
+                    try {
+                        Long.parseLong(holder.editTextQuantity.getText().toString());
+                    } catch (Exception e) {
+                        holder.editTextQuantity.setText("1");
+                    }
                     unitInOrder.setUnitQuantity(Long.parseLong(holder.editTextQuantity.getText().toString()));
                     List<Unit> unitList = new ArrayList<>();
                     unitList.add(unitInOrder);
@@ -134,7 +144,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                 }
                 //get total quantity
                 int totalQuantity = getTotalQuantity(listSelectedProductInOrder);
-                tvTotalQuantity.setText(totalQuantity+"");
+                tvTotalQuantity.setText(totalQuantity + "");
                 // update total price
                 tvTotalPrice.setText(Money.getInstance().formatVN(getTotalPrice(listSelectedProductInOrder)));
             }
@@ -161,6 +171,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
     public void setSpinnerUnit(final ArrayList<Unit> listUnit, Spinner spinnerUnit, final TextView tvUnitPrice,
                                final int positionProduct, final EditText editTextQuantity) {
         ArrayList<String> listUnitname = new ArrayList<>();
+
         for (int i = 0; i < listUnit.size(); i++) {
             listUnitname.add(listUnit.get(i).getUnitName());
         }
@@ -190,6 +201,15 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    public void sortUnitIncreaseByPrice(List<Unit> unitList) {
+        Collections.sort(unitList, new Comparator<Unit>() {
+            @Override
+            public int compare(Unit o1, Unit o2) {
+                return (int) (o1.getUnitPrice() - o2.getUnitPrice());
             }
         });
     }
