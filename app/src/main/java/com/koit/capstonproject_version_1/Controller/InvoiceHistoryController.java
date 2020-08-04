@@ -1,7 +1,10 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +21,6 @@ public class InvoiceHistoryController {
     private InvoiceHistoryDAO invoiceHistoryDAO;
     private InvoiceHistoryAdapter invoiceHistoryAdapter;
     private ArrayList<Invoice> invoiceList;
-    private RecyclerView recyclerView;
 
     public InvoiceHistoryController(Activity activity) {
         this.activity = activity;
@@ -45,6 +47,26 @@ public class InvoiceHistoryController {
 
         };
         invoiceHistoryDAO.getInvoiceList(iInvoice);
+    }
+
+    public void etSearchEvent(EditText etSearch) {
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                invoiceHistoryAdapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
 

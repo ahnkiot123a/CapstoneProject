@@ -23,15 +23,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
-        <activity android:name=".View.InvoiceHistoryActivity">
+        <activity android:name=".View.InvoiceHistoryActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
-        </activity>
-        <activity
-            android:name=".View.OrderHistoryActivity"
-            android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".View.ListItemInOrderActivity"/>
         <activity android:name=".View.ConvertRateActivity" />
