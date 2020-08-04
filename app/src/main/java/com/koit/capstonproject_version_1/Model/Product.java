@@ -18,8 +18,10 @@ import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterfa
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -216,7 +218,7 @@ public class Product implements Serializable {
                         listProductInterface.getListProductModel(product);
                     } else {
                         //product contains searched characters or barcode
-                        if (product.getProductName().toLowerCase().contains(searchText.toLowerCase())
+                        if (deAccent(product.getProductName().toLowerCase()).contains(deAccent(searchText.toLowerCase()))
                                 || product.getBarcode().contains(searchText)) {
                             isFound = true;
                             listProductInterface.getListProductModel(product);
@@ -236,7 +238,11 @@ public class Product implements Serializable {
 
 
     }
-
+    public static String deAccent(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
 
     //Cate Tu Beo
     public void getListProduct(final ListProductInterface listProductInterface, final String categoryName,
@@ -402,7 +408,7 @@ public class Product implements Serializable {
                         listProductInterface.getListProductModel(product);
                     } else {
                         //product contains searched characters or barcode
-                        if (product.getProductName().toLowerCase().contains(searchText.toLowerCase())
+                        if (deAccent(product.getProductName().toLowerCase()).contains(deAccent(searchText.toLowerCase()))
                                 || product.getBarcode().contains(searchText)) {
                             isFound = true;
                             listProductInterface.getListProductModel(product);

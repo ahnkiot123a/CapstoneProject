@@ -80,7 +80,7 @@ public class  CreateUnitAdapter extends RecyclerView.Adapter<CreateUnitAdapter.V
         TextView tvNumberOrder;
         ImageButton ibtnDeleteUnit;
 
-        public EditText getEtUnitName() {
+        public EditText  getEtUnitName() {
             return etUnitName;
         }
 

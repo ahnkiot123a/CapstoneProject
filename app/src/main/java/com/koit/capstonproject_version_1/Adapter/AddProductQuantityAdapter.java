@@ -55,10 +55,6 @@ public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQu
              } catch (Exception e){
                  quantity = 0;
              }
-
-
-
-
                 holder.etProductQuantity.setText(quantity+1+"");
             }
         });
@@ -74,7 +70,6 @@ public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQu
                if(quantity > 0) holder.etProductQuantity.setText(quantity-1+"");
             }
         });
-
     }
 
     @Override

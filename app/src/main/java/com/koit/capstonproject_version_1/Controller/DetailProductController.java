@@ -91,8 +91,6 @@ public class DetailProductController {
             public int compare(Unit o1, Unit o2) {
                 return (int) (o2.getUnitPrice() - o1.getUnitPrice());
             }
-
-
         });
     }
 

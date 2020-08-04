@@ -223,6 +223,7 @@ public class CreateProductActivity extends AppCompatActivity {
                 cameraController.askCameraPermission(TAKE_PHOTO_PER_CODE);
             }
         });
+//remove item on right click
 
         bottomSheet.findViewById(R.id.btnTakeFromAlbum).setOnClickListener(new View.OnClickListener() {
             @Override

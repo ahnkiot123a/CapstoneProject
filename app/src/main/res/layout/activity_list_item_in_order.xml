@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".View.ListItemInOrderActivity">
+
     <View
         android:id="@+id/main_activityStatusBarScrim"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:background="@drawable/green_linear_color"/>
+        android:background="@drawable/green_linear_color" />
+
     <Toolbar
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
@@ -91,16 +93,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/logover4">
-
-                </ImageView>
+                    android:src="@drawable/logover4"></ImageView>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -115,11 +115,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:background="@color/white"
                 android:layout_height="30dp">
 
                 <ImageView
@@ -143,9 +144,22 @@
                     app:layout_constraintStart_toEndOf="@+id/iconShoping"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageButton
+                    android:id="@+id/addNoneListedProduct"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@null"
+                    android:onClick="addNoneListedProduct"
+                    android:src="@drawable/icons8_add_48px_3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/tvTotalQuantity"
-                    android:layout_width="30dp"
+                    android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/shape_textview_border"
@@ -160,9 +174,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="3dp"
                     android:text="10000"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/textView10" />
 
@@ -171,29 +186,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="2dp"
                     android:text="đ"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/tvTotalPrice"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:weightSum="1"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
                 <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
                     android:background="@drawable/blue_linear_color"
-                    android:layout_width="match_parent"
-                    android:layout_weight="0.5"
                     android:text="Cho nợ hết"
-                    android:textColor="@color/white"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/white" />
+
                 <Button
-                    android:background="@drawable/green_linear_color"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:background="@drawable/green_linear_color"
                     android:text="Thanh toán"
-                    android:textColor="@color/white"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
 
