@@ -5,23 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.koit.capstonproject_version_1.Controller.CustomerController;
+import com.koit.capstonproject_version_1.Controller.DebtorController;
 import com.koit.capstonproject_version_1.R;
 
-public class AddNewCustomerActivity extends AppCompatActivity {
+public class AddNewDebtorActivity extends AppCompatActivity {
     private TextInputEditText edFullname, edEmail, edPhoneNumber, edDob, edAddress;
     private RadioButton rbMale, rbFemale;
-    private CustomerController customerController;
+    private DebtorController debtorController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_customer);
+        setContentView(R.layout.activity_add_new_debtor);
         initView();
-        customerController = new CustomerController(this);
+        debtorController = new DebtorController(this);
     }
 
     private void initView() {
@@ -35,8 +34,6 @@ public class AddNewCustomerActivity extends AppCompatActivity {
     }
 
     public void saveNewCustomer(View view) {
-        customerController.createCustomer(edFullname,edEmail,edPhoneNumber,edDob,edAddress,rbMale);
-
-
+        debtorController.createDebtor(edFullname,edEmail,edPhoneNumber,edDob,edAddress,rbMale);
     }
 }

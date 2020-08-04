@@ -1,38 +1,26 @@
 package com.koit.capstonproject_version_1.Model;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.koit.capstonproject_version_1.Controller.Interface.ICategory;
 import com.koit.capstonproject_version_1.Controller.Interface.ICustomer;
-import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Customer implements Serializable {
-    private String customerId, address, dateOfBirth, email, fullName, phoneNumber;
+public class Debtor implements Serializable {
+    private String debtorId, address, dateOfBirth, email, fullName, phoneNumber;
     private boolean gender;
     private DatabaseReference nodeRoot;
     private DataSnapshot dataRoot;
 
 
-    public Customer(String customerId, String address, String dateOfBirth, String email, String fullName, String phoneNumber, boolean gender) {
-        this.customerId = customerId;
+    public Debtor(String debtorId, String address, String dateOfBirth, String email, String fullName, String phoneNumber, boolean gender) {
+        this.debtorId = debtorId;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
@@ -41,15 +29,15 @@ public class Customer implements Serializable {
         this.gender = gender;
     }
 
-    public Customer() {
+    public Debtor() {
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getDebtorId() {
+        return debtorId;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setDebtorId(String debtorId) {
+        this.debtorId = debtorId;
     }
 
     public String getAddress() {
@@ -102,23 +90,26 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "customerId='" + customerId + '\'' +
+        return "Debtor{" +
+                "debtorId='" + debtorId + '\'' +
                 ", address='" + address + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", email='" + email + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", gender=" + gender +
+                ", nodeRoot=" + nodeRoot +
+                ", dataRoot=" + dataRoot +
                 '}';
     }
 
-    public void getListCustomer(final ICustomer iCustomer) {
+    public void getListDebtor(final ICustomer iCustomer) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getListCustomer(dataSnapshot, iCustomer);
+                getListDebtor(dataSnapshot, iCustomer);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -128,14 +119,24 @@ public class Customer implements Serializable {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    private void getListCustomer(DataSnapshot dataSnapshot, ICustomer iCustomer) {
-        DataSnapshot dataSnapshotCustomer = dataSnapshot.child("Customers").child(UserDAO.getInstance().getUserID());
-        if (dataSnapshotCustomer != null) {
-            for (DataSnapshot valueCustomer : dataSnapshotCustomer.getChildren()) {
-                Customer customer = valueCustomer.getValue(Customer.class);
-                customer.setCustomerId(valueCustomer.getKey());
-                iCustomer.getCustomer(customer);
+    private void getListDebtor(DataSnapshot dataSnapshot, ICustomer iCustomer) {
+        DataSnapshot dataSnapshotDebtor = dataSnapshot.child("Debtors").child(UserDAO.getInstance().getUserID());
+        if (dataSnapshotDebtor != null) {
+            for (DataSnapshot valueCustomer : dataSnapshotDebtor.getChildren()) {
+                Debtor debtor = valueCustomer.getValue(Debtor.class);
+                debtor.setDebtorId(valueCustomer.getKey());
+                iCustomer.getCustomer(debtor);
             }
         }
+    }
+
+    public void addDebtorToFirebase(Debtor debtor) {
+        String userId = UserDAO.getInstance().getUserID();
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = databaseReference.child("Debtors").child(userId).child(debtor.getDebtorId());
+        debtor.setDebtorId(null);
+        databaseReference.setValue(debtor);
+//        databaseReference.keepSynced(true);
     }
 }

@@ -1,66 +1,52 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.koit.capstonproject_version_1.Adapter.CustomerAdapter;
-import com.koit.capstonproject_version_1.Adapter.ItemAdapter;
+import com.koit.capstonproject_version_1.Adapter.DebtorAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.ICustomer;
-import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
-import com.koit.capstonproject_version_1.Model.Customer;
-import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.Unit;
-import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.View.ConvertRateActivity;
-import com.koit.capstonproject_version_1.View.CreateProductActivity;
+import com.koit.capstonproject_version_1.Model.Debtor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerController {
+public class DebtorController {
     private Context context;
-    private Customer customer;
-    private List<Customer> customerList;
-    private CustomerAdapter customerAdapter;
+    private Debtor debtor;
+    private List<Debtor> debtorList;
+    private DebtorAdapter debtorAdapter;
 
-    public CustomerController(Context context) {
+    public DebtorController(Context context) {
         this.context = context;
-        customer = new Customer();
+        debtor = new Debtor();
     }
 
-    public void getListCustomer(RecyclerView recyclerViewCustomer) {
-        customerList = new ArrayList<>();
+    public void getListDebtor(RecyclerView recyclerViewDebtor) {
+        debtorList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerViewCustomer.setLayoutManager(layoutManager);
-        customerAdapter = new CustomerAdapter(customerList,context);
-        recyclerViewCustomer.setAdapter(customerAdapter);
+        recyclerViewDebtor.setLayoutManager(layoutManager);
+        debtorAdapter = new DebtorAdapter(debtorList,context);
+        recyclerViewDebtor.setAdapter(debtorAdapter);
         ICustomer iCustomer = new ICustomer() {
             @Override
-            public void getCustomer(Customer customer) {
-                customerList.add(customer);
-                customerAdapter.notifyDataSetChanged();
+            public void getCustomer(Debtor debtor) {
+                debtorList.add(debtor);
+                debtorAdapter.notifyDataSetChanged();
             }
 
 
 
         };
-        customer.getListCustomer(iCustomer);
+        debtor.getListDebtor(iCustomer);
 
     }
 
-    public void createCustomer(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
-                               TextInputEditText edDob, TextInputEditText edAddress, RadioButton rbMale) {
+    public void createDebtor(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
+                             TextInputEditText edDob, TextInputEditText edAddress, RadioButton rbMale) {
         String fullName = edFullname.getText().toString().trim();
         String email = edEmail.getText().toString().trim();
         String phoneNumber = edPhoneNumber.getText().toString().trim();
@@ -70,8 +56,16 @@ public class CustomerController {
         if (fullName.isEmpty()) {
             edFullname.setError("Tên khách hàng không được để trống");
         } else {
-            String customerId = RandomStringController.getInstance().randomCustomerId();
-
+            String debtorId = RandomStringController.getInstance().randomDebtorId();
+            Debtor debtor = new Debtor();
+            debtor.setDebtorId(debtorId);
+            debtor.setFullName(fullName);
+            debtor.setEmail(email);
+            debtor.setPhoneNumber(phoneNumber);
+            debtor.setDateOfBirth(dob);
+            debtor.setAddress(address);
+            debtor.setGender(gender);
+            debtor.addDebtorToFirebase(debtor);
            /* String category = tvCategory.getText().toString().trim();
 
             ArrayList<Unit> listUnit = CreateProductActivity.getUnitFromRv();

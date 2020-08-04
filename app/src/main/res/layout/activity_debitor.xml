@@ -8,7 +8,7 @@
     <include layout="@layout/toolbar_customer_screen"/>
 
 <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recyclerViewCustomers"
+    android:id="@+id/recyclerViewDebitors"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@+id/toolbarCustomer">

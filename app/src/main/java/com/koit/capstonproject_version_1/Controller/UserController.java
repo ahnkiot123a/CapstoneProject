@@ -40,10 +40,11 @@ public class UserController {
     private User user;
     User currentUser;
     private InputController inputController;
+
     public UserController() {
         user = new User();
         inputController = new InputController();
-      //  userInformationActivity = new UserInformationActivity();
+        //  userInformationActivity = new UserInformationActivity();
     }
 
     public UserController(UserInformationActivity userInformationActivity) {
@@ -125,15 +126,15 @@ public class UserController {
         };
 
 
-        if (inputController.isPhoneNumber(etPhoneNumber )) {
+        if (inputController.isPhoneNumber(etPhoneNumber)) {
             if (inputController.isPassword(etPassword)) {
                 phoneNumber = etPhoneNumber.getText().toString().trim();
                 phoneNumber = inputController.formatPhoneNumber(phoneNumber);
                 user.getUserWithPhoneAndPasswordInterface(phoneNumber, iUser);
-            }else {
+            } else {
                 progressButton.progressInitiation();
             }
-        }else{
+        } else {
             progressButton.progressInitiation();
         }
     }
@@ -143,7 +144,7 @@ public class UserController {
                                       EditText edPhoneNumber, EditText edDob,
                                       RadioButton rbMale, EditText edAddress,
                                       EditText edStorename, User currentUser
-                                        ) {
+    ) {
 
         String fullName = edFullname.getText().toString().trim();
         String email = edEmail.getText().toString().trim();
@@ -153,21 +154,21 @@ public class UserController {
         String dob = edDob.getText().toString().trim();
         boolean gender = (rbMale.isChecked()) ? true : false;
 
-        if (fullName.isEmpty()){
-          //  Toast.makeText(userInformationActivity.getApplicationContext(),"Vui lòng nhập họ và tên",Toast.LENGTH_SHORT).show();
-            userInformationActivity.setErrorEditTxt("Vui lòng nhập họ và tên",userInformationActivity.getEdFullname());
-        } else if (!inputController.isEmail(email)){
-            userInformationActivity.setErrorEditTxt("Email không hợp lệ, vui lòng nhập lại Email",userInformationActivity.getEdEmail());
-          //  Toast.makeText(userInformationActivity.getApplicationContext(),"Email không hợp lệ, vui lòng nhập lại Email",Toast.LENGTH_SHORT).show();
-        }else if (!inputController.isDate(dob)){
-            userInformationActivity.setErrorEditTxt("Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh",userInformationActivity.getEdDob());
-           // Toast.makeText(userInformationActivity.getApplicationContext(),"Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh",Toast.LENGTH_SHORT).show();
-        } else if (storeName.trim().equals("")){
-            userInformationActivity.setErrorEditTxt("Vui lòng nhập tên cửa hàng",userInformationActivity.getEdStoreName());
+        if (fullName.isEmpty()) {
+            //  Toast.makeText(userInformationActivity.getApplicationContext(),"Vui lòng nhập họ và tên",Toast.LENGTH_SHORT).show();
+            userInformationActivity.setErrorEditTxt("Vui lòng nhập họ và tên", userInformationActivity.getEdFullname());
+        } else if (!inputController.isEmail(email)) {
+            userInformationActivity.setErrorEditTxt("Email không hợp lệ, vui lòng nhập lại Email", userInformationActivity.getEdEmail());
+            //  Toast.makeText(userInformationActivity.getApplicationContext(),"Email không hợp lệ, vui lòng nhập lại Email",Toast.LENGTH_SHORT).show();
+        } else if (!inputController.isDate(dob)) {
+            userInformationActivity.setErrorEditTxt("Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh", userInformationActivity.getEdDob());
+            // Toast.makeText(userInformationActivity.getApplicationContext(),"Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh",Toast.LENGTH_SHORT).show();
+        } else if (storeName.trim().equals("")) {
+            userInformationActivity.setErrorEditTxt("Vui lòng nhập tên cửa hàng", userInformationActivity.getEdStoreName());
             //Toast.makeText(userInformationActivity.getApplicationContext(),"Vui lòng nhập tên cửa hàng",Toast.LENGTH_SHORT).show();
-        }   else {
-            user.updateUserToFirebase(currentUser,fullName,email,gender,dob,address,storeName);
-            Toast.makeText(userInformationActivity.getApplicationContext(),"Cập nhật thông tin thành công",Toast.LENGTH_SHORT).show();
+        } else {
+            user.updateUserToFirebase(currentUser, fullName, email, gender, dob, address, storeName);
+            Toast.makeText(userInformationActivity.getApplicationContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
             currentUser.setFullName(fullName);
             currentUser.setEmail(email);
             currentUser.setGender(gender);
@@ -176,9 +177,9 @@ public class UserController {
             currentUser.setStoreName(storeName);
             SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, currentUser);
 
-           Intent intent = new Intent(userInformationActivity.getApplicationContext(), MainActivity.class);
-           intent.putExtra("currentUser", currentUser);
-          userInformationActivity.startActivity(intent);
+            Intent intent = new Intent(userInformationActivity.getApplicationContext(), MainActivity.class);
+            intent.putExtra("currentUser", currentUser);
+            userInformationActivity.startActivity(intent);
             //userInformationActivity.onBackPressed();
         }
     }
