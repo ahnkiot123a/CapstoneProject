@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -9,9 +10,9 @@ import android.widget.TextView;
 import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
-import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     private SearchView searchViewInList;
     private TextView tvTotalQuantity;
     private TextView tvTotalPrice;
+    List<Product> listSelectedProductWarehouse = new ArrayList<>();
+    private static List<Product> listSelectedProductInOrder = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,52 +47,38 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     private void getListProduct() {
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("BUNDLE");
-        List<Product> listSelectedProduct = (ArrayList<Product>) args.getSerializable("ListSelectedProduct");
-        List<Product> listSelectedProductInOrder = new ArrayList<>();
-        //add product to new list
-        //item in new list contain name, id, Unit(name, price, quantity)
-        for (Product product : listSelectedProduct
-        ) {
-            Product productInOrder = new Product();
-            productInOrder.setProductId(product.getProductId());
-            productInOrder.setProductName(product.getProductName());
-            productInOrder.setUnits(getMinUnit(product.getUnits()));
-            listSelectedProductInOrder.add(productInOrder);
-        }
+        listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
+        listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewListProduct.setLayoutManager(layoutManager);
-        ItemInOrderAdapter itemAdapter = new ItemInOrderAdapter(this, R.layout.item_layout_in_order,
-                listSelectedProduct, tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder);
+        ItemInOrderAdapter itemAdapter = new ItemInOrderAdapter(this, R.layout.item_layout_in_order, listSelectedProductWarehouse,
+                tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder);
         recyclerViewListProduct.setAdapter(itemAdapter);
         itemAdapter.notifyDataSetChanged();
     }
 
-    public List<Unit> getMinUnit(List<Unit> unitList) {
-        List<Unit> list = new ArrayList<>();
-        if (unitList != null)
-            for (Unit unit : unitList) {
-                if (unit.getConvertRate() == 1) {
-                    Unit unitInOrder = new Unit();
-                    unitInOrder.setUnitId(unit.getUnitId());
-                    unitInOrder.setUnitName(unit.getUnitName());
-                    unitInOrder.setUnitPrice(unit.getUnitPrice());
-                    unitInOrder.setUnitQuantity(1);
-                    list.add(unitInOrder);
-                    break;
-                }
-            }
-        // list contain max 1 item
-        return list;
-    }
-
 
     public void back(View view) {
-        onBackPressed();
+        backToPrevious();
+    }
+
+    private void backToPrevious() {
+        Intent intent = new Intent(this, SelectProductActivity.class);
+        Bundle args2 = new Bundle();
+        args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+        args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+        intent.putExtra("BUNDLEBACK", args2);
+        startActivity(intent);
     }
 
     public void searchByBarcode(View view) {
     }
 
     public void addNoneListedProduct(View view) {
+    }
+
+    @Override
+    public void onBackPressed() {
+        backToPrevious();
     }
 }

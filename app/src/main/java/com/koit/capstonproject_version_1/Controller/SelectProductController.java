@@ -35,7 +35,7 @@ public class SelectProductController extends AppCompatActivity {
 
     public void getListProduct(String searchText, RecyclerView recyclerViewListProduct,
                                LinearLayout linearLayoutEmpty, LinearLayout layoutSearch,
-                               LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList, CheckBox checkBoxSelectMultiProduct) {
+                               LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList, CheckBox checkBoxSelectMultiProduct, LinearLayout layoutButton) {
         listProduct = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
 //        recyclerView = recyclerViewListProduct;
@@ -52,11 +52,11 @@ public class SelectProductController extends AppCompatActivity {
 
         };
         product.getListProduct(searchText, listProductInterface, linearLayoutEmpty,
-                layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, layoutButton);
     }
 
     public void getListProduct(Context context, RecyclerView recyclerViewListProduct, String categoryName, LinearLayout linearLayoutEmpty, LinearLayout
-            layoutSearch, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList, CheckBox checkBoxSelectMultiProduct) {
+            layoutSearch, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList, CheckBox checkBoxSelectMultiProduct, LinearLayout layoutButton) {
         listProduct = new ArrayList<>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -72,7 +72,7 @@ public class SelectProductController extends AppCompatActivity {
             }
         };
         product.getListProduct(listProductInterface, categoryName, linearLayoutEmpty, layoutSearch,
-                layoutNotFoundItem, pBarList);
+                layoutNotFoundItem, pBarList, layoutButton);
 
     }
 

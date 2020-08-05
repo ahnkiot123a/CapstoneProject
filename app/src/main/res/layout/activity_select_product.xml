@@ -152,10 +152,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_baseline_account_box_24"
+                    android:drawableLeft="@drawable/ic_baseline_shopping_cart_24"
                     android:gravity="center_vertical"
-                    android:text="Khách lẻ"
-                    android:textColor="@color/theme" />
+                    android:text="Danh sách sản phẩm" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -248,22 +247,22 @@
         android:layout_weight="0"
         android:visibility="visible">
 
-<!--        <Button-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="0.5"-->
-<!--            android:background="@color/gray"-->
-<!--            android:onClick="reSelectProduct"-->
-<!--            android:text="Chọn lại"-->
-<!--            android:textColor="@color/white" />-->
+        <!--        <Button-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight="0.5"-->
+        <!--            android:background="@color/gray"-->
+        <!--            android:onClick="reSelectProduct"-->
+        <!--            android:text="Chọn lại"-->
+        <!--            android:textColor="@color/white" />-->
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:background="@drawable/green_linear_color"
-            android:text="Xong"
             android:onClick="tranToListItemsInOrder"
+            android:text="Xong"
             android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>

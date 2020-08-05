@@ -13,12 +13,17 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.SelectProductActivity;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -98,43 +103,46 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
         holder.itemName.setText(product.getProductName());
         holder.itemPrice.setText(getMinProductPrice(product.getUnits()) + "");
         holder.tvBarcode.setText(product.getBarcode());
-        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
-            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
-            long ONE_MEGABYTE = 1024 * 1024;
-            storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    holder.imageView.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("Failed loaded uri: ", e.getMessage());
-                }
-            });
-        }
-        //save iamge offline
-//        try {
-//            final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
-//            storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+//            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
+//            long ONE_MEGABYTE = 1024 * 1024;
+//            storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
 //                @Override
-//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                    Log.d("SaveFileFSuccess", taskSnapshot.toString());
-//                    // Local temp file has been created
-//                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+//                public void onSuccess(byte[] bytes) {
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 //                    holder.imageView.setImageBitmap(bitmap);
 //                }
 //            }).addOnFailureListener(new OnFailureListener() {
 //                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//                    Log.d("SaveFileFailed", exception.getMessage());
-//                    // Handle any errors
+//                public void onFailure(@NonNull Exception e) {
+//                    Log.d("Failed loaded uri: ", e.getMessage());
 //                }
 //            });
-//        } catch (IOException e) {
-//            Log.d("SaveFileFailed", e.getMessage());
-//    }
+//        }
+        //save iamge offline
+//        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+//            try {
+//                final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
+//                StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
+//                storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                        Log.d("SaveFileFSuccess", taskSnapshot.toString());
+//                        // Local temp file has been created
+//                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+//                        holder.imageView.setImageBitmap(bitmap);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        Log.d("SaveFileFailed", exception.getMessage());
+//                        // Handle any errors
+//                    }
+//                });
+//            } catch (IOException e) {
+//                Log.d("SaveFileFailed", e.getMessage());
+//            }
+//        }
         holder.itemProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,6 +168,10 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
                         Log.d("ListSelectedProductAd", listSelectedProduct.size() + "");
                     }
 
+                }else{
+                    List<Product> productList = new ArrayList<>();
+                    productList.add(product);
+                    SelectProductActivity.getInstance().transferToListItemInOrder(productList);
                 }
             }
         });
