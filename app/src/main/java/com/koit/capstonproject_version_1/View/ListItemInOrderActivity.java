@@ -3,21 +3,17 @@ package com.koit.capstonproject_version_1.View;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeControllerActions;
-import com.koit.capstonproject_version_1.Controller.SwipeController;
-import com.koit.capstonproject_version_1.Controller.SwipeControllerActions;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
-import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,8 +29,8 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     private SearchView searchViewInList;
     private TextView tvTotalQuantity;
     private TextView tvTotalPrice;
-    List<Product> listSelectedProductWarehouse = new ArrayList<>();
-    private static List<Product> listSelectedProductInOrder = new ArrayList<>();
+    private List<Product> listSelectedProductWarehouse = new ArrayList<>();
+    private List<Product> listSelectedProductInOrder = new ArrayList<>();
     OrderSwipeController orderSwipeController = null;
     ItemInOrderAdapter itemAdapter;
 
@@ -99,11 +95,12 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         orderSwipeController = new OrderSwipeController(new OrderSwipeControllerActions() {
             @Override
             public void onRightClicked(final int position) {
-                itemAdapter.notifyItemRemoved(position);
-                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
                 //remove item in 2 list
                 listSelectedProductInOrder.remove(position);
                 listSelectedProductWarehouse.remove(position);
+                Log.d("lectedProductInOrder", listSelectedProductInOrder.toString());
+                itemAdapter.notifyItemRemoved(position);
+//                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
             }
 
         });
@@ -117,5 +114,23 @@ public class ListItemInOrderActivity extends AppCompatActivity {
                 orderSwipeController.onDraw(c);
             }
         });
+    }
+
+    public void transferToSelectDebtor(View view) {
+        Intent intent = new Intent(this, SelectDebtorActivity.class);
+        Bundle args2 = new Bundle();
+        args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+        args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+        intent.putExtra("BUNDLE", args2);
+        startActivity(intent);
+    }
+
+    public void transferToPayment(View view) {
+        Intent intent = new Intent(this, PaymentActivity.class);
+        Bundle args2 = new Bundle();
+        args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+        args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+        intent.putExtra("BUNDLE", args2);
+        startActivity(intent);
     }
 }

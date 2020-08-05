@@ -63,7 +63,8 @@ public class OrderSwipeController extends Callback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         if (actionState == ACTION_STATE_SWIPE) {
             if (buttonShowedState != ButtonsState.GONE) {
-                if (buttonShowedState == ButtonsState.LEFT_VISIBLE) dX = Math.max(dX, buttonWidth);
+                if (buttonShowedState == ButtonsState.RIGHT_VISIBLE)
+                    dX = Math.min(dX, -buttonWidth);
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             } else {
                 setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
@@ -82,8 +83,7 @@ public class OrderSwipeController extends Callback {
             public boolean onTouch(View v, MotionEvent event) {
                 swipeBack = event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP;
                 if (swipeBack) {
-                    if (dX > buttonWidth) buttonShowedState = ButtonsState.LEFT_VISIBLE;
-
+                    if (dX < -buttonWidth) buttonShowedState = ButtonsState.RIGHT_VISIBLE;
                     if (buttonShowedState != ButtonsState.GONE) {
                         setTouchDownListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                         setItemsClickable(recyclerView, false);
@@ -148,15 +148,14 @@ public class OrderSwipeController extends Callback {
         View itemView = viewHolder.itemView;
         Paint p = new Paint();
 
-        RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
-        p.setColor(Color.rgb(50, 205, 50));
-        c.drawRoundRect(leftButton, corners, corners, p);
-        drawText("Sửa", c, leftButton, p);
-
+        RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+        p.setColor(Color.rgb(220,20,60));
+        c.drawRoundRect(rightButton, corners, corners, p);
+        drawText("Xóa", c, rightButton, p);
 
         buttonInstance = null;
-        if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
-            buttonInstance = leftButton;
+        if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
+            buttonInstance = rightButton;
         }
     }
 
