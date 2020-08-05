@@ -71,11 +71,11 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
 
     private void buildSpinner(){
         String[] statusList = {"Tất cả đơn hàng", "Hoá đơn còn nợ", "Hoá đơn trả hết"};
-        ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, statusList);
+        ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, statusList);
         invoiceStatusSpinner.setAdapter(statusAdapter);
 
         String[] timeList = {"Thời gian", "Hôm nay", "Tuần này", "Tháng này", "Tuỳ chỉnh"};
-        ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, timeList);
+        ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeList);
         timeSpinner.setAdapter(timeAdapter);
     }
 

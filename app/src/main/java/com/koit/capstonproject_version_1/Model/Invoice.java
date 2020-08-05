@@ -1,24 +1,35 @@
 package com.koit.capstonproject_version_1.Model;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.koit.capstonproject_version_1.dao.UserDAO;
+
 import java.io.Serializable;
 
 public class Invoice implements Serializable {
-    private String invoiceId, customerId, invoiceDate, invoiceTime, customerImage;
+    private String invoiceId, debtorId, debtorName, invoiceDate, invoiceTime, debtorImage;
     private long debitAmount, discount, firstPaid, total;
+    private boolean isDrafted;
 
     public Invoice() {
     }
 
-    public Invoice(String invoiceId, String customerId, String invoiceDate, String invoiceTime, String customerImage, long debitAmount, long discount, long firstPaid, long total) {
+    public Invoice(String invoiceId, String debtorId, String invoiceDate, String invoiceTime, String debtorImage, long debitAmount, long discount, long firstPaid, long total, boolean isDrafted) {
         this.invoiceId = invoiceId;
-        this.customerId = customerId;
+        this.debtorId = debtorId;
         this.invoiceDate = invoiceDate;
         this.invoiceTime = invoiceTime;
-        this.customerImage = customerImage;
+        this.debtorImage = debtorImage;
         this.debitAmount = debitAmount;
         this.discount = discount;
         this.firstPaid = firstPaid;
         this.total = total;
+        this.isDrafted = isDrafted;
     }
 
     public String getInvoiceId() {
@@ -29,13 +40,25 @@ public class Invoice implements Serializable {
         this.invoiceId = invoiceId;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getDebtorName() {
+        return debtorName;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
+//    public void setDebtorName() {
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Debtors").child(UserDAO.getInstance().getUserID()).child(debtorId);
+//        ValueEventListener valueEventListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Customer customer
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        };
+//        databaseReference.addListenerForSingleValueEvent(valueEventListener);
+//    }
 
     public String getInvoiceDate() {
         return invoiceDate;
@@ -61,12 +84,28 @@ public class Invoice implements Serializable {
         this.discount = discount;
     }
 
-    public String getCustomerImage() {
-        return customerImage;
+    public String getDebtorId() {
+        return debtorId;
     }
 
-    public void setCustomerImage(String customerImage) {
-        this.customerImage = customerImage;
+    public void setDebtorId(String debtorId) {
+        this.debtorId = debtorId;
+    }
+
+    public String getDebtorImage() {
+        return debtorImage;
+    }
+
+    public void setDebtorImage(String debtorImage) {
+        this.debtorImage = debtorImage;
+    }
+
+    public boolean isDrafted() {
+        return isDrafted;
+    }
+
+    public void setDrafted(boolean drafted) {
+        isDrafted = drafted;
     }
 
     public long getDebitAmount() {
@@ -97,14 +136,15 @@ public class Invoice implements Serializable {
     public String toString() {
         return "Invoice{" +
                 "invoiceId='" + invoiceId + '\'' +
-                ", customerId='" + customerId + '\'' +
+                ", debtorId='" + debtorId + '\'' +
                 ", invoiceDate='" + invoiceDate + '\'' +
                 ", invoiceTime='" + invoiceTime + '\'' +
-                ", customerImage='" + customerImage + '\'' +
+                ", debtorImage='" + debtorImage + '\'' +
                 ", debitAmount=" + debitAmount +
                 ", discount=" + discount +
                 ", firstPaid=" + firstPaid +
                 ", total=" + total +
+                ", isDrafted=" + isDrafted +
                 '}';
     }
 }

@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,7 +34,7 @@ public class InvoiceHistoryController {
         invoiceList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewListProduct.setLayoutManager(layoutManager);
-        invoiceHistoryAdapter = new InvoiceHistoryAdapter(invoiceList,activity.getApplicationContext());
+        invoiceHistoryAdapter = new InvoiceHistoryAdapter(invoiceList,activity.getApplicationContext(), textView);
         recyclerViewListProduct.setAdapter(invoiceHistoryAdapter);
         IInvoice iInvoice = new IInvoice() {
             @Override
@@ -39,7 +42,6 @@ public class InvoiceHistoryController {
                 if(invoice != null){
                     invoiceHistoryAdapter.showShimmer = false;
                     invoiceList.add(invoice);
-                    textView.setText(invoiceList.size() + " đơn hàng");
                     invoiceHistoryAdapter.notifyDataSetChanged();
                 }
 
@@ -64,6 +66,20 @@ public class InvoiceHistoryController {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    public void searchByStatus(Spinner spinner){
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
