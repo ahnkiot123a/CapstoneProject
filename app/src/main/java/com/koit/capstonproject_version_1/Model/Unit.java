@@ -79,7 +79,13 @@ public class Unit implements Serializable {
 
     @Override
     public String toString() {
-        return unitName;
+        return "Unit{" +
+                "unitId='" + unitId + '\'' +
+                ", unitName='" + unitName + '\'' +
+                ", convertRate=" + convertRate +
+                ", unitPrice=" + unitPrice +
+                ", unitQuantity=" + unitQuantity +
+                '}';
     }
 
     public void removeProductUnits(String userId, String productId){

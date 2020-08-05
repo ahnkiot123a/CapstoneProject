@@ -137,9 +137,9 @@ public class ListProductActivity extends AppCompatActivity {
             if (intentResult.getContents() == null) {
 //                etBarcode.setText("");
             } else {
-                String barcode = intentResult.getContents();
-                listProductController.getListProduct(barcode, recyclerViewListProduct, tvTotalQuantity,
-                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                String barcode = intentResult.getContents().trim();
+//                listProductController.getListProduct(barcode, recyclerViewListProduct, tvTotalQuantity,
+//                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
                 searchView.setQuery(barcode, false);
             }
         }

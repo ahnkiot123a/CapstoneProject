@@ -204,12 +204,14 @@
                     android:layout_weight="0.5"
                     android:background="@drawable/blue_linear_color"
                     android:text="Cho nợ hết"
+                    android:onClick="transferToSelectDebtor"
                     android:textColor="@color/white" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:onClick="transferToPayment"
                     android:background="@drawable/green_linear_color"
                     android:text="Thanh toán"
                     android:textColor="@color/white" />

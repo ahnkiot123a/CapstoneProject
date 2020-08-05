@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
+import com.koit.capstonproject_version_1.View.SelectProductActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
@@ -32,7 +33,6 @@ public class Product implements Serializable {
     private boolean active;
     private DatabaseReference nodeRoot;
     private List<Unit> units;
-
 
     private static List<Product> productListSearch;
     FirebaseDatabase firebaseDatabase;
@@ -147,6 +147,7 @@ public class Product implements Serializable {
         Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
     }
 
+    //for ListProductController
     public void getListProduct(final String searchText, final ListProductInterface
             listProductInterface, final TextView textView, final LinearLayout linearLayoutEmpty,
                                final ConstraintLayout layoutSearch, final LinearLayout layoutNotFoundItem,
@@ -167,6 +168,7 @@ public class Product implements Serializable {
         nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
+    //for ListProductController
 
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
                                 String searchText, TextView textView, LinearLayout linearLayoutEmpty,
@@ -238,6 +240,7 @@ public class Product implements Serializable {
 
 
     }
+
     public static String deAccent(String str) {
         String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
@@ -245,6 +248,8 @@ public class Product implements Serializable {
     }
 
     //Cate Tu Beo
+    //for ListProductController
+
     public void getListProduct(final ListProductInterface listProductInterface, final String categoryName,
                                final LinearLayout linearLayoutEmpty, final ConstraintLayout constraintLayout,
                                final LinearLayout layoutNotFoundItem, final TextView textView,
@@ -265,6 +270,7 @@ public class Product implements Serializable {
         nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
+    //for ListProductController
 
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName,
                                 LinearLayout linearLayoutEmpty, ConstraintLayout constraintLayout,
@@ -341,12 +347,12 @@ public class Product implements Serializable {
     public void getListProduct(final String searchText, final ListProductInterface
             listProductInterface, final LinearLayout linearLayoutEmpty,
                                final LinearLayout layoutSearch, final LinearLayout layoutNotFoundItem,
-                               final Spinner category_Spinner, final ProgressBar pBarList) {
+                               final Spinner category_Spinner, final ProgressBar pBarList, final LinearLayout layoutButton) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 getListProduct(dataSnapshot, listProductInterface, searchText, linearLayoutEmpty,
-                        layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+                        layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, layoutButton);
             }
 
             @Override
@@ -362,23 +368,27 @@ public class Product implements Serializable {
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
                                 String searchText, LinearLayout linearLayoutEmpty,
                                 LinearLayout layoutSearch, LinearLayout layoutNotFoundItem,
-                                Spinner category_Spinner, ProgressBar pBarList) {
+                                Spinner category_Spinner, ProgressBar pBarList, LinearLayout layoutButton) {
         pBarList.setVisibility(View.VISIBLE);
         userDAO = new UserDAO();
         DataSnapshot dataSnapshotProduct;
         dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
         boolean isFound = false;
+        // khong co san pham nao
         if (dataSnapshotProduct.getValue() == null) {
             linearLayoutEmpty.setVisibility(View.VISIBLE);
             layoutSearch.setVisibility(View.GONE);
             layoutNotFoundItem.setVisibility(View.GONE);
             pBarList.setVisibility(View.GONE);
+            layoutButton.setVisibility(View.GONE);
         } else {
             DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
             layoutNotFoundItem.setVisibility(View.GONE);
             linearLayoutEmpty.setVisibility(View.GONE);
             layoutSearch.setVisibility(View.VISIBLE);
             pBarList.setVisibility(View.GONE);
+            layoutButton.setVisibility(View.VISIBLE);
+
             //Lấy danh sách san pham
             for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
                 Product product = valueProduct.getValue(Product.class);
@@ -407,19 +417,41 @@ public class Product implements Serializable {
                         //list product in first time or list all product
                         listProductInterface.getListProductModel(product);
                     } else {
-                        //product contains searched characters or barcode
-                        if (deAccent(product.getProductName().toLowerCase()).contains(deAccent(searchText.toLowerCase()))
-                                || product.getBarcode().contains(searchText)) {
-                            isFound = true;
-                            listProductInterface.getListProductModel(product);
-                        }
-                        if (!isFound) {
+                        //check is barcode search or not
+                        //search by barcode
+                        if (searchText.contains("!@#$%")) {
+                            searchText = searchText.substring(0,searchText.length()-5);
+                            if (deAccent(product.getProductName().toLowerCase()).contains(deAccent(searchText.toLowerCase()))
+                                    || product.getBarcode().contains(searchText)) {
+                                isFound = true;
+                                // transferToListItemInOrder
+                                List<Product> productList = new ArrayList<>();
+                                productList.add(product);
+                                SelectProductActivity.getInstance().transferToListItemInOrder(productList);
+                            }
+                            if (!isFound) {
 //                            textView.setText("0 sản phẩm");
-                            layoutNotFoundItem.setVisibility(View.VISIBLE);
-                        } else {
-                            layoutNotFoundItem.setVisibility(View.GONE);
-
+                                layoutNotFoundItem.setVisibility(View.VISIBLE);
+                            } else {
+                                layoutNotFoundItem.setVisibility(View.GONE);
+                            }
+                        } else
+                        //search text
+                        {
+                            if (deAccent(product.getProductName().toLowerCase()).contains(deAccent(searchText.toLowerCase()))
+                                    || product.getBarcode().contains(searchText)) {
+                                isFound = true;
+                                listProductInterface.getListProductModel(product);
+                            }
+                            if (!isFound) {
+//                            textView.setText("0 sản phẩm");
+                                layoutNotFoundItem.setVisibility(View.VISIBLE);
+                            } else {
+                                layoutNotFoundItem.setVisibility(View.GONE);
+                            }
                         }
+                        //product contains searched characters or barcode
+
                     }
                 }
             }
@@ -429,12 +461,12 @@ public class Product implements Serializable {
     //Cate tus beo for SelectProductController
     public void getListProduct(final ListProductInterface listProductInterface, final String categoryName,
                                final LinearLayout linearLayoutEmpty, final LinearLayout layoutSearch,
-                               final LinearLayout layoutNotFoundItem, final ProgressBar pBarList) {
+                               final LinearLayout layoutNotFoundItem, final ProgressBar pBarList, final LinearLayout layoutButton) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 getListProduct(dataSnapshot, listProductInterface, categoryName, linearLayoutEmpty,
-                        layoutSearch, layoutNotFoundItem, pBarList);
+                        layoutSearch, layoutNotFoundItem, pBarList, layoutButton);
             }
 
             @Override
@@ -449,7 +481,7 @@ public class Product implements Serializable {
 
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface, String categoryName,
                                 LinearLayout linearLayoutEmpty, LinearLayout layoutSearch,
-                                LinearLayout layoutNotFoundItem, ProgressBar pBarList) {
+                                LinearLayout layoutNotFoundItem, ProgressBar pBarList, LinearLayout layoutbutton) {
         userDAO = new UserDAO();
         pBarList.setVisibility(View.VISIBLE);
         DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());

@@ -156,6 +156,11 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         });
     }
 
+    @Override
+    public int getItemCount() {
+        return listSelectedProductInOrder.size();
+    }
+
     private int getTotalQuantity(List<Product> listSelectedProductInOrder) {
         int totalQuantity = 0;
         for (Product p : listSelectedProductInOrder
@@ -205,6 +210,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
             }
         });
     }
+
     public void sortUnitIncreaseByPrice(List<Unit> unitList) {
         Collections.sort(unitList, new Comparator<Unit>() {
             @Override
@@ -224,11 +230,6 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
             totalPrice += unitInOrder.getUnitPrice() * unitInOrder.getUnitQuantity();
         }
         return totalPrice;
-    }
-
-    @Override
-    public int getItemCount() {
-        return listSelectedProduct.size();
     }
 
 }
