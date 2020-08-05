@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -28,12 +29,12 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
     private ArrayList<Invoice> list;
     private ArrayList<Invoice> listFiltered;
     private TextView tvCount;
-    private Context context;
+    private Activity context;
     public boolean showShimmer = true;
 
     private final int SHIMMER_ITEM_NUMBER = 1;
 
-    public InvoiceHistoryAdapter(ArrayList<Invoice> list, Context context, TextView tvCount) {
+    public InvoiceHistoryAdapter(ArrayList<Invoice> list, Activity context, TextView tvCount) {
         this.list = list;
         this.listFiltered = list;
         this.context = context;
@@ -137,6 +138,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         new Thread(new Runnable() {
             @Override
             public void run() {
+                listFiltered.clear();
                 if (time.equals("Thời gian") && status.equals("Tất cả đơn hàng")) {
                     listFiltered = list;
                 } else {
@@ -187,6 +189,13 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                     }
 
                 }
+
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                });
             }
         }).start();
 

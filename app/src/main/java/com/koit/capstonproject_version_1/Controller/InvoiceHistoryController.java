@@ -34,7 +34,7 @@ public class InvoiceHistoryController {
         invoiceList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewListProduct.setLayoutManager(layoutManager);
-        invoiceHistoryAdapter = new InvoiceHistoryAdapter(invoiceList,activity.getApplicationContext(), textView);
+        invoiceHistoryAdapter = new InvoiceHistoryAdapter(invoiceList,activity, textView);
         recyclerViewListProduct.setAdapter(invoiceHistoryAdapter);
         IInvoice iInvoice = new IInvoice() {
             @Override
@@ -71,11 +71,23 @@ public class InvoiceHistoryController {
         });
     }
 
-    public void searchByStatus(Spinner spinner){
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    public void search(final EditText editText, final Spinner timeSpinner, final Spinner statusSpinner){
+        timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                invoiceHistoryAdapter.filter(editText.getText().toString().trim(), timeSpinner.getSelectedItem().toString(), statusSpinner.getSelectedItem().toString());
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                invoiceHistoryAdapter.filter(editText.getText().toString().trim(), timeSpinner.getSelectedItem().toString(), statusSpinner.getSelectedItem().toString());
             }
 
             @Override

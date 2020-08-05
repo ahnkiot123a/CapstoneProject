@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.koit.capstonproject_version_1.Adapter.InvoiceHistoryAdapter;
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
+import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.R;
 
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 public class InvoiceHistoryActivity extends AppCompatActivity {
 
     private RecyclerView rvInvoiceHistory;
-    private TextView tvInvoiceCount;
+    private TextView tvInvoiceCount, tvTime;
     private Spinner invoiceStatusSpinner, timeSpinner;
     private EditText etSearch;
 
@@ -43,6 +44,8 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         buildRvInvoiceHistory();
         buildSpinner();
         invoiceHistoryController.etSearchEvent(etSearch);
+        invoiceHistoryController.search(etSearch, timeSpinner, invoiceStatusSpinner);
+
 
     }
 
@@ -54,12 +57,16 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         invoiceStatusSpinner = findViewById(R.id.invoiceStatusSpinner);
         timeSpinner = findViewById(R.id.timeSpinner);
         etSearch = findViewById(R.id.etSearchField);
+        tvTime = findViewById(R.id.tvTime);
 
 
         //set title in toolbar
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);
         TextView tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
         tvToolbarTitle.setText("Lịch sử đơn hàng");
+
+        //set current date
+        tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
     }
 
 
