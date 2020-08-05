@@ -169,9 +169,8 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
                     }
 
                 }else{
-                    List<Product> productList = new ArrayList<>();
-                    productList.add(product);
-                    SelectProductActivity.getInstance().transferToListItemInOrder(productList);
+                    listSelectedProduct.add(product);
+                    SelectProductActivity.getInstance().transferToListItemInOrder(listSelectedProduct);
                 }
             }
         });

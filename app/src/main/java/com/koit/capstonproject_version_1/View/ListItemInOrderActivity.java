@@ -1,22 +1,30 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
+import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
+import com.koit.capstonproject_version_1.Controller.OrderSwipeControllerActions;
+import com.koit.capstonproject_version_1.Controller.SwipeController;
+import com.koit.capstonproject_version_1.Controller.SwipeControllerActions;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +35,8 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     private TextView tvTotalPrice;
     List<Product> listSelectedProductWarehouse = new ArrayList<>();
     private static List<Product> listSelectedProductInOrder = new ArrayList<>();
+    OrderSwipeController orderSwipeController = null;
+    ItemInOrderAdapter itemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,9 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
         getListProduct();
+        //swipe
+        setupRecyclerView(recyclerViewListProduct, this);
+
     }
 
     private void getListProduct() {
@@ -51,7 +64,7 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewListProduct.setLayoutManager(layoutManager);
-        ItemInOrderAdapter itemAdapter = new ItemInOrderAdapter(this, R.layout.item_layout_in_order, listSelectedProductWarehouse,
+        itemAdapter = new ItemInOrderAdapter(this, R.layout.item_layout_in_order, listSelectedProductWarehouse,
                 tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder);
         recyclerViewListProduct.setAdapter(itemAdapter);
         itemAdapter.notifyDataSetChanged();
@@ -80,5 +93,29 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         backToPrevious();
+    }
+
+    public void setupRecyclerView(RecyclerView recyclerView, final ListItemInOrderActivity listItemInOrderActivity) {
+        orderSwipeController = new OrderSwipeController(new OrderSwipeControllerActions() {
+            @Override
+            public void onRightClicked(final int position) {
+                itemAdapter.notifyItemRemoved(position);
+                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
+                //remove item in 2 list
+                listSelectedProductInOrder.remove(position);
+                listSelectedProductWarehouse.remove(position);
+            }
+
+        });
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(orderSwipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                orderSwipeController.onDraw(c);
+            }
+        });
     }
 }

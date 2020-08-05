@@ -1,6 +1,8 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -18,17 +21,21 @@ import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SelectProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
+import com.koit.capstonproject_version_1.Controller.SwipeControllerActions;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -219,4 +226,5 @@ public class SelectProductActivity extends AppCompatActivity {
         Intent intent = new Intent(SelectProductActivity.this, MainActivity.class);
         startActivity(intent);
     }
+
 }
