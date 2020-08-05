@@ -1,7 +1,6 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
@@ -26,7 +24,7 @@ import java.util.ArrayList;
 
 public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAdapter.ViewHolder> implements Filterable {
 
-    private ArrayList<Invoice> list;
+    private final ArrayList<Invoice> list;
     private ArrayList<Invoice> listFiltered;
     private TextView tvCount;
     private Activity context;
@@ -59,8 +57,9 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
 
             if (!list.isEmpty()) {
 
-                if (list.size() != 1)
+                if (list.size() != 1) {
                     holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+                }
                 tvCount.setText(listFiltered.size() + " đơn hàng");
                 Invoice invoice = listFiltered.get(position);
 
@@ -89,6 +88,8 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 }
                 holder.imageView.setBackground(null);
                 holder.imageView.setImageDrawable(context.getDrawable(R.drawable.icons8_money));
+            }else{
+                tvCount.setText("0 đơn hàng");
             }
 
         }
@@ -132,75 +133,6 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         };
 
     }
-
-
-    public void filter(final String key, final String time, final String status) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                listFiltered.clear();
-                if (time.equals("Thời gian") && status.equals("Tất cả đơn hàng")) {
-                    listFiltered = list;
-                } else {
-                    if (status.equals("Hoá đơn còn nợ") && time.equals("Thời gian")) {
-                        for (Invoice iv : list) {
-                            if (iv.getDebitAmount() != 0) {
-                                listFiltered.add(iv);
-                            }
-                        }
-                    }
-                    if(status.equals("Hoá đơn còn nợ") && time.equals("Hôm nay")){
-                        for(Invoice iv : list){
-                            if(iv.getDebitAmount() != 0 && iv.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate())){
-                                list.add(iv);
-                            }
-                        }
-                    }
-                    if(status.equals("Hoá đơn còn nợ") && time.equals("Tuần này")){
-
-                    }
-                    if(status.equals("Hoá đơn còn nợ") && time.equals("Tháng này")){
-
-                    }
-
-                    if(status.equals("Hoá đơn còn nợ") && time.equals("Tuỳ chỉnh")){
-
-                    }
-
-                    if (status.equals("Hoá đơn trả hết") && time.equals("Thời gian")) {
-                        for (Invoice iv : list) {
-                            if (iv.getDebitAmount() == 0) {
-                                listFiltered.add(iv);
-                            }
-                        }
-                    }
-                    if(status.equals("Hoá đơn trả hết") && time.equals("Hôm nay")){
-
-                    }
-                    if(status.equals("Hoá đơn trả hết") && time.equals("Tuần này")){
-
-                    }
-                    if(status.equals("Hoá đơn trả hết") && time.equals("Tháng này")){
-
-                    }
-
-                    if(status.equals("Hoá đơn trả hết") && time.equals("Tuỳ chỉnh")){
-
-                    }
-
-                }
-
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
-            }
-        }).start();
-
-    }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ShimmerFrameLayout shimmerFrameLayout;

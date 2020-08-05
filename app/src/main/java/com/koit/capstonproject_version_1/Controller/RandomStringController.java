@@ -1,10 +1,8 @@
 package com.koit.capstonproject_version_1.Controller;
 
-import com.koit.capstonproject_version_1.dao.CategoryDAO;
-import com.koit.capstonproject_version_1.dao.UserDAO;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class RandomStringController {
 
@@ -21,11 +19,11 @@ public class RandomStringController {
     }
 
     public String randomString(){
-        String userID = UserDAO.getInstance().getUserID();
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String result = "PRODUCT" + "_" + timeStamp + "_" + userID;
+//        String userID = UserDAO.getInstance().getUserID();
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String result = "PRODUCT" + "_" + timeStamp + "_" + userID;
 
-        return result;
+        return UUID.randomUUID().toString();
     }
     public String randomDebtorId(){
 //        String userID = UserDAO.getInstance().getUserID();

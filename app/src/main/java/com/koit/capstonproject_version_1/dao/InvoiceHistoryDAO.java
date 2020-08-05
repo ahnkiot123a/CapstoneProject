@@ -40,8 +40,8 @@ public class InvoiceHistoryDAO {
         for (DataSnapshot value : data.getChildren()) {
             Invoice invoice = value.getValue(Invoice.class);
             if(invoice != null){
-                Log.i("invoice", invoice.toString());
                 invoice.setInvoiceId(value.getKey());
+                Log.i("invoice", invoice.toString());
                 iInvoice.getInvoice(invoice);
             }
 

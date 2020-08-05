@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,7 +34,6 @@ import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
-import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.LinearLayoutManagerWrapper;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
@@ -52,7 +50,7 @@ public class CreateProductActivity extends AppCompatActivity {
     public static final int TAKE_PHOTO_PER_CODE = 102;
     public static final int CAMERA_REQUEST_CODE = 103;
     public static final int GALLERY_REQ_CODE = 104;
-    public static  final int REQUEST_CATEGORY_CODE = 2;
+    public static final int REQUEST_CATEGORY_CODE = 2;
     public static final String NEW_PRODUCT = "PRODUCT";
 
     public static String photoName;
@@ -74,7 +72,6 @@ public class CreateProductActivity extends AppCompatActivity {
     private ListView lvCategory;
     private ListCategoryController listCategoryController;
     private List<Category> categoryList;
-
 
 
     @Override
@@ -150,7 +147,6 @@ public class CreateProductActivity extends AppCompatActivity {
         tvToolbarTitle.setText("Thêm sản phẩm");
 
 
-
     }
 
     @Override
@@ -185,22 +181,22 @@ public class CreateProductActivity extends AppCompatActivity {
 
     //create product
     public void addProduct(View view) {
-        try{
+        try {
             controller.createProduct(etBarcode, tetProductName, tetDescription, tvCategory, switchActive.isChecked());
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "Thêm sản phẩm thất bại! Vui lòng thử lại...", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    public static ArrayList<Unit> getUnitFromRv(){
+    public static ArrayList<Unit> getUnitFromRv() {
         ArrayList<Unit> list = new ArrayList<>();
         for (int i = 0; i < createUnitAdapter.getItemCount(); i++) {
             CreateUnitAdapter.ViewHolder viewHolder = (CreateUnitAdapter.ViewHolder) recyclerCreateUnit.findViewHolderForAdapterPosition(i);
             String unitName = viewHolder.getEtUnitName().getText().toString().trim();
             String unitPrice = viewHolder.getEtUnitPrice().getText().toString().trim();
             Log.i("price", unitPrice);
-            if(!unitName.isEmpty() && !unitPrice.isEmpty()){
+            if (!unitName.isEmpty() && !unitPrice.isEmpty()) {
                 Unit unit = new Unit();
                 unit.setUnitName(unitName);
                 unit.setUnitPrice(Long.parseLong(unitPrice));
@@ -223,7 +219,6 @@ public class CreateProductActivity extends AppCompatActivity {
                 cameraController.askCameraPermission(TAKE_PHOTO_PER_CODE);
             }
         });
-//remove item on right click
 
         bottomSheet.findViewById(R.id.btnTakeFromAlbum).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,7 +238,6 @@ public class CreateProductActivity extends AppCompatActivity {
     }
 
 
-
     private void takeProductPhotoFromAlbum() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, GALLERY_REQ_CODE);
@@ -258,7 +252,7 @@ public class CreateProductActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-    public void categoryAction(View view){
+    public void categoryAction(View view) {
         Intent intent = new Intent(CreateProductActivity.this, CategoryActivity.class);
         startActivityForResult(intent, REQUEST_CATEGORY_CODE);
     }
@@ -295,7 +289,7 @@ public class CreateProductActivity extends AppCompatActivity {
         if (requestCode == GALLERY_REQ_CODE && resultCode == Activity.RESULT_OK) {
             Uri contentUri = data.getData();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String imgFileName = "JPEG" + "_"  + timeStamp + "." + getFileExt(contentUri);
+            String imgFileName = "JPEG" + "_" + timeStamp + "." + getFileExt(contentUri);
             Log.i("gallery", "onActivityResult: Gallery Image Uri " + imgFileName);
             photoName = imgFileName;
             ivProduct.setImageURI(contentUri);
@@ -304,7 +298,7 @@ public class CreateProductActivity extends AppCompatActivity {
             photoUri = contentUri;
         }
 
-        if(requestCode == REQUEST_CATEGORY_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == REQUEST_CATEGORY_CODE && resultCode == Activity.RESULT_OK) {
             String category = data.getStringExtra(CategoryActivity.CATEGORY_DATA);
             Log.d("category", category);
             tvCategory.setText(category);
@@ -314,8 +308,8 @@ public class CreateProductActivity extends AppCompatActivity {
     private String getFileExt(Uri contentUri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(contentUri));
-        }
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(contentUri));
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

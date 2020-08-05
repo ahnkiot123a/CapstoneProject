@@ -90,12 +90,14 @@ public class CreateProductDAO {
         product.setUnits(null);
         String userId = UserDAO.getInstance().getUserID();
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        databaseReference = databaseReference.child("Products").child(userId).child(product.getProductId());
-        databaseReference.setValue(product);
+        DatabaseReference dr = FirebaseDatabase.getInstance().getReference();
+        dr = dr.child("Products").child(userId).child(product.getProductId());
+        dr.setValue(product);
 //        databaseReference.keepSynced(true);
     }
 
     public void addImageProduct(Uri uri, String imgName) {
+        storageReference = FirebaseStorage.getInstance().getReference();
         final StorageReference image = storageReference.child("ProductPictures/" + imgName);
         if(uri != null){
             image.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

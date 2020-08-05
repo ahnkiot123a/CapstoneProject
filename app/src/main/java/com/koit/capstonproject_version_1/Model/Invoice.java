@@ -16,7 +16,9 @@ public class Invoice implements Serializable {
     private long debitAmount, discount, firstPaid, total;
     private boolean isDrafted;
 
+
     public Invoice() {
+
     }
 
     public Invoice(String invoiceId, String debtorId, String invoiceDate, String invoiceTime, String debtorImage, long debitAmount, long discount, long firstPaid, long total, boolean isDrafted) {
@@ -44,7 +46,7 @@ public class Invoice implements Serializable {
         return debtorName;
     }
 
-//    public void setDebtorName() {
+    public void setDebtorName() {
 //        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Debtors").child(UserDAO.getInstance().getUserID()).child(debtorId);
 //        ValueEventListener valueEventListener = new ValueEventListener() {
 //            @Override
@@ -58,7 +60,7 @@ public class Invoice implements Serializable {
 //            }
 //        };
 //        databaseReference.addListenerForSingleValueEvent(valueEventListener);
-//    }
+    }
 
     public String getInvoiceDate() {
         return invoiceDate;
