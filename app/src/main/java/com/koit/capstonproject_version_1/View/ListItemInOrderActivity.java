@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +37,13 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     private List<Product> listSelectedProductInOrder = new ArrayList<>();
     OrderSwipeController orderSwipeController = null;
     ItemInOrderAdapter itemAdapter;
+    private View popupInputDialogView = null;
+    private EditText productName;
+    private EditText price;
+    private EditText quantity;
+    private Button cancleBtn;
+    private Button addBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +95,46 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     }
 
     public void addNoneListedProduct(View view) {
+        LayoutInflater layoutInflater = LayoutInflater.from(ListItemInOrderActivity.this);
+        View popupInputDialogView = layoutInflater.inflate(R.layout.add_nonlistedproduct, null);
+        // Create a AlertDialog Builder.
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ListItemInOrderActivity.this);
+        // Set title, icon, can not cancel properties.
+        alertDialogBuilder.setTitle("Nhập sản phẩm bên ngoài");
+        alertDialogBuilder.setIcon(R.drawable.icons8_add_48px_3);
+        alertDialogBuilder.setCancelable(true);
+
+        // Init popup dialog view and it's ui controls.
+        initPopupViewControls();
+
+        // Set the inflated layout view object to the AlertDialog builder.
+        alertDialogBuilder.setView(popupInputDialogView);
+
+        // Create AlertDialog and show.
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+        alertDialogBuilder.setView(popupInputDialogView);
     }
+    private void initPopupViewControls()
+    {
+        // Get layout inflater object.
+        LayoutInflater layoutInflater = LayoutInflater.from(ListItemInOrderActivity.this);
+
+        // Inflate the popup dialog from a layout xml file.
+        popupInputDialogView = layoutInflater.inflate(R.layout.add_nonlistedproduct, null);
+
+        // Get user input edittext and button ui controls in the popup dialog.
+        productName =  popupInputDialogView.findViewById(R.id.productName);
+        price =  popupInputDialogView.findViewById(R.id.productPrice);
+        quantity =  popupInputDialogView.findViewById(R.id.productQuantity);
+        cancleBtn = popupInputDialogView.findViewById(R.id.button_cancel);
+        addBtn = popupInputDialogView.findViewById(R.id.button_add_product);
+
+        // Display values from the main activity list view in user input edittext.
+//        initEditTextUserDataInPopupDialog();
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -100,6 +150,8 @@ public class ListItemInOrderActivity extends AppCompatActivity {
                 listSelectedProductWarehouse.remove(position);
                 Log.d("lectedProductInOrder", listSelectedProductInOrder.toString());
                 itemAdapter.notifyItemRemoved(position);
+                tvTotalQuantity.setText(ItemInOrderAdapter.getTotalQuantity(listSelectedProductInOrder)+"");
+                tvTotalPrice.setText(ItemInOrderAdapter.getTotalPrice(listSelectedProductInOrder)+"");
 //                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
             }
 
@@ -130,6 +182,8 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         Bundle args2 = new Bundle();
         args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
         args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+        Log.d("list11",listSelectedProductInOrder.toString());
+        Log.d("list12",listSelectedProductWarehouse.toString());
         intent.putExtra("BUNDLE", args2);
         startActivity(intent);
     }

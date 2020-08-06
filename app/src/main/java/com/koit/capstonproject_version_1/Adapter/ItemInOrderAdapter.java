@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.MyViewHolder> {
 
-    private List<Product> listSelectedProduct;
+    private List<Product> listSelectedProductInWareHouse;
     private int resourse;
     private Context context;
     private TextView tvTotalQuantity;
@@ -40,7 +40,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                               TextView tvTotalQuantity, TextView tvTotalPrice, List<Product> listSelectedProductInOrder) {
         this.resourse = resourse;
         this.context = context;
-        this.listSelectedProduct = listSelectedProduct;
+        this.listSelectedProductInWareHouse = listSelectedProduct;
         this.tvTotalQuantity = tvTotalQuantity;
         this.tvTotalPrice = tvTotalPrice;
         this.listSelectedProductInOrder = listSelectedProductInOrder;
@@ -78,15 +78,20 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        final Product product = listSelectedProduct.get(position);
-
+        final Product product = listSelectedProductInWareHouse.get(position);
+        Product productInOrder = listSelectedProductInOrder.get(position);
         //set Value for Holder
         holder.itemName.setText(product.getProductName());
         List<Unit> unitListIncrease = new ArrayList<>();
         unitListIncrease = product.getUnits();
         sortUnitIncreaseByPrice(unitListIncrease);
-        setSpinnerUnit((ArrayList<Unit>) unitListIncrease, holder.spinnerUnit, holder.itemPrice, position, holder.editTextQuantity);
+        setSpinnerUnit((ArrayList<Unit>) unitListIncrease, holder.spinnerUnit, holder.itemPrice, position, holder.editTextQuantity, productInOrder);
 
+        //
+        holder.editTextQuantity.setText(productInOrder.getUnits().get(0).getUnitQuantity() + "");
+        //set total price
+        long totalPrice = getTotalPrice(listSelectedProductInOrder);
+        tvTotalPrice.setText(Money.getInstance().formatVN(totalPrice));
         //set Total quantity
         int totalQuantity = getTotalQuantity(listSelectedProductInOrder);
         tvTotalQuantity.setText(totalQuantity + "");
@@ -103,7 +108,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                     quantity = 1;
                     holder.editTextQuantity.setText("1");
                 }
-                if (quantity > 0) holder.editTextQuantity.setText(quantity - 1 + "");
+                if (quantity > 1) holder.editTextQuantity.setText(quantity - 1 + "");
             }
         });
         holder.imageButtonIncrease.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +166,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         return listSelectedProductInOrder.size();
     }
 
-    private int getTotalQuantity(List<Product> listSelectedProductInOrder) {
+    public static int getTotalQuantity(List<Product> listSelectedProductInOrder) {
         int totalQuantity = 0;
         for (Product p : listSelectedProductInOrder
         ) {
@@ -174,7 +179,8 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
 
 
     public void setSpinnerUnit(final ArrayList<Unit> listUnit, Spinner spinnerUnit, final TextView tvUnitPrice,
-                               final int positionProduct, final EditText editTextQuantity) {
+                               final int positionProduct, final EditText editTextQuantity, Product product) {
+
         ArrayList<String> listUnitname = new ArrayList<>();
 
         for (int i = 0; i < listUnit.size(); i++) {
@@ -184,6 +190,8 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                 new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, listUnitname);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUnit.setAdapter(adapter);
+        int spinnerPosition = adapter.getPosition(product.getUnits().get(0).getUnitName());
+        spinnerUnit.setSelection(spinnerPosition);
         spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -194,10 +202,17 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                 unitInOrder.setUnitId(listUnit.get(position).getUnitId());
                 unitInOrder.setUnitName(listUnit.get(position).getUnitName());
                 unitInOrder.setUnitPrice(listUnit.get(position).getUnitPrice());
-                //set quantity to 1 and update to UI
-                unitInOrder.setUnitQuantity(1);
+
+                //get quantity and update to UI
+                int quantity = 1;
+                try {
+                    quantity = Integer.parseInt(String.valueOf(editTextQuantity.getText()));
+                } catch (Exception e) {
+                    quantity = 1;
+                    editTextQuantity.setText("1");
+                }
+                unitInOrder.setUnitQuantity(quantity);
                 unitList.add(unitInOrder);
-                editTextQuantity.setText("1");
                 listSelectedProductInOrder.get(positionProduct).setUnits(unitList);
                 //set total price
                 long totalPrice = getTotalPrice(listSelectedProductInOrder);
@@ -221,7 +236,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
     }
 
     //return total price of selected product in list order
-    private long getTotalPrice(List<Product> listSelectedProductInOrder) {
+    public static long getTotalPrice(List<Product> listSelectedProductInOrder) {
         long totalPrice = 0;
         for (Product p : listSelectedProductInOrder
         ) {
