@@ -1,9 +1,8 @@
 package com.koit.capstonproject_version_1.View;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -13,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -21,21 +19,17 @@ import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SelectProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
-import com.koit.capstonproject_version_1.Controller.SwipeControllerActions;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -129,8 +123,21 @@ public class SelectProductActivity extends AppCompatActivity {
 
             }
         });
-
         instance = this;
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("BUNDLEBACK");
+        if (bundle != null)
+            if (bundle.getString("barcode") != null) {
+                searhByBarcode(bundle.getString("barcode"));
+                searchView.clearFocus();
+            }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        searchView.setQuery("", false);
+        layoutSearch.requestFocus();
     }
 
     public void back(View view) {
@@ -138,9 +145,13 @@ public class SelectProductActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
-    public void searchByBarcode(View view) {
-        CameraController cameraController = new CameraController(this);
+    public void searchByBarcodeInOrder() {
+        CameraController cameraController = new CameraController(SelectProductActivity.this);
         cameraController.askCameraPermission(CreateProductActivity.BARCODE_PER_CODE);
+    }
+
+    public void searchByBarcode(View view) {
+        searchByBarcodeInOrder();
     }
 
     @Override
@@ -152,12 +163,17 @@ public class SelectProductActivity extends AppCompatActivity {
 //                searchView.setText("");
             } else {
                 String barcode = intentResult.getContents().trim() + "!@#$%";
-                selectProductController.getListProduct(barcode, recyclerViewListProduct,
-                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct, layoutButton);
+                Log.d("barcodeSelect", barcode);
+                searhByBarcode(barcode);
 //                searchView.setQuery(barcode, false);
                 searchView.clearFocus();
             }
         }
+    }
+
+    public void searhByBarcode(String barcode) {
+        selectProductController.getListProduct(barcode, recyclerViewListProduct,
+                linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct, layoutButton);
     }
 
     public void addNewProduct(View view) {
@@ -186,7 +202,6 @@ public class SelectProductActivity extends AppCompatActivity {
                 listSelectedProductInOrder.add(productInOrder);
                 listSelectedProductWarehouse.add(product);
             }
-
         Intent intent2 = new Intent(SelectProductActivity.this, ListItemInOrderActivity.class);
         Bundle args2 = new Bundle();
         args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
@@ -227,4 +242,13 @@ public class SelectProductActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void setProductByBarcodeSearch(Product product) {
+//        Intent returnIntent = new Intent();
+//        Bundle args2 = new Bundle();
+//        args2.putSerializable("product",product);
+//        Log.d("productBarcode",product.toString());
+//        returnIntent.putExtra("BUNDLE_PRODUCT", args2);
+//        setResult(ListItemInOrderActivity.RESULT_OK,returnIntent);
+//        finish();
+    }
 }

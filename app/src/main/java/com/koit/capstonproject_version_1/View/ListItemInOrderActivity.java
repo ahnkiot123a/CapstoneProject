@@ -8,10 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
+import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeControllerActions;
 import com.koit.capstonproject_version_1.Model.Product;
@@ -22,6 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -43,7 +48,8 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     private EditText quantity;
     private Button cancleBtn;
     private Button addBtn;
-
+    LinearLayout LinearUpper;
+    int LAUNCH_SECOND_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +60,20 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         searchViewInList = findViewById(R.id.searchViewInList);
         tvTotalQuantity = findViewById(R.id.tvTotalQuantity);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
-
+        LinearUpper = findViewById(R.id.LinearUpper);
         searchViewInList.clearFocus();
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
         getListProduct();
         //swipe
         setupRecyclerView(recyclerViewListProduct, this);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        searchViewInList.setQuery("", false);
+        LinearUpper.requestFocus();
     }
 
     private void getListProduct() {
@@ -92,6 +104,43 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     }
 
     public void searchByBarcode(View view) {
+//        SelectProductActivity.getInstance().searchByBarcodeInOrder();
+        CameraController cameraController = new CameraController(ListItemInOrderActivity.this);
+        cameraController.askCameraPermission(CreateProductActivity.BARCODE_PER_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //search by barcode
+//        if (requestCode == LAUNCH_SECOND_ACTIVITY) {
+//            if (resultCode == SelectProductActivity.RESULT_OK) {
+//                Product product = (Product) data.getBundleExtra("BUNDLE_PRODUCT").getSerializable("product");
+//                listSelectedProductWarehouse.add(product);
+//                Product productInOrder = new Product();
+//                productInOrder.setProductId(product.getProductId());
+//                productInOrder.setProductName(product.getProductName());
+//                productInOrder.setUnits(SelectProductActivity.getMinUnit(product.getUnits()));
+//                listSelectedProductInOrder.add(productInOrder);
+//            }
+//            if (resultCode == SelectProductActivity.RESULT_CANCELED) {
+//                //Write your code if there's no result
+//            }
+//        }
+        //scan
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            if (intentResult.getContents() != null) {
+                String barcode = intentResult.getContents().trim() + "!@#$%";
+                Intent intent2 = new Intent(ListItemInOrderActivity.this, SelectProductActivity.class);
+                Bundle args2 = new Bundle();
+                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+                args2.putString("barcode",barcode);
+                intent2.putExtra("BUNDLEBACK", args2);
+                startActivity(intent2);
+            }
+        }
     }
 
     public void addNoneListedProduct(View view) {
@@ -116,8 +165,8 @@ public class ListItemInOrderActivity extends AppCompatActivity {
 
         alertDialogBuilder.setView(popupInputDialogView);
     }
-    private void initPopupViewControls()
-    {
+
+    private void initPopupViewControls() {
         // Get layout inflater object.
         LayoutInflater layoutInflater = LayoutInflater.from(ListItemInOrderActivity.this);
 
@@ -125,9 +174,9 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         popupInputDialogView = layoutInflater.inflate(R.layout.add_nonlistedproduct, null);
 
         // Get user input edittext and button ui controls in the popup dialog.
-        productName =  popupInputDialogView.findViewById(R.id.productName);
-        price =  popupInputDialogView.findViewById(R.id.productPrice);
-        quantity =  popupInputDialogView.findViewById(R.id.productQuantity);
+        productName = popupInputDialogView.findViewById(R.id.productName);
+        price = popupInputDialogView.findViewById(R.id.productPrice);
+        quantity = popupInputDialogView.findViewById(R.id.productQuantity);
         cancleBtn = popupInputDialogView.findViewById(R.id.button_cancel);
         addBtn = popupInputDialogView.findViewById(R.id.button_add_product);
 
@@ -150,8 +199,9 @@ public class ListItemInOrderActivity extends AppCompatActivity {
                 listSelectedProductWarehouse.remove(position);
                 Log.d("lectedProductInOrder", listSelectedProductInOrder.toString());
                 itemAdapter.notifyItemRemoved(position);
-                tvTotalQuantity.setText(ItemInOrderAdapter.getTotalQuantity(listSelectedProductInOrder)+"");
-                tvTotalPrice.setText(ItemInOrderAdapter.getTotalPrice(listSelectedProductInOrder)+"");
+
+                tvTotalQuantity.setText(ItemInOrderAdapter.getTotalQuantity(listSelectedProductInOrder) + "");
+                tvTotalPrice.setText(ItemInOrderAdapter.getTotalPrice(listSelectedProductInOrder) + "");
 //                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
             }
 
@@ -182,8 +232,8 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         Bundle args2 = new Bundle();
         args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
         args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-        Log.d("list11",listSelectedProductInOrder.toString());
-        Log.d("list12",listSelectedProductWarehouse.toString());
+        Log.d("list11", listSelectedProductInOrder.toString());
+        Log.d("list12", listSelectedProductWarehouse.toString());
         intent.putExtra("BUNDLE", args2);
         startActivity(intent);
     }

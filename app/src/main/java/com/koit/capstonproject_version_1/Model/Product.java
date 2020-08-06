@@ -418,11 +418,10 @@ public class Product implements Serializable {
                         listProductInterface.getListProductModel(product);
                     } else {
                         //check is barcode search or not
-                        //search by barcode
+                        //search by barcode in select product
                         if (searchText.contains("!@#$%")) {
-                            searchText = searchText.substring(0,searchText.length()-5);
-                            if (deAccent(product.getProductName().toLowerCase()).contains(deAccent(searchText.toLowerCase()))
-                                    || product.getBarcode().contains(searchText)) {
+                            searchText = searchText.substring(0, searchText.length() - 5);
+                            if (product.getBarcode().equals(searchText)) {
                                 isFound = true;
                                 // transferToListItemInOrder
                                 List<Product> productList = new ArrayList<>();
@@ -432,6 +431,7 @@ public class Product implements Serializable {
                             if (!isFound) {
 //                            textView.setText("0 sản phẩm");
                                 layoutNotFoundItem.setVisibility(View.VISIBLE);
+                                Toast.makeText(SelectProductActivity.getInstance(),"Không tìm thấy sản phẩm.",Toast.LENGTH_SHORT).show();
                             } else {
                                 layoutNotFoundItem.setVisibility(View.GONE);
                             }

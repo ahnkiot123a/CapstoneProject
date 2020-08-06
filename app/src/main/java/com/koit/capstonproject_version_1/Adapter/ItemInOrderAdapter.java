@@ -77,9 +77,9 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        final Product product = listSelectedProductInWareHouse.get(position);
-        Product productInOrder = listSelectedProductInOrder.get(position);
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        Product product = listSelectedProductInWareHouse.get(position);
+        final Product productInOrder = listSelectedProductInOrder.get(position);
         //set Value for Holder
         holder.itemName.setText(product.getProductName());
         List<Unit> unitListIncrease = new ArrayList<>();
@@ -135,7 +135,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                 //update change to list
                 //check number
                 {
-                    Unit unitInOrder = listSelectedProductInOrder.get(position).getUnits().get(0);
+                    Unit unitInOrder = productInOrder.getUnits().get(0);
                     try {
                         Long.parseLong(holder.editTextQuantity.getText().toString());
                     } catch (Exception e) {
@@ -145,7 +145,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                     List<Unit> unitList = new ArrayList<>();
                     unitList.add(unitInOrder);
                     //update unit's quantity
-                    listSelectedProductInOrder.get(position).setUnits(unitList);
+                    productInOrder.setUnits(unitList);
                 }
                 //get total quantity
                 int totalQuantity = getTotalQuantity(listSelectedProductInOrder);
