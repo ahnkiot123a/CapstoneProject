@@ -54,4 +54,10 @@ public class TimeController {
         }
         return date;
     }
+
+    public String getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        return formatter.format(calendar.getTime());
+    }
 }

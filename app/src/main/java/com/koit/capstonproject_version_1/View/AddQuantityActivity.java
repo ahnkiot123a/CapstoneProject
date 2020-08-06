@@ -53,7 +53,7 @@ public class AddQuantityActivity extends AppCompatActivity {
                     long quantity = unitList.get(i).getUnitQuantity() + addUnitList.get(i).getUnitQuantity();
                     unitList.get(i).setUnitQuantity(quantity);
                 }
-                addProductQuantityController.convertUnitList2(unitList);
+                addProductQuantityController.calInventoryByUnit(unitList);
                 addProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
                 currentProduct.setUnits(unitList);
                 Intent intent = new Intent();

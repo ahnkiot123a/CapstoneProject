@@ -25,7 +25,6 @@ import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.CreateProductDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,7 +180,7 @@ public class ConvertRateActivity extends AppCompatActivity {
             unitList.get(i).setUnitQuantity(quantity);
         }
         Log.i("unitList", unitList.toString());
-        addProductQuantityController.convertUnitList2(unitList);
+        addProductQuantityController.calInventoryByUnit(unitList);
     }
 
     public void back(View view){

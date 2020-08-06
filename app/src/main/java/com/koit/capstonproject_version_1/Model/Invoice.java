@@ -149,4 +149,14 @@ public class Invoice implements Serializable {
                 ", isDrafted=" + isDrafted +
                 '}';
     }
+
+    public void addInvoiceToFirebase(Invoice invoice) {
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = databaseReference.child("Invoices").child(UserDAO.getInstance().getUserID()).
+                child(invoice.getInvoiceId());
+        invoice.setInvoiceId(null);
+        databaseReference.setValue(invoice);
+//        databaseReference.keepSynced(true);
+    }
 }

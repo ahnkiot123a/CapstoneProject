@@ -26,9 +26,14 @@ public class RandomStringController {
         return UUID.randomUUID().toString();
     }
     public String randomDebtorId(){
-//        String userID = UserDAO.getInstance().getUserID();
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String result = "KH" + "" + timeStamp + "" ;
+
+        return result;
+    }
+    public String randomInvoiceId(){
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String result = "HD" + "" + timeStamp + "" ;
 
         return result;
     }

@@ -2,39 +2,88 @@ package com.koit.capstonproject_version_1.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.koit.capstonproject_version_1.Controller.PaymentController;
+import com.koit.capstonproject_version_1.Controller.RandomStringController;
+import com.koit.capstonproject_version_1.Controller.TimeController;
+import com.koit.capstonproject_version_1.Model.InvoiceDetail;
+import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class PaymentActivity extends AppCompatActivity {
     private TextView tvTotalQuantity, tvTotalPrice, tvCustomerPaid,
             tvMoneyChange, tvCustomerDebit, tvToolbarTitle;
+    private List<Product> listSelectedProductWarehouse, listSelectedProductInOrder;
     private TextInputEditText etSaleMoney, etPaidMoney;
     private Button btnSubmitPaid;
+    private InvoiceDetail invoiceDetail;
+    private long totalProductQuantity = 0;
+    private long totalPrice = 0;
+    private PaymentController paymentController;
+    private long debitAmount, customerPaid;
+    private long firstPaid, discount;
+    private String invoiceDate, invoiceTime;
+    private boolean isDrafted;
+    private String invoiceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_payment);
         initView();
         tvToolbarTitle.setText("Thanh toán");
-        getInvoice();
-
+        paymentController = new PaymentController(this);
+        getInvoiceDetail();
+        setData();
         inputCustomerPaid();
         inputSaleMoney();
         actionBtnSubmitPaid();
     }
 
-    private void getInvoice() {
+    private void setData() {
+        totalProductQuantity = paymentController.calTotalProductQuantity(listSelectedProductInOrder);
+        tvTotalQuantity.setText(totalProductQuantity + "");
+        totalPrice = paymentController.calTotalPrice(listSelectedProductInOrder);
+        tvTotalPrice.setText(Money.getInstance().formatVN(totalPrice));
+        tvCustomerPaid.setText(Money.getInstance().formatVN(totalPrice));
+        etPaidMoney.setText(totalPrice + "");
+        tvCustomerDebit.setText("0");
+    }
+
+    private void getInvoiceDetail() {
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("BUNDLE");
+        listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
+        listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
+
+        for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
+            Log.i("paymentInOrder ", listSelectedProductInOrder.get(i).toString());
+        }
+        for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
+            Log.i("paymentInWarehouse ", listSelectedProductWarehouse.get(i).toString());
+
+        }
 
     }
 
@@ -42,73 +91,31 @@ public class PaymentActivity extends AppCompatActivity {
         btnSubmitPaid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                invoiceId = RandomStringController.getInstance().randomInvoiceId();
+                debitAmount = Money.getInstance().reFormatVN(tvCustomerDebit.getText().toString());
+                discount = Long.parseLong(etSaleMoney.getText().toString());
+                firstPaid = Long.parseLong(etPaidMoney.getText().toString());
+                customerPaid = Money.getInstance().reFormatVN(tvCustomerPaid.getText().toString());
+                invoiceDate = TimeController.getInstance().getCurrentDate();
+                invoiceTime = TimeController.getInstance().getCurrentTime();
+                if (debitAmount == 0){
+                    firstPaid = customerPaid;
+                    paymentController.addInvoiceToFirebase(invoiceId, debitAmount, discount,
+                            firstPaid, invoiceDate, invoiceTime, isDrafted, totalPrice);
+                    paymentController.addInvoiceDetailToFirebase(invoiceId, listSelectedProductInOrder);
+                }
 
             }
         });
     }
 
     private void inputSaleMoney() {
-        etSaleMoney.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String sale = s.toString();
-                long totalSum = Long.parseLong(tvTotalPrice.getText().toString());
-                long salePrice = 0;
-                try {
-                    salePrice  = Long.parseLong(sale);
-                } catch (Exception e){
-                    salePrice = 0;
-                }
-
-                tvCustomerPaid.setText(totalSum-salePrice+"");
-                etPaidMoney.setText(totalSum-salePrice+"");
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        paymentController.inputSaleMoney(etSaleMoney, tvCustomerPaid, totalPrice, etPaidMoney);
     }
 
     private void inputCustomerPaid() {
-        etPaidMoney.addTextChangedListener(new TextWatcher() {
+        paymentController.inputPaidMoney(etPaidMoney, tvCustomerPaid, tvMoneyChange, tvCustomerDebit, btnSubmitPaid);
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String paid = s.toString();
-                long customerPaid = 0;
-                try {
-                    customerPaid  = Long.parseLong(paid);
-                } catch (Exception e){
-                    customerPaid = 0;
-                }
-                long changeMoney = customerPaid - Long.parseLong(tvCustomerPaid.getText().toString());
-                if(changeMoney >= 0){
-                    tvMoneyChange.setText(changeMoney + "");
-                    tvCustomerDebit.setText("0");
-                } else {
-                    tvCustomerDebit.setText(-changeMoney + "");
-                    tvMoneyChange.setText("0");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
 
     private void initView() {

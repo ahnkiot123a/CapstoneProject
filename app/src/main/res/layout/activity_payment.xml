@@ -82,7 +82,7 @@
                 android:text="0"
                 android:gravity="right"
                 android:paddingLeft="10dp"
-                android:textColor="@color/gray"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:windowSoftInputMode="stateUnchanged">
 
@@ -147,7 +147,7 @@
                     android:text="0"
                     android:gravity="right"
                     android:paddingLeft="10dp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:windowSoftInputMode="stateUnchanged">
 

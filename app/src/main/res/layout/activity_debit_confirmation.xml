@@ -56,6 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/tvDebtorName"
                 android:fontFamily="sans-serif-medium"
                 android:text="Thắng VQ"
                 android:gravity="right"
@@ -85,12 +86,13 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/tvCustomerPaid"
+                android:id="@+id/tvDebtorPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="right"
+
                 android:text="0123658996"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -119,6 +121,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvDebtorDebitAmount"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:text="4.000.000"
@@ -172,7 +175,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/tvCustomerDebit"
+                android:id="@+id/tvDateTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -206,6 +209,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/tvDebitMoney"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="right"
                 android:text="200.000"
@@ -232,6 +236,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
+                android:id="@+id/tvNewDebitAmount"
                 android:gravity="right"
                 android:text="4.200.000"
                 android:textColor="@color/black"
@@ -249,7 +254,7 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/btnSubmitPaid"
+                android:id="@+id/btnConfirmDebit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/theme"
