@@ -34,8 +34,10 @@ public class InvoiceDetail implements Serializable {
         this.products = products;
     }
 
-    public void addInvoiceDetailToFirebase(String invoiceId, List<Product> listSelectedProductInOrder) {
+    public void addInvoiceDetailToFirebase(InvoiceDetail invoiceDetail) {
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        String invoiceId = invoiceDetail.getInvoiceId();
+        List<Product> listSelectedProductInOrder = invoiceDetail.getProducts();
         for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
             if (listSelectedProductInOrder.get(i).getProductId().startsWith("PRODUCT")) {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -59,5 +61,13 @@ public class InvoiceDetail implements Serializable {
         }
 
 //        databaseReference.keepSynced(true);
+    }
+
+    @Override
+    public String toString() {
+        return "InvoiceDetail{" +
+                "invoiceId='" + invoiceId + '\'' +
+                ", products=" + products +
+                '}';
     }
 }

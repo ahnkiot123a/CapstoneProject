@@ -1,7 +1,6 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.RadioButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Adapter.DebtorAdapter;
-import com.koit.capstonproject_version_1.Controller.Interface.ICustomer;
+import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Model.Debtor;
+import com.koit.capstonproject_version_1.Model.Invoice;
+import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,31 +19,38 @@ import java.util.List;
 public class DebtorController {
     private Context context;
     private Debtor debtor;
+    private Invoice invoice;
+    private InvoiceDetail invoiceDetail;
     private List<Debtor> debtorList;
     private DebtorAdapter debtorAdapter;
 
     public DebtorController(Context context) {
         this.context = context;
+    }
+
+    public DebtorController(Context context, Invoice invoice, InvoiceDetail invoiceDetail) {
+        this.context = context;
+        this.invoice = invoice;
+        this.invoiceDetail = invoiceDetail;
         debtor = new Debtor();
     }
 
-    public void getListDebtor(RecyclerView recyclerViewDebtor) {
+    public void getListDebtor(RecyclerView recyclerViewDebtor, Invoice invoice, InvoiceDetail invoiceDetail) {
         debtorList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
-        debtorAdapter = new DebtorAdapter(debtorList,context);
+        debtorAdapter = new DebtorAdapter(debtorList, context, invoice, invoiceDetail);
         recyclerViewDebtor.setAdapter(debtorAdapter);
-        ICustomer iCustomer = new ICustomer() {
+        IDebtor iDebtor = new IDebtor() {
             @Override
-            public void getCustomer(Debtor debtor) {
+            public void getDebtor(Debtor debtor) {
                 debtorList.add(debtor);
                 debtorAdapter.notifyDataSetChanged();
             }
 
 
-
         };
-        debtor.getListDebtor(iCustomer);
+        debtor.getListDebtor(iDebtor);
 
     }
 
@@ -68,7 +76,6 @@ public class DebtorController {
             debtor.setGender(gender);
             debtor.addDebtorToFirebase(debtor);
            /* String category = tvCategory.getText().toString().trim();
-
             ArrayList<Unit> listUnit = CreateProductActivity.getUnitFromRv();
             String photoName = CreateProductActivity.photoName;
             String productID = RandomStringController.getInstance().randomString();
@@ -83,7 +90,6 @@ public class DebtorController {
             product.setActive(checked);
             product.setUnits(listUnit);
             Log.i("addProduct", product.toString());
-
             Intent intent = new Intent(activity, ConvertRateActivity.class);
             intent.putExtra(CreateProductActivity.NEW_PRODUCT, product);
             activity.startActivity(intent);

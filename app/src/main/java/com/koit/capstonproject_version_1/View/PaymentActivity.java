@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.PaymentController;
 import com.koit.capstonproject_version_1.Controller.RandomStringController;
 import com.koit.capstonproject_version_1.Controller.TimeController;
+import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
@@ -98,11 +99,20 @@ public class PaymentActivity extends AppCompatActivity {
                 customerPaid = Money.getInstance().reFormatVN(tvCustomerPaid.getText().toString());
                 invoiceDate = TimeController.getInstance().getCurrentDate();
                 invoiceTime = TimeController.getInstance().getCurrentTime();
-                if (debitAmount == 0){
-                    firstPaid = customerPaid;
-                    paymentController.addInvoiceToFirebase(invoiceId, debitAmount, discount,
-                            firstPaid, invoiceDate, invoiceTime, isDrafted, totalPrice);
-                    paymentController.addInvoiceDetailToFirebase(invoiceId, listSelectedProductInOrder);
+                Invoice invoice = new Invoice(invoiceId, "", invoiceDate, invoiceTime, "", debitAmount, discount,
+                        firstPaid, totalPrice, isDrafted);
+                InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId, listSelectedProductInOrder);
+                if (debitAmount == 0) {
+                    invoice.setFirstPaid(customerPaid);
+                    paymentController.addInvoiceToFirebase(invoice);
+                    paymentController.addInvoiceDetailToFirebase(invoiceDetail);
+                } else {
+                    invoice.setDrafted(true);
+                    Intent intent = new Intent(PaymentActivity.this, SelectDebtorActivity.class);
+                    intent.putExtra("invoice", invoice);
+                    intent.putExtra("invoiceDetail", invoiceDetail);
+                    startActivity(intent);
+
                 }
 
             }

@@ -132,15 +132,14 @@ public class PaymentController {
         });
     }
 
-    public void addInvoiceToFirebase(String invoiceId, long debitAmount, long discount, long firstPaid,
-                                   String invoiceDate, String invoiceTime, boolean isDrafted, long totalPrice) {
-        Invoice invoice = new Invoice(invoiceId, "KH000000", invoiceDate, invoiceTime, "",
-                debitAmount, discount, firstPaid, totalPrice, false);
+    public void addInvoiceToFirebase(Invoice invoice) {
+//        Invoice invoice = new Invoice(invoiceId, "KH000000", invoiceDate, invoiceTime, "",
+//                debitAmount, discount, firstPaid, totalPrice, false);
         invoice.addInvoiceToFirebase(invoice);
     }
 
-    public void addInvoiceDetailToFirebase(String invoiceId, List<Product> listSelectedProductInOrder) {
-        InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId,listSelectedProductInOrder);
-        invoiceDetail.addInvoiceDetailToFirebase(invoiceId,listSelectedProductInOrder);
+    public void addInvoiceDetailToFirebase(InvoiceDetail invoiceDetail) {
+     //   InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId,listSelectedProductInOrder);
+        invoiceDetail.addInvoiceDetailToFirebase(invoiceDetail);
     }
 }

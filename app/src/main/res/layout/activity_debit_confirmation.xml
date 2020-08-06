@@ -121,7 +121,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvDebtorDebitAmount"
+                android:id="@+id/tvOldDebtAmount"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:text="4.000.000"
@@ -148,6 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
+                android:id="@+id/invoiceName"
                 android:text="Hoá đơn HD1234"
                 android:textColor="@color/black"
                 android:textSize="20sp" />

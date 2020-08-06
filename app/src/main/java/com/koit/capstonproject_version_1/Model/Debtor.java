@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.koit.capstonproject_version_1.Controller.Interface.ICustomer;
+import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
@@ -103,11 +103,11 @@ public class Debtor implements Serializable {
                 '}';
     }
 
-    public void getListDebtor(final ICustomer iCustomer) {
+    public void getListDebtor(final IDebtor iDebtor) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getListDebtor(dataSnapshot, iCustomer);
+                getListDebtor(dataSnapshot, iDebtor);
             }
 
             @Override
@@ -119,13 +119,13 @@ public class Debtor implements Serializable {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    private void getListDebtor(DataSnapshot dataSnapshot, ICustomer iCustomer) {
+    private void getListDebtor(DataSnapshot dataSnapshot, IDebtor iDebtor) {
         DataSnapshot dataSnapshotDebtor = dataSnapshot.child("Debtors").child(UserDAO.getInstance().getUserID());
         if (dataSnapshotDebtor != null) {
             for (DataSnapshot valueCustomer : dataSnapshotDebtor.getChildren()) {
                 Debtor debtor = valueCustomer.getValue(Debtor.class);
                 debtor.setDebtorId(valueCustomer.getKey());
-                iCustomer.getCustomer(debtor);
+                iDebtor.getDebtor(debtor);
             }
         }
     }
