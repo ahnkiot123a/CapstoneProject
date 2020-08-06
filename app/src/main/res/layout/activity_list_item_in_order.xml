@@ -76,7 +76,6 @@
                     android:focusable="true"
                     android:iconifiedByDefault="false"
                     android:queryHint="Tên, mã sản phẩm">
-
                 </SearchView>
 
                 <ImageButton

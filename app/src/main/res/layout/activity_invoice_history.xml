@@ -15,48 +15,35 @@
         android:background="@color/super_light_gray"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutSearchHome"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_bg_search"
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/etSearchField"
+            <SearchView
+                android:id="@+id/svInvoice"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_margin="5dp"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/shape_bg_search"
-                android:drawableLeft="?android:attr/actionModeWebSearchDrawable"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:hint="Nhập mã, tên khách hàng"
-                android:imeOptions="actionSearch"
-                android:inputType="textPersonName"
-                android:paddingLeft="20dp"
-                android:textColor="@color/gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.555"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:clickable="true"
+                android:focusable="true"
+                android:iconifiedByDefault="false"
+                android:queryHint="Nhập mã, tên khách hàng">
+            </SearchView>
 
             <ImageButton
                 android:id="@+id/btnVoice"
-                android:layout_width="51dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0.8"
                 android:background="@drawable/barcode_icon_layout"
                 android:left="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/etSearchField"
-                app:layout_constraintEnd_toEndOf="@+id/etSearchField"
-                app:layout_constraintHorizontal_bias="0.944"
-                app:layout_constraintStart_toStartOf="@+id/etSearchField"
-                app:layout_constraintTop_toTopOf="@+id/etSearchField"
-                app:srcCompat="@drawable/ic_baseline_keyboard_voice_24"
-                tools:ignore="MissingConstraints" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:srcCompat="@drawable/ic_baseline_keyboard_voice_24" />
+        </LinearLayout>
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

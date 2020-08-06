@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
@@ -66,9 +67,14 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 holder.tvOrderId.setBackground(null);
                 holder.tvOrderId.setText(invoice.getInvoiceId());
 
-                holder.tvCustomer.setBackground(null);
-                holder.tvCustomer.setText(invoice.getDebtorId());
+                InvoiceHistoryController controller = new InvoiceHistoryController(context);
 
+                holder.tvCustomer.setBackground(null);
+                if(invoice.getDebtorId().isEmpty()){
+                    holder.tvCustomer.setText("Khách lẻ");
+                }else{
+                    controller.fillDebtorName(invoice.getDebtorId(), holder.tvCustomer);
+                }
                 holder.tvOrderDate.setBackground(null);
                 holder.tvOrderDate.setText(invoice.getInvoiceDate());
 

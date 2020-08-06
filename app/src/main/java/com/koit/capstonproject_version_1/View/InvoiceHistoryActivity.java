@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -12,7 +13,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
-import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.R;
 
 public class InvoiceHistoryActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
     private RecyclerView rvInvoiceHistory;
     private TextView tvInvoiceCount, tvTime;
     private Spinner invoiceStatusSpinner, timeSpinner;
-    private EditText etSearch;
+    private SearchView svInvoice;
 
 
 
@@ -37,9 +37,9 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
 //        buildRvInvoiceHistory();
         buildSpinner();
 
-        invoiceHistoryController.spinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, etSearch);
+        invoiceHistoryController.spinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, svInvoice, tvTime);
 
-        invoiceHistoryController.etSearchEvent(etSearch);
+        invoiceHistoryController.etSearchEvent(svInvoice);
 
 
     }
@@ -50,7 +50,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         tvInvoiceCount = findViewById(R.id.tvInvoiceCount);
         invoiceStatusSpinner = findViewById(R.id.invoiceStatusSpinner);
         timeSpinner = findViewById(R.id.timeSpinner);
-        etSearch = findViewById(R.id.etSearchField);
+        svInvoice = findViewById(R.id.svInvoice);
         tvTime = findViewById(R.id.tvTime);
 
 
@@ -59,8 +59,8 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         TextView tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
         tvToolbarTitle.setText("Lịch sử đơn hàng");
 
-        //set current date
-        tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
+//        //set current date
+//        tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
 
         invoiceHistoryController = new InvoiceHistoryController(this);
 
@@ -68,10 +68,10 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
     }
 
 
-    private void buildRvInvoiceHistory() {
-        invoiceHistoryController = new InvoiceHistoryController(this);
-        invoiceHistoryController.invoiceList(rvInvoiceHistory, tvInvoiceCount);
-    }
+//    private void buildRvInvoiceHistory() {
+//        invoiceHistoryController = new InvoiceHistoryController(this);
+//        invoiceHistoryController.invoiceList(rvInvoiceHistory, tvInvoiceCount);
+//    }
 
     private void buildSpinner() {
         String[] statusList = {"Tất cả đơn hàng", "Hoá đơn còn nợ", "Hoá đơn trả hết"};

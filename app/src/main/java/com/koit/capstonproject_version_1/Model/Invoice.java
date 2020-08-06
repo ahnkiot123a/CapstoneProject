@@ -1,18 +1,13 @@
 package com.koit.capstonproject_version_1.Model;
 
-import androidx.annotation.NonNull;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 
 public class Invoice implements Serializable {
-    private String invoiceId, debtorId, debtorName, invoiceDate, invoiceTime, debtorImage;
+    private String invoiceId, debtorId, invoiceDate, invoiceTime, debtorImage;
     private long debitAmount, discount, firstPaid, total;
     private boolean isDrafted;
 
@@ -42,25 +37,6 @@ public class Invoice implements Serializable {
         this.invoiceId = invoiceId;
     }
 
-    public String getDebtorName() {
-        return debtorName;
-    }
-
-    public void setDebtorName() {
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Debtors").child(UserDAO.getInstance().getUserID()).child(debtorId);
-//        ValueEventListener valueEventListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                Customer customer
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        };
-//        databaseReference.addListenerForSingleValueEvent(valueEventListener);
-    }
 
     public String getInvoiceDate() {
         return invoiceDate;
@@ -107,7 +83,7 @@ public class Invoice implements Serializable {
     }
 
     public void setDrafted(boolean drafted) {
-        isDrafted = drafted;
+        this.isDrafted = drafted;
     }
 
     public long getDebitAmount() {
