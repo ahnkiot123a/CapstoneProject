@@ -18,22 +18,28 @@ public class RandomStringController {
         return mInstance;
     }
 
-    public String randomString(){
+    public String randomString() {
 //        String userID = UserDAO.getInstance().getUserID();
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 //        String result = "PRODUCT" + "_" + timeStamp + "_" + userID;
 
         return UUID.randomUUID().toString();
     }
-    public String randomDebtorId(){
+
+    public static String randomID() {
+        return UUID.randomUUID().toString();
+    }
+
+    public String randomDebtorId() {
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String result = "KH" + "" + timeStamp + "" ;
+        String result = "KH" + "" + timeStamp + "";
 
         return result;
     }
-    public String randomInvoiceId(){
+
+    public String randomInvoiceId() {
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String result = "HD" + "" + timeStamp + "" ;
+        String result = "HD" + "" + timeStamp + "";
 
         return result;
     }

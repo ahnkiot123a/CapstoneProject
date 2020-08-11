@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -76,17 +77,23 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         return viewHolder;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         Product product = listSelectedProductInWareHouse.get(position);
         final Product productInOrder = listSelectedProductInOrder.get(position);
         //set Value for Holder
         holder.itemName.setText(product.getProductName());
-        List<Unit> unitListIncrease = new ArrayList<>();
-        unitListIncrease = product.getUnits();
-        sortUnitIncreaseByPrice(unitListIncrease);
-        setSpinnerUnit((ArrayList<Unit>) unitListIncrease, holder.spinnerUnit, holder.itemPrice, position, holder.editTextQuantity, productInOrder);
+        if ((!product.getUnits().get(0).getUnitName().equals(""))) {
+            List<Unit> unitListIncrease = new ArrayList<>();
+            unitListIncrease = product.getUnits();
+            sortUnitIncreaseByPrice(unitListIncrease);
+            setSpinnerUnit((ArrayList<Unit>) unitListIncrease, holder.spinnerUnit, holder.itemPrice, position, holder.editTextQuantity, productInOrder);
 
+        } else {
+            holder.spinnerUnit.setVisibility(View.GONE);
+            holder.itemPrice.setText(productInOrder.getUnits().get(0).getUnitPrice() + "");
+        }
         //
         holder.editTextQuantity.setText(productInOrder.getUnits().get(0).getUnitQuantity() + "");
         //set total price

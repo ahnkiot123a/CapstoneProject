@@ -26,8 +26,8 @@
 
         <ImageButton
             android:id="@+id/backToLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@null"
             android:onClick="back"
             android:src="@drawable/ic_baseline_arrow_white_ios_24" />
@@ -123,7 +123,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:background="@color/white"
-                android:layout_height="30dp">
+                android:layout_height="40dp">
 
                 <ImageView
                     android:id="@+id/iconShoping"
@@ -139,6 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:layout_marginTop="7dp"
                     android:text="Tổng đơn hàng"
                     android:textColor="@color/black"
                     android:textSize="18dp"
@@ -148,7 +149,7 @@
 
                 <ImageButton
                     android:id="@+id/addNoneListedProduct"
-                    android:layout_width="36dp"
+                    android:layout_width="60dp"
                     android:layout_height="36dp"
                     android:background="@null"
                     android:onClick="addNoneListedProduct"
@@ -176,8 +177,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
-                    android:layout_marginBottom="3dp"
-                    android:text="10000"
+                    android:layout_marginBottom="8dp"
+                    android:text="0"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18dp"
                     app:layout_constraintBottom_toBottomOf="parent"

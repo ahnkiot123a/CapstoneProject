@@ -46,8 +46,9 @@ public class SelectProductController extends AppCompatActivity {
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
             public void getListProductModel(Product product) {
-                listProduct.add(product);
-                itemAdapter.notifyDataSetChanged();
+                if (product.isActive()){
+                    listProduct.add(product);
+                itemAdapter.notifyDataSetChanged();}
             }
 
         };
@@ -62,13 +63,14 @@ public class SelectProductController extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
         itemAdapter = new ItemBeforeOrderAdapter(context, listProduct, R.layout.item_layout_before_order,
-                checkBoxSelectMultiProduct,listSelectedProduct);
+                checkBoxSelectMultiProduct, listSelectedProduct);
         recyclerViewListProduct.setAdapter(itemAdapter);
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
             public void getListProductModel(Product product) {
-                listProduct.add(product);
-                itemAdapter.notifyDataSetChanged();
+                if (product.isActive()){
+                    listProduct.add(product);
+                itemAdapter.notifyDataSetChanged();}
             }
         };
         product.getListProduct(listProductInterface, categoryName, linearLayoutEmpty, layoutSearch,
@@ -81,7 +83,8 @@ public class SelectProductController extends AppCompatActivity {
         Intent intent = new Intent(activity1.getApplicationContext(), activity2);
         activity1.startActivity(intent);
     }
-    public List<Product> getListSelectedProduct(){
+
+    public List<Product> getListSelectedProduct() {
         return listSelectedProduct;
     }
 //    public void deleteListItemSelected() {

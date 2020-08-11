@@ -77,11 +77,12 @@
         android:id="@+id/imageButtonIncrease"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="2dp"
         android:background="@color/white"
         android:src="@drawable/ic_baseline_add_item_24"
-        app:layout_constraintBottom_toBottomOf="@+id/spinnerUnit"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerUnit" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvProductPrice"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Spinner
         android:id="@+id/spinnerUnit"
@@ -89,7 +90,7 @@
         android:layout_height="35dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/shape_textview_border"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextQuantity"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

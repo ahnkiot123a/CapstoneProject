@@ -18,8 +18,10 @@ import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeControllerActions;
+import com.koit.capstonproject_version_1.Controller.RandomStringController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
 import java.io.Serializable;
@@ -48,6 +50,7 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     private EditText quantity;
     private Button cancleBtn;
     private Button addBtn;
+    private EditText unitName;
     LinearLayout LinearUpper;
     int LAUNCH_SECOND_ACTIVITY = 1;
 
@@ -136,7 +139,7 @@ public class ListItemInOrderActivity extends AppCompatActivity {
                 Bundle args2 = new Bundle();
                 args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
                 args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-                args2.putString("barcode",barcode);
+                args2.putString("barcode", barcode);
                 intent2.putExtra("BUNDLEBACK", args2);
                 startActivity(intent2);
             }
@@ -147,43 +150,97 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = LayoutInflater.from(ListItemInOrderActivity.this);
         View popupInputDialogView = layoutInflater.inflate(R.layout.add_nonlistedproduct, null);
         // Create a AlertDialog Builder.
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ListItemInOrderActivity.this);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ListItemInOrderActivity.this);
         // Set title, icon, can not cancel properties.
         alertDialogBuilder.setTitle("Nhập sản phẩm bên ngoài");
         alertDialogBuilder.setIcon(R.drawable.icons8_add_48px_3);
-        alertDialogBuilder.setCancelable(true);
-
-        // Init popup dialog view and it's ui controls.
-        initPopupViewControls();
+        alertDialogBuilder.setCancelable(false);
 
         // Set the inflated layout view object to the AlertDialog builder.
         alertDialogBuilder.setView(popupInputDialogView);
-
-        // Create AlertDialog and show.
-        final AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-
-        alertDialogBuilder.setView(popupInputDialogView);
-    }
-
-    private void initPopupViewControls() {
-        // Get layout inflater object.
-        LayoutInflater layoutInflater = LayoutInflater.from(ListItemInOrderActivity.this);
-
-        // Inflate the popup dialog from a layout xml file.
-        popupInputDialogView = layoutInflater.inflate(R.layout.add_nonlistedproduct, null);
-
         // Get user input edittext and button ui controls in the popup dialog.
         productName = popupInputDialogView.findViewById(R.id.productName);
         price = popupInputDialogView.findViewById(R.id.productPrice);
         quantity = popupInputDialogView.findViewById(R.id.productQuantity);
+        unitName = popupInputDialogView.findViewById(R.id.unitName);
         cancleBtn = popupInputDialogView.findViewById(R.id.button_cancel);
         addBtn = popupInputDialogView.findViewById(R.id.button_add_product);
+        // Create AlertDialog and show.
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
 
-        // Display values from the main activity list view in user input edittext.
-//        initEditTextUserDataInPopupDialog();
+        // When user click the save user data button in the popup dialog.
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pName = "", pUnitName = "";
+                long pPrice = 0;
+                int pQuantity = 0;
+                if ((productName.getText().toString().trim().length() > 100) || (productName.getText().toString().trim().length() == 0)) {
+                    //show error
+                    productName.setError("Tên sản phẩm không hợp lệ");
+                    productName.requestFocus();
+                } else if (!checkValidNumber(price.getText().toString(), 9)) {
+                    //show error
+                    price.setError("Số tiền không hợp lệ");
+                    price.requestFocus();
+
+                } else if (!checkValidNumber(quantity.getText().toString(), 4)) {
+                    //show error
+                    quantity.setError("Số lượng không hợp lệ");
+                    quantity.requestFocus();
+                } else if ((unitName.getText().toString().trim().length() > 100)) {
+                    unitName.setError("Tên đơn vị không hợp lệ");
+                    unitName.requestFocus();
+                } else {
+                    try {
+                        pName = productName.getText().toString();
+                        pPrice = Long.parseLong(price.getText().toString());
+                        pQuantity = Integer.parseInt(quantity.getText().toString());
+                        pUnitName = unitName.getText().toString();
+                    } catch (Exception e) {
+
+                    }
+                    // Create NonelistedProduct
+                    List<Unit> unitList = new ArrayList<>();
+                    Unit unit = new Unit();
+                    unit.setUnitId(RandomStringController.randomID());
+                    unit.setUnitPrice(pPrice);
+                    unit.setUnitQuantity(pQuantity);
+                    unit.setUnitName(pUnitName);
+                    unitList.add(unit);
+
+                    Product product = new Product();
+                    product.setProductId("nonListedProduct" + RandomStringController.randomID());
+                    product.setProductName(pName);
+                    product.setUnits(unitList);
+                    Log.d("checkAddProduct", product.toString());
+                    listSelectedProductInOrder.add(product);
+                    Log.d("checkListInOrder", listSelectedProductInOrder.toString());
+                    listSelectedProductWarehouse.add(product);
+                    Log.d("checkListWareHouse", listSelectedProductWarehouse.toString());
+
+                    itemAdapter.notifyDataSetChanged();
+                    alertDialog.cancel();
+                }
+            }
+        });
+
+        cancleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.cancel();
+            }
+        });
+
     }
 
+    public boolean checkValidNumber(String numStr, int maxNumOfDigits) {
+        numStr = numStr.trim();
+        if (numStr.trim().length() > maxNumOfDigits) return false;
+        else if (!numStr.matches("\\d+")) return false;
+        return true;
+    }
 
     @Override
     public void onBackPressed() {
@@ -197,7 +254,6 @@ public class ListItemInOrderActivity extends AppCompatActivity {
                 //remove item in 2 list
                 listSelectedProductInOrder.remove(position);
                 listSelectedProductWarehouse.remove(position);
-                Log.d("lectedProductInOrder", listSelectedProductInOrder.toString());
                 itemAdapter.notifyItemRemoved(position);
 
                 tvTotalQuantity.setText(ItemInOrderAdapter.getTotalQuantity(listSelectedProductInOrder) + "");
@@ -232,8 +288,6 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         Bundle args2 = new Bundle();
         args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
         args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-        Log.d("list11", listSelectedProductInOrder.toString());
-        Log.d("list12", listSelectedProductWarehouse.toString());
         intent.putExtra("BUNDLE", args2);
         startActivity(intent);
     }

@@ -6,8 +6,8 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <TableRow
             android:layout_width="match_parent"
@@ -63,7 +63,27 @@
             <EditText
                 android:id="@+id/productQuantity"
                 android:hint="Nhập số lượng"
+                android:text="1"
                 android:inputType="numberDecimal" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:gravity="end"
+                android:text="Đơn vị : "
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/unitName"
+                android:hint="Tên đơn vị"
+                android:inputType="text" />
 
         </TableRow>
 
