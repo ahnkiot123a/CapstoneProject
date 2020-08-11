@@ -30,6 +30,7 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.CategoryDAO;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ListCategoryController listCategoryController;
     private List<Category> categoryList;
-
     private User currentUser;
     private CreateProductController createProductController;
 
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Intent intent = getIntent();
         currentUser = UserDAO.getInstance().getUser();
 
         createProductController = new CreateProductController(this);
@@ -200,10 +199,18 @@ public class MainActivity extends AppCompatActivity {
         }, 3000);
         Intent intent = getIntent();
         boolean success = intent.getBooleanExtra(ConvertRateActivity.IS_SUCCESS, false);
-        Product currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
+        final Product currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
         if(success){
-            createProductController.addImageProduct();
-            createProductController.addCategoryToFirebase(currentProduct,categoryList);
+            (new Handler()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    createProductController.addImageProduct();
+                    createProductController.addCategoryToFirebase(currentProduct,categoryList);
+
+
+                }
+            }, 3000);
+
         }
     }
 

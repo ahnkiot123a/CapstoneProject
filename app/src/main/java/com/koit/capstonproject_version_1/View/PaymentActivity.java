@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,15 +19,11 @@ import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
-import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
-import java.sql.Time;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class PaymentActivity extends AppCompatActivity {
     private TextView tvTotalQuantity, tvTotalPrice, tvCustomerPaid,
@@ -77,15 +71,11 @@ public class PaymentActivity extends AppCompatActivity {
         Bundle args = intent.getBundleExtra("BUNDLE");
         listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
         listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
-
-        for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
-            Log.i("paymentInOrder ", listSelectedProductInOrder.get(i).toString());
+        listSelectedProductInOrder = paymentController.formatListProductInOrder(listSelectedProductInOrder);
+        listSelectedProductWarehouse = paymentController.formatListProductWarehouse(listSelectedProductWarehouse);
+        for (int i =0;i< listSelectedProductWarehouse.size();i++){
+            Log.d("warehouseBefore", listSelectedProductWarehouse.get(i).toString());
         }
-        for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
-            Log.i("paymentInWarehouse ", listSelectedProductWarehouse.get(i).toString());
-
-        }
-
     }
 
     private void actionBtnSubmitPaid() {
@@ -106,11 +96,29 @@ public class PaymentActivity extends AppCompatActivity {
                     invoice.setFirstPaid(customerPaid);
                     paymentController.addInvoiceToFirebase(invoice);
                     paymentController.addInvoiceDetailToFirebase(invoiceDetail);
+                    paymentController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
+                    for (int i =0;i< listSelectedProductWarehouse.size();i++){
+                        Log.d("warehouseAfter", listSelectedProductWarehouse.get(i).toString());
+                    }
+                    Intent intent = new Intent(PaymentActivity.this,SelectProductActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Toast.makeText(PaymentActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
                 } else {
                     invoice.setDrafted(true);
-                    Intent intent = new Intent(PaymentActivity.this, SelectDebtorActivity.class);
+                  /*  Intent intent2 = new Intent(PaymentActivity.this, SelectDebtorActivity.class);
+                    Bundle args2 = new Bundle();
+                    args2.putSerializable("invoice", invoice);
+                    args2.putSerializable("invoiceDetail", invoiceDetail);
+                    args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+                    intent2.putExtra("BUNDLE", args2);
+                    startActivity(intent2);*/
+                   Intent intent = new Intent(PaymentActivity.this, SelectDebtorActivity.class);
                     intent.putExtra("invoice", invoice);
                     intent.putExtra("invoiceDetail", invoiceDetail);
+                    Bundle args2 = new Bundle();
+                    args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+                    intent.putExtra("BUNDLE", args2);
                     startActivity(intent);
 
                 }

@@ -104,7 +104,8 @@ public class CreateProductController {
 
         boolean flag = true;
         for (int i = 0; i < categoryList.size(); i++) {
-            if (currentProduct.getCategoryName().equals(categoryList.get(i).getCategoryName()))
+            if (currentProduct.getCategoryName().equals(categoryList.get(i).getCategoryName()) ||
+                    currentProduct.getCategoryName().trim().equals(""))
                 flag = false;
         }
         // Log.i("categoryList", categoryList.get(i).getCategoryName());

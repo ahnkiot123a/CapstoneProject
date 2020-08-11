@@ -15,11 +15,12 @@ import java.io.Serializable;
 public class Debtor implements Serializable {
     private String debtorId, address, dateOfBirth, email, fullName, phoneNumber;
     private boolean gender;
+    private long debitTotal;
     private DatabaseReference nodeRoot;
     private DataSnapshot dataRoot;
 
 
-    public Debtor(String debtorId, String address, String dateOfBirth, String email, String fullName, String phoneNumber, boolean gender) {
+    public Debtor(String debtorId, String address, String dateOfBirth, String email, String fullName, String phoneNumber, boolean gender, long debitTotal) {
         this.debtorId = debtorId;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
@@ -27,6 +28,7 @@ public class Debtor implements Serializable {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
+        this.debitTotal = debitTotal;
     }
 
     public Debtor() {
@@ -88,6 +90,14 @@ public class Debtor implements Serializable {
         this.gender = gender;
     }
 
+    public long getDebitTotal() {
+        return debitTotal;
+    }
+
+    public void setDebitTotal(long debitTotal) {
+        this.debitTotal = debitTotal;
+    }
+
     @Override
     public String toString() {
         return "Debtor{" +
@@ -138,5 +148,12 @@ public class Debtor implements Serializable {
         debtor.setDebtorId(null);
         databaseReference.setValue(debtor);
 //        databaseReference.keepSynced(true);
+    }
+
+    public void updateTotalDebit(Debtor debtor) {
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Debtors")
+                .child(UserDAO.getInstance().getUserID()).child(debtor.getDebtorId()).child("debitTotal");
+        databaseReference.setValue(debtor.getDebitTotal());
     }
 }

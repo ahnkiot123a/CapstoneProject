@@ -39,11 +39,12 @@ public class InvoiceDetail implements Serializable {
         String invoiceId = invoiceDetail.getInvoiceId();
         List<Product> listSelectedProductInOrder = invoiceDetail.getProducts();
         for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
-            if (listSelectedProductInOrder.get(i).getProductId().startsWith("PRODUCT")) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference = databaseReference.child("InvoiceDetail").child(UserDAO.getInstance().getUserID()).
-                        child(invoiceId).child("products").child(listSelectedProductInOrder.get(i).getProductId()).child("units");
+            if (!listSelectedProductInOrder.get(i).getProductId().startsWith("nonListedProduct")) {
+
                 for (int j = 0; j < listSelectedProductInOrder.get(i).getUnits().size(); j++) {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference = databaseReference.child("InvoiceDetail").child(UserDAO.getInstance().getUserID()).
+                            child(invoiceId).child("products").child(listSelectedProductInOrder.get(i).getProductId()).child("units");
                     databaseReference = databaseReference.child(listSelectedProductInOrder.get(i).getUnits().get(j).getUnitId());
                     String unitId = listSelectedProductInOrder.get(i).getUnits().get(j).getUnitId();
                     long unitQuantity = listSelectedProductInOrder.get(i).getUnits().get(j).getUnitQuantity();

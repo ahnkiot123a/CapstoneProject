@@ -12,6 +12,7 @@ import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
+import com.koit.capstonproject_version_1.Model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class DebtorController {
     private Debtor debtor;
     private Invoice invoice;
     private InvoiceDetail invoiceDetail;
+    private List<Product> listSelectedProductWarehouse;
     private List<Debtor> debtorList;
     private DebtorAdapter debtorAdapter;
 
@@ -28,10 +30,11 @@ public class DebtorController {
         this.context = context;
     }
 
-    public DebtorController(Context context, Invoice invoice, InvoiceDetail invoiceDetail) {
+    public DebtorController(Context context, Invoice invoice, InvoiceDetail invoiceDetail, List<Product> listSelectedProductWarehouse) {
         this.context = context;
         this.invoice = invoice;
         this.invoiceDetail = invoiceDetail;
+        this.listSelectedProductWarehouse = listSelectedProductWarehouse;
         debtor = new Debtor();
     }
 
@@ -39,7 +42,7 @@ public class DebtorController {
         debtorList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
-        debtorAdapter = new DebtorAdapter(debtorList, context, invoice, invoiceDetail);
+        debtorAdapter = new DebtorAdapter(debtorList, context, invoice, invoiceDetail,listSelectedProductWarehouse);
         recyclerViewDebtor.setAdapter(debtorAdapter);
         IDebtor iDebtor = new IDebtor() {
             @Override
@@ -75,25 +78,7 @@ public class DebtorController {
             debtor.setAddress(address);
             debtor.setGender(gender);
             debtor.addDebtorToFirebase(debtor);
-           /* String category = tvCategory.getText().toString().trim();
-            ArrayList<Unit> listUnit = CreateProductActivity.getUnitFromRv();
-            String photoName = CreateProductActivity.photoName;
-            String productID = RandomStringController.getInstance().randomString();
-//                    Log.i("photoPath", photoName);
-            Product product = new Product();
-            product.setProductId(productID);
-            product.setBarcode(barcode);
-            product.setProductName(productName);
-            product.setProductDescription(tetDescription.getText().toString().trim());
-            product.setCategoryName(category);
-            product.setProductImageUrl(photoName);
-            product.setActive(checked);
-            product.setUnits(listUnit);
-            Log.i("addProduct", product.toString());
-            Intent intent = new Intent(activity, ConvertRateActivity.class);
-            intent.putExtra(CreateProductActivity.NEW_PRODUCT, product);
-            activity.startActivity(intent);
-*/
+            debtor.setDebitTotal(0);
         }
 
     }

@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
+import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DebitConfirmationActivity;
 import com.koit.capstonproject_version_1.View.SelectDebtorActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder> {
@@ -26,12 +29,14 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
     Context context;
     Invoice invoice;
     InvoiceDetail invoiceDetail;
+    List<Product> listSelectedProductWarehouse;
 
-    public DebtorAdapter(List<Debtor> debtorList, Context context, Invoice invoice, InvoiceDetail invoiceDetail) {
+    public DebtorAdapter(List<Debtor> debtorList, Context context, Invoice invoice, InvoiceDetail invoiceDetail, List<Product> listSelectedProductWarehouse ) {
         this.debtorList = debtorList;
         this.context = context;
         this.invoice = invoice;
         this.invoiceDetail = invoiceDetail;
+        this.listSelectedProductWarehouse = listSelectedProductWarehouse;
     }
 
     public DebtorAdapter(List<Debtor> debtorList, Context context) {
@@ -63,7 +68,11 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
                 intentDebtor.putExtra("debtor", debtor);
                 intentDebtor.putExtra("invoice", invoice);
                 intentDebtor.putExtra("invoiceDetail", invoiceDetail);
-              //  invoice = SelectDebtorActivity.getInstance().getInvoice();
+                Bundle args2 = new Bundle();
+                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+                intentDebtor.putExtra("BUNDLE", args2);
+
+                //  invoice = SelectDebtorActivity.getInstance().getInvoice();
                 //Log.d("InvoiceAdapter", invoice.toString());
                 intentDebtor.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

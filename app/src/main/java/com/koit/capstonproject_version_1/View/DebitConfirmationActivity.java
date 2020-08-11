@@ -8,28 +8,38 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.koit.capstonproject_version_1.Controller.PaymentController;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
+import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DebitConfirmationActivity extends AppCompatActivity {
     private TextView tvDebtorName, tvDebtorPhone, tvOldDebtAmount,
-            tvDateTime, tvDebitMoney, tvNewDebitAmount, invoiceName;
+            tvDateTime, tvDebitMoney, tvNewDebitAmount, invoiceName,tvToolbarTitle;
     private Button btnConfirmDebit;
     private Debtor debtor;
     private Invoice invoice;
     private InvoiceDetail invoiceDetail;
+    private List<Product> listSelectedProductWarehouse;
+    private  List<Product> listSelectedProductInOrder;
     private PaymentController paymentController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debit_confirmation);
         paymentController = new PaymentController(this);
         initView();
+        tvToolbarTitle.setText("Xác nhận nợ");
+
         getData();
         setInformation();
         actionBtnConfirmDebit();
@@ -42,6 +52,13 @@ public class DebitConfirmationActivity extends AppCompatActivity {
                 invoice.setDrafted(false);
                 paymentController.addInvoiceToFirebase(invoice);
                 paymentController.addInvoiceDetailToFirebase(invoiceDetail);
+                paymentController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
+                debtor.updateTotalDebit(debtor);
+                Intent intent = new Intent(DebitConfirmationActivity.this,SelectProductActivity.class);
+                startActivity(intent);
+                finish();
+                Toast.makeText(DebitConfirmationActivity.this, "Cho nợ thành công", Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -52,9 +69,11 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         invoiceName.setText("Hoá đơn " + invoice.getInvoiceId() );
         tvDateTime.setText(invoice.getInvoiceDate() + " " + invoice.getInvoiceTime());
         tvDebitMoney.setText(Money.getInstance().formatVN(invoice.getDebitAmount()));
-        long oldDebtAmount = Money.getInstance().reFormatVN(tvOldDebtAmount.getText().toString());
+        long oldDebtAmount = debtor.getDebitTotal();
+        tvOldDebtAmount.setText(Money.getInstance().formatVN(oldDebtAmount));
         long newDebtAmount = oldDebtAmount + invoice.getDebitAmount();
         tvNewDebitAmount.setText(Money.getInstance().formatVN(newDebtAmount));
+        debtor.setDebitTotal(newDebtAmount);
     }
 
     private void getData() {
@@ -62,6 +81,9 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         debtor = (Debtor) intent.getSerializableExtra("debtor");
         invoice = (Invoice) intent.getSerializableExtra("invoice");
         invoiceDetail = (InvoiceDetail) intent.getSerializableExtra("invoiceDetail");
+        Bundle args = intent.getBundleExtra("BUNDLE");
+        listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
+        listSelectedProductInOrder = invoiceDetail.getProducts();
         invoice.setDebtorId(debtor.getDebtorId());
     }
 
@@ -75,5 +97,6 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         tvNewDebitAmount = findViewById(R.id.tvNewDebitAmount);
         btnConfirmDebit = findViewById(R.id.btnConfirmDebit);
         invoiceName = findViewById(R.id.invoiceName);
+        tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
     }
 }

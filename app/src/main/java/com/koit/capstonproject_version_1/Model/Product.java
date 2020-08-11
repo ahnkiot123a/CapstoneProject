@@ -127,6 +127,21 @@ public class Product implements Serializable {
         this.units = units;
     }
 
+    public void addUnit(Unit u){
+        boolean flag =true;
+        for(Unit u1: units){
+            if(u.getUnitId().equals(u1.getUnitId())){
+                long quant = u1.getUnitQuantity() + u.getUnitQuantity();
+                u1.setUnitQuantity(quant);
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            units.add(u);
+        }
+    }
+
     @Override
     public String toString() {
         return "Product{" +

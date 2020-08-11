@@ -11,14 +11,20 @@ import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
+import com.koit.capstonproject_version_1.Model.Unit;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class PaymentController {
     private Activity activity;
+    private AddProductQuantityController addProductQuantityController;
 
     public PaymentController(Activity activity) {
         this.activity = activity;
+        addProductQuantityController = new AddProductQuantityController();
     }
 
     public long calTotalProductQuantity(List<Product> listSelectedProductInOrder) {
@@ -139,7 +145,73 @@ public class PaymentController {
     }
 
     public void addInvoiceDetailToFirebase(InvoiceDetail invoiceDetail) {
-     //   InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId,listSelectedProductInOrder);
+        //   InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId,listSelectedProductInOrder);
         invoiceDetail.addInvoiceDetailToFirebase(invoiceDetail);
+    }
+
+    public List<Product> formatListProductInOrder(List<Product> products) {
+        for (int i = 0; i < products.size(); i++) {
+            Product proI = products.get(i);
+            for (int j = 0; j < i; j++) {
+                Product proJ = products.get(j);
+                if (proI.getProductId().equals(proJ.getProductId())) {
+                    proJ.addUnit(proI.getUnits().get(0));
+                    products.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+        return products;
+    }
+
+    public List<Product> formatListProductWarehouse(List<Product> products) {
+        for (int i = 0; i < products.size(); i++) {
+            Product proI = products.get(i);
+            for (int j = 0; j < i; j++) {
+                Product proJ = products.get(j);
+                if (proI.getProductId().equals(proJ.getProductId())) {
+                    products.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+        return products;
+    }
+
+    public void updateUnitQuantity(List<Product> listSelectedProductInOrder, List<Product> listProductWarehouse) {
+        for (int i = 0; i < listProductWarehouse.size(); i++) {
+            sortUnitByPrice(listProductWarehouse.get(i).getUnits());
+            addProductQuantityController.convertUnitList(listProductWarehouse.get(i).getUnits());
+        }
+        for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
+            for (int j = 0; j < listProductWarehouse.size(); j++) {
+                if (listProductWarehouse.get(j).getProductId().
+                        equals(listSelectedProductInOrder.get(i).getProductId())) {
+                    for (int k = 0; k < listSelectedProductInOrder.get(i).getUnits().size(); k++) {
+                        long quantity = listProductWarehouse.get(j).getUnits().get(k).getUnitQuantity() -
+                                listSelectedProductInOrder.get(j).getUnits().get(k).getUnitQuantity();
+                        if (quantity < 0) quantity = 0;
+                        listProductWarehouse.get(j).getUnits().get(k).setUnitQuantity(quantity);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < listProductWarehouse.size(); i++) {
+            addProductQuantityController.calInventoryByUnit(listProductWarehouse.get(i).getUnits());
+        }
+        for (int i = 0; i < listProductWarehouse.size(); i++) {
+            addProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
+        }
+    }
+
+    public void sortUnitByPrice(List<Unit> unitList) {
+        Collections.sort(unitList, new Comparator<Unit>() {
+            @Override
+            public int compare(Unit o1, Unit o2) {
+                return (int) (o2.getUnitPrice() - o1.getUnitPrice());
+            }
+        });
     }
 }

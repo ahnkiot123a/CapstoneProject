@@ -2,13 +2,17 @@ package com.koit.capstonproject_version_1.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.RadioButton;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.DebtorController;
 import com.koit.capstonproject_version_1.R;
+
+import java.util.Calendar;
 
 public class AddNewDebtorActivity extends AppCompatActivity {
     private TextInputEditText edFullname, edEmail, edPhoneNumber, edDob, edAddress;
@@ -35,5 +39,22 @@ public class AddNewDebtorActivity extends AppCompatActivity {
 
     public void saveNewCustomer(View view) {
         debtorController.createDebtor(edFullname,edEmail,edPhoneNumber,edDob,edAddress,rbMale);
+    }
+    public void getNewDate(View view) {
+        DatePickerDialog.OnDateSetListener mListener = mListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                i1 = i1 + 1;
+                String date = i1 < 10 ? i + "-0" + i1 + "-" + i2 : i + "-" + i1 + "-" + i2;
+                String updateDate = i1 + "/" + i2 + "/" + i;
+                edDob.setText(date);
+            }
+        };
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog dialog = new DatePickerDialog(this, mListener, year, month, day);
+        dialog.show();
     }
 }
