@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,18 +24,21 @@ import com.koit.capstonproject_version_1.View.DebitConfirmationActivity;
 import com.koit.capstonproject_version_1.View.SelectDebtorActivity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder> {
+public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder> implements Filterable {
     List<Debtor> debtorList;
+    List<Debtor> listFiltered;
     Context context;
     Invoice invoice;
     InvoiceDetail invoiceDetail;
     List<Product> listSelectedProductWarehouse;
 
-    public DebtorAdapter(List<Debtor> debtorList, Context context, Invoice invoice, InvoiceDetail invoiceDetail, List<Product> listSelectedProductWarehouse ) {
+    public DebtorAdapter(List<Debtor> debtorList, Context context, Invoice invoice, InvoiceDetail invoiceDetail, List<Product> listSelectedProductWarehouse) {
         this.debtorList = debtorList;
         this.context = context;
+        this.listFiltered = debtorList;
         this.invoice = invoice;
         this.invoiceDetail = invoiceDetail;
         this.listSelectedProductWarehouse = listSelectedProductWarehouse;
@@ -41,6 +46,7 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
 
     public DebtorAdapter(List<Debtor> debtorList, Context context) {
         this.debtorList = debtorList;
+        this.listFiltered = debtorList;
         this.context = context;
     }
 
@@ -83,8 +89,43 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return debtorList.size();
+        return listFiltered != null ? listFiltered.size() : 0;
     }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String key = charSequence.toString();
+                if (key.isEmpty()) {
+                    listFiltered = debtorList;
+                } else {
+                    List<Debtor> lstFiltered = new ArrayList<>();
+                    for (Debtor iv : debtorList) {
+                        if (iv.getDebtorId().toLowerCase().contains(key.toLowerCase())
+                                || iv.getFullName().toLowerCase().contains(key.toLowerCase())
+                                || iv.getPhoneNumber().toLowerCase().contains(key.toLowerCase())
+                        ) {
+                            lstFiltered.add(iv);
+                        }
+                    }
+                    listFiltered = lstFiltered;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                listFiltered = (ArrayList<Debtor>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvDebitorName, tvDebitorPhone, tvDebitorId;
@@ -98,4 +139,5 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
             itemDebtor = itemView.findViewById(R.id.itemDebtor);
         }
     }
+
 }

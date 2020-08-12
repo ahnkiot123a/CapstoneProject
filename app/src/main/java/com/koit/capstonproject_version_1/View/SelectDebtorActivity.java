@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.SearchView;
 
 import com.koit.capstonproject_version_1.Controller.DebtorController;
 import com.koit.capstonproject_version_1.Controller.PaymentController;
@@ -24,6 +24,7 @@ import java.util.List;
 
 public class SelectDebtorActivity extends AppCompatActivity {
     private RecyclerView recyclerViewDebitors;
+    private SearchView svDebtor;
     private DebtorController debtorController;
     private Invoice invoice;
     private InvoiceDetail invoiceDetail;
@@ -32,14 +33,16 @@ public class SelectDebtorActivity extends AppCompatActivity {
     public static final int REQUEST_ADD_DEBTOR_CODE = 2;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_debitor);
+        setContentView(R.layout.activity_debtor);
         paymentController = new PaymentController(this);
         initView();
         getData();
         buildRecyclerviewDebtors();
+        debtorController.etSearchEvent(svDebtor);
     }
 
     private void getData() {
@@ -75,6 +78,7 @@ public class SelectDebtorActivity extends AppCompatActivity {
 
     private void initView() {
         recyclerViewDebitors = findViewById(R.id.recyclerViewDebitors);
+        svDebtor = findViewById(R.id.svDebtor);
     }
 
     private void buildRecyclerviewDebtors() {
@@ -87,9 +91,6 @@ public class SelectDebtorActivity extends AppCompatActivity {
         startActivityForResult(intent,REQUEST_ADD_DEBTOR_CODE);
     }
 
-    public void searchCustomer(View view) {
-
-    }
 
     public void back(View view) {
         onBackPressed();

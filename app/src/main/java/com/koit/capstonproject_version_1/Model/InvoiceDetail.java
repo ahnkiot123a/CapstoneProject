@@ -57,6 +57,27 @@ public class InvoiceDetail implements Serializable {
 
 
                 }
+            } else {
+                for (int j = 0; j < listSelectedProductInOrder.get(i).getUnits().size(); j++) {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference = databaseReference.child("InvoiceDetail").child(UserDAO.getInstance().getUserID()).
+                            child(invoiceId).child("products").child(listSelectedProductInOrder.get(i).getProductId()).child("units");
+                    databaseReference = databaseReference.child(listSelectedProductInOrder.get(i).getUnits().get(j).getUnitId());
+                    String unitId = listSelectedProductInOrder.get(i).getUnits().get(j).getUnitId();
+                    long unitQuantity = listSelectedProductInOrder.get(i).getUnits().get(j).getUnitQuantity();
+                    long unitPrice = listSelectedProductInOrder.get(i).getUnits().get(j).getUnitPrice();
+
+                    DatabaseReference databaseReferencePrice = databaseReference.child("unitPrice");
+                    databaseReferencePrice.setValue(unitPrice);
+                    DatabaseReference databaseReferenceQuantity = databaseReference.child("unitQuantity");
+                    databaseReferenceQuantity.setValue(unitQuantity);
+
+                     databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference = databaseReference.child("InvoiceDetail").child(UserDAO.getInstance().getUserID()).
+                            child(invoiceId).child("products").child(listSelectedProductInOrder.get(i).getProductId()).child("productName");
+                    databaseReference.setValue(listSelectedProductInOrder.get(i).getProductName());
+
+                }
             }
 
         }

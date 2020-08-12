@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.content.Context;
 import android.widget.RadioButton;
+import android.widget.SearchView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,9 +26,11 @@ public class DebtorController {
     private List<Product> listSelectedProductWarehouse;
     private List<Debtor> debtorList;
     private DebtorAdapter debtorAdapter;
+    private InputController inputController;
 
     public DebtorController(Context context) {
         this.context = context;
+        inputController = new InputController();
     }
 
     public DebtorController(Context context, Invoice invoice, InvoiceDetail invoiceDetail, List<Product> listSelectedProductWarehouse) {
@@ -36,13 +39,15 @@ public class DebtorController {
         this.invoiceDetail = invoiceDetail;
         this.listSelectedProductWarehouse = listSelectedProductWarehouse;
         debtor = new Debtor();
+        inputController = new InputController();
+
     }
 
     public void getListDebtor(RecyclerView recyclerViewDebtor, Invoice invoice, InvoiceDetail invoiceDetail) {
         debtorList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
-        debtorAdapter = new DebtorAdapter(debtorList, context, invoice, invoiceDetail,listSelectedProductWarehouse);
+        debtorAdapter = new DebtorAdapter(debtorList, context, invoice, invoiceDetail, listSelectedProductWarehouse);
         recyclerViewDebtor.setAdapter(debtorAdapter);
         IDebtor iDebtor = new IDebtor() {
             @Override
@@ -58,8 +63,8 @@ public class DebtorController {
     }
 
     public boolean createDebtor(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
-                             TextInputEditText edDob, TextInputEditText edAddress, RadioButton rbMale) {
-        boolean success =false;
+                                TextInputEditText edDob, TextInputEditText edAddress, RadioButton rbMale) {
+        boolean success = false;
         String fullName = edFullname.getText().toString().trim();
         String email = edEmail.getText().toString().trim();
         String phoneNumber = edPhoneNumber.getText().toString().trim();
@@ -68,6 +73,12 @@ public class DebtorController {
         boolean gender = (rbMale.isChecked()) ? true : false;
         if (fullName.isEmpty()) {
             edFullname.setError("Tên khách hàng không được để trống");
+        } else if (!inputController.isEmail(email)) {
+            edEmail.setError("Email không hợp lệ, vui lòng nhập lại Email");
+        } else if (!inputController.isPhoneNumber(phoneNumber)) {
+            edPhoneNumber.setError("Số điện thoại không hợp lệ, vui lòng nhập lại số điện thoại");
+        } else if (!inputController.isDate(dob)) {
+            edDob.setError("Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh");
         } else {
             Debtor debtor = new Debtor();
 
@@ -86,5 +97,20 @@ public class DebtorController {
         }
         return success;
 
+    }
+
+    public void etSearchEvent(SearchView svDebtor) {
+        svDebtor.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                debtorAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
     }
 }

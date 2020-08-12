@@ -124,7 +124,6 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                     }
                     listFiltered = lstFiltered;
                 }
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = listFiltered;
                 return filterResults;

@@ -71,10 +71,19 @@ public class PaymentActivity extends AppCompatActivity {
         Bundle args = intent.getBundleExtra("BUNDLE");
         listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
         listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
+        for (int i =0;i< listSelectedProductWarehouse.size();i++){
+            Log.d("paymentWarehouse", listSelectedProductWarehouse.get(i).toString());
+        }
+        for (int i =0;i< listSelectedProductInOrder.size();i++){
+            Log.d("paymentInorder", listSelectedProductInOrder.get(i).toString());
+        }
         listSelectedProductInOrder = paymentController.formatListProductInOrder(listSelectedProductInOrder);
         listSelectedProductWarehouse = paymentController.formatListProductWarehouse(listSelectedProductWarehouse);
         for (int i =0;i< listSelectedProductWarehouse.size();i++){
-            Log.d("warehouseBefore", listSelectedProductWarehouse.get(i).toString());
+            Log.d("paymentWarehouseAfter", listSelectedProductWarehouse.get(i).toString());
+        }
+        for (int i =0;i< listSelectedProductInOrder.size();i++){
+            Log.d("paymentInorderAfter", listSelectedProductInOrder.get(i).toString());
         }
     }
     private void actionBtnSubmitPaid() {
@@ -95,7 +104,7 @@ public class PaymentActivity extends AppCompatActivity {
                     invoice.setFirstPaid(customerPaid);
                     paymentController.addInvoiceToFirebase(invoice);
                     paymentController.addInvoiceDetailToFirebase(invoiceDetail);
-                    paymentController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
+                  paymentController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
                     for (int i =0;i< listSelectedProductWarehouse.size();i++){
                         Log.d("warehouseAfter", listSelectedProductWarehouse.get(i).toString());
                     }

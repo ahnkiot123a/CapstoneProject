@@ -63,7 +63,6 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
 //        tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
 
         invoiceHistoryController = new InvoiceHistoryController(this);
-
         InvoiceHistoryActivity.isFirstTimeRun = true;
     }
 

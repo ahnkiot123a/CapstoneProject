@@ -199,13 +199,17 @@ public class PaymentController {
 
     public void updateUnitQuantity(List<Product> listSelectedProductInOrder, List<Product> listProductWarehouse) {
         for (int i = 0; i < listProductWarehouse.size(); i++) {
-            sortUnitByPrice(listProductWarehouse.get(i).getUnits());
-            addProductQuantityController.convertUnitList(listProductWarehouse.get(i).getUnits());
+            if (!listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
+                sortUnitByPrice(listProductWarehouse.get(i).getUnits());
+                addProductQuantityController.convertUnitList(listProductWarehouse.get(i).getUnits());
+            }
+
         }
         for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
             for (int j = 0; j < listProductWarehouse.size(); j++) {
                 if (listProductWarehouse.get(j).getProductId().
-                        equals(listSelectedProductInOrder.get(i).getProductId())) {
+                        equals(listSelectedProductInOrder.get(i).getProductId()) &&
+                        !listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
                     for (int k = 0; k < listSelectedProductInOrder.get(i).getUnits().size(); k++) {
                         long quantity = listProductWarehouse.get(j).getUnits().get(k).getUnitQuantity() -
                                 listSelectedProductInOrder.get(j).getUnits().get(k).getUnitQuantity();
@@ -216,10 +220,15 @@ public class PaymentController {
             }
         }
         for (int i = 0; i < listProductWarehouse.size(); i++) {
-            addProductQuantityController.calInventoryByUnit(listProductWarehouse.get(i).getUnits());
+            if (!listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
+                addProductQuantityController.calInventoryByUnit(listProductWarehouse.get(i).getUnits());
+            }
         }
         for (int i = 0; i < listProductWarehouse.size(); i++) {
-            addProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
+            if (!listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
+                addProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
+            }
+
         }
     }
 
