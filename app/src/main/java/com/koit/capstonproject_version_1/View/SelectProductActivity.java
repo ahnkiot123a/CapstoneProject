@@ -1,8 +1,12 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.app.ActivityOptions;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -12,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Toolbar;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -29,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +56,7 @@ public class SelectProductActivity extends AppCompatActivity {
     private CheckBox checkBoxSelectMultiProduct;
     private LinearLayout layoutButton;
     private static SelectProductActivity instance;
+    private Toolbar toolbar_top;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +75,8 @@ public class SelectProductActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchViewInList);
         checkBoxSelectMultiProduct = findViewById(R.id.checkBoxSelectMultiProduct);
         layoutButton = findViewById(R.id.layoutBtnSelectedProduct);
-        searchView.clearFocus();
-
+        toolbar_top = findViewById(R.id.toolbar_top);
+        searchView.requestFocus();
         checkBoxSelectMultiProduct.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -92,14 +99,14 @@ public class SelectProductActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return true;
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 selectProductController.getListProduct(newText, recyclerViewListProduct,
                         linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct, layoutButton);
-                return true;
+                return false;
             }
         });
         listCategoryController = new ListCategoryController(this.getApplicationContext());
@@ -126,21 +133,64 @@ public class SelectProductActivity extends AppCompatActivity {
         instance = this;
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("BUNDLEBACK");
-        if (bundle != null)
+        if (bundle != null) {
             if (bundle.getString("barcode") != null) {
                 searhByBarcode(bundle.getString("barcode"));
-                searchView.clearFocus();
+//                searchView.clearFocus();
             }
+            if (!bundle.getBoolean("isSearchText")) {
+                toolbar_top.setVisibility(View.VISIBLE);
+            }
+            toolbar_top.setVisibility(View.GONE);
+        } else {
+            toolbar_top.setVisibility(View.VISIBLE);
+        }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        searchView.setQuery("", false);
-        layoutSearch.requestFocus();
-    }
-
+    //icon back
     public void back(View view) {
+        backToMain();
+    }
+
+    private void backToMain() {
+        Intent intentget = getIntent();
+        Bundle bundle = intentget.getBundleExtra("BUNDLEBACK");
+        if (bundle != null) {
+            List<Product> listSelectedProductInOrder = (ArrayList<Product>) bundle.getSerializable("listSelectedProductInOrder");
+            if (listSelectedProductInOrder.size() > 0) {
+                //show dialog
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Bạn có muốn lưu đơn tạm không?")
+                        .setPositiveButton("Lưu đơn", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //remove item on right click
+
+                            }
+                        })
+                        .setNegativeButton("Hủy đơn", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(SelectProductActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                dialog.cancel();
+                            }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                    }
+                });
+                alert.show();
+            } else {
+                tranToMain();
+            }
+        } else
+            tranToMain();
+    }
+
+    //transfer intent
+    private void tranToMain() {
         Intent intent = new Intent(this.getApplicationContext(), MainActivity.class);
         this.startActivity(intent);
     }
@@ -165,8 +215,8 @@ public class SelectProductActivity extends AppCompatActivity {
                 String barcode = intentResult.getContents().trim() + "!@#$%";
                 Log.d("barcodeSelect", barcode);
                 searhByBarcode(barcode);
-//                searchView.setQuery(barcode, false);
-                searchView.clearFocus();
+                searchView.setQuery(barcode.substring(0, barcode.length() - 5), false);
+//                searchView.clearFocus();
             }
         }
     }
@@ -207,7 +257,14 @@ public class SelectProductActivity extends AppCompatActivity {
         args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
         args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
         intent2.putExtra("BUNDLE", args2);
-        startActivity(intent2);
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair<View, String>(this.getlayoutSearch(), "layoutSearch");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, pairs);
+        startActivity(intent2, options.toBundle());
+    }
+
+    private LinearLayout getlayoutSearch() {
+        return layoutSearch;
     }
 
     public static SelectProductActivity getInstance() {
@@ -238,17 +295,7 @@ public class SelectProductActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(SelectProductActivity.this, MainActivity.class);
-        startActivity(intent);
+        backToMain();
     }
 
-    public void setProductByBarcodeSearch(Product product) {
-//        Intent returnIntent = new Intent();
-//        Bundle args2 = new Bundle();
-//        args2.putSerializable("product",product);
-//        Log.d("productBarcode",product.toString());
-//        returnIntent.putExtra("BUNDLE_PRODUCT", args2);
-//        setResult(ListItemInOrderActivity.RESULT_OK,returnIntent);
-//        finish();
-    }
 }

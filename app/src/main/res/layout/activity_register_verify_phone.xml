@@ -16,8 +16,8 @@
 
         <ImageButton
             android:id="@+id/backToLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@color/colorAccent"
             android:onClick="back"
             android:src="@drawable/ic_baseline_arrow_white_ios_24" />
@@ -35,11 +35,12 @@
 
     </Toolbar>
     <ScrollView
+        android:layout_below="@id/toolbar_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     <RelativeLayout
-        android:layout_width="335dp"
-        android:layout_height="550dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp">

@@ -43,7 +43,6 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +127,12 @@ public class ListProductActivity extends AppCompatActivity {
         CameraController cameraController = new CameraController(this);
         cameraController.askCameraPermission(CreateProductActivity.BARCODE_PER_CODE);
     }
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        searchView.setQuery("", false);
+        layoutSearch.requestFocus();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -138,9 +142,8 @@ public class ListProductActivity extends AppCompatActivity {
 //                etBarcode.setText("");
             } else {
                 String barcode = intentResult.getContents().trim();
-//                listProductController.getListProduct(barcode, recyclerViewListProduct, tvTotalQuantity,
-//                        linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
                 searchView.setQuery(barcode, false);
+                searchView.clearFocus();
             }
         }
     }

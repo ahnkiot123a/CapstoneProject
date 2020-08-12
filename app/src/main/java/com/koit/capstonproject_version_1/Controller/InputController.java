@@ -45,6 +45,12 @@ public class InputController {
         }
         return true;
     }
+    public static boolean checkValidNumber(String numStr, int maxNumOfDigits) {
+        numStr = numStr.trim();
+        if (numStr.trim().length() > maxNumOfDigits) return false;
+        else if (!numStr.matches("\\d+")) return false;
+        return true;
+    }
     public boolean isPhoneNumber(String phone){
         phone = formatPhoneNumber(phone);
         String regex = "((09|03|07|08|05)+([0-9]{8})\\b)";

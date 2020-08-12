@@ -436,7 +436,7 @@ public class Product implements Serializable {
                         //search by barcode in select product
                         if (searchText.contains("!@#$%")) {
                             searchText = searchText.substring(0, searchText.length() - 5);
-                            if (product.getBarcode().equals(searchText)) {
+                            if (product.getBarcode().equals(searchText)&&(product.isActive())) {
                                 isFound = true;
                                 // transferToListItemInOrder
                                 List<Product> productList = new ArrayList<>();
@@ -446,7 +446,25 @@ public class Product implements Serializable {
                             if (!isFound) {
 //                            textView.setText("0 sản phẩm");
                                 layoutNotFoundItem.setVisibility(View.VISIBLE);
-                                Toast.makeText(SelectProductActivity.getInstance(),"Không tìm thấy sản phẩm.",Toast.LENGTH_SHORT).show();
+                            } else {
+                                layoutNotFoundItem.setVisibility(View.GONE);
+                            }
+                        }
+                        // search in list product in order
+                        else if (searchText.contains("%$#@!")) {
+                            searchText = searchText.substring(0, searchText.length() - 5);
+                            if (product.getBarcode().equals(searchText)&&(product.isActive())) {
+                                isFound = true;
+                                // transferToListItemInOrder
+                                List<Product> productList = new ArrayList<>();
+                                productList.add(product);
+                                SelectProductActivity.getInstance().transferToListItemInOrder(productList);
+                            }
+                            if (!isFound) {
+//                            textView.setText("0 sản phẩm");
+                                layoutNotFoundItem.setVisibility(View.VISIBLE);
+                                SelectProductActivity.getInstance().transferToListItemInOrder(null);
+                                Toast.makeText(SelectProductActivity.getInstance(), "Không tìm thấy sản phẩm.", Toast.LENGTH_SHORT).show();
                             } else {
                                 layoutNotFoundItem.setVisibility(View.GONE);
                             }

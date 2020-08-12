@@ -17,8 +17,8 @@
         <ImageButton
             android:id="@+id/backToLogin"
             android:onClick="back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@color/colorAccent"
             android:src="@drawable/ic_baseline_arrow_white_ios_24"/>
 
@@ -37,11 +37,12 @@
 
 
     <RelativeLayout
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
@@ -63,17 +64,18 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginTop="5dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:transitionName="phoneTran"
-                android:hint="Số điện thoại">
+                android:layout_marginTop="5dp"
+                android:hint="Số điện thoại"
+                android:transitionName="phoneTran">
+
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
                     android:id="@+id/etPhoneNumberRA"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -89,11 +91,11 @@
             android:fontFamily="sans-serif-medium"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
-            android:transitionName="btnDoneTran"
             android:text="Tiếp tục"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:transitionName="btnDoneTran" />
 
     </RelativeLayout>
 

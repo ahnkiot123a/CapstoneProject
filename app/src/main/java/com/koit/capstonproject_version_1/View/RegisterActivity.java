@@ -52,6 +52,11 @@ public class RegisterActivity extends AppCompatActivity {
         return etPhoneNumberRA;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     public Button getBtnContinue() {
         return btnContinue;
     }

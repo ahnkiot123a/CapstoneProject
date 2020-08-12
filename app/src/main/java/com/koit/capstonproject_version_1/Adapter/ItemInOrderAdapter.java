@@ -92,7 +92,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
 
         } else {
             holder.spinnerUnit.setVisibility(View.GONE);
-            holder.itemPrice.setText(productInOrder.getUnits().get(0).getUnitPrice() + "");
+            holder.itemPrice.setText(Money.getInstance().formatVN(productInOrder.getUnits().get(0).getUnitPrice()) + "");
         }
         //
         holder.editTextQuantity.setText(productInOrder.getUnits().get(0).getUnitQuantity() + "");
@@ -141,19 +141,22 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //update change to list
                 //check number
-                {
-                    Unit unitInOrder = productInOrder.getUnits().get(0);
-                    try {
-                        Long.parseLong(holder.editTextQuantity.getText().toString());
-                    } catch (Exception e) {
-                        holder.editTextQuantity.setText("1");
-                    }
-                    unitInOrder.setUnitQuantity(Long.parseLong(holder.editTextQuantity.getText().toString()));
-                    List<Unit> unitList = new ArrayList<>();
-                    unitList.add(unitInOrder);
-                    //update unit's quantity
-                    productInOrder.setUnits(unitList);
+                String text = holder.editTextQuantity.getText().toString();
+                if (text.length() > 4) {
+                    holder.editTextQuantity.setText(text.substring(0, text.length() - 1));
                 }
+                Unit unitInOrder = productInOrder.getUnits().get(0);
+                try {
+                    Long.parseLong(holder.editTextQuantity.getText().toString());
+                } catch (Exception e) {
+                    holder.editTextQuantity.setText("1");
+                }
+                unitInOrder.setUnitQuantity(Long.parseLong(holder.editTextQuantity.getText().toString()));
+                List<Unit> unitList = new ArrayList<>();
+                unitList.add(unitInOrder);
+                //update unit's quantity
+                productInOrder.setUnits(unitList);
+
                 //get total quantity
                 int totalQuantity = getTotalQuantity(listSelectedProductInOrder);
                 tvTotalQuantity.setText(totalQuantity + "");

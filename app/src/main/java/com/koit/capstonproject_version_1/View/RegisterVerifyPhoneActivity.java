@@ -80,7 +80,6 @@ public class RegisterVerifyPhoneActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        this.finish();
     }
 
     //resend OTP code
