@@ -144,6 +144,23 @@ public class PaymentController {
         invoice.addInvoiceToFirebase(invoice);
     }
 
+    public void insertDraftOrder(List<Product> listSelectedProductInOrder) {
+        listSelectedProductInOrder = formatListProductInOrder(listSelectedProductInOrder);
+        String invoiceId = RandomStringController.getInstance().randomInvoiceId();
+        long debitAmount = 0;
+        long discount = 0;
+        long firstPaid = 0;
+        String invoiceDate = TimeController.getInstance().getCurrentDate();
+        String invoiceTime = TimeController.getInstance().getCurrentTime();
+        boolean isDrafted = true;
+        long totalPrice = calTotalPrice(listSelectedProductInOrder);
+        Invoice invoice = new Invoice(invoiceId, "", invoiceDate, invoiceTime, "", debitAmount, discount,
+                firstPaid, totalPrice, isDrafted);
+        InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId, listSelectedProductInOrder);
+        addInvoiceToFirebase(invoice);
+        addInvoiceDetailToFirebase(invoiceDetail);
+    }
+
     public void addInvoiceDetailToFirebase(InvoiceDetail invoiceDetail) {
         //   InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId,listSelectedProductInOrder);
         invoiceDetail.addInvoiceDetailToFirebase(invoiceDetail);

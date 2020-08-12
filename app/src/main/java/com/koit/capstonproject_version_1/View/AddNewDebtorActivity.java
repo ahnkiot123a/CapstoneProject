@@ -2,7 +2,9 @@ package com.koit.capstonproject_version_1.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -10,6 +12,7 @@ import android.widget.RadioButton;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.DebtorController;
+import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.Calendar;
@@ -18,6 +21,7 @@ public class AddNewDebtorActivity extends AppCompatActivity {
     private TextInputEditText edFullname, edEmail, edPhoneNumber, edDob, edAddress;
     private RadioButton rbMale, rbFemale;
     private DebtorController debtorController;
+    private Debtor debtor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,16 @@ public class AddNewDebtorActivity extends AppCompatActivity {
     }
 
     public void saveNewCustomer(View view) {
-        debtorController.createDebtor(edFullname,edEmail,edPhoneNumber,edDob,edAddress,rbMale);
+       boolean success =  debtorController.createDebtor(edFullname, edEmail, edPhoneNumber, edDob, edAddress, rbMale);
+       if(success){
+           Intent intent = new Intent();
+           setResult(Activity.RESULT_OK, intent);
+           finish();
+       }
+
+
     }
+
     public void getNewDate(View view) {
         DatePickerDialog.OnDateSetListener mListener = mListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -57,4 +69,9 @@ public class AddNewDebtorActivity extends AppCompatActivity {
         DatePickerDialog dialog = new DatePickerDialog(this, mListener, year, month, day);
         dialog.show();
     }
+
+    public void back(View view) {
+        onBackPressed();
+    }
+
 }

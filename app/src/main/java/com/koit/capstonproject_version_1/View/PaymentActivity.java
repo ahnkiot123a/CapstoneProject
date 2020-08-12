@@ -77,7 +77,6 @@ public class PaymentActivity extends AppCompatActivity {
             Log.d("warehouseBefore", listSelectedProductWarehouse.get(i).toString());
         }
     }
-
     private void actionBtnSubmitPaid() {
         btnSubmitPaid.setOnClickListener(new View.OnClickListener() {
             @Override

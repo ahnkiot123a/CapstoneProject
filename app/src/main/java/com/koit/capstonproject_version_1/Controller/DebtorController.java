@@ -57,8 +57,9 @@ public class DebtorController {
 
     }
 
-    public void createDebtor(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
+    public boolean createDebtor(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
                              TextInputEditText edDob, TextInputEditText edAddress, RadioButton rbMale) {
+        boolean success =false;
         String fullName = edFullname.getText().toString().trim();
         String email = edEmail.getText().toString().trim();
         String phoneNumber = edPhoneNumber.getText().toString().trim();
@@ -68,8 +69,9 @@ public class DebtorController {
         if (fullName.isEmpty()) {
             edFullname.setError("Tên khách hàng không được để trống");
         } else {
-            String debtorId = RandomStringController.getInstance().randomDebtorId();
             Debtor debtor = new Debtor();
+
+            String debtorId = RandomStringController.getInstance().randomDebtorId();
             debtor.setDebtorId(debtorId);
             debtor.setFullName(fullName);
             debtor.setEmail(email);
@@ -79,7 +81,10 @@ public class DebtorController {
             debtor.setGender(gender);
             debtor.addDebtorToFirebase(debtor);
             debtor.setDebitTotal(0);
+
+            success = true;
         }
+        return success;
 
     }
 }

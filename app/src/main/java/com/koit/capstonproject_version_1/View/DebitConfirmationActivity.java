@@ -99,4 +99,8 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         invoiceName = findViewById(R.id.invoiceName);
         tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
     }
+    public void back(View view) {
+        onBackPressed();
+    }
+
 }
