@@ -92,7 +92,6 @@ public class RegisterController {
         //ma hoa mat khau
         pass = validateController.getMd5(pass);
         User user = new User("", "", "", storeName, "", pass, "", false, false);
-
         databaseReference.child(phoneNumber).setValue(user);
     }
 

@@ -16,12 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
+import com.koit.capstonproject_version_1.Controller.PaymentController;
 import com.koit.capstonproject_version_1.Controller.SelectProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
 import com.koit.capstonproject_version_1.Model.Product;
@@ -57,6 +59,7 @@ public class SelectProductActivity extends AppCompatActivity {
     private LinearLayout layoutButton;
     private static SelectProductActivity instance;
     private Toolbar toolbar_top;
+    private TextView orderDraftQuantity;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,9 @@ public class SelectProductActivity extends AppCompatActivity {
         pBarList = findViewById(R.id.pBarList);
         imgbtnBarcodeInList = findViewById(R.id.imgbtnBarcodeInList);
         searchView = findViewById(R.id.searchViewInList);
+        orderDraftQuantity = findViewById(R.id.orderDraftQuantity);
+        setOrderDraftQuantity();
+
         checkBoxSelectMultiProduct = findViewById(R.id.checkBoxSelectMultiProduct);
         layoutButton = findViewById(R.id.layoutBtnSelectedProduct);
         toolbar_top = findViewById(R.id.toolbar_top);
@@ -147,6 +153,10 @@ public class SelectProductActivity extends AppCompatActivity {
         }
     }
 
+    private void setOrderDraftQuantity() {
+        orderDraftQuantity.setText("11");
+    }
+
     //icon back
     public void back(View view) {
         backToMain();
@@ -156,7 +166,7 @@ public class SelectProductActivity extends AppCompatActivity {
         Intent intentget = getIntent();
         Bundle bundle = intentget.getBundleExtra("BUNDLEBACK");
         if (bundle != null) {
-            List<Product> listSelectedProductInOrder = (ArrayList<Product>) bundle.getSerializable("listSelectedProductInOrder");
+            final List<Product> listSelectedProductInOrder = (ArrayList<Product>) bundle.getSerializable("listSelectedProductInOrder");
             if (listSelectedProductInOrder.size() > 0) {
                 //show dialog
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -164,7 +174,11 @@ public class SelectProductActivity extends AppCompatActivity {
                         .setPositiveButton("Lưu đơn", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //remove item on right click
-
+                                PaymentController paymentController = new PaymentController(SelectProductActivity.this);
+                                paymentController.insertDraftOrder(listSelectedProductInOrder);
+                                Intent intent = new Intent(SelectProductActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                dialog.cancel();
                             }
                         })
                         .setNegativeButton("Hủy đơn", new DialogInterface.OnClickListener() {

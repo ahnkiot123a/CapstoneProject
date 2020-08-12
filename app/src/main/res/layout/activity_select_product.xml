@@ -15,11 +15,11 @@
 
     <Toolbar
         android:id="@+id/toolbar_top"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/green_linear_color"
         android:minHeight="?attr/actionBarSize"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -142,21 +142,102 @@
                     />
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/light_gray"
+                android:orientation="vertical"
                 android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp">
 
                 <TextView
+                    android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:drawableLeft="@drawable/ic_baseline_shopping_cart_24"
                     android:gravity="center_vertical"
-                    android:text="Danh sách sản phẩm" />
-            </LinearLayout>
+                    android:text="Danh sách sản phẩm"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RelativeLayout
+                    android:id="@+id/RelativeImgViewProductPicture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iconDraft"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icons8_file_invoice_32px" />
+                    <RelativeLayout
+                        android:id="@+id/cart_badge"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="-17dp"
+                        android:layout_toRightOf="@+id/iconDraft"
+                        android:scaleType="fitStart">
+
+                        <ImageView
+                              android:id="@+id/myImageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/badge_background" />
+                        <TextView
+                            android:id="@+id/orderDraftQuantity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/myImageView"
+                            android:layout_alignTop="@+id/myImageView"
+                            android:layout_alignRight="@+id/myImageView"
+                            android:layout_alignBottom="@+id/myImageView"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@color/white" />
+                    </RelativeLayout>
+                </RelativeLayout>
+                <!--                <FrameLayout-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginEnd="20dp"-->
+                <!--                    android:clipToPadding="false"-->
+                <!--                    android:focusable="true"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent">-->
+
+                <!--                    <ImageView-->
+                <!--                        android:layout_width="40dp"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:src="@drawable/icons8_file_invoice_32px" />-->
+
+                <!--                    <TextView-->
+                <!--                        android:id="@+id/cart_badge"-->
+                <!--                        android:layout_width="20dp"-->
+                <!--                        android:layout_height="20dp"-->
+                <!--                        android:layout_gravity="right|top"-->
+                <!--                        android:layout_marginTop="3dp"-->
+                <!--                        android:layout_marginEnd="-5dp"-->
+                <!--                        android:layout_marginRight="-5dp"-->
+                <!--                        android:background="@drawable/badge_background"-->
+                <!--                        android:gravity="center"-->
+                <!--                        android:padding="3dp"-->
+                <!--                        android:text="0"-->
+                <!--                        android:textColor="@android:color/white"-->
+                <!--                        android:textSize="10sp" />-->
+
+                <!--                </FrameLayout>-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
