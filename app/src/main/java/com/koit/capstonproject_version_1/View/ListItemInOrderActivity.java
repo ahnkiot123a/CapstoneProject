@@ -276,7 +276,6 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onBackPressed() {
         backToPrevious(false);
@@ -291,7 +290,7 @@ public class ListItemInOrderActivity extends AppCompatActivity {
                 listSelectedProductWarehouse.remove(position);
                 itemAdapter.notifyItemRemoved(position);
 
-                tvTotalQuantity.setText(ItemInOrderAdapter.getTotalQuantity(listSelectedProductInOrder)+"");
+                tvTotalQuantity.setText(ItemInOrderAdapter.getTotalQuantity(listSelectedProductInOrder) + "");
                 tvTotalPrice.setText(Money.getInstance().formatVN(ItemInOrderAdapter.getTotalPrice(listSelectedProductInOrder)));
 //                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
             }
@@ -310,21 +309,42 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     }
 
     public void transferToSelectDebtor(View view) {
-        Intent intent = new Intent(this, SelectDebtorActivity.class);
-        Bundle args2 = new Bundle();
-        args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
-        args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-        intent.putExtra("BUNDLE", args2);
-        startActivity(intent);
+        if (listSelectedProductInOrder.size() > 0) {
+            Intent intent = new Intent(this, SelectDebtorActivity.class);
+            Bundle args2 = new Bundle();
+            args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+            args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+            intent.putExtra("BUNDLE", args2);
+            startActivity(intent);
+        } else {
+            callDialogEmpty();
+        }
+    }
+
+    private void callDialogEmpty() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Bạn chưa chọn sản phẩm nào!")
+
+                .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void transferToPayment(View view) {
-        Intent intent = new Intent(this, PaymentActivity.class);
-        Bundle args2 = new Bundle();
-        args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
-        args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-        intent.putExtra("BUNDLE", args2);
-        startActivity(intent);
+        if (listSelectedProductInOrder.size() > 0) {
+            Intent intent = new Intent(this, PaymentActivity.class);
+            Bundle args2 = new Bundle();
+            args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+            args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+            intent.putExtra("BUNDLE", args2);
+            startActivity(intent);
+        } else {
+            callDialogEmpty();
+        }
     }
 
     public void backToPrevious(View view) {
