@@ -7,7 +7,7 @@ import com.koit.capstonproject_version_1.dao.UserDAO;
 import java.io.Serializable;
 
 public class Invoice implements Serializable {
-    private String invoiceId, debtorId, invoiceDate, invoiceTime, debtorImage;
+    private String invoiceId, debtorId, invoiceDate, invoiceTime, debtorImage, debtorName;
     private long debitAmount, discount, firstPaid, total;
     private boolean isDrafted;
 
@@ -27,6 +27,28 @@ public class Invoice implements Serializable {
         this.firstPaid = firstPaid;
         this.total = total;
         this.isDrafted = isDrafted;
+    }
+
+    public Invoice(String invoiceId, String debtorId, String invoiceDate, String invoiceTime, String debtorImage, String debtorName, long debitAmount, long discount, long firstPaid, long total, boolean isDrafted) {
+        this.invoiceId = invoiceId;
+        this.debtorId = debtorId;
+        this.invoiceDate = invoiceDate;
+        this.invoiceTime = invoiceTime;
+        this.debtorImage = debtorImage;
+        this.debtorName = debtorName;
+        this.debitAmount = debitAmount;
+        this.discount = discount;
+        this.firstPaid = firstPaid;
+        this.total = total;
+        this.isDrafted = isDrafted;
+    }
+
+    public String getDebtorName() {
+        return debtorName;
+    }
+
+    public void setDebtorName(String debtorName) {
+        this.debtorName = debtorName;
     }
 
     public String getInvoiceId() {
@@ -118,6 +140,7 @@ public class Invoice implements Serializable {
                 ", invoiceDate='" + invoiceDate + '\'' +
                 ", invoiceTime='" + invoiceTime + '\'' +
                 ", debtorImage='" + debtorImage + '\'' +
+                ", debtorName='" + debtorName + '\'' +
                 ", debitAmount=" + debitAmount +
                 ", discount=" + discount +
                 ", firstPaid=" + firstPaid +

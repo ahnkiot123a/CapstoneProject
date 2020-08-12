@@ -1,7 +1,6 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,10 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
 import com.koit.capstonproject_version_1.Controller.SortController;
@@ -22,8 +23,7 @@ import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
 
-public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAdapter.ViewHolder> implements Filterable {
-
+public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.ViewHolder> implements Filterable {
     private final ArrayList<Invoice> list;
     private ArrayList<Invoice> listFiltered;
     private TextView tvCount;
@@ -32,7 +32,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
 
     private final int SHIMMER_ITEM_NUMBER = 1;
 
-    public InvoiceHistoryAdapter(ArrayList<Invoice> list, Activity context, TextView tvCount) {
+    public DraftOrderAdapter(ArrayList<Invoice> list, Activity context, TextView tvCount) {
         this.list = list;
         this.listFiltered = list;
         this.context = context;
@@ -42,13 +42,13 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_history, parent, false);
-        return new ViewHolder(view);
+    public DraftOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_draft_order, parent, false);
+        return new DraftOrderAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DraftOrderAdapter.ViewHolder holder, int position) {
         if (showShimmer) {
             holder.shimmerFrameLayout.startShimmer();
         } else {
@@ -60,7 +60,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 if (list.size() != 1) {
                     holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
                 }
-                tvCount.setText(listFiltered.size() + " đơn hàng");
+                tvCount.setText(listFiltered.size() + " đơn hàng tạm");
                 Invoice invoice = listFiltered.get(position);
 
                 holder.tvOrderId.setBackground(null);
@@ -69,31 +69,24 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 InvoiceHistoryController controller = new InvoiceHistoryController(context);
 
                 holder.tvCustomer.setBackground(null);
-                if(invoice.getDebtorId().isEmpty()){
+                if (invoice.getDebtorId().isEmpty()) {
                     holder.tvCustomer.setText("Khách lẻ");
-                }else{
+                } else {
                     controller.fillDebtorName(invoice.getDebtorId(), holder.tvCustomer);
                 }
                 holder.tvOrderDate.setBackground(null);
                 holder.tvOrderDate.setText(invoice.getInvoiceDate());
+
                 holder.tvOrderTime.setBackground(null);
                 holder.tvOrderTime.setText(invoice.getInvoiceTime());
 
                 holder.tvTotalPrice.setBackground(null);
-                holder.tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()));
+                holder.tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()) + " đ");
 
-                holder.tvOrderStatus.setBackground(null);
-                if (invoice.getDebitAmount() != 0) {
-                    holder.tvOrderStatus.setTextColor(Color.rgb(236, 135, 14));
-                    holder.tvOrderStatus.setText("Vẫn còn nợ");
-                } else {
-                    holder.tvOrderStatus.setTextColor(Color.rgb(50, 205, 50));
-                    holder.tvOrderStatus.setText("Đã thanh toán");
-                }
-                holder.imageView.setBackground(null);
-                holder.imageView.setImageDrawable(context.getDrawable(R.drawable.icons8_money));
-            }else{
-                tvCount.setText("0 đơn hàng");
+                holder.ivPencil.setBackground(null);
+                holder.ivPencil.setImageDrawable(context.getDrawable(R.drawable.icons8_pencil_tip));
+            } else {
+                tvCount.setText("0 đơn hàng tạm");
             }
 
         }
@@ -122,15 +115,15 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                     }
                     listFiltered = lstFiltered;
                 }
+
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = listFiltered;
                 return filterResults;
             }
-
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 listFiltered = (ArrayList<Invoice>) filterResults.values;
-                tvCount.setText(listFiltered.size() + " đơn hàng");
+                tvCount.setText(listFiltered.size() + " đơn hàng tạm");
                 notifyDataSetChanged();
             }
         };
@@ -139,21 +132,19 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ShimmerFrameLayout shimmerFrameLayout;
-        TextView tvOrderId, tvCustomer, tvOrderDate, tvOrderTime, tvTotalPrice, tvOrderStatus;
-        ImageView imageView;
+        TextView tvOrderId, tvCustomer, tvOrderDate, tvOrderTime, tvTotalPrice;
+        ImageView ivPencil;
         RelativeLayout invoiceItemContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             shimmerFrameLayout = itemView.findViewById(R.id.shimmer_layout);
             tvOrderId = itemView.findViewById(R.id.tvOrderId);
             tvCustomer = itemView.findViewById(R.id.tvCustomer);
             tvOrderDate = itemView.findViewById(R.id.tvOrderDate);
             tvOrderTime = itemView.findViewById(R.id.tvOrderTime);
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
-            tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
-            imageView = itemView.findViewById(R.id.imageView);
+            ivPencil = itemView.findViewById(R.id.ivPencil);
             invoiceItemContainer = itemView.findViewById(R.id.invoiceItemContainer);
 
         }

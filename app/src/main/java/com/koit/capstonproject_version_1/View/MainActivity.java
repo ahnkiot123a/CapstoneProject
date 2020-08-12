@@ -22,6 +22,7 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.koit.capstonproject_version_1.Adapter.DraftOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
@@ -30,7 +31,6 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.CategoryDAO;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
@@ -128,6 +128,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void callListProductActivity(View view) {
         Intent intent = new Intent(MainActivity.this, ListProductActivity.class);
+        startActivity(intent);
+    }
+
+    public void callDraftOrderActivity(View view){
+        Intent intent = new Intent(MainActivity.this, DraftOrderActivity.class);
         startActivity(intent);
     }
 

@@ -15,12 +15,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.koit.capstonproject_version_1.Adapter.DraftOrderAdapter;
 import com.koit.capstonproject_version_1.Adapter.InvoiceHistoryAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.DraftOrderActivity;
 import com.koit.capstonproject_version_1.View.InvoiceHistoryActivity;
 import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
@@ -32,13 +34,18 @@ public class InvoiceHistoryController {
     private Activity activity;
     private InvoiceHistoryDAO invoiceHistoryDAO;
     private InvoiceHistoryAdapter invoiceHistoryAdapter;
+    private DraftOrderAdapter draftOrderAdapter;
+
     private ArrayList<Invoice> invoiceList;
+    private ArrayList<Invoice> draftOrderList;
     private DatePickerDialog.OnDateSetListener onDateSetListenerStart;
     private DatePickerDialog.OnDateSetListener onDateSetListenerEnd;
 
     private String time = "Thời gian";
     private String status = "Tất cả đơn hàng";
     private Date start, end;
+
+    private String draftOrderTime = "Tất cả";
 
     public InvoiceHistoryController(Activity activity) {
         this.activity = activity;
@@ -193,8 +200,60 @@ public class InvoiceHistoryController {
         invoiceHistoryDAO.getInvoiceList(iInvoice);
     }
 
+    public void draftOrderList(RecyclerView rvDraftOrder, TextView tvCount, final TextView tvTime) {
+        draftOrderList = new ArrayList<>();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
+        rvDraftOrder.setLayoutManager(layoutManager);
+        draftOrderAdapter = new DraftOrderAdapter(draftOrderList, activity, tvCount);
+        rvDraftOrder.setAdapter(draftOrderAdapter);
+        IInvoice iInvoice = new IInvoice() {
+            @Override
+            public void getInvoice(Invoice invoice) {
+                if (invoice != null && invoice.isDrafted()) {
+                    draftOrderAdapter.showShimmer = false;
+                    if (draftOrderTime.equals("Tất cả")) {
+                        tvTime.setText("");
+                        draftOrderList.add(invoice);
+                    }
+                    if (draftOrderTime.equals("Hôm nay")) {
+                        if (invoice.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate())) {
+                            tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
+                            draftOrderList.add(invoice);
+                        }
+
+                    }
+                    if (draftOrderTime.equals("Hôm qua")) {
+                        Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
+                        if (TimeController.getInstance().isInNumOfDays(1, date)) {
+                            tvTime.setText("Hôm qua, " + TimeController.getInstance().plusDate(-1));
+                            draftOrderList.add(invoice);
+                        }
+                    }
+
+                    if (draftOrderTime.equals("Hôm kia")) {
+                        Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
+                        if (TimeController.getInstance().isInNumOfDays(2, date)) {
+                            tvTime.setText("Hôm kia, " + TimeController.getInstance().plusDate(-2));
+                            draftOrderList.add(invoice);
+                        }
+                    }
+                    if (draftOrderTime.equals("Tuỳ chỉnh")) {
+                        if (start != null && end != null) {
+                            Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
+                            if (TimeController.getInstance().isInInterval(date, start, end)) {
+                                draftOrderList.add(invoice);
+                            }
+                        }
+                    }
+                    draftOrderAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+        invoiceHistoryDAO.getInvoiceList(iInvoice);
+    }
+
     //event when click time spinner or invoice status spinner
-    public void spinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner, final Spinner statusSpinner, final SearchView searchView, final TextView tvTime) {
+    public void invoiceSpinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner, final Spinner statusSpinner, final SearchView searchView, final TextView tvTime) {
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -209,7 +268,6 @@ public class InvoiceHistoryController {
                     }
                     InvoiceHistoryActivity.isFirstTimeRun = false;
                 }
-
             }
 
             @Override
@@ -228,6 +286,30 @@ public class InvoiceHistoryController {
                     invoiceHistoryAdapter.getFilter().filter(searchView.getQuery());
                 }
                 InvoiceHistoryActivity.isFirstTimeRun = false;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+
+    public void draftSpinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner, final SearchView searchView, final TextView tvTime) {
+        timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                draftOrderTime = timeSpinner.getSelectedItem().toString();
+                if (draftOrderTime.equals("Tuỳ chỉnh")) {
+                    buildTimeDialog(recyclerView, textView, timeSpinner, searchView, tvTime);
+                } else {
+                    if (!DraftOrderActivity.isFirstTimeRun) {
+                        draftOrderList(recyclerView, textView, tvTime);
+                        draftOrderAdapter.getFilter().filter(searchView.getQuery());
+                    }
+                    DraftOrderActivity.isFirstTimeRun = false;
+                }
             }
 
             @Override
@@ -307,7 +389,11 @@ public class InvoiceHistoryController {
             public void onClick(View view) {
                 start = TimeController.getInstance().convertStrToDate(tvDateStart.getText().toString());
                 end = TimeController.getInstance().convertStrToDate(tvDateEnd.getText().toString());
-                tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
+                if (start.equals(end)) {
+                    tvTime.setText(TimeController.getInstance().convertDateToStr(start));
+                } else {
+                    tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
+                }
                 alertDialog.cancel();
                 invoiceList(recyclerView, textView, tvTime);
                 invoiceHistoryAdapter.getFilter().filter(searchView.getQuery());
@@ -323,6 +409,7 @@ public class InvoiceHistoryController {
         });
 
         alertDialog.setView(view);
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
 
     }
@@ -371,20 +458,7 @@ public class InvoiceHistoryController {
             }
         });
 
-//        etSearch.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                invoiceHistoryAdapter.getFilter().filter(charSequence);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//            }
-//        });
+
     }
 
 }

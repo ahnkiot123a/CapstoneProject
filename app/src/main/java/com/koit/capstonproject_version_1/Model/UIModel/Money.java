@@ -25,7 +25,6 @@ public class Money {
 
     public long reFormatVN(String money) {
         String[] array = money.split("[.]");
-
         String formatMoney = "";
         for (int i = 0; i < array.length; i++) {
             formatMoney = formatMoney.concat(array[i]);
