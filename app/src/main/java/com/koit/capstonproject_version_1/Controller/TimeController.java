@@ -33,7 +33,9 @@ public class TimeController {
 
     //Calculate number of days between 2 date
     public long dayDiff(Date start, Date end) {
-        return (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+        Date startStart = new Date(start.getYear(),start.getMonth(),start.getDate());
+        Date endStart = new Date(end.getYear(),end.getMonth(),end.getDate());
+        return (endStart.getTime() - startStart.getTime())/(1000 * 60 * 60 * 24);
     }
 
     //check whether a date is between start date and end date
@@ -47,7 +49,7 @@ public class TimeController {
         Calendar cal = Calendar.getInstance();
         Date current = cal.getTime();
         long diffDays = dayDiff(checkDate, current);
-        if (diffDays < 0 || diffDays > numOfDays) return false;
+        if(diffDays<0||diffDays>numOfDays-1) return false;
         return true;
     }
 

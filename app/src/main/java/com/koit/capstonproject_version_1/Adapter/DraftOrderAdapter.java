@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
 import com.koit.capstonproject_version_1.Controller.SortController;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
@@ -66,14 +65,6 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
                 holder.tvOrderId.setBackground(null);
                 holder.tvOrderId.setText(invoice.getInvoiceId());
 
-                InvoiceHistoryController controller = new InvoiceHistoryController(context);
-
-                holder.tvCustomer.setBackground(null);
-                if (invoice.getDebtorId().isEmpty()) {
-                    holder.tvCustomer.setText("Khách lẻ");
-                } else {
-                    controller.fillDebtorName(invoice.getDebtorId(), holder.tvCustomer);
-                }
                 holder.tvOrderDate.setBackground(null);
                 holder.tvOrderDate.setText(invoice.getInvoiceDate());
 
@@ -132,7 +123,7 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ShimmerFrameLayout shimmerFrameLayout;
-        TextView tvOrderId, tvCustomer, tvOrderDate, tvOrderTime, tvTotalPrice;
+        TextView tvOrderId, tvOrderDate, tvOrderTime, tvTotalPrice;
         ImageView ivPencil;
         RelativeLayout invoiceItemContainer;
 
@@ -140,7 +131,6 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
             super(itemView);
             shimmerFrameLayout = itemView.findViewById(R.id.shimmer_layout);
             tvOrderId = itemView.findViewById(R.id.tvOrderId);
-            tvCustomer = itemView.findViewById(R.id.tvCustomer);
             tvOrderDate = itemView.findViewById(R.id.tvOrderDate);
             tvOrderTime = itemView.findViewById(R.id.tvOrderTime);
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);

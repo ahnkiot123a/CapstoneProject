@@ -115,8 +115,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 } else {
                     ArrayList<Invoice> lstFiltered = new ArrayList<>();
                     for (Invoice iv : list) {
-                        if (iv.getInvoiceId().toLowerCase().contains(key.toLowerCase())
-                                || iv.getDebtorId().toLowerCase().contains(key.toLowerCase())) {
+                        if (iv.getInvoiceId().toLowerCase().contains(key.toLowerCase())) {
                             lstFiltered.add(iv);
                         }
                     }
