@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.ICategory;
+import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
@@ -87,6 +88,25 @@ public class Category implements Serializable {
 
     }
 
+    public void getCategoryByCategoryName(String categoryName, final ICategory iCategory) {
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Categories")
+                .child(UserDAO.getInstance().getUserID()).child(categoryName);
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Category category = dataSnapshot.getValue(Category.class);
+                iCategory.getCategory(category);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        databaseReference.addListenerForSingleValueEvent(valueEventListener);
+    }
+
     private void getListCategory(DataSnapshot dataSnapshot, ICategory iCategory) {
         DataSnapshot dataSnapshotCategory = dataSnapshot.child("Categories").child(userDAO.getUserID());
         //Lấy danh sách san pham
@@ -96,9 +116,10 @@ public class Category implements Serializable {
         }
     }
 
-    public void addCategoryToFireBase(String userId){
+    public void addCategoryToFireBase(Category category) {
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("Categories").child(userId);
-        databaseReference.push().setValue(this);
+        databaseReference = firebaseDatabase.getReference().child("Categories")
+                .child(UserDAO.getInstance().getUserID()).child(category.getCategoryName()).child("categoryName");
+        databaseReference.setValue(category.categoryName);
     }
 }

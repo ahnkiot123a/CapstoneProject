@@ -41,10 +41,11 @@ public class UpdateProductController {
 
     public UpdateProductController() {
     }
+
     public void updateProduct(TextInputEditText etBarcode, TextInputEditText tetProductName,
                               TextInputEditText tetDescription, TextView tvCategory,
                               Switch switchActive, Product currentProduct
-                              ){
+    ) {
         String barcode = etBarcode.getText().toString().trim();
         String name = tetProductName.getText().toString().trim();
         String description = tetDescription.getText().toString().trim();
@@ -57,13 +58,18 @@ public class UpdateProductController {
         currentProduct.setActive(active);
         //  Uri uri = CreateProductActivity.photoUri;
         //  String imgName = CreateProductActivity.photoName;
-
-        if(!currentProduct.getProductImageUrl().equals(UpdateProductInformationActivity.photoName)) {
-            CreateProductDAO.getInstance().deleteImageProduct(currentProduct.getProductImageUrl());
-            CreateProductDAO.getInstance().addImageProduct(UpdateProductInformationActivity.photoUri, UpdateProductInformationActivity.photoName);
-            currentProduct.setProductImageUrl(UpdateProductInformationActivity.photoName);
+        if (UpdateProductInformationActivity.photoName != null) {
+            if (currentProduct.getProductImageUrl() == null) {
+                CreateProductDAO.getInstance().addImageProduct(UpdateProductInformationActivity.photoUri, UpdateProductInformationActivity.photoName);
+                currentProduct.setProductImageUrl(UpdateProductInformationActivity.photoName);
+            } else if (!currentProduct.getProductImageUrl().equals(UpdateProductInformationActivity.photoName)) {
+                CreateProductDAO.getInstance().deleteImageProduct(currentProduct.getProductImageUrl());
+                CreateProductDAO.getInstance().addImageProduct(UpdateProductInformationActivity.photoUri, UpdateProductInformationActivity.photoName);
+                currentProduct.setProductImageUrl(UpdateProductInformationActivity.photoName);
+            }
         }
-        if (name.isEmpty()){
+
+        if (name.isEmpty()) {
             Toast.makeText(activity, "Tên của sản phẩm không được để trống", Toast.LENGTH_SHORT).show();
         } else {
             Product productDAO = new Product();
@@ -76,15 +82,17 @@ public class UpdateProductController {
 
         }
     }
-    public void setRecyclerViewUnits(RecyclerView recyclerUnits, ArrayList<Unit> listUnit){
+
+    public void setRecyclerViewUnits(RecyclerView recyclerUnits, ArrayList<Unit> listUnit) {
         recyclerUnits.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerUnits.setLayoutManager(linearLayoutManager);
         UnitRecyclerAdapter unitRecyclerAdapter = new UnitRecyclerAdapter(listUnit, activity.getApplicationContext());
         recyclerUnits.setAdapter(unitRecyclerAdapter);
     }
+
     public void setRecyclerConvertRate(ArrayList<Unit> listUnit, TextView tvConvertRate,
-                                       Button btnEditConvertRate, RecyclerView recyclerConvertRate){
+                                       Button btnEditConvertRate, RecyclerView recyclerConvertRate) {
         if (listUnit.size() < 2) {
             tvConvertRate.setVisibility(View.INVISIBLE);
             btnEditConvertRate.setVisibility(View.INVISIBLE);
@@ -96,7 +104,8 @@ public class UpdateProductController {
         ConvertRateRecyclerAdapter convertRateRecyclerAdapter = new ConvertRateRecyclerAdapter(listUnit, activity.getApplicationContext());
         recyclerConvertRate.setAdapter(convertRateRecyclerAdapter);
     }
-    public  void setSpinnerUnit(final ArrayList<Unit> listUnit, Spinner spinnerUnit, final TextView tvUnitQuantity){
+
+    public void setSpinnerUnit(final ArrayList<Unit> listUnit, Spinner spinnerUnit, final TextView tvUnitQuantity) {
         ArrayAdapter<Unit> adapter =
                 new ArrayAdapter<Unit>(activity.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, listUnit);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -113,7 +122,6 @@ public class UpdateProductController {
             }
         });
     }
-
 
 
 }

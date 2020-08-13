@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         categoryList = new ArrayList<>();
         listCategoryController.getListCategory(this);
         //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
-        (new Handler()).postDelayed(new Runnable() {
+       /* (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
 
@@ -201,20 +201,23 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-        }, 3000);
+        }, 3000);*/
         Intent intent = getIntent();
         boolean success = intent.getBooleanExtra(ConvertRateActivity.IS_SUCCESS, false);
         final Product currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
         if(success){
-            (new Handler()).postDelayed(new Runnable() {
+           /* (new Handler()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    categoryList = listCategoryController.getCategories();
                     createProductController.addImageProduct();
                     createProductController.addCategoryToFirebase(currentProduct,categoryList);
 
 
                 }
-            }, 3000);
+            }, 1000);*/
+            createProductController.addImageProduct();
+            createProductController.addCategory(currentProduct);
 
         }
     }

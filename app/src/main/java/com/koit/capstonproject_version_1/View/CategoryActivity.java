@@ -54,14 +54,14 @@ public class CategoryActivity extends AppCompatActivity {
         listCategoryController.getListCategory(this, lvCategory);
         //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
         getCategoryListView();
-        (new Handler()).postDelayed(new Runnable() {
+      /*  (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
 
                 categoryList = listCategoryController.getCategories();
 
             }
-        }, 1000);
+        }, 1000);*/
 
 
     }
@@ -100,7 +100,7 @@ public class CategoryActivity extends AppCompatActivity {
         btnAddNewCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                (new Handler()).postDelayed(new Runnable() {
+                /*(new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         String categoryName = edAddNewCategory.getText().toString().trim();
@@ -112,7 +112,7 @@ public class CategoryActivity extends AppCompatActivity {
                         }
                         if (flag) {
                             Category category = new Category(categoryName);
-                            category.addCategoryToFireBase(userDAO.getUserID());
+                          //  category.addCategoryToFireBase(userDAO.getUserID());
                             Intent intent = new Intent();
                             intent.putExtra(CATEGORY_DATA, categoryName);
                             setResult(Activity.RESULT_OK, intent);
@@ -122,6 +122,13 @@ public class CategoryActivity extends AppCompatActivity {
                         }
                     }
                 }, 1000);
+                */
+                String categoryName = edAddNewCategory.getText().toString().trim();
+
+                Intent intent = new Intent();
+                intent.putExtra(CATEGORY_DATA, categoryName);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
 
             }
         });

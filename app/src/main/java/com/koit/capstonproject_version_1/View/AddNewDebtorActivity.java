@@ -53,7 +53,8 @@ public class AddNewDebtorActivity extends AppCompatActivity {
     }
 
     public void getNewDate(View view) {
-        DatePickerDialog.OnDateSetListener mListener = mListener = new DatePickerDialog.OnDateSetListener() {
+
+        DatePickerDialog.OnDateSetListener mListener  = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 i1 = i1 + 1;
