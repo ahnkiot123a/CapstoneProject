@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_home_2" />
+        android:src="@drawable/background_home_2"/>
 
 
     <ImageButton
@@ -56,7 +56,7 @@
             app:layout_constraintHorizontal_bias="0.555"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"/>
 
         <ImageButton
             android:id="@+id/imgbtnBarcode"
@@ -138,6 +138,7 @@
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="18dp"
+                    android:onClick="callDraftOrderActivity"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="6dp">
@@ -153,13 +154,13 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/icons8_revenue_100px" />
+                            android:src="@drawable/icons8_draft_order_100xp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="Doanh thu\ncửa hàng"
+                            android:text="Hoá đơn \ntạm"
                             android:textAlignment="center"
                             android:textColor="@color/gray"
                             android:textSize="18dp"

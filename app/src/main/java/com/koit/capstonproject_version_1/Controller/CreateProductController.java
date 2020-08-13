@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.koit.capstonproject_version_1.Controller.Interface.ICategory;
 import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
@@ -98,7 +99,19 @@ public class CreateProductController {
         CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
 
     }
-
+    public void addCategory(final Product currentProduct){
+        ICategory iCategory = new ICategory() {
+            @Override
+            public void getCategory(Category category) {
+                if (category == null) {
+                    Category category2 = new Category(currentProduct.getCategoryName());
+                    category2.addCategoryToFireBase(category2);
+                }
+            }
+        };
+        Category category = new Category();
+        category.getCategoryByCategoryName(currentProduct.getCategoryName(),iCategory);
+    }
     public void addCategoryToFirebase(Product currentProduct, List<Category> categoryList) {
         String userId = UserDAO.getInstance().getUserID();
 
@@ -112,7 +125,7 @@ public class CreateProductController {
 
         if (flag) {
             Category category = new Category(currentProduct.getCategoryName());
-            category.addCategoryToFireBase(userId);
+            category.addCategoryToFireBase(category);
         }
 //        CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
     }

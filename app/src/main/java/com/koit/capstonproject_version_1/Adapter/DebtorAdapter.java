@@ -3,7 +3,6 @@ package com.koit.capstonproject_version_1.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,9 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DebitConfirmationActivity;
-import com.koit.capstonproject_version_1.View.SelectDebtorActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -63,10 +62,10 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final Debtor debtor = debtorList.get(position);
+        final Debtor debtor = listFiltered.get(position);
         holder.tvDebitorName.setText(debtor.getFullName());
         holder.tvDebitorPhone.setText(debtor.getPhoneNumber());
-        holder.tvDebitorId.setText(debtor.getDebtorId());
+        holder.tvDebtTotalAmount.setText(Money.getInstance().formatVN(debtor.getDebitTotal()) + " Đ");
         holder.itemDebtor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,8 +102,8 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
                 } else {
                     List<Debtor> lstFiltered = new ArrayList<>();
                     for (Debtor iv : debtorList) {
-                        if (iv.getDebtorId().toLowerCase().contains(key.toLowerCase())
-                                || iv.getFullName().toLowerCase().contains(key.toLowerCase())
+                        if (
+                                 iv.getFullName().toLowerCase().contains(key.toLowerCase())
                                 || iv.getPhoneNumber().toLowerCase().contains(key.toLowerCase())
                         ) {
                             lstFiltered.add(iv);
@@ -128,14 +127,14 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvDebitorName, tvDebitorPhone, tvDebitorId;
+        private TextView tvDebitorName, tvDebitorPhone, tvDebtTotalAmount;
         private ConstraintLayout itemDebtor;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDebitorName = itemView.findViewById(R.id.tvDebitorName);
             tvDebitorPhone = itemView.findViewById(R.id.tvDebitorPhone);
-            tvDebitorId = itemView.findViewById(R.id.tvDebitorId);
+            tvDebtTotalAmount = itemView.findViewById(R.id.tvDebtTotalAmount);
             itemDebtor = itemView.findViewById(R.id.itemDebtor);
         }
     }

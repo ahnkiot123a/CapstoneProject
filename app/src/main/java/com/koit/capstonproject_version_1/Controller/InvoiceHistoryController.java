@@ -15,12 +15,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.koit.capstonproject_version_1.Adapter.DraftOrderAdapter;
 import com.koit.capstonproject_version_1.Adapter.InvoiceHistoryAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.DraftOrderActivity;
 import com.koit.capstonproject_version_1.View.InvoiceHistoryActivity;
 import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
@@ -32,13 +34,18 @@ public class InvoiceHistoryController {
     private Activity activity;
     private InvoiceHistoryDAO invoiceHistoryDAO;
     private InvoiceHistoryAdapter invoiceHistoryAdapter;
+    private DraftOrderAdapter draftOrderAdapter;
+
     private ArrayList<Invoice> invoiceList;
+    private ArrayList<Invoice> draftOrderList;
     private DatePickerDialog.OnDateSetListener onDateSetListenerStart;
     private DatePickerDialog.OnDateSetListener onDateSetListenerEnd;
 
     private String time = "Thời gian";
     private String status = "Tất cả đơn hàng";
     private Date start, end;
+
+    private String draftOrderTime = "Tất cả";
 
     public InvoiceHistoryController(Activity activity) {
         this.activity = activity;
@@ -73,31 +80,29 @@ public class InvoiceHistoryController {
                 if (invoice != null && !invoice.isDrafted()) {
                     invoiceHistoryAdapter.showShimmer = false;
                     if (time.equals("Thời gian") && status.equals("Tất cả đơn hàng")) {
-                        invoiceList.add(invoice);
                         tvTime.setText("");
+                        invoiceList.add(invoice);
                     } else {
                         if (status.equals("Tất cả đơn hàng") && time.equals("Hôm nay")) {
+                            tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
                             if (invoice.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate())) {
                                 invoiceList.add(invoice);
-                                tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
                             }
 
 
                         }
                         if (status.equals("Tất cả đơn hàng") && time.equals("7 ngày trước")) {
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-7) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (TimeController.getInstance().isInNumOfDays(7, date)) {
                                 invoiceList.add(invoice);
-                                tvTime.setText("từ " + TimeController.getInstance().plusDate(-7) + " đến " + TimeController.getInstance().getCurrentDate());
-
                             }
                         }
                         if (status.equals("Tất cả đơn hàng") && time.equals("30 ngày trước")) {
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-30) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (TimeController.getInstance().isInNumOfDays(30, date)) {
                                 invoiceList.add(invoice);
-                                tvTime.setText("từ " + TimeController.getInstance().plusDate(-30) + " đến " + TimeController.getInstance().getCurrentDate());
-
                             }
                         }
 
@@ -111,31 +116,32 @@ public class InvoiceHistoryController {
                         }
 
                         if (status.equals("Hoá đơn còn nợ") && time.equals("Thời gian")) {
+                            tvTime.setText("");
                             if (invoice.getDebitAmount() > 0) {
                                 invoiceList.add(invoice);
-                                tvTime.setText("");
                             }
                         }
                         if (status.equals("Hoá đơn còn nợ") && time.equals("Hôm nay")) {
-                            if (invoice.getDebitAmount() > 0 && invoice.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate()))
-                                invoiceList.add(invoice);
                             tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
+                            if (invoice.getDebitAmount() > 0 && invoice.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate())) {
+                                invoiceList.add(invoice);
+                            }
+
 
                         }
                         if (status.equals("Hoá đơn còn nợ") && time.equals("7 ngày trước")) {
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-7) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() > 0 && TimeController.getInstance().isInNumOfDays(7, date)) {
                                 invoiceList.add(invoice);
-                                tvTime.setText("từ " + TimeController.getInstance().plusDate(-7) + " đến " + TimeController.getInstance().getCurrentDate());
 
                             }
                         }
                         if (status.equals("Hoá đơn còn nợ") && time.equals("30 ngày trước")) {
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-30) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() > 0 && TimeController.getInstance().isInNumOfDays(30, date)) {
                                 invoiceList.add(invoice);
-                                tvTime.setText("từ " + TimeController.getInstance().plusDate(-30) + " đến " + TimeController.getInstance().getCurrentDate());
-
                             }
                         }
 
@@ -149,28 +155,30 @@ public class InvoiceHistoryController {
                         }
 
                         if (status.equals("Hoá đơn trả hết") && time.equals("Thời gian")) {
+                            tvTime.setText("");
                             if (invoice.getDebitAmount() == 0) {
                                 invoiceList.add(invoice);
-                                tvTime.setText("");
                             }
                         }
                         if (status.equals("Hoá đơn trả hết") && time.equals("Hôm nay")) {
-                            if (invoice.getDebitAmount() == 0 && invoice.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate()))
-                                invoiceList.add(invoice);
                             tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
+                            if (invoice.getDebitAmount() == 0 && invoice.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate())) {
+                                invoiceList.add(invoice);
+                            }
+
                         }
                         if (status.equals("Hoá đơn trả hết") && time.equals("7 ngày trước")) {
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() == 0 && TimeController.getInstance().isInNumOfDays(7, date)) {
-                                invoiceList.add(invoice);
                                 tvTime.setText("từ " + TimeController.getInstance().plusDate(-7) + " đến " + TimeController.getInstance().getCurrentDate());
+                                invoiceList.add(invoice);
                             }
                         }
                         if (status.equals("Hoá đơn trả hết") && time.equals("30 ngày trước")) {
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-30) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() == 0 && TimeController.getInstance().isInNumOfDays(30, date)) {
                                 invoiceList.add(invoice);
-                                tvTime.setText("từ " + TimeController.getInstance().plusDate(-30) + " đến " + TimeController.getInstance().getCurrentDate());
                             }
                         }
 
@@ -193,8 +201,62 @@ public class InvoiceHistoryController {
         invoiceHistoryDAO.getInvoiceList(iInvoice);
     }
 
+    public void draftOrderList(RecyclerView rvDraftOrder, TextView tvCount, final TextView tvTime) {
+        draftOrderList = new ArrayList<>();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
+        rvDraftOrder.setLayoutManager(layoutManager);
+        draftOrderAdapter = new DraftOrderAdapter(draftOrderList, activity, tvCount);
+        rvDraftOrder.setAdapter(draftOrderAdapter);
+        IInvoice iInvoice = new IInvoice() {
+            @Override
+            public void getInvoice(Invoice invoice) {
+                if (invoice != null && invoice.isDrafted()) {
+                    draftOrderAdapter.showShimmer = false;
+                    if (draftOrderTime.equals("Tất cả")) {
+                        tvTime.setText("");
+                        draftOrderList.add(invoice);
+                    }
+                    if (draftOrderTime.equals("Hôm nay")) {
+                        tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
+                        if (invoice.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate())) {
+                            draftOrderList.add(invoice);
+                        }
+
+                    }
+                    if (draftOrderTime.equals("Hôm qua")) {
+                        tvTime.setText("Hôm qua, " + TimeController.getInstance().plusDate(-1));
+                        Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
+                        Date yesterday = TimeController.getInstance().convertStrToDate(TimeController.getInstance().plusDate(-1));
+                        if (date.equals(yesterday)) {
+                            draftOrderList.add(invoice);
+                        }
+                    }
+
+                    if (draftOrderTime.equals("Hôm kia")) {
+                        tvTime.setText("Hôm kia, " + TimeController.getInstance().plusDate(-2));
+                        Date orderDate = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
+                        Date date = TimeController.getInstance().convertStrToDate(TimeController.getInstance().plusDate(-2));
+                        if (orderDate.equals(date)) {
+                            draftOrderList.add(invoice);
+                        }
+                    }
+                    if (draftOrderTime.equals("Tuỳ chỉnh")) {
+                        if (start != null && end != null) {
+                            Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
+                            if (TimeController.getInstance().isInInterval(date, start, end)) {
+                                draftOrderList.add(invoice);
+                            }
+                        }
+                    }
+                    draftOrderAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+        invoiceHistoryDAO.getInvoiceList(iInvoice);
+    }
+
     //event when click time spinner or invoice status spinner
-    public void spinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner, final Spinner statusSpinner, final SearchView searchView, final TextView tvTime) {
+    public void invoiceSpinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner, final Spinner statusSpinner, final SearchView searchView, final TextView tvTime) {
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -205,11 +267,10 @@ public class InvoiceHistoryController {
                 } else {
                     if (!InvoiceHistoryActivity.isFirstTimeRun) {
                         invoiceList(recyclerView, textView, tvTime);
-                        invoiceHistoryAdapter.getFilter().filter(searchView.getQuery());
+                        etSearchEvent(searchView);
                     }
                     InvoiceHistoryActivity.isFirstTimeRun = false;
                 }
-
             }
 
             @Override
@@ -225,9 +286,33 @@ public class InvoiceHistoryController {
                 status = statusSpinner.getSelectedItem().toString();
                 if (!InvoiceHistoryActivity.isFirstTimeRun) {
                     invoiceList(recyclerView, textView, tvTime);
-                    invoiceHistoryAdapter.getFilter().filter(searchView.getQuery());
+                    etSearchEvent(searchView);
                 }
                 InvoiceHistoryActivity.isFirstTimeRun = false;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+
+    public void draftSpinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner, final SearchView searchView, final TextView tvTime) {
+        timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                draftOrderTime = timeSpinner.getSelectedItem().toString();
+                if (!DraftOrderActivity.isFirstTimeRun) {
+                    if (draftOrderTime.equals("Tuỳ chỉnh")) {
+                        buildTimeDialog(recyclerView, textView, timeSpinner, searchView, tvTime);
+                    } else {
+                        draftOrderList(recyclerView, textView, tvTime);
+                        draftOrderAdapter.getFilter().filter(searchView.getQuery().toString().trim());
+                    }
+                }
+                DraftOrderActivity.isFirstTimeRun = false;
             }
 
             @Override
@@ -307,10 +392,14 @@ public class InvoiceHistoryController {
             public void onClick(View view) {
                 start = TimeController.getInstance().convertStrToDate(tvDateStart.getText().toString());
                 end = TimeController.getInstance().convertStrToDate(tvDateEnd.getText().toString());
-                tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
+                if (start.equals(end)) {
+                    tvTime.setText(TimeController.getInstance().convertDateToStr(start));
+                } else {
+                    tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
+                }
                 alertDialog.cancel();
                 invoiceList(recyclerView, textView, tvTime);
-                invoiceHistoryAdapter.getFilter().filter(searchView.getQuery());
+                etSearchEvent(searchView);
             }
         });
 
@@ -323,6 +412,7 @@ public class InvoiceHistoryController {
         });
 
         alertDialog.setView(view);
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
 
     }
@@ -350,18 +440,17 @@ public class InvoiceHistoryController {
 
         DatePickerDialog dialog = new DatePickerDialog(activity, android.R.style.Theme_DeviceDefault_Dialog_MinWidth
                 , onDateSetListener, year, month, day);
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         dialog.show();
     }
-
 
     public void etSearchEvent(SearchView searchView) {
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                invoiceHistoryAdapter.getFilter().filter(query.trim());
+                return true;
             }
 
             @Override
@@ -371,20 +460,7 @@ public class InvoiceHistoryController {
             }
         });
 
-//        etSearch.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                invoiceHistoryAdapter.getFilter().filter(charSequence);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//            }
-//        });
+
     }
 
 }

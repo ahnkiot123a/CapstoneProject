@@ -22,6 +22,7 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.koit.capstonproject_version_1.Adapter.DraftOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
@@ -30,7 +31,6 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.CategoryDAO;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
@@ -135,6 +135,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void callDraftOrderActivity(View view){
+        Intent intent = new Intent(MainActivity.this, DraftOrderActivity.class);
+        startActivity(intent);
+    }
+
     public void invoiceHistoryEvent(View view){
         Intent intent = new Intent(this, InvoiceHistoryActivity.class);
         startActivity(intent);
@@ -190,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         categoryList = new ArrayList<>();
         listCategoryController.getListCategory(this);
         //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
-        (new Handler()).postDelayed(new Runnable() {
+       /* (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
 
@@ -200,20 +205,23 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-        }, 3000);
+        }, 3000);*/
         Intent intent = getIntent();
         boolean success = intent.getBooleanExtra(ConvertRateActivity.IS_SUCCESS, false);
         final Product currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
         if(success){
-            (new Handler()).postDelayed(new Runnable() {
+           /* (new Handler()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    categoryList = listCategoryController.getCategories();
                     createProductController.addImageProduct();
                     createProductController.addCategoryToFirebase(currentProduct,categoryList);
 
 
                 }
-            }, 3000);
+            }, 1000);*/
+            createProductController.addImageProduct();
+            createProductController.addCategory(currentProduct);
 
         }
     }

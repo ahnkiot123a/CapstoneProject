@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.InvoiceHistoryActivity">
+    tools:context=".View.InvoiceHistoryActivity"
+    android:background="@color/light_gray">
 
     <include layout="@layout/toolbar_general_activity" />
 
@@ -23,14 +24,14 @@
             android:orientation="horizontal">
 
             <SearchView
-                android:id="@+id/svInvoice"
+                android:id="@+id/svDraftOrder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:clickable="true"
                 android:focusable="true"
                 android:iconifiedByDefault="false"
-                android:queryHint="Nhập mã, tên khách hàng">
+                android:queryHint="Nhập tên khách hàng">
             </SearchView>
 
             <ImageButton
@@ -58,7 +59,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Lọc theo"
+                android:text="Lọc theo mốc thời gian:"
                 android:textColor="@color/gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,18 +77,6 @@
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
-                android:id="@+id/invoiceStatusSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textAlignment="viewEnd"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/radius_linearlayout"
-                android:spinnerMode="dropdown"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -97,13 +86,13 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:id="@+id/tvInvoiceCount"
+                android:id="@+id/tvDraftOrderCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="0 đơn hàng"
+                android:text="0 đơn hàng tạm"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -122,7 +111,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvInvoiceHistory"
+            android:id="@+id/rvDraftOrder"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
