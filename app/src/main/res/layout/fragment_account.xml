@@ -177,14 +177,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:drawableLeft="@drawable/ic_notifications_none_black_24dp"
+            android:drawableLeft="@drawable/ic_baseline_insert_chart_outlined_24"
             android:drawableRight="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="Thông báo"
+            android:text="Báo cáo"
             android:fontFamily="sans-serif-medium"
-
+            android:onClick="transferToReveneuActivity"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/black" />

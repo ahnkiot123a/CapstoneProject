@@ -105,7 +105,11 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
     }
-
+    public void transferToReveneuActivity(View view){
+        Intent intent = new Intent(this, RevenueActivvity.class);
+        intent.putExtra("currentUser", currentUser);
+        startActivity(intent);
+    }
     public void sendFeedBack(android.view.View view) {
         Intent intent = new Intent(this, FeedbackActivity.class);
         intent.putExtra("currentUser", currentUser);
