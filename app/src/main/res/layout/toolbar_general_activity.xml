@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbarGeneral"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:id="@+id/toolbarGeneral"
+    android:background="@drawable/green_linear_color"
     android:elevation="4dp"
     android:paddingTop="26dp"
-    android:paddingBottom="10dp"
-    android:background="@drawable/green_linear_color">
+    android:paddingBottom="10dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_arrow_white_ios_24"
-        android:onClick="back"/>
+    <LinearLayout
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:onClick="back">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow_white_ios_24" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,7 +31,7 @@
             android:fontFamily="sans-serif-medium"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
 

@@ -14,6 +14,8 @@ public class Unit implements Serializable {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
+
+
     public Unit(String unitId, String unitName) {
         this.unitId = unitId;
         this.unitName = unitName;

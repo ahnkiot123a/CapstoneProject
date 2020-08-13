@@ -28,9 +28,19 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
     private ArrayList<Invoice> listFiltered;
     private TextView tvCount;
     private Activity context;
+    private OnItemClickListener mListener;
+
     public boolean showShimmer = true;
 
     private final int SHIMMER_ITEM_NUMBER = 1;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
 
     public InvoiceHistoryAdapter(ArrayList<Invoice> list, Activity context, TextView tvCount) {
         this.list = list;
@@ -44,7 +54,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_history, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, mListener);
     }
 
     @Override
@@ -56,10 +66,11 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
             holder.shimmerFrameLayout.setShimmer(null);
 
             if (!list.isEmpty()) {
-                SortController.getInstance().sortInvoiceListByDate(this.list);
-                if (list.size() != 1) {
+                SortController.getInstance().sortInvoiceListByDate(this.listFiltered);
+                if (listFiltered.size() != 1) {
                     holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
                 }
+
                 tvCount.setText(listFiltered.size() + " đơn hàng");
                 Invoice invoice = listFiltered.get(position);
 
@@ -142,7 +153,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         ImageView imageView;
         RelativeLayout invoiceItemContainer;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             shimmerFrameLayout = itemView.findViewById(R.id.shimmer_layout);
@@ -154,6 +165,18 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
             tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
             imageView = itemView.findViewById(R.id.imageView);
             invoiceItemContainer = itemView.findViewById(R.id.invoiceItemContainer);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position  = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
         }
     }

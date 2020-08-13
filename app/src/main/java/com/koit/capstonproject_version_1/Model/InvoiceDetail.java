@@ -1,7 +1,5 @@
 package com.koit.capstonproject_version_1.Model;
 
-import android.util.Log;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.dao.UserDAO;
@@ -54,8 +52,6 @@ public class InvoiceDetail implements Serializable {
                     databaseReferencePrice.setValue(unitPrice);
                     DatabaseReference databaseReferenceQuantity = databaseReference.child("unitQuantity");
                     databaseReferenceQuantity.setValue(unitQuantity);
-
-
                 }
             } else {
                 for (int j = 0; j < listSelectedProductInOrder.get(i).getUnits().size(); j++) {

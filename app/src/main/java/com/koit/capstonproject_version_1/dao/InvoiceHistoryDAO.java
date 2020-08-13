@@ -112,4 +112,56 @@ public class InvoiceHistoryDAO {
         });
     }
 
+    public void getInvoiceById(String id, final IInvoice iInvoice) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Invoices").child(UserDAO.getInstance().getUserID()).child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Invoice invoice = snapshot.getValue(Invoice.class);
+                invoice.setInvoiceId(snapshot.getKey());
+                iInvoice.getInvoice(invoice);
+                if (invoice != null) {
+                    Log.d("invoice", invoice.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    public void deleteDraftOrder(String oid) {
+        DatabaseReference invoiceRef = FirebaseDatabase.getInstance().getReference();
+        invoiceRef = invoiceRef.child("Invoices").child(UserDAO.getInstance().getUserID()).child(oid);
+        invoiceRef.removeValue();
+
+        DatabaseReference invoiceDetailRef = FirebaseDatabase.getInstance().getReference();
+        invoiceDetailRef = invoiceDetailRef.child("InvoiceDetail").child(UserDAO.getInstance().getUserID()).child(oid);
+        invoiceDetailRef.removeValue();
+
+    }
+
+//    public void getProductList(String oid){
+//            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+//            reference.child("InvoiceDetail").child(UserDAO.getInstance().getUserID()).child(oid).child("products");
+//            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    GenericTypeIndicator<ArrayList<Product>> genericTypeIndicator = new GenericTypeIndicator<ArrayList<Product>>() {};
+//                    ArrayList<Product> pList = snapshot.getValue(genericTypeIndicator);
+//                    for (Product p : pList){
+//                        Log.d("productInvoice", p.toString());
+//                    }
+//                }
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+//    }
+
+
 }

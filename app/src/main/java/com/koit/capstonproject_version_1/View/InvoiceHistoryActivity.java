@@ -17,6 +17,8 @@ import com.koit.capstonproject_version_1.R;
 
 public class InvoiceHistoryActivity extends AppCompatActivity {
 
+    public final static String INVOICE = "INVOICE";
+
     public static boolean isFirstTimeRun = true;
     private RecyclerView rvInvoiceHistory;
     private TextView tvInvoiceCount, tvTime;

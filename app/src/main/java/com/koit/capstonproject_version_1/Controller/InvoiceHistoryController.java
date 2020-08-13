@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DraftOrderActivity;
+import com.koit.capstonproject_version_1.View.InvoiceDetailActivity;
 import com.koit.capstonproject_version_1.View.InvoiceHistoryActivity;
 import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
@@ -193,12 +195,27 @@ public class InvoiceHistoryController {
 
                     }
                     invoiceHistoryAdapter.notifyDataSetChanged();
+
                 }
 
             }
 
         };
         invoiceHistoryDAO.getInvoiceList(iInvoice);
+
+        invoiceHistoryAdapter.setOnItemClickListener(new InvoiceHistoryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                sendInvoiceToDetail(position);
+            }
+        });
+    }
+
+    private void sendInvoiceToDetail(int position) {
+        Invoice invoice = invoiceList.get(position);
+        Intent intent = new Intent(activity, InvoiceDetailActivity.class);
+        intent.putExtra(InvoiceHistoryActivity.INVOICE, invoice);
+        activity.startActivity(intent);
     }
 
     public void draftOrderList(RecyclerView rvDraftOrder, TextView tvCount, final TextView tvTime) {
@@ -459,7 +476,9 @@ public class InvoiceHistoryController {
                 return true;
             }
         });
+    }
 
+    public void setInvoiceDetail(){
 
     }
 

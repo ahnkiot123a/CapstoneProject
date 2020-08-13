@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
 public class DraftOrderActivity extends AppCompatActivity {
 
@@ -39,6 +40,9 @@ public class DraftOrderActivity extends AppCompatActivity {
 
         controller.draftSpinnerEvent(rvDraftOrder, tvDraftOrderCount, timeSpinner, svDraftOrder, tvTime);
         controller.etSearchEvent(svDraftOrder);
+
+        InvoiceHistoryDAO dao = new InvoiceHistoryDAO();
+        dao.deleteDraftOrder("HD20200812154810");
     }
 
     private void initView() {
