@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.Controller;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -198,38 +199,56 @@ public class PaymentController {
     }
 
     public void updateUnitQuantity(List<Product> listSelectedProductInOrder, List<Product> listProductWarehouse) {
+
         for (int i = 0; i < listProductWarehouse.size(); i++) {
             if (!listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
-                sortUnitByPrice(listProductWarehouse.get(i).getUnits());
-                addProductQuantityController.convertUnitList(listProductWarehouse.get(i).getUnits());
-            }
+                List<Unit> unitInWareHouse = listProductWarehouse.get(i).getUnits();
+                sortUnitByPrice(unitInWareHouse);
 
-        }
-        for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
-            for (int j = 0; j < listProductWarehouse.size(); j++) {
-                if (listProductWarehouse.get(j).getProductId().
-                        equals(listSelectedProductInOrder.get(i).getProductId()) &&
-                        !listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
-                    for (int k = 0; k < listSelectedProductInOrder.get(i).getUnits().size(); k++) {
-                        long quantity = listProductWarehouse.get(j).getUnits().get(k).getUnitQuantity() -
-                                listSelectedProductInOrder.get(j).getUnits().get(k).getUnitQuantity();
-                        if (quantity < 0) quantity = 0;
-                        listProductWarehouse.get(j).getUnits().get(k).setUnitQuantity(quantity);
+                long totalQuantityUnitInWarehouse = unitInWareHouse.get(unitInWareHouse.size() - 1).getUnitQuantity();
+                List<Unit> unitSelectedProductInOrder = listSelectedProductInOrder.get(i).getUnits();
+                for (int j = 0; j < unitSelectedProductInOrder.size(); j++) {
+                    Log.d("unitSelected", unitSelectedProductInOrder.get(j).toString());
+                    for (int k = 0; k < unitInWareHouse.size(); k++) {
+                        if (unitSelectedProductInOrder.get(j).getUnitId()
+                                .equals(unitInWareHouse.get(k).getUnitId())) {
+                            unitSelectedProductInOrder.get(j).setConvertRate(unitInWareHouse.get(k).getConvertRate());
+                        }
                     }
                 }
-            }
-        }
-        for (int i = 0; i < listProductWarehouse.size(); i++) {
-            if (!listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
-                addProductQuantityController.calInventoryByUnit(listProductWarehouse.get(i).getUnits());
-            }
-        }
-        for (int i = 0; i < listProductWarehouse.size(); i++) {
-            if (!listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
+                for (int j = 0; j < unitInWareHouse.size(); j++) {
+                    Log.d("unitInWareHouse", unitInWareHouse.get(j).toString());
+                }
+                for (int j = 0; j < unitSelectedProductInOrder.size(); j++) {
+                    Log.d("unitSelected", unitSelectedProductInOrder.get(j).toString());
+                }
+                long totalQuantityUnitSelected = calTotalQuantityInUnitList(unitSelectedProductInOrder);
+                Log.d("QuantityUnitInWarehouse", totalQuantityUnitInWarehouse + "");
+                Log.d("QuantityUnitSelected", totalQuantityUnitSelected + "");
+                totalQuantityUnitInWarehouse = (totalQuantityUnitInWarehouse - totalQuantityUnitSelected > 0) ?
+                        totalQuantityUnitInWarehouse - totalQuantityUnitSelected : 0;
+                for (int j = 0; j < unitInWareHouse.size(); j++) {
+                    unitInWareHouse.get(j).setUnitQuantity(totalQuantityUnitInWarehouse / unitInWareHouse.get(j).getConvertRate());
+                }
+                for (int j = 0; j < unitInWareHouse.size(); j++) {
+                    Log.d("unitInWareHouse", unitInWareHouse.get(j).toString());
+                }
+
+                listProductWarehouse.get(i).setUnits(unitInWareHouse);
                 addProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
+
             }
 
         }
+
+    }
+
+    public long calTotalQuantityInUnitList(List<Unit> units) {
+        long quantity = 0;
+        for (int i = 0; i < units.size(); i++) {
+            quantity += units.get(i).getUnitQuantity() * units.get(i).getConvertRate();
+        }
+        return quantity;
     }
 
     public void sortUnitByPrice(List<Unit> unitList) {
@@ -240,4 +259,5 @@ public class PaymentController {
             }
         });
     }
+
 }

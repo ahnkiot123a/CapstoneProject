@@ -28,6 +28,7 @@
             android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
+        <activity android:name=".View.RevenueActivvity"/>
         <activity android:name=".View.ListItemInOrderActivity" />
         <activity android:name=".View.ConvertRateActivity" />
         <activity
@@ -52,6 +53,7 @@
         <activity android:name=".View.SelectDebtorActivity"/>
         <activity android:name=".View.ListProductActivity" />
         <activity android:name=".View.RegisterActivity" />
+        <activity android:name=".View.InvoiceDetailActivity"/>
         <activity
             android:name=".View.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
