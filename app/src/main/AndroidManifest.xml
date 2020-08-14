@@ -70,7 +70,7 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <activity android:name=".View.PaymentActivity">
+        <activity android:name=".View.CustomerPayActivity">
 
         </activity>
         <activity android:name=".View.InvoiceDetailActivity"/>

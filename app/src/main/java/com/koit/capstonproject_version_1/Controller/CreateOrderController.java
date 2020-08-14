@@ -19,11 +19,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class PaymentController {
+public class CreateOrderController {
     private Activity activity;
     private AddProductQuantityController addProductQuantityController;
 
-    public PaymentController(Activity activity) {
+    public CreateOrderController(Activity activity) {
         this.activity = activity;
         addProductQuantityController = new AddProductQuantityController();
     }

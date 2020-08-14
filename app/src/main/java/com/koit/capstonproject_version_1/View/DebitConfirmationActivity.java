@@ -4,13 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.koit.capstonproject_version_1.Controller.PaymentController;
+import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
@@ -31,14 +30,14 @@ public class DebitConfirmationActivity extends AppCompatActivity {
     private InvoiceDetail invoiceDetail;
     private List<Product> listSelectedProductWarehouse;
     private  List<Product> listSelectedProductInOrder;
-    private PaymentController paymentController;
+    private CreateOrderController createOrderController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_debit_confirmation);
-        paymentController = new PaymentController(this);
+        createOrderController = new CreateOrderController(this);
         initView();
         tvToolbarTitle.setText("Xác nhận nợ");
 
@@ -52,9 +51,9 @@ public class DebitConfirmationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 invoice.setDrafted(false);
-                paymentController.addInvoiceToFirebase(invoice);
-                paymentController.addInvoiceDetailToFirebase(invoiceDetail);
-                paymentController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
+                createOrderController.addInvoiceToFirebase(invoice);
+                createOrderController.addInvoiceDetailToFirebase(invoiceDetail);
+                createOrderController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
                 debtor.updateTotalDebit(debtor);
                 Intent intent = new Intent(DebitConfirmationActivity.this,SelectProductActivity.class);
                 startActivity(intent);

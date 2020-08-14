@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.SearchView;
 
+import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Controller.DebtorController;
-import com.koit.capstonproject_version_1.Controller.PaymentController;
 import com.koit.capstonproject_version_1.Controller.RandomStringController;
 import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.Invoice;
@@ -28,7 +28,7 @@ public class SelectDebtorActivity extends AppCompatActivity {
     private DebtorController debtorController;
     private Invoice invoice;
     private InvoiceDetail invoiceDetail;
-    private PaymentController paymentController;
+    private CreateOrderController createOrderController;
     private List<Product> listSelectedProductWarehouse;
     public static final int REQUEST_ADD_DEBTOR_CODE = 2;
 
@@ -38,7 +38,7 @@ public class SelectDebtorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debtor);
-        paymentController = new PaymentController(this);
+        createOrderController = new CreateOrderController(this);
         initView();
         getData();
         buildRecyclerviewDebtors();
@@ -58,9 +58,9 @@ public class SelectDebtorActivity extends AppCompatActivity {
             listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
             List<Product> listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
 
-            long totalPrice = paymentController.calTotalPrice(listSelectedProductInOrder);
-            listSelectedProductInOrder = paymentController.formatListProductInOrder(listSelectedProductInOrder);
-            listSelectedProductWarehouse = paymentController.formatListProductWarehouse(listSelectedProductWarehouse);
+            long totalPrice = createOrderController.calTotalPrice(listSelectedProductInOrder);
+            listSelectedProductInOrder = createOrderController.formatListProductInOrder(listSelectedProductInOrder);
+            listSelectedProductWarehouse = createOrderController.formatListProductWarehouse(listSelectedProductWarehouse);
             String invoiceId = RandomStringController.getInstance().randomInvoiceId();
             long debitAmount = totalPrice;
             long discount = 0;
@@ -70,7 +70,7 @@ public class SelectDebtorActivity extends AppCompatActivity {
             invoice = new Invoice(invoiceId, "", invoiceDate, invoiceTime,
                     "", debitAmount, discount, firstPaid, totalPrice, true);
             invoiceDetail = new InvoiceDetail(invoiceId, listSelectedProductInOrder);
-            // paymentController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
+            // createOrderController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
 
         }
 

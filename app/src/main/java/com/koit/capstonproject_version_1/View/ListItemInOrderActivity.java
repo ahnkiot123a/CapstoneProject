@@ -24,7 +24,7 @@ import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.InputController;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeControllerActions;
-import com.koit.capstonproject_version_1.Controller.PaymentController;
+import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Controller.RandomStringController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
@@ -338,7 +338,7 @@ public class ListItemInOrderActivity extends AppCompatActivity {
 
     public void transferToPayment(View view) {
         if (listSelectedProductInOrder.size() > 0) {
-            Intent intent = new Intent(this, PaymentActivity.class);
+            Intent intent = new Intent(this, CustomerPayActivity.class);
             Bundle args2 = new Bundle();
             args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
             args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
@@ -359,8 +359,8 @@ public class ListItemInOrderActivity extends AppCompatActivity {
                 .setPositiveButton("Lưu đơn", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //remove item on right click
-                        PaymentController paymentController = new PaymentController(ListItemInOrderActivity.this);
-                        paymentController.insertDraftOrder(listSelectedProductInOrder);
+                        CreateOrderController createOrderController = new CreateOrderController(ListItemInOrderActivity.this);
+                        createOrderController.insertDraftOrder(listSelectedProductInOrder);
                         Intent intent = new Intent(ListItemInOrderActivity.this, SelectProductActivity.class);
                         startActivity(intent);
                         dialog.cancel();

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.koit.capstonproject_version_1.Controller.PaymentController;
+import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Controller.RandomStringController;
 import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.Invoice;
@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaymentActivity extends AppCompatActivity {
+public class CustomerPayActivity extends AppCompatActivity {
     private TextView tvTotalQuantity, tvTotalPrice, tvCustomerPaid,
             tvMoneyChange, tvCustomerDebit, tvToolbarTitle;
     private List<Product> listSelectedProductWarehouse, listSelectedProductInOrder;
@@ -34,7 +34,7 @@ public class PaymentActivity extends AppCompatActivity {
     private InvoiceDetail invoiceDetail;
     private long totalProductQuantity = 0;
     private long totalPrice = 0;
-    private PaymentController paymentController;
+    private CreateOrderController createOrderController;
     private long debitAmount, customerPaid;
     private long firstPaid, discount;
     private String invoiceDate, invoiceTime;
@@ -48,7 +48,7 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         initView();
         tvToolbarTitle.setText("Thanh toán");
-        paymentController = new PaymentController(this);
+        createOrderController = new CreateOrderController(this);
         getInvoiceDetail();
         setData();
         inputCustomerPaid();
@@ -57,9 +57,9 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        totalProductQuantity = paymentController.calTotalProductQuantity(listSelectedProductInOrder);
+        totalProductQuantity = createOrderController.calTotalProductQuantity(listSelectedProductInOrder);
         tvTotalQuantity.setText(totalProductQuantity + "");
-        totalPrice = paymentController.calTotalPrice(listSelectedProductInOrder);
+        totalPrice = createOrderController.calTotalPrice(listSelectedProductInOrder);
         tvTotalPrice.setText(Money.getInstance().formatVN(totalPrice));
         tvCustomerPaid.setText(Money.getInstance().formatVN(totalPrice));
         etPaidMoney.setText(totalPrice + "");
@@ -77,8 +77,8 @@ public class PaymentActivity extends AppCompatActivity {
         for (int i = 0; i < listSelectedProductInOrder.size(); i++) {
             Log.d("paymentInorder", listSelectedProductInOrder.get(i).toString());
         }
-        listSelectedProductInOrder = paymentController.formatListProductInOrder(listSelectedProductInOrder);
-        listSelectedProductWarehouse = paymentController.formatListProductWarehouse(listSelectedProductWarehouse);
+        listSelectedProductInOrder = createOrderController.formatListProductInOrder(listSelectedProductInOrder);
+        listSelectedProductWarehouse = createOrderController.formatListProductWarehouse(listSelectedProductWarehouse);
         for (int i = 0; i < listSelectedProductWarehouse.size(); i++) {
             Log.d("paymentWarehouseAfter", listSelectedProductWarehouse.get(i).toString());
         }
@@ -103,26 +103,26 @@ public class PaymentActivity extends AppCompatActivity {
                 InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId, listSelectedProductInOrder);
                 if (debitAmount == 0) {
                     invoice.setFirstPaid(customerPaid);
-                    paymentController.addInvoiceToFirebase(invoice);
-                    paymentController.addInvoiceDetailToFirebase(invoiceDetail);
-                    paymentController.updateUnitQuantity(listSelectedProductInOrder, listSelectedProductWarehouse);
+                    createOrderController.addInvoiceToFirebase(invoice);
+                    createOrderController.addInvoiceDetailToFirebase(invoiceDetail);
+                    createOrderController.updateUnitQuantity(listSelectedProductInOrder, listSelectedProductWarehouse);
                     for (int i = 0; i < listSelectedProductWarehouse.size(); i++) {
                         Log.d("warehouseAfter", listSelectedProductWarehouse.get(i).toString());
                     }
-                    Intent intent = new Intent(PaymentActivity.this, SelectProductActivity.class);
+                    Intent intent = new Intent(CustomerPayActivity.this, SelectProductActivity.class);
                     startActivity(intent);
                     finish();
-                    Toast.makeText(PaymentActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CustomerPayActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
                 } else {
                     invoice.setDrafted(true);
-                  /*  Intent intent2 = new Intent(PaymentActivity.this, SelectDebtorActivity.class);
+                  /*  Intent intent2 = new Intent(CustomerPayActivity.this, SelectDebtorActivity.class);
                     Bundle args2 = new Bundle();
                     args2.putSerializable("invoice", invoice);
                     args2.putSerializable("invoiceDetail", invoiceDetail);
                     args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
                     intent2.putExtra("BUNDLE", args2);
                     startActivity(intent2);*/
-                    Intent intent = new Intent(PaymentActivity.this, SelectDebtorActivity.class);
+                    Intent intent = new Intent(CustomerPayActivity.this, SelectDebtorActivity.class);
                     intent.putExtra("invoice", invoice);
                     intent.putExtra("invoiceDetail", invoiceDetail);
                     Bundle args2 = new Bundle();
@@ -137,11 +137,11 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void inputSaleMoney() {
-        paymentController.inputSaleMoney(etSaleMoney, tvCustomerPaid, totalPrice, etPaidMoney);
+        createOrderController.inputSaleMoney(etSaleMoney, tvCustomerPaid, totalPrice, etPaidMoney);
     }
 
     private void inputCustomerPaid() {
-        paymentController.inputPaidMoney(etPaidMoney, tvCustomerPaid, tvMoneyChange, tvCustomerDebit, btnSubmitPaid);
+        createOrderController.inputPaidMoney(etPaidMoney, tvCustomerPaid, tvMoneyChange, tvCustomerDebit, btnSubmitPaid);
 
     }
 

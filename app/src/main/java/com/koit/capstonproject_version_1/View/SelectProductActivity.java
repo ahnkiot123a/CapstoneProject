@@ -23,7 +23,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
-import com.koit.capstonproject_version_1.Controller.PaymentController;
+import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Controller.SelectProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
 import com.koit.capstonproject_version_1.Model.Product;
@@ -174,8 +174,8 @@ public class SelectProductActivity extends AppCompatActivity {
                         .setPositiveButton("Lưu đơn", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //remove item on right click
-                                PaymentController paymentController = new PaymentController(SelectProductActivity.this);
-                                paymentController.insertDraftOrder(listSelectedProductInOrder);
+                                CreateOrderController createOrderController = new CreateOrderController(SelectProductActivity.this);
+                                createOrderController.insertDraftOrder(listSelectedProductInOrder);
                                 Intent intent = new Intent(SelectProductActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 dialog.cancel();
