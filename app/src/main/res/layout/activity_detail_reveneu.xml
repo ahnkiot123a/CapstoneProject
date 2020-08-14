@@ -36,12 +36,13 @@
                 android:onClick="back"
                 android:src="@drawable/ic_baseline_arrow_white_ios_24" />
 
+
             <TextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Báo cáo"
+                android:text="Doanh thu"
                 android:textColor="#FFF"
                 android:textSize="24sp" />
 
@@ -49,15 +50,12 @@
         </Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:transitionName="timeLayout"
             android:layout_width="match_parent"
-            android:id="@+id/timeLayout"
             android:layout_height="60dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
             android:background="@drawable/backgroud_shadow_radius"
             android:orientation="horizontal"
+            android:padding="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp">
 
@@ -91,7 +89,6 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="31/7/2020"
-                android:onClick="chooseTimeFrom"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvViewTo"
@@ -115,7 +112,6 @@
                 android:background="@drawable/backgroud_date_time"
                 android:padding="8dp"
                 android:text="31/8/2020"
-                android:onClick="chooseTimeTo"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -126,18 +122,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/backgroud_shadow_radius"
+            android:background="@drawable/backgroud_revenue_detail_gray_top"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginTop="3dp"
-                android:id="@+id/revenueLayout"
+                android:transitionName="revenueLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:onClick="transferToDetail"
-                android:background="@drawable/background_bottom_line"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/background_border_and_shadow"
                 app:layout_constraintBottom_toTopOf="@+id/barChart"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintTop_toTopOf="parent">
@@ -159,7 +155,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
                     android:drawablePadding="5dp"
                     android:text="1.000.000"
                     android:textColor="@color/light_blue"
@@ -170,11 +165,10 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barChart"
-                android:layout_marginTop="15dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerHistory"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

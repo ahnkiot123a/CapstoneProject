@@ -5,7 +5,6 @@
     android:id="@+id/itemProduct"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-
     android:background="@drawable/shape_box_border"
     android:orientation="vertical">
 
