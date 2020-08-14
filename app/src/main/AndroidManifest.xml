@@ -73,7 +73,9 @@
         <activity android:name=".View.PaymentActivity">
 
         </activity>
-
+        <activity android:name=".View.InvoiceDetailActivity"/>
+        <activity android:name=".View.RevenueActivvity"/>
+        <activity android:name=".View.DraftOrderActivity"/>
         <activity android:name=".View.DebitConfirmationActivity"/>
         <activity android:name=".View.AddNewDebtorActivity" />
         <activity android:name=".View.SelectProductActivity"></activity>

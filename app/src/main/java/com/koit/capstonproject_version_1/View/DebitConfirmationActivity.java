@@ -16,6 +16,7 @@ import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_debit_confirmation);
         paymentController = new PaymentController(this);
         initView();

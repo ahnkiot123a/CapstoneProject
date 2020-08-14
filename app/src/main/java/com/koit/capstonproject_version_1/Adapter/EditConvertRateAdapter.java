@@ -38,7 +38,7 @@ public class EditConvertRateAdapter extends RecyclerView.Adapter<EditConvertRate
 
     @Override
     public void onBindViewHolder(@NonNull EditConvertRateAdapter.ViewHolder holder, int position) {
-        holder.etBigUnitName.setText("1 "+ unitArrayList.get(position).getUnitName() + " = ");
+        holder.etBigUnitName.setText("1 "+ unitArrayList.get(position).getUnitName() );
         holder.etSmallUnitName.setText(unitArrayList.get(unitArrayList.size()-1).getUnitName());
         holder.etConvertRate.setText(unitArrayList.get(position).getConvertRate()+"");
     }

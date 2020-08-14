@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.DebtorController;
 import com.koit.capstonproject_version_1.Model.Debtor;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.Calendar;
@@ -26,6 +27,7 @@ public class AddNewDebtorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_add_new_debtor);
         initView();
         debtorController = new DebtorController(this);

@@ -16,6 +16,7 @@ import com.koit.capstonproject_version_1.Adapter.ConvertRateRecyclerAdapter;
 import com.koit.capstonproject_version_1.Adapter.EditUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.AddProductQuantityController;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
@@ -34,6 +35,7 @@ public class EditProductUnitsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_edit_product_units);
         initView();
         tvToolbarTitle.setText("Chỉnh sửa đơn vị");

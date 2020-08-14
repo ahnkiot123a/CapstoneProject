@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.koit.capstonproject_version_1.Adapter.AddProductQuantityAdapter;
 import com.koit.capstonproject_version_1.Controller.AddProductQuantityController;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.UserDAO;
@@ -36,6 +37,7 @@ public class AddQuantityActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_add_quantity);
         initView();
         tvToolbarTitle.setText("Thêm số lượng sản phẩm");

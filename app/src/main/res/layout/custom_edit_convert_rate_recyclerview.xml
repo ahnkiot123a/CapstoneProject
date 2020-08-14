@@ -13,12 +13,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2.6">
+            android:weightSum="2.8">
 
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null">
@@ -26,7 +26,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etBigUnitName"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:editable="false"
                     android:background="@null"
@@ -38,6 +38,7 @@
                     android:windowSoftInputMode="stateUnchanged" />
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="45dp"
@@ -45,14 +46,14 @@
                 android:background="@color/light_gray" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etConvertRate"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:inputType="number"
                     android:padding="10dp"
@@ -67,7 +68,7 @@
                 android:layout_gravity="center"
                 android:background="@color/light_gray" />
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null">
@@ -75,7 +76,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etSmallUnitName"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:editable="false"
                     android:background="@null"

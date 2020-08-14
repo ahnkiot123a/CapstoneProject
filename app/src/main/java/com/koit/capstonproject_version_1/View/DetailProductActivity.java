@@ -38,6 +38,7 @@ import com.koit.capstonproject_version_1.Controller.DetailProductController;
 import com.koit.capstonproject_version_1.Controller.UpdateProductController;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
@@ -68,6 +69,7 @@ public class DetailProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_detail_product);
         initView();
         detailProductController = new DetailProductController(this);

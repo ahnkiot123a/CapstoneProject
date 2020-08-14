@@ -26,7 +26,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="Khách nợ"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
 
         </LinearLayout>
@@ -49,8 +50,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:text="Tên khách hàng"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -60,8 +60,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="Thắng VQ"
                 android:gravity="right"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColor="@color/blue"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View
@@ -82,8 +82,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:text="Số điện thoại"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tvDebtorPhone"
@@ -94,8 +93,7 @@
                 android:gravity="right"
 
                 android:text="0123658996"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View
@@ -117,7 +115,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="Tổng nợ hiện tại"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,8 +124,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="4.000.000"
                 android:gravity="right"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColor="@color/red"
+                android:textSize="16sp" />
 
 
         </LinearLayout>
@@ -172,8 +170,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:text="Ngày mua"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tvDateTime"
@@ -183,8 +180,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="right"
                 android:text="16/07/2020 9:30"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -203,8 +199,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:text="Số tiền nợ"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -214,8 +209,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="right"
                 android:text="200.000"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColor="@color/red"
+                android:textSize="16sp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -245,7 +240,7 @@
                 android:id="@+id/tvNewDebitAmount"
                 android:gravity="right"
                 android:text="4.200.000"
-                android:textColor="@color/black"
+                android:textColor="@color/red"
                 android:textSize="20sp" />
         </LinearLayout>
 

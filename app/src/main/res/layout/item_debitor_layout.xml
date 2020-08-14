@@ -14,57 +14,46 @@
         android:id="@+id/tvDebitorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
+        android:layout_marginStart="10dp"
         android:text="Khách lẻ"
-        android:textColor="#000000"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
-        app:layout_constraintTop_toTopOf="@+id/imgViewProductPicture" />
-
-    <TextView
-        android:id="@+id/tvDebitorPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
-        android:text="0338711933"
-        android:textColor="#90000000"
-        android:textStyle="italic"
-        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
-        app:layout_constraintTop_toBottomOf="@+id/tvDebitorName" />
+        app:layout_constraintTop_toTopOf="@id/imgViewProductPicture" />
 
     <ImageView
         android:id="@+id/imgViewProductPicture"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginStart="4dp"
         android:layout_weight="1"
         android:background="@drawable/shape_box_border"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4"
         app:srcCompat="@drawable/user_icon" />
-
-    <TextView
-        android:id="@+id/tvDebtTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="52dp"
-        android:text="Tổng nợ hiện tại"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvDebtTotalAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="10dp"
         android:text="Tổng nợ hiện tại"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDebtTotal" />
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/imgViewProductPicture"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDebitorPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="0338711933"
+        android:textColor="#90000000"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@id/imgViewProductPicture"
+        app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

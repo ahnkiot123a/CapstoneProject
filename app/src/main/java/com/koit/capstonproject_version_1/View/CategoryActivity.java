@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.CategoryDAO;
@@ -46,6 +47,7 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_category_activy);
 
         initView();
