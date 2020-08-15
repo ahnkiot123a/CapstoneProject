@@ -3,8 +3,6 @@ package com.koit.capstonproject_version_1.View;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +20,6 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.koit.capstonproject_version_1.Adapter.DraftOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void transferToReveneuActivity(View view){
-        Intent intent = new Intent(this, RevenueActivvity.class);
+        Intent intent = new Intent(this, RevenueActivity.class);
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
     }

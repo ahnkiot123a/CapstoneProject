@@ -13,7 +13,6 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <application
         android:name=".Controller.SharedPreferences.App"
         android:allowBackup="true"
@@ -23,11 +22,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
-        <activity
+          <activity
             android:name=".View.InvoiceHistoryActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
+        <activity android:name=".View.RevenueActivity"/>
+        <activity android:name=".View.DetailReveneuActivity"/>
         <activity android:name=".View.ListItemInOrderActivity" />
         <activity android:name=".View.ConvertRateActivity" />
         <activity
