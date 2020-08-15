@@ -1,10 +1,14 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.icu.util.LocaleData;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -13,51 +17,64 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.koit.capstonproject_version_1.Controller.TimeController;
-import com.koit.capstonproject_version_1.Model.Invoice;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
-import com.koit.capstonproject_version_1.R;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.sql.Time;
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.koit.capstonproject_version_1.Controller.TimeController;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
+import com.koit.capstonproject_version_1.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class DetailReveneuActivity extends AppCompatActivity {
-    TextView tvFrom;
-    TextView tvTo;
-    Spinner spinnerChooseTypeTime;
-    ConstraintLayout revenueLayout;
+
+public class RevenueActivity extends AppCompatActivity {
+    BarChart barChart;
+    Spinner spinnerChooseTime;
+    TextView tvFrom, tvTo;
     ConstraintLayout timeLayout;
+    ConstraintLayout revenueLayout;
     Date dateFrom;
     Date dateTo;
-    boolean firstTime = false;
+    boolean isFirstTime = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
-        setContentView(R.layout.activity_detail_reveneu);
+        setContentView(R.layout.activity_revenue_activvity);
+        barChart = findViewById(R.id.barChart);
         tvFrom = findViewById(R.id.tvFromDate);
         tvTo = findViewById(R.id.tvToDate);
-        timeLayout = findViewById(R.id.timeLayout);
+        spinnerChooseTime = findViewById(R.id.spinnerChooseTypeTime);
         revenueLayout = findViewById(R.id.revenueLayout);
-
-        spinnerChooseTypeTime = findViewById(R.id.spinnerChooseTypeTime);
+        timeLayout = findViewById(R.id.timeLayout);
         setSpinner();
-        spinnerChooseTypeTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        TimeController.getInstance().setCurrentDate(tvFrom, tvTo);
+        getDetailRevenueActivity();
+        spinnerChooseTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (!firstTime) {
+                if (!isFirstTime) {
                     if (i == 0) {
                         TimeController.getInstance().setCurrentDate(tvFrom, tvTo);
                     } else {
                         TimeController.getInstance().setCurrentMonth(tvFrom, tvTo);
                     }
                 }
-                firstTime = false;
+                isFirstTime = false;
             }
 
             @Override
@@ -65,8 +82,6 @@ public class DetailReveneuActivity extends AppCompatActivity {
 
             }
         });
-        getIntentFromReveneuActivity();
-
         //set Date when text change
         tvFrom.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,13 +91,7 @@ public class DetailReveneuActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String stringDate = tvFrom.getText().toString();
-                //month
-                if (stringDate.length() == 7) {
-                    dateFrom = TimeController.getInstance().changeStringToMonth(stringDate);
-                } else {
-                    dateFrom = TimeController.getInstance().changeStringToDate(stringDate);
-                }
-                Log.d("checkDateFrom", dateFrom.toString());
+                dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDate, dateFrom);
             }
 
             @Override
@@ -97,51 +106,60 @@ public class DetailReveneuActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String stringDate = tvTo.getText().toString();
-                //month
-                if (stringDate.length() == 7) {
-                    dateTo = TimeController.getInstance().changeStringToMonth(stringDate);
-                } else {
-                    dateTo = TimeController.getInstance().changeStringToDate(stringDate);
-                }
-                Log.d("checkDateTo", dateTo.toString());
+                dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDate, dateTo);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
+        ArrayList<BarEntry> NoOfEmp = new ArrayList<>();
+        NoOfEmp.add(new BarEntry(0, 3));
+        NoOfEmp.add(new BarEntry(1, 4));
+        NoOfEmp.add(new BarEntry(3, 6));
+        NoOfEmp.add(new BarEntry(4, 10));
+        NoOfEmp.add(new BarEntry(2, 3));
+        NoOfEmp.add(new BarEntry(5, 4));
+        NoOfEmp.add(new BarEntry(6, 6));
+        NoOfEmp.add(new BarEntry(7, 2));
 
+        BarDataSet bardataset = new BarDataSet(NoOfEmp, "Doanh thu");
+        barChart.animateY(1000);
+        BarData data = new BarData();
+        data.addDataSet(bardataset);
+        bardataset.setColors(getResources().getColor(R.color.light_blue));
+        barChart.setData(data);
+        barChart.invalidate();
+        barChart.getDescription().setText("");
     }
 
-    private void getIntentFromReveneuActivity() {
+    private void getDetailRevenueActivity() {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("BUNDLE");
-        spinnerChooseTypeTime.setSelection(bundle.getInt("searchType"));
-        firstTime = true;
-        String stringDateFrom = bundle.getString("dateFrom");
-        String stringDateTo = bundle.getString("dateTo");
-        tvFrom.setText(stringDateFrom);
-        tvTo.setText(stringDateTo);
-        dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDateFrom, dateFrom);
-        dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDateTo, dateTo);
+        if (bundle != null) {
+            isFirstTime = true;
+            String stringDateFrom = bundle.getString("dateFrom");
+            String stringDateTo = bundle.getString("dateTo");
+            tvFrom.setText(stringDateFrom);
+            tvTo.setText(stringDateTo);
+            dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDateFrom, dateFrom);
+            dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDateTo, dateTo);
+            spinnerChooseTime.setSelection(bundle.getInt("searchType"));
+        }
     }
 
     private void setSpinner() {
         String[] statusList = {"Theo ngày", "Theo tháng"};
         ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_near_arrow, statusList);
-        spinnerChooseTypeTime.setAdapter(statusAdapter);
+        spinnerChooseTime.setAdapter(statusAdapter);
     }
 
-    public void back(View view) {
-        backToReveneu();
-    }
-
-    private void backToReveneu() {
-        Intent intent = new Intent(DetailReveneuActivity.this, RevenueActivity.class);
+    public void transferToDetail(View view) {
+        Intent intent = new Intent(RevenueActivity.this, DetailReveneuActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("dateFrom", tvFrom.getText().toString());
         bundle.putString("dateTo", tvTo.getText().toString());
-        bundle.putInt("searchType", spinnerChooseTypeTime.getSelectedItemPosition());
+        bundle.putInt("searchType", spinnerChooseTime.getSelectedItemPosition());
         intent.putExtra("BUNDLE", bundle);
         Pair[] pairs = new Pair[2];
         pairs[0] = new Pair<View, String>(this.getTimeLayout(), "timeLayout");
@@ -175,14 +193,21 @@ public class DetailReveneuActivity extends AppCompatActivity {
     }
 
     private boolean isDayType() {
-        if (spinnerChooseTypeTime.getSelectedItemPosition() == 0) {
+        if (spinnerChooseTime.getSelectedItemPosition() == 0) {
             return true;
         }
         return false;
     }
 
+
+    public void back(View view) {
+        onBackPressed();
+    }
+
     @Override
     public void onBackPressed() {
-        backToReveneu();
+        Intent intent = new Intent(RevenueActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
+

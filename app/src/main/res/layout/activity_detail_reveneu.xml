@@ -52,6 +52,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:transitionName="timeLayout"
             android:layout_width="match_parent"
+            android:id="@+id/timeLayout"
             android:layout_height="60dp"
             android:background="@drawable/backgroud_shadow_radius"
             android:orientation="horizontal"
@@ -88,6 +89,7 @@
                 android:background="@drawable/backgroud_date_time"
                 android:gravity="center"
                 android:padding="8dp"
+                android:onClick="chooseTimeFrom"
                 android:text="31/7/2020"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -108,6 +110,7 @@
                 android:id="@+id/tvToDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="chooseTimeTo"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/backgroud_date_time"
                 android:padding="8dp"
@@ -130,6 +133,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:transitionName="revenueLayout"
                 android:layout_width="match_parent"
+                android:id="@+id/revenueLayout"
                 android:layout_height="50dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
