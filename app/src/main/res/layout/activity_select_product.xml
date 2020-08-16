@@ -177,13 +177,13 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/icons8_file_invoice_32px" />
+                        android:src="@drawable/ic_baseline_notifications_active_24" />
                     <RelativeLayout
                         android:id="@+id/cart_badge"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_alignParentTop="true"
-                        android:layout_marginLeft="-17dp"
+                        android:layout_marginLeft="-15dp"
                         android:layout_toRightOf="@+id/iconDraft"
                         android:scaleType="fitStart">
 

@@ -36,7 +36,7 @@ public class SwipeController extends Callback {
 
     private SwipeControllerActions buttonsActions = null;
 
-    private static final float buttonWidth = 300;
+    private static final float buttonWidth = 250;
 
     public SwipeController(SwipeControllerActions buttonsActions) {
         this.buttonsActions = buttonsActions;
@@ -164,7 +164,7 @@ public class SwipeController extends Callback {
         Paint p = new Paint();
 
         RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
-        p.setColor(Color.rgb(50,205,50));
+        p.setColor(Color.parseColor("#3cba92"));
         c.drawRoundRect(leftButton, corners, corners, p);
         drawText("Sửa", c, leftButton, p);
 

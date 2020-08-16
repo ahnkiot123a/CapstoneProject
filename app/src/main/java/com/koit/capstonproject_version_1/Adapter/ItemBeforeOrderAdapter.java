@@ -17,6 +17,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.SelectProductActivity;
@@ -101,7 +102,7 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
         }
         //set Value for Holder
         holder.itemName.setText(product.getProductName());
-        holder.itemPrice.setText(getMinProductPrice(product.getUnits()) + "");
+        holder.itemPrice.setText(Money.getInstance().formatVN(getMinProductPrice(product.getUnits())));
         holder.tvBarcode.setText(product.getBarcode());
 //        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
 //            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
@@ -168,7 +169,7 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
                         Log.d("ListSelectedProductAd", listSelectedProduct.size() + "");
                     }
 
-                }else{
+                } else {
                     listSelectedProduct.add(product);
                     SelectProductActivity.getInstance().transferToListItemInOrder(listSelectedProduct);
                 }

@@ -151,7 +151,7 @@
                     android:layout_marginStart="10dp"
                     android:text="DOANH THU"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

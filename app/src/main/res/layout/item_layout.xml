@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemProduct"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@drawable/shape_box_border"
+    android:layout_height="80dp"
+    android:background="@drawable/background_bottom_line"
     android:orientation="vertical">
 
     <TextView
@@ -21,14 +21,15 @@
 
     <ImageView
         android:id="@+id/imgViewProductPicture"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="28dp"
         android:layout_weight="1"
-        android:background="@drawable/shape_box_border"
+        android:background="@drawable/image_background"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="@+id/tvsl"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_item_picture_empty" />
 
     <TextView

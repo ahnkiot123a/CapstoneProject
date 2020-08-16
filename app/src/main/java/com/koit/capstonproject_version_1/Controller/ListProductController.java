@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -103,8 +104,8 @@ public class ListProductController extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(listProductActivity);
                 builder.setMessage("Bạn có chắc chắn muốn xoá sản phẩm này không? ")
-                        .setCancelable(false)
-                        .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        .setCancelable(true)
+                        .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //remove item on right click
                                 itemAdapter.notifyItemRemoved(position);
@@ -119,12 +120,18 @@ public class ListProductController extends AppCompatActivity {
                                 Toast.makeText(listProductActivity, "Bạn đã xoá thành công sản phẩm", Toast.LENGTH_LONG).show();
                             }
                         })
-                        .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });
-                AlertDialog alert = builder.create();
+                final AlertDialog alert = builder.create();
+                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+                    }
+                });
                 alert.show();
 
             }

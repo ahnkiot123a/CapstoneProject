@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DetailProductActivity;
@@ -74,11 +75,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final Product product = listProduct.get(position);
         holder.itemName.setText(product.getProductName());
-        holder.itemPrice.setText(getMinProductPrice(product.getUnits()) + "");
+        holder.itemPrice.setText(Money.getInstance().formatVN(getMinProductPrice(product.getUnits())));
         holder.itemQuantity.setText(getProductQuantity(product.getUnits()) + "");
         holder.tvMinconvertRate.setText(getMinUnitProductName(product.getUnits()));
         holder.tvBarcode.setText(product.getBarcode());
-        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty() )   {
+        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
             StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
             long ONE_MEGABYTE = 1024 * 1024;
             storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

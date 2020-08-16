@@ -19,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Controller.CameraController;
@@ -63,10 +65,8 @@ public class SelectProductActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //t1
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         StatusBar.setStatusBar(this);
-        setContentView(R.layout.activity_select_product);
+          setContentView(R.layout.activity_select_product);
         category_Spinner = findViewById(R.id.category_Spinner);
         recyclerViewListProduct = findViewById(R.id.recyclerViewListProduct);
         linearLayoutEmpty = findViewById(R.id.linearLayoutEmptyProduct);
