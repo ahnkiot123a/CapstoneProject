@@ -102,7 +102,7 @@ public class CustomerPayActivity extends AppCompatActivity {
                         firstPaid, totalPrice, isDrafted);
                 InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId, listSelectedProductInOrder);
                 if (debitAmount == 0) {
-                    invoice.setFirstPaid(customerPaid);
+                //    invoice.setFirstPaid(customerPaid);
                     createOrderController.addInvoiceToFirebase(invoice);
                     createOrderController.addInvoiceDetailToFirebase(invoiceDetail);
                     createOrderController.updateUnitQuantity(listSelectedProductInOrder, listSelectedProductWarehouse);

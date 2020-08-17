@@ -58,6 +58,11 @@ public class CreateProductController {
             public void isExistBarcode(boolean existed) {
 
             }
+
+            @Override
+            public void getProductById(Product product) {
+
+            }
         };
         CreateProductDAO.getInstance().getSuggestedProduct(barcode, iProduct);
     }

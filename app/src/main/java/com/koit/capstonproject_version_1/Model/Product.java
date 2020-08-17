@@ -14,6 +14,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
+import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.View.SelectProductActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
@@ -127,17 +129,17 @@ public class Product implements Serializable {
         this.units = units;
     }
 
-    public void addUnit(Unit u){
-        boolean flag =true;
-        for(Unit u1: units){
-            if(u.getUnitId().equals(u1.getUnitId())){
+    public void addUnit(Unit u) {
+        boolean flag = true;
+        for (Unit u1 : units) {
+            if (u.getUnitId().equals(u1.getUnitId())) {
                 long quant = u1.getUnitQuantity() + u.getUnitQuantity();
                 u1.setUnitQuantity(quant);
                 flag = false;
                 break;
             }
         }
-        if(flag){
+        if (flag) {
             units.add(u);
         }
     }
@@ -436,7 +438,7 @@ public class Product implements Serializable {
                         //search by barcode in select product
                         if (searchText.contains("!@#$%")) {
                             searchText = searchText.substring(0, searchText.length() - 5);
-                            if (product.getBarcode().equals(searchText)&&(product.isActive())) {
+                            if (product.getBarcode().equals(searchText) && (product.isActive())) {
                                 isFound = true;
                                 // transferToListItemInOrder
                                 List<Product> productList = new ArrayList<>();
@@ -453,7 +455,7 @@ public class Product implements Serializable {
                         // search in list product in order
                         else if (searchText.contains("%$#@!")) {
                             searchText = searchText.substring(0, searchText.length() - 5);
-                            if (product.getBarcode().equals(searchText)&&(product.isActive())) {
+                            if (product.getBarcode().equals(searchText) && (product.isActive())) {
                                 isFound = true;
                                 // transferToListItemInOrder
                                 List<Product> productList = new ArrayList<>();
@@ -565,4 +567,51 @@ public class Product implements Serializable {
         }
     }
 
+    public void getProductById(final String id, final IProduct iProduct) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Products").child(UserDAO.getInstance().getUserID()).child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final Product product = snapshot.getValue(Product.class);
+                product.setProductId(snapshot.getKey());
+//                iProduct.getProductById(product);
+
+                final List<Unit> unitList = new ArrayList<>();
+                DatabaseReference nodeUnits = FirebaseDatabase.getInstance().getReference()
+                        .child("Units").child(UserDAO.getInstance().getUserID()).child(id);
+                nodeUnits.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshotUnit) {
+                        for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                            Log.d("kiemtraUnit", valueUnit + "");
+                            Unit unit = valueUnit.getValue(Unit.class);
+
+                            unit.setUnitId(valueUnit.getKey());
+                            unitList.add(unit);
+                        }
+                        product.setUnits(unitList);
+                        if (product != null) {
+                            Log.d("productByID", product.toString());
+                        }
+                        iProduct.getProductById(product);
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+
+            }
+        });
+    }
 }
