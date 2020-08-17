@@ -43,9 +43,24 @@ public class InvoiceHistoryDAO {
     private void getInvoiceList(DataSnapshot dataSnapshot, IInvoice iInvoice) {
         DataSnapshot data = dataSnapshot.child("Invoices").child(UserDAO.getInstance().getUserID());
         for (DataSnapshot value : data.getChildren()) {
-            Invoice invoice = value.getValue(Invoice.class);
+            final Invoice invoice = value.getValue(Invoice.class);
             if (invoice != null) {
                 invoice.setInvoiceId(value.getKey());
+                if(invoice.getDebtorId().isEmpty()){
+                    invoice.setDebtorName("Khách lẻ");
+                }else{
+                    getDebtorName(invoice.getDebtorId());
+                    IDebtor iDebtor = new IDebtor() {
+                        @Override
+                        public void getDebtor(Debtor debtor) {
+                            if (debtor != null) {
+                                invoice.setDebtorName(debtor.getFullName());
+                            }
+                        }
+                    };
+                    getDebtorById(invoice.getDebtorId(), iDebtor);
+
+                }
                 Log.i("invoice", invoice.toString());
                 iInvoice.getInvoice(invoice);
             }
@@ -53,18 +68,18 @@ public class InvoiceHistoryDAO {
         }
     }
 
-//    //set debtor name in invoice
-//    public void getDebtorName(String id){
-//        IDebtor iDebtor = new IDebtor() {
-//            @Override
-//            public void getDebtor(Debtor debtor) {
-//                if (debtor != null) {
-//                    debtorName = debtor.getFullName();
-//                }
-//            }
-//        };
-//        getDebtorById(id, iDebtor);
-//    }
+    //set debtor name in invoice
+    public void getDebtorName(String id){
+        IDebtor iDebtor = new IDebtor() {
+            @Override
+            public void getDebtor(Debtor debtor) {
+                if (debtor != null) {
+                    debtorName = debtor.getFullName();
+                }
+            }
+        };
+        getDebtorById(id, iDebtor);
+    }
 
     public String getDebtorById(String id) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
@@ -101,9 +116,7 @@ public class InvoiceHistoryDAO {
                 if (debtor != null) {
                     Log.d("debtor", debtor.toString());
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("TAG", "Failed to read value.", error.toException());

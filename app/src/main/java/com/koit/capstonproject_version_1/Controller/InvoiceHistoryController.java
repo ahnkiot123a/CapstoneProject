@@ -202,10 +202,10 @@ public class InvoiceHistoryController {
             public void getInvoice(Invoice invoice) {
                 if (invoice != null && invoice.isDrafted()) {
                     draftOrderAdapter.showShimmer = false;
-//                    if (draftOrderTime.equals("Tất cả")) {
-//                        tvTime.setText("");
-//                        draftOrderList.add(invoice);
-//                    }
+                    if (draftOrderTime.equals("Tất cả")) {
+                        tvTime.setText("");
+                        draftOrderList.add(invoice);
+                    }
                     if (draftOrderTime.equals("Hôm nay")) {
                         tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
                         if (invoice.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate())) {
@@ -230,14 +230,6 @@ public class InvoiceHistoryController {
                             draftOrderList.add(invoice);
                         }
                     }
-//                    if (draftOrderTime.equals("Tuỳ chỉnh")) {
-//                        if (start != null && end != null) {
-//                            Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
-//                            if (TimeController.getInstance().isInInterval(date, start, end)) {
-//                                draftOrderList.add(invoice);
-//                            }
-//                        }
-//                    }
                     tvCount.setText(draftOrderList.size() + " hoá đơn tạm");
                     draftOrderAdapter.notifyDataSetChanged();
                 }
@@ -297,7 +289,6 @@ public class InvoiceHistoryController {
             }
         });
     }
-
 
     public void draftSpinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner, final TextView tvTime) {
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -425,11 +416,6 @@ public class InvoiceHistoryController {
             date = "0" + day + "-0" + month + "-" + year;
         }
         return date;
-    }
-
-    private void buildDatePicker(final TextView tvTime) {
-
-
     }
 
     public void chooseDate(TextView tvTime) {

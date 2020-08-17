@@ -63,7 +63,7 @@ public class DraftOrderActivity extends AppCompatActivity {
     }
 
     private void buildSpinner() {
-        String[] timeList = {"Hôm nay", "Hôm qua", "Hôm kia"};
+        String[] timeList = {"Tất cả", "Hôm nay", "Hôm qua", "Hôm kia"};
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeList);
         timeSpinner.setAdapter(timeAdapter);
     }

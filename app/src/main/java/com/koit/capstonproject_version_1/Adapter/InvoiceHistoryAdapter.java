@@ -11,8 +11,10 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
 import com.koit.capstonproject_version_1.Controller.SortController;
@@ -34,11 +36,11 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
 
     private final int SHIMMER_ITEM_NUMBER = 1;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 
@@ -79,9 +81,9 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 InvoiceHistoryController controller = new InvoiceHistoryController(context);
 
                 holder.tvCustomer.setBackground(null);
-                if(invoice.getDebtorId().isEmpty()){
+                if (invoice.getDebtorId().isEmpty()) {
                     holder.tvCustomer.setText("Khách lẻ");
-                }else{
+                } else {
                     controller.fillDebtorName(invoice.getDebtorId(), holder.tvCustomer);
                 }
                 holder.tvOrderDate.setBackground(null);
@@ -123,7 +125,8 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 } else {
                     ArrayList<Invoice> lstFiltered = new ArrayList<>();
                     for (Invoice iv : list) {
-                        if (iv.getInvoiceId().toLowerCase().contains(key.toLowerCase())) {
+                        if (iv.getInvoiceId().toLowerCase().contains(key.toLowerCase())
+                                || iv.getDebtorName().toLowerCase().contains(key.toLowerCase())) {
                             lstFiltered.add(iv);
                         }
                     }
@@ -166,9 +169,9 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener != null){
-                        int position  = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.ui.account.AccountFragment">
+    tools:context=".View.ui.account.AccountFragment"
+    android:background="@color/medium_light_gray">
     <View
         android:id="@+id/main_activityStatusBarScrim"
         android:layout_width="match_parent"
