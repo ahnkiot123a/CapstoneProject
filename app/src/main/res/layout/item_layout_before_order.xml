@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemProduct"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:background="@drawable/shape_box_border"
+    android:layout_height="80dp"
+    android:background="@drawable/background_bottom_line"
     android:orientation="vertical">
 
     <TextView
@@ -18,29 +18,35 @@
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/tvProductName"
         app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
+
     <RelativeLayout
         android:id="@+id/RelativeImgViewProductPicture"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="wrap_content">
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/imgViewProductPicture"
             android:layout_width="65dp"
             android:layout_height="65dp"
-            android:background="@drawable/shape_box_border"
+            android:background="@drawable/image_background"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/icon_item_picture_empty" />
+
         <ImageView
-            android:visibility="gone"
             android:id="@+id/widget_title_icon"
             android:layout_width="20dp"
+            android:visibility="gone"
             android:layout_height="20dp"
-            android:scaleType="fitStart"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="-15dp"
-            android:layout_toRightOf="@+id/imgViewProductPicture"
+            android:layout_marginStart="-15dp"
+            android:layout_toEndOf="@+id/imgViewProductPicture"
+            android:scaleType="fitStart"
             android:src="@drawable/icons8_checkmark_512px" />
     </RelativeLayout>
     <TextView
@@ -84,7 +90,7 @@
         android:id="@+id/tvProductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="22dp"
         android:layout_marginEnd="45dp"
         android:text="1000"
         android:textColor="#1EB524"

@@ -21,13 +21,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SelectProductController extends AppCompatActivity {
-    private Context context;
+    private Activity context;
     private Product product;
     private ItemBeforeOrderAdapter itemAdapter;
     private List<Product> listProduct;
     private List<Product> listSelectedProduct;
 
-    public SelectProductController(Context context) {
+    public SelectProductController(Activity context) {
         this.context = context;
         product = new Product();
         listSelectedProduct = new ArrayList<>();
@@ -56,7 +56,7 @@ public class SelectProductController extends AppCompatActivity {
                 layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, layoutButton);
     }
 
-    public void getListProduct(Context context, RecyclerView recyclerViewListProduct, String categoryName, LinearLayout linearLayoutEmpty, LinearLayout
+    public void getListProduct( RecyclerView recyclerViewListProduct, String categoryName, LinearLayout linearLayoutEmpty, LinearLayout
             layoutSearch, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList, CheckBox checkBoxSelectMultiProduct, LinearLayout layoutButton) {
         listProduct = new ArrayList<>();
 

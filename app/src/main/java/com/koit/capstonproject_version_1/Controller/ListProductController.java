@@ -38,14 +38,14 @@ public class ListProductController extends AppCompatActivity {
     //    private ListProductActivity listProductActivity;
 //    private DatabaseReference myRef;
 //    private ArrayList<Product> list;
-    private Context context;
+    private Activity context;
     private Product product;
     ItemAdapter itemAdapter;
     private List<Product> listProduct;
     SwipeController swipeController = null;
     RecyclerView recyclerView;
 
-    public ListProductController(Context context) {
+    public ListProductController(Activity context) {
         this.context = context;
         product = new Product();
     }
@@ -72,7 +72,7 @@ public class ListProductController extends AppCompatActivity {
                 constraintLayout, layoutNotFoundItem, category_Spinner, pBarList);
     }
 
-    public void getListProduct(Context context, RecyclerView recyclerViewListProduct, String categoryName,
+    public void getListProduct(RecyclerView recyclerViewListProduct, String categoryName,
                                final TextView textView, LinearLayout linearLayoutEmpty, ConstraintLayout
                                        constraintLayout, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList) {
         listProduct = new ArrayList<>();
@@ -167,10 +167,11 @@ public class ListProductController extends AppCompatActivity {
     }
 
     public void tranIntent(Activity activity1, Class activity2) {
-        Intent intent = new Intent(activity1.getApplicationContext(), activity2);
+        Intent intent = new Intent(activity1, activity2);
         activity1.startActivity(intent);
     }
-    public void sortUnitByPrice(ArrayList<Unit> unitList){
+
+    public void sortUnitByPrice(ArrayList<Unit> unitList) {
         Collections.sort(unitList, new Comparator<Unit>() {
             @Override
             public int compare(Unit o1, Unit o2) {

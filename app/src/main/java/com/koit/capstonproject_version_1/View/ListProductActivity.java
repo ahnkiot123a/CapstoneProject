@@ -68,7 +68,7 @@ public class ListProductActivity extends AppCompatActivity {
             }
         });
         searchView.clearFocus();
-        listProductController = new ListProductController(this.getApplicationContext());
+        listProductController = new ListProductController(this);
         //swipe
         listProductController.setupRecyclerView(recyclerViewListProduct, this);
         listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
@@ -87,7 +87,7 @@ public class ListProductActivity extends AppCompatActivity {
             }
         });
 
-        listCategoryController = new ListCategoryController(this.getApplicationContext());
+        listCategoryController = new ListCategoryController(getApplicationContext());
         listCategoryController.getListCategory(getApplicationContext(), category_Spinner);
 
         category_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -98,7 +98,7 @@ public class ListProductActivity extends AppCompatActivity {
                     listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
                             linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
                 } else {
-                    listProductController.getListProduct(getApplicationContext(), recyclerViewListProduct,
+                    listProductController.getListProduct( recyclerViewListProduct,
                             categoryName, tvTotalQuantity, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
                 }
             }

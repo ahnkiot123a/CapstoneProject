@@ -96,7 +96,7 @@ public class SelectProductActivity extends AppCompatActivity {
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
 
-        selectProductController = new SelectProductController(this.getApplicationContext());
+        selectProductController = new SelectProductController(this);
 
         selectProductController.getListProduct(null, recyclerViewListProduct,
                 linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct, layoutButton);
@@ -126,7 +126,7 @@ public class SelectProductActivity extends AppCompatActivity {
                     selectProductController.getListProduct(null, recyclerViewListProduct,
                             linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct, layoutButton);
                 } else {
-                    selectProductController.getListProduct(getApplicationContext(), recyclerViewListProduct,
+                    selectProductController.getListProduct(recyclerViewListProduct,
                             categoryName, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, checkBoxSelectMultiProduct, layoutButton);
                 }
             }
@@ -312,4 +312,6 @@ public class SelectProductActivity extends AppCompatActivity {
         backToMain();
     }
 
+    public void transferToDraftOrder(View view) {
+    }
 }

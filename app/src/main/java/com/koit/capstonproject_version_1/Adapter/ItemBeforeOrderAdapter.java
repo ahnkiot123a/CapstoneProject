@@ -1,8 +1,10 @@
 package com.koit.capstonproject_version_1.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,13 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Registry;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -22,8 +29,12 @@ import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.SelectProductActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +47,10 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
     private List<Product> listProduct;
     private List<Product> listSelectedProduct;
     private int resourse;
-    private Context context;
+    private Activity context;
     private CheckBox checkBoxCount;
 
-    public ItemBeforeOrderAdapter(Context context, List<Product> list, int resourse, CheckBox checkBoxCount, List<Product> listSelectedProduct) {
+    public ItemBeforeOrderAdapter(Activity context, List<Product> list, int resourse, CheckBox checkBoxCount, List<Product> listSelectedProduct) {
         this.listProduct = list;
         this.resourse = resourse;
         this.context = context;
@@ -104,26 +115,43 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
         holder.itemName.setText(product.getProductName());
         holder.itemPrice.setText(Money.getInstance().formatVN(getMinProductPrice(product.getUnits())));
         holder.tvBarcode.setText(product.getBarcode());
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+            storageReference.child("ProductPictures").child(product.getProductImageUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'users/me/profile.png'
+                    Glide.with(context)
+                            .load(uri)
+                            .fitCenter()
+                            .into(holder.imageView);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+
+                }
+            });
+        }
+
+        //set Image for image view
 //        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
-//            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
-//            long ONE_MEGABYTE = 1024 * 1024;
-//            storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-//                @Override
-//                public void onSuccess(byte[] bytes) {
-//                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-//                    holder.imageView.setImageBitmap(bitmap);
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.d("Failed loaded uri: ", e.getMessage());
-//                }
-//            });
+//            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").
+//                    child(product.getProductImageUrl());
+//            Glide.with(context)
+//                    .load(storagePicture)
+//                    .fitCenter()
+//                    .into(holder.imageView);
+//            Log.d("ImageLink", storagePicture.toString());
 //        }
+
+
+        //https://firebase.google.com/docs/storage/android/download-files
         //save iamge offline
 //        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
 //            try {
-//                final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
+//                final File localFile = File.createTempFile(product.getProductImageUrl(), "jpg");
 //                StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
 //                storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
 //                    @Override
@@ -131,7 +159,11 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
 //                        Log.d("SaveFileFSuccess", taskSnapshot.toString());
 //                        // Local temp file has been created
 //                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-//                        holder.imageView.setImageBitmap(bitmap);
+////                        holder.imageView.setImageBitmap(bitmap);
+//                        Glide.with(context)
+//                            .load(bitmap)
+//                            .fitCenter()
+//                            .into(holder.imageView);
 //                    }
 //                }).addOnFailureListener(new OnFailureListener() {
 //                    @Override

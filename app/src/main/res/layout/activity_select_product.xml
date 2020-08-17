@@ -168,6 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
+                    android:onClick="transferToDraftOrder"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -177,7 +178,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_baseline_notifications_active_24" />
+                        android:src="@drawable/ic_notifications_none_black_24dp" />
                     <RelativeLayout
                         android:id="@+id/cart_badge"
                         android:layout_width="22dp"
@@ -243,6 +244,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:background="@drawable/background_bottom_line"
                 android:paddingLeft="10dp"
                 android:weightSum="1">
 

@@ -1,9 +1,11 @@
 package com.koit.capstonproject_version_1.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -32,9 +35,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     List<Product> listProduct;
     //item layout
     int resourse;
-    Context context;
+    Activity context;
 
-    public ItemAdapter(Context context, List<Product> list, int resourse) {
+    public ItemAdapter(Activity context, List<Product> list, int resourse) {
         this.listProduct = list;
         this.resourse = resourse;
         this.context = context;
@@ -79,19 +82,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.itemQuantity.setText(getProductQuantity(product.getUnits()) + "");
         holder.tvMinconvertRate.setText(getMinUnitProductName(product.getUnits()));
         holder.tvBarcode.setText(product.getBarcode());
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
-            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
-            long ONE_MEGABYTE = 1024 * 1024;
-            storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            storageReference.child("ProductPictures").child(product.getProductImageUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
-                public void onSuccess(byte[] bytes) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    holder.imageView.setImageBitmap(bitmap);
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'users/me/profile.png'
+                    Glide.with(context)
+                            .load(uri)
+                            .fitCenter()
+                            .into(holder.imageView);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("Failed loaded uri: ", e.getMessage());
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
                 }
             });
         }
