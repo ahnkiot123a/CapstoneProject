@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -53,6 +54,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         TextView tvMinconvertRate;
         TextView tvBarcode;
         ConstraintLayout itemProduct;
+        ShimmerFrameLayout shimmerFrameLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +64,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             imageView = itemView.findViewById(R.id.imgViewProductPicture);
             tvMinconvertRate = itemView.findViewById(R.id.tvMinconvertRate);
             tvBarcode = itemView.findViewById(R.id.tvBarcode);
+            shimmerFrameLayout = itemView.findViewById(R.id.shimmer_layout);
             itemProduct = itemView.findViewById(R.id.itemProduct);
         }
     }
@@ -83,7 +86,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.tvMinconvertRate.setText(getMinUnitProductName(product.getUnits()));
         holder.tvBarcode.setText(product.getBarcode());
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+        holder.shimmerFrameLayout.startShimmer();
+        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty() && !product.getProductImageUrl().equals("")) {
             storageReference.child("ProductPictures").child(product.getProductImageUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
@@ -92,14 +96,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                             .load(uri)
                             .fitCenter()
                             .into(holder.imageView);
+                    holder.shimmerFrameLayout.stopShimmer();
+                    holder.shimmerFrameLayout.setShimmer(null);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
                     // Handle any errors
+                    holder.shimmerFrameLayout.stopShimmer();
+                    holder.shimmerFrameLayout.setShimmer(null);
                 }
             });
+        }else{
+            holder.shimmerFrameLayout.stopShimmer();
+            holder.shimmerFrameLayout.setShimmer(null);
         }
+
         //save iamge offline
 //        try {
 //            final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");

@@ -2,27 +2,39 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Adapter.DraftOrderAdapter;
 import com.koit.capstonproject_version_1.Adapter.InvoiceHistoryAdapter;
+import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
+import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.View.DraftOrderActivity;
 import com.koit.capstonproject_version_1.View.InvoiceDetailActivity;
 import com.koit.capstonproject_version_1.View.InvoiceHistoryActivity;
+import com.koit.capstonproject_version_1.View.ListProductActivity;
 import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,7 +54,7 @@ public class InvoiceHistoryController {
     private String time = "Thời gian";
     private String status = "Tất cả đơn hàng";
     private Date dateInput;
-
+    private OrderSwipeController orderSwipeController;
     private String draftOrderTime = "Tất cả";
 
     public InvoiceHistoryController(Activity activity) {
@@ -456,4 +468,51 @@ public class InvoiceHistoryController {
     }
 
 
+    public void setupRecyclerView(RecyclerView recyclerView, final TextView count) {
+        orderSwipeController = new OrderSwipeController(new OrderSwipeControllerActions() {
+            @Override
+            public void onRightClicked(final int position) {
+                //remove item in 2 list
+                      AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setMessage("Bạn có muốn xóa đơn tạm này không? ")
+                        .setCancelable(true)
+                        .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //remove item on right click
+                                InvoiceHistoryDAO invoiceHistoryDAO = new InvoiceHistoryDAO();
+                                Invoice invoice = draftOrderList.get(position);
+                                invoiceHistoryDAO.deleteDraftOrder(invoice.getInvoiceId());
+                                draftOrderList.remove(position);
+                                draftOrderAdapter.notifyItemRemoved(position);
+                                count.setText(draftOrderList.size()+" hóa đơn tạm");
+                                Toast.makeText(activity, "Bạn đã xoá thành công đơn tạm", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+                    }
+                });
+                alert.show();
+            }
+
+        });
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(orderSwipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                orderSwipeController.onDraw(c);
+            }
+        });
+    }
 }

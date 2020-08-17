@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -9,12 +10,18 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
+import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
+import com.koit.capstonproject_version_1.Controller.OrderSwipeControllerActions;
 import com.koit.capstonproject_version_1.Controller.TimeController;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
 public class InvoiceHistoryActivity extends AppCompatActivity {
 
@@ -25,9 +32,6 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
     private TextView tvInvoiceCount, tvTime;
     private Spinner invoiceStatusSpinner, timeSpinner;
     private SearchView svInvoice;
-
-
-
     private InvoiceHistoryController invoiceHistoryController;
 
     @Override
@@ -44,7 +48,6 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         invoiceHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, svInvoice, tvTime);
 
         invoiceHistoryController.etSearchEvent(svInvoice);
-
 
     }
 

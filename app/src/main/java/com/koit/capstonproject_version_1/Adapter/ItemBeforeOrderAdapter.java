@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -66,6 +67,7 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
         TextView tvBarcode;
         ConstraintLayout itemProduct;
         ImageView imageViewCheckIcon;
+        ShimmerFrameLayout shimmerFrameLayout;
         //        LinearLayout layoutCount;
 //        TextView itemCount;
 
@@ -91,6 +93,7 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
 //            layoutCount = itemView.findViewById(R.id.linearCountMultiSelectItem);
 //            itemCount = itemView.findViewById(R.id.itemQuantity);
             itemProduct = itemView.findViewById(R.id.itemProduct);
+            shimmerFrameLayout = itemView.findViewById(R.id.shimmer_layout);
         }
     }
 
@@ -116,23 +119,30 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
         holder.itemPrice.setText(Money.getInstance().formatVN(getMinProductPrice(product.getUnits())));
         holder.tvBarcode.setText(product.getBarcode());
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+        holder.shimmerFrameLayout.startShimmer();
+        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty() && !product.getProductImageUrl().equals("")) {
             storageReference.child("ProductPictures").child(product.getProductImageUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
                     // Got the download URL for 'users/me/profile.png'
                     Glide.with(context)
                             .load(uri)
-                            .fitCenter()
+                            .centerCrop()
                             .into(holder.imageView);
+                    holder.shimmerFrameLayout.stopShimmer();
+                    holder.shimmerFrameLayout.setShimmer(null);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
                     // Handle any errors
-
+                    holder.shimmerFrameLayout.stopShimmer();
+                    holder.shimmerFrameLayout.setShimmer(null);
                 }
             });
+        }else{
+            holder.shimmerFrameLayout.stopShimmer();
+            holder.shimmerFrameLayout.setShimmer(null);
         }
 
         //set Image for image view

@@ -80,7 +80,7 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
         getListProduct();
         //swipe
-        setupRecyclerView(recyclerViewListProduct, this);
+        setupRecyclerView(recyclerViewListProduct);
         searchViewInList.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -283,7 +283,7 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         backToPrevious(false);
     }
 
-    public void setupRecyclerView(RecyclerView recyclerView, final ListItemInOrderActivity listItemInOrderActivity) {
+    public void setupRecyclerView(RecyclerView recyclerView) {
         orderSwipeController = new OrderSwipeController(new OrderSwipeControllerActions() {
             @Override
             public void onRightClicked(final int position) {

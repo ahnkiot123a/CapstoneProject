@@ -26,7 +26,7 @@ public class OrderSwipeController extends Callback {
 
     private OrderSwipeControllerActions buttonsActions = null;
 
-    private static final float buttonWidth = 300;
+    private static final float buttonWidth = 250;
 
     public OrderSwipeController(OrderSwipeControllerActions buttonsActions) {
         this.buttonsActions = buttonsActions;
