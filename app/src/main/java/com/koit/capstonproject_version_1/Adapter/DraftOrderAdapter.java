@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,18 +20,15 @@ import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
 
-public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.ViewHolder> implements Filterable {
+public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.ViewHolder> {
     private final ArrayList<Invoice> list;
-    private ArrayList<Invoice> listFiltered;
     private TextView tvCount;
     private Activity context;
     public boolean showShimmer = true;
-
     private final int SHIMMER_ITEM_NUMBER = 1;
 
     public DraftOrderAdapter(ArrayList<Invoice> list, Activity context, TextView tvCount) {
         this.list = list;
-        this.listFiltered = list;
         this.context = context;
         this.tvCount = tvCount;
     }
@@ -53,14 +48,11 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
         } else {
             holder.shimmerFrameLayout.stopShimmer();
             holder.shimmerFrameLayout.setShimmer(null);
-
             if (!list.isEmpty()) {
                 SortController.getInstance().sortInvoiceListByDate(this.list);
-                if (list.size() != 1) {
-                    holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
-                }
-                tvCount.setText(listFiltered.size() + " đơn hàng tạm");
-                Invoice invoice = listFiltered.get(position);
+                holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+//                tvCount.setText(list.size() + " hoá đơn tạm");
+                Invoice invoice = list.get(position);
 
                 holder.tvOrderId.setBackground(null);
                 holder.tvOrderId.setText(invoice.getInvoiceId());
@@ -76,49 +68,13 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
 
                 holder.ivPencil.setBackground(null);
                 holder.ivPencil.setImageDrawable(context.getDrawable(R.drawable.icons8_pencil_tip));
-            } else {
-                tvCount.setText("0 đơn hàng tạm");
             }
-
         }
     }
 
     @Override
     public int getItemCount() {
-        return showShimmer ? SHIMMER_ITEM_NUMBER : listFiltered != null ? listFiltered.size() : 0;
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String key = charSequence.toString();
-                if (key.isEmpty()) {
-                    listFiltered = list;
-                } else {
-                    ArrayList<Invoice> lstFiltered = new ArrayList<>();
-                    for (Invoice iv : list) {
-                        if (iv.getInvoiceId().toLowerCase().contains(key.toLowerCase())
-                                || iv.getDebtorId().toLowerCase().contains(key.toLowerCase())) {
-                            lstFiltered.add(iv);
-                        }
-                    }
-                    listFiltered = lstFiltered;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = listFiltered;
-                return filterResults;
-            }
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                listFiltered = (ArrayList<Invoice>) filterResults.values;
-                tvCount.setText(listFiltered.size() + " đơn hàng tạm");
-                notifyDataSetChanged();
-            }
-        };
-
+        return showShimmer ? SHIMMER_ITEM_NUMBER : list != null ? list.size() : 0;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

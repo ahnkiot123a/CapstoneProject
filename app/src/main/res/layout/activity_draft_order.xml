@@ -16,37 +16,6 @@
         android:background="@color/super_light_gray"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_bg_search"
-            android:orientation="horizontal">
-
-            <SearchView
-                android:id="@+id/svDraftOrder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:clickable="true"
-                android:focusable="true"
-                android:iconifiedByDefault="false"
-                android:queryHint="Nhập tên khách hàng">
-            </SearchView>
-
-            <ImageButton
-                android:id="@+id/btnVoice"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.8"
-                android:background="@drawable/barcode_icon_layout"
-                android:left="5dp"
-                app:srcCompat="@drawable/ic_baseline_keyboard_voice_24" />
-        </LinearLayout>
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -92,7 +61,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="0 đơn hàng tạm"
+                android:text="0 hoá đơn tạm"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"

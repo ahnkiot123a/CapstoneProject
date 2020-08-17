@@ -3,7 +3,6 @@ package com.koit.capstonproject_version_1.View;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
 public class DraftOrderActivity extends AppCompatActivity {
 
@@ -23,7 +21,7 @@ public class DraftOrderActivity extends AppCompatActivity {
     private RecyclerView rvDraftOrder;
     private TextView tvDraftOrderCount, tvTime;
     private Spinner timeSpinner;
-    private SearchView svDraftOrder;
+//    private SearchView svDraftOrder;
 
     private InvoiceHistoryController controller;
 
@@ -38,11 +36,9 @@ public class DraftOrderActivity extends AppCompatActivity {
         buildRvDraftOrder();
         buildSpinner();
 
-        controller.draftSpinnerEvent(rvDraftOrder, tvDraftOrderCount, timeSpinner, svDraftOrder, tvTime);
-        controller.etSearchEvent(svDraftOrder);
+        controller.draftSpinnerEvent(rvDraftOrder, tvDraftOrderCount, timeSpinner, tvTime);
+//        controller.etSearchEvent(svDraftOrder);
 
-        InvoiceHistoryDAO dao = new InvoiceHistoryDAO();
-        dao.deleteDraftOrder("HD20200812154810");
     }
 
     private void initView() {
@@ -50,7 +46,7 @@ public class DraftOrderActivity extends AppCompatActivity {
         tvDraftOrderCount = findViewById(R.id.tvDraftOrderCount);
         timeSpinner = findViewById(R.id.timeSpinner);
         tvTime = findViewById(R.id.tvTime);
-        svDraftOrder = findViewById(R.id.svDraftOrder);
+//        svDraftOrder = findViewById(R.id.svDraftOrder);
 
         controller = new InvoiceHistoryController(this);
 
@@ -67,7 +63,7 @@ public class DraftOrderActivity extends AppCompatActivity {
     }
 
     private void buildSpinner() {
-        String[] timeList = {"Tất cả", "Hôm nay", "Hôm qua", "Hôm kia", "Tuỳ chỉnh"};
+        String[] timeList = {"Hôm nay", "Hôm qua", "Hôm kia"};
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeList);
         timeSpinner.setAdapter(timeAdapter);
     }

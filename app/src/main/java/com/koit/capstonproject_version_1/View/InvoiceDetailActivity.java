@@ -41,7 +41,7 @@ public class InvoiceDetailActivity extends AppCompatActivity {
     }
 
     private void setInvoiceValue() {
-        tvInvoiceTime.setText(invoice.getInvoiceTime() + " " + invoice.getInvoiceDate());
+        tvInvoiceTime.setText(invoice.getInvoiceTime() + "   " + invoice.getInvoiceDate());
         tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()));
         tvDiscount.setText(Money.getInstance().formatVN(invoice.getDiscount()));
         long mustPayMoney = invoice.getTotal() - invoice.getDiscount();

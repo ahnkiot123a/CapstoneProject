@@ -67,19 +67,20 @@
         <activity android:name=".View.UpdateProductInformationActivity" />
         <activity android:name=".View.EditProductUnitsActivity" />
         <activity android:name=".View.EditConvertRateActivity" />
+        <activity android:name=".View.InvoiceDetailActivity"/>
+        <activity android:name=".View.CustomerPayActivity">
+
+        </activity>
+        <activity android:name=".View.DebitConfirmationActivity"/>
+        <activity android:name=".View.AddNewDebtorActivity" />
+        <activity android:name=".View.SelectProductActivity"/>
+        <activity android:name=".View.DraftOrderActivity"/>
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <activity android:name=".View.CustomerPayActivity">
 
-        </activity>
-        <activity android:name=".View.InvoiceDetailActivity"/>
-        <activity android:name=".View.RevenueActivvity"/>
-        <activity android:name=".View.DraftOrderActivity"/>
-        <activity android:name=".View.DebitConfirmationActivity"/>
-        <activity android:name=".View.AddNewDebtorActivity" />
-        <activity android:name=".View.SelectProductActivity"></activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

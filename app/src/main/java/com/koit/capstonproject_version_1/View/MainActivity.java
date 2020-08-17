@@ -190,32 +190,10 @@ public class MainActivity extends AppCompatActivity {
         listCategoryController = new ListCategoryController(this);
         categoryList = new ArrayList<>();
         listCategoryController.getListCategory(this);
-        //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
-       /* (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                categoryList = listCategoryController.getCategories();
-                for (Category category : categoryList){
-                    Log.i("kiemtraCategory",category.getCategoryName());
-                }
-
-            }
-        }, 3000);*/
         Intent intent = getIntent();
         boolean success = intent.getBooleanExtra(ConvertRateActivity.IS_SUCCESS, false);
         final Product currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
         if(success){
-           /* (new Handler()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    categoryList = listCategoryController.getCategories();
-                    createProductController.addImageProduct();
-                    createProductController.addCategoryToFirebase(currentProduct,categoryList);
-
-
-                }
-            }, 1000);*/
             createProductController.addImageProduct();
             createProductController.addCategory(currentProduct);
 

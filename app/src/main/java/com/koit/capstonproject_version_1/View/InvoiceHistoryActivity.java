@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
+import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
@@ -47,6 +48,10 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     private void initView() {
         rvInvoiceHistory = findViewById(R.id.rvInvoiceHistory);
@@ -63,7 +68,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         tvToolbarTitle.setText("Lịch sử đơn hàng");
 
         //set current date
-        tvTime.setText("");
+        tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
 
         invoiceHistoryController = new InvoiceHistoryController(this);
         InvoiceHistoryActivity.isFirstTimeRun = true;
@@ -80,9 +85,13 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, statusList);
         invoiceStatusSpinner.setAdapter(statusAdapter);
 
-        String[] timeList = {"Thời gian", "Hôm nay", "7 ngày trước", "30 ngày trước", "Tuỳ chỉnh"};
+        String[] timeList = {"Hôm nay", "7 ngày trước", "30 ngày trước", "Chọn ngày"};
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeList);
         timeSpinner.setAdapter(timeAdapter);
+    }
+
+    public void chooseDate(View view){
+        invoiceHistoryController.chooseDate(tvTime);
     }
 
 

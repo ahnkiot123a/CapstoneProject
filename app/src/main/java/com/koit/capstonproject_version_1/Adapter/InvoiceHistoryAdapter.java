@@ -64,14 +64,13 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         } else {
             holder.shimmerFrameLayout.stopShimmer();
             holder.shimmerFrameLayout.setShimmer(null);
-
             if (!list.isEmpty()) {
                 SortController.getInstance().sortInvoiceListByDate(this.listFiltered);
                 if (listFiltered.size() != 1) {
                     holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
                 }
 
-                tvCount.setText(listFiltered.size() + " đơn hàng");
+//                tvCount.setText(listFiltered.size() + " đơn hàng");
                 Invoice invoice = listFiltered.get(position);
 
                 holder.tvOrderId.setBackground(null);
@@ -103,8 +102,6 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 }
                 holder.imageView.setBackground(null);
                 holder.imageView.setImageDrawable(context.getDrawable(R.drawable.icons8_money));
-            }else{
-                tvCount.setText("0 đơn hàng");
             }
 
         }
