@@ -65,6 +65,7 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
     private TextView tvToolbarTitle, tvConvertRate, tvUnitQuantity;
     private CreateProductController controller;
     private TextInputEditText tetProductName, tetDescription;
+    private LinearLayout linearConvertRate;
     private TextView tvCategory;
     private Button btnEditUnits, btnEditConvertRate, btnAddProductQuantiy, btnUpdateProduct;
     private BottomSheetDialog bottomSheetDialog;
@@ -170,7 +171,7 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
     }
 
     private void setRecyclerConvertRate() {
-        detailProductController.setRecyclerConvertRate(listUnit,tvConvertRate,btnEditConvertRate,recyclerConvertRate);
+        detailProductController.setRecyclerConvertRate(listUnit,linearConvertRate,recyclerConvertRate);
     }
 
     private void setSpinnerUnit() {
@@ -196,6 +197,7 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         spinnerUnit = findViewById(R.id.spinnerUnit);
         tvUnitQuantity = findViewById(R.id.tvUnitQuantity);
         btnUpdateProduct = findViewById(R.id.btnUpdateProduct);
+        linearConvertRate = findViewById(R.id.linearConvertRate);
     }
 
     @Override

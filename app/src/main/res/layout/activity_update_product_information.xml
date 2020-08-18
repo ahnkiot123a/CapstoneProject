@@ -228,6 +228,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/linearConvertRate"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_page_account"
                 android:orientation="vertical"
@@ -352,10 +353,11 @@
 
             <Button
                 android:id="@+id/btnUpdateProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_margin="10dp"
+                android:drawablePadding="10dp"
                 android:background="@drawable/background_btn_login"
                 android:fontFamily="sans-serif-medium"
                 android:padding="10dp"

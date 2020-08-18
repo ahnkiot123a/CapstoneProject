@@ -7,53 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".View.UserInformationActivity">
 
-    <Toolbar
-        android:id="@+id/toolbar_top"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/green_linear_color"
-        android:minHeight="?attr/actionBarSize"
-        android:padding="10dp"
-        app:theme="@style/AppTheme">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="back"
-            android:src="@drawable/ic_baseline_arrow_white_ios_24" />
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Thêm khách hàng"
-            android:textColor="#FFF"
-            android:textSize="24sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            android:drawableLeft="@drawable/ic_baseline_save_24"
-            android:onClick="saveNewCustomer"
-            android:text="Lưu"
-            android:textColor="#FFF"
-            android:textSize="24sp" />
-
-    </Toolbar>
+    <include layout="@layout/toolbar_general_activity" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_top">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbarGeneral">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,11 +36,19 @@
                         android:id="@+id/profile_img"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/user_icon" />
+                        android:background="@drawable/background_image_in_rv" />
 
-
+                    <TextView
+                        android:id="@+id/tvFirstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="L"
+                        android:textColor="@color/white"
+                        android:textSize="30dp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,14 +65,15 @@
 
 
                 </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
-                android:orientation="vertical">
+                android:background="@drawable/background_border_and_shadow">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -113,15 +87,16 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
                         android:fontFamily="sans-serif-medium" />
+
+
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
-                android:orientation="vertical">
+                android:background="@drawable/background_border_and_shadow">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -135,15 +110,16 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
                         android:fontFamily="sans-serif-medium" />
+
+
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
-                android:orientation="vertical">
+                android:background="@drawable/background_border_and_shadow">
 
                 <TextView
                     android:id="@+id/textView3"
@@ -155,6 +131,7 @@
                     android:layout_marginBottom="10dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Giới tính"
+
                     android:textSize="16sp" />
 
                 <RadioGroup
@@ -181,13 +158,12 @@
                         android:text="Nữ " />
                 </RadioGroup>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
-                android:orientation="vertical">
+                android:background="@drawable/background_border_and_shadow">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -198,6 +174,7 @@
                     android:layout_marginBottom="10dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Ngày sinh"
+
                     android:textSize="16sp" />
 
                 <TextView
@@ -211,16 +188,15 @@
                     android:inputType="date"
                     android:onClick="getNewDate"
                     android:padding="8dp"
-                    android:text=""
+                    android:text="30-10-2020"
                     android:textColor="@color/black" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
-                android:orientation="vertical">
+                android:background="@drawable/background_border_and_shadow">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -236,9 +212,22 @@
 
                         android:drawablePadding="10dp"
                         android:fontFamily="sans-serif-medium" />
+
+
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
-        </LinearLayout>
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_btn_login"
+                android:layout_margin="3dp"
+                android:fontFamily="sans-serif-medium"
+                android:onClick="updateDebtor"
+                android:text="Cập nhật thông tin"
 
+                android:textColor="@color/white" />
+
+        </LinearLayout>
     </ScrollView>
 </RelativeLayout>

@@ -138,7 +138,7 @@ public class UserController {
 
 
     public void updateUserInformation(EditText edFullname, EditText edEmail,
-                                      EditText edPhoneNumber, EditText edDob,
+                                      EditText edPhoneNumber, TextView tvDob,
                                       RadioButton rbMale, EditText edAddress,
                                       EditText edStorename, User currentUser
     ) {
@@ -148,7 +148,7 @@ public class UserController {
         String phoneNumber = edPhoneNumber.getText().toString().trim();
         String address = edAddress.getText().toString().trim();
         String storeName = edStorename.getText().toString().trim();
-        String dob = edDob.getText().toString().trim();
+        String dob = tvDob.getText().toString().trim();
         boolean gender = rbMale.isChecked();
 
         if (fullName.isEmpty()) {
@@ -157,10 +157,7 @@ public class UserController {
         } else if (!inputController.isEmail(email)) {
             userInformationActivity.setErrorEditTxt("Email không hợp lệ, vui lòng nhập lại Email", userInformationActivity.getEdEmail());
             //  Toast.makeText(userInformationActivity.getApplicationContext(),"Email không hợp lệ, vui lòng nhập lại Email",Toast.LENGTH_SHORT).show();
-        } else if (!inputController.isDate(dob)) {
-            userInformationActivity.setErrorEditTxt("Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh", userInformationActivity.getEdDob());
-            // Toast.makeText(userInformationActivity.getApplicationContext(),"Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh",Toast.LENGTH_SHORT).show();
-        } else if (storeName.trim().equals("")) {
+        }  else if (storeName.trim().equals("")) {
             userInformationActivity.setErrorEditTxt("Vui lòng nhập tên cửa hàng", userInformationActivity.getEdStoreName());
             //Toast.makeText(userInformationActivity.getApplicationContext(),"Vui lòng nhập tên cửa hàng",Toast.LENGTH_SHORT).show();
         } else {

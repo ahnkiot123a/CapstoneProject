@@ -1,8 +1,12 @@
 package com.koit.capstonproject_version_1.Controller;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RadioButton;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +18,7 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.View.SelectDebtorActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +68,12 @@ public class DebtorController {
     }
 
     public boolean createDebtor(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
-                                TextInputEditText edDob, TextInputEditText edAddress, RadioButton rbMale) {
+                                TextView tvDob, TextInputEditText edAddress, RadioButton rbMale) {
         boolean success = false;
         String fullName = edFullname.getText().toString().trim();
         String email = edEmail.getText().toString().trim();
         String phoneNumber = edPhoneNumber.getText().toString().trim();
-        String dob = edDob.getText().toString().trim();
+        String dob = tvDob.getText().toString().trim();
         String address = edAddress.getText().toString().trim();
         boolean gender = (rbMale.isChecked()) ? true : false;
         if (fullName.isEmpty()) {
@@ -77,8 +82,6 @@ public class DebtorController {
             edEmail.setError("Email không hợp lệ, vui lòng nhập lại Email");
         } else if (!inputController.isPhoneNumber(phoneNumber)) {
             edPhoneNumber.setError("Số điện thoại không hợp lệ, vui lòng nhập lại số điện thoại");
-        } else if (!inputController.isDate(dob)) {
-            edDob.setError("Ngày sinh không hợp lệ, vui lòng nhập lại ngày sinh");
         } else {
             Debtor debtor = new Debtor();
 
@@ -99,6 +102,43 @@ public class DebtorController {
 
     }
 
+    public boolean updateDebtor(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
+                             TextView tvDob, TextInputEditText edAddress, RadioButton rbMale, Debtor debtor) {
+        boolean success = false;
+
+        String fullName = edFullname.getText().toString().trim();
+        String email = edEmail.getText().toString().trim();
+        String phoneNumber = edPhoneNumber.getText().toString().trim();
+        String dob = tvDob.getText().toString().trim();
+        String address = edAddress.getText().toString().trim();
+        boolean gender = (rbMale.isChecked()) ? true : false;
+        if (fullName.isEmpty()) {
+            edFullname.setError("Tên khách hàng không được để trống");
+        } else if (!inputController.isEmail(email)) {
+            edEmail.setError("Email không hợp lệ, vui lòng nhập lại Email");
+        } else if (!inputController.isPhoneNumber(phoneNumber)) {
+            edPhoneNumber.setError("Số điện thoại không hợp lệ, vui lòng nhập lại số điện thoại");
+        } else {
+
+            debtor.setFullName(fullName);
+            debtor.setEmail(email);
+            debtor.setPhoneNumber(phoneNumber);
+            debtor.setDateOfBirth(dob);
+            debtor.setAddress(address);
+            debtor.setGender(gender);
+            debtor.updateDebtorToFirebase(debtor);
+            Toast.makeText(context, "Cập nhật thông tin khách hàng thành công!", Toast.LENGTH_SHORT).show();
+            success = true;
+
+        }
+        return success;
+
+    }
+    public void tranIntent(Activity activity1, Class activity2) {
+        Intent intent = new Intent(activity1, activity2);
+        activity1.startActivity(intent);
+        activity1.finish();
+    }
     public void etSearchEvent(SearchView svDebtor) {
         svDebtor.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

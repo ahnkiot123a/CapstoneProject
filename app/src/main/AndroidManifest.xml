@@ -51,6 +51,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.SelectDebtorActivity" />
+        <activity android:name=".View.EditDebtorActivity"/>
         <activity android:name=".View.ListProductActivity" />
         <activity android:name=".View.RegisterActivity" />
         <activity

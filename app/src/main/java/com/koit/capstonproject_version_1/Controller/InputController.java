@@ -99,7 +99,7 @@ public class InputController {
             /*
              * Set preferred date format,
              * For example MM-dd-yyyy, MM.dd.yyyy,dd.MM.yyyy etc.*/
-            SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdfrmt = new SimpleDateFormat("dd-MM-yyyy");
             sdfrmt.setLenient(false);
             /* Create Date object
              * parse the string into date

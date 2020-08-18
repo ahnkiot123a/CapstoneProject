@@ -20,7 +20,7 @@
             android:background="@drawable/background_image_in_rv"></ImageView>
 
         <TextView
-            android:id="@+id/tvFirstDebtorName"
+            android:id="@+id/tvFirstName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"

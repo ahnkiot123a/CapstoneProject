@@ -94,14 +94,14 @@ public class TimeController {
     }
 
     public String changeDateToString(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return dateFormat.format(date);
     }
 
     public static Date changeStringToDate(String stringDate) {
         Date date = new Date();
         try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
+            date = new SimpleDateFormat("dd-MM-yyyy").parse(stringDate);
         } catch (Exception e) {
 
         }
@@ -111,7 +111,7 @@ public class TimeController {
     public Date changeStringToMonth(String stringMonth) {
         Date date = new Date();
         try {
-            date = new SimpleDateFormat("MM/yyyy").parse(stringMonth);
+            date = new SimpleDateFormat("MM-yyyy").parse(stringMonth);
         } catch (Exception e) {
 
         }
@@ -119,7 +119,7 @@ public class TimeController {
     }
 
     public String changeDateToMonthString(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yyyy");
         return dateFormat.format(date);
     }
 
@@ -176,7 +176,7 @@ public class TimeController {
                 .listener(new SingleDateAndTimePickerDialog.Listener() {
                     @Override
                     public void onDateSelected(Date date) {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                         Date now = new Date();
                         if (date.after(now)) {
                             textView.setText(dateFormat.format(now));
@@ -212,7 +212,7 @@ public class TimeController {
                 .listener(new SingleDateAndTimePickerDialog.Listener() {
                     @Override
                     public void onDateSelected(Date date) {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yyyy");
                         Date now = new Date();
                         if (date.after(now)) {
                             textView.setText(dateFormat.format(now));

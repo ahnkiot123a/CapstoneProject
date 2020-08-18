@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,8 +26,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AccountFragment extends Fragment {
 
     private AccountViewModel accountViewModel;
-    private TextView tvNameProfile;
-    private FirebaseUser currentUser;
+    private TextView tvNameProfile,tvFirstName;
+    private LinearLayout linearAccount,linearChangePwd;
+    private FirebaseUser currentUserFacebook;
     private CircleImageView profile_img;
     private Button btnAccountInfo;
     private Button btnChangePassword;
@@ -40,19 +42,34 @@ public class AccountFragment extends Fragment {
         //    final TextView textView = root.findViewById(R.id.text_notifications);
         tvNameProfile = root.findViewById(R.id.tvNameProfile);
         profile_img = root.findViewById(R.id.profile_img);
+        tvFirstName = root.findViewById(R.id.tvFirstName);
+        linearAccount = root.findViewById(R.id.linearAccount);
+        linearChangePwd = root.findViewById(R.id.linearChangePwd);
 //        User user = (User)getActivity().getIntent().getSerializableExtra("currentUser");
         userDAO = new UserDAO();
         User user = userDAO.getUser();
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentUserFacebook = FirebaseAuth.getInstance().getCurrentUser();
         btnAccountInfo = root.findViewById(R.id.accountInfo);
         btnChangePassword = root.findViewById(R.id.changePassword);
         // tvNameProfile.setText(currentUser.getDisplayName());
-        if (user != null && currentUser == null) tvNameProfile.setText(user.getFullName());
-        else if (currentUser != null) {
-            tvNameProfile.setText(currentUser.getDisplayName());
-            Glide.with(this).load(currentUser.getPhotoUrl()).into(profile_img);
-            Log.d("kiemtra", currentUser.getEmail());
-
+        if (user != null && currentUserFacebook == null)
+        {
+            tvNameProfile.setText(user.getFullName());
+            if(user.getFullName().length()>0)
+            tvFirstName.setText(user.getFullName().charAt(0)+"");
+            else {
+                tvFirstName.setText("");
+                profile_img.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                profile_img.setBackground(null);
+            }
+        }
+        else if (currentUserFacebook != null) {
+            tvNameProfile.setText(currentUserFacebook.getDisplayName());
+            tvFirstName.setText("");
+            Glide.with(this).load(currentUserFacebook.getPhotoUrl()).into(profile_img);
+            Log.d("kiemtra", currentUserFacebook.getEmail());
+           linearAccount.setVisibility(View.GONE);
+           linearChangePwd.setVisibility(View.GONE);
             btnAccountInfo.setEnabled(false);
             btnChangePassword.setEnabled(false);
         }

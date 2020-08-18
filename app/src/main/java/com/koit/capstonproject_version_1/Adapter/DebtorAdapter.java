@@ -66,6 +66,7 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
         holder.tvDebitorName.setText(debtor.getFullName());
         holder.tvDebitorPhone.setText(debtor.getPhoneNumber());
         holder.tvDebtTotalAmount.setText(Money.getInstance().formatVN(debtor.getDebitTotal()) + " Đ");
+        holder.tvFirstDebtorName.setText(debtor.getFullName().charAt(0)+"");
         holder.itemDebtor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +128,7 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvDebitorName, tvDebitorPhone, tvDebtTotalAmount;
+        private TextView tvDebitorName, tvDebitorPhone, tvDebtTotalAmount,tvFirstDebtorName;
         private ConstraintLayout itemDebtor;
 
         public ViewHolder(@NonNull View itemView) {
@@ -136,6 +137,7 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
             tvDebitorPhone = itemView.findViewById(R.id.tvDebitorPhone);
             tvDebtTotalAmount = itemView.findViewById(R.id.tvDebtTotalAmount);
             itemDebtor = itemView.findViewById(R.id.itemDebtor);
+            tvFirstDebtorName = itemView.findViewById(R.id.tvFirstName);
         }
     }
 

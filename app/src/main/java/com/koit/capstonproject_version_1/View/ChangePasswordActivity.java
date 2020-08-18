@@ -1,18 +1,21 @@
 package com.koit.capstonproject_version_1.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.Controller.ChangePasswordController;
 import com.koit.capstonproject_version_1.Controller.UserController;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 
@@ -26,8 +29,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_change_password);
-
+        //set title in toolbar
+        Toolbar toolbar = findViewById(R.id.toolbarGeneral);
+        TextView tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
+        tvToolbarTitle.setText("Đổi mật khẩu");
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
         Intent intent = getIntent();
         currentUser =(User)intent.getSerializableExtra("currentUser");

@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.ui.account.AccountFragment"
-    android:background="@color/medium_light_gray">
+    android:background="@color/medium_light_gray"
+    tools:context=".View.ui.account.AccountFragment">
+
     <View
         android:id="@+id/main_activityStatusBarScrim"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:background="@drawable/green_linear_color"/>
+        android:background="@drawable/green_linear_color" />
+
     <Toolbar
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/main_activityStatusBarScrim"
         android:background="@drawable/green_linear_color"
         android:minHeight="?attr/actionBarSize"
-        android:layout_below="@id/main_activityStatusBarScrim"
         app:theme="@style/AppTheme">
 
         <ImageButton
@@ -44,10 +46,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar_top"
-        android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="0dp">
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,164 +57,233 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_img"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_centerVertical="true"
+            <RelativeLayout
+                android:id="@+id/layoutImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/user_icon" />
+                android:layout_marginTop="10dp">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/profile_img"-->
-<!--            android:layout_width="96dp"-->
-<!--            android:layout_height="96dp"-->
-<!--            android:layout_centerVertical="true"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:src="@drawable/user_icon" />-->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_image_in_rv" />
 
-        <TextView
-            android:id="@+id/tvNameProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_image"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="qwertyuio"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvNameProfile"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/radius_linearlayout"
-        android:orientation="vertical">
-        <Button
-            android:id="@+id/accountInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/ic_account_circle_black_24dp"
-            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-            android:drawablePadding="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:onClick="displayUserInfo"
-            android:text="Thông tin tài khoản"
-            android:fontFamily="sans-serif-medium"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black" />
-        <Button
-            android:id="@+id/changePassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/ic_baseline_lock_24"
-            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-            android:drawablePadding="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="Đổi mật khẩu"
-            android:fontFamily="sans-serif-medium"
-            android:onClick="changePassword"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/ic_action_feedback"
-            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-            android:drawablePadding="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="Phản hồi"
-            android:fontFamily="sans-serif-medium"
+                <TextView
+                    android:id="@+id/tvFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="T"
+                    android:textColor="@color/white"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <!--            <de.hdodenhof.circleimageview.CircleImageView-->
+            <!--                android:id="@+id/profile_img"-->
+            <!--                android:layout_width="96dp"-->
+            <!--                android:layout_height="96dp"-->
+            <!--                android:layout_centerVertical="true"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:src="@drawable/user_icon" />-->
 
-            android:onClick="sendFeedBack"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/ic_history_black_24dp"
-            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-            android:drawablePadding="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="Lịch sử giao dịch"
-            android:fontFamily="sans-serif-medium"
+            <!--        <ImageView-->
+            <!--            android:id="@+id/profile_img"-->
+            <!--            android:layout_width="96dp"-->
+            <!--            android:layout_height="96dp"-->
+            <!--            android:layout_centerVertical="true"-->
+            <!--            android:layout_gravity="center"-->
+            <!--            android:layout_marginTop="20dp"-->
+            <!--            android:src="@drawable/user_icon" />-->
 
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/tvNameProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_image"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="qwertyuio"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/ic_baseline_insert_chart_outlined_24"
-            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-            android:drawablePadding="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="Báo cáo"
-            android:fontFamily="sans-serif-medium"
-            android:onClick="transferToReveneuActivity"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNameProfile"
+                android:id="@+id/linearAccount"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/radius_linearlayout"
+                android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black" />
+                <Button
+                    android:id="@+id/accountInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:onClick="displayUserInfo"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Thông tin tài khoản"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/ic_exit_to_app_black_24dp"
-            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-            android:drawablePadding="10dp"
-            android:onClick="logout"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="Đăng xuất"
-            android:fontFamily="sans-serif-medium"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
 
-    </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNameProfile"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/linearChangePwd"
+                android:background="@drawable/radius_linearlayout"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/changePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_baseline_lock_24"
+                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:onClick="changePassword"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Đổi mật khẩu"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNameProfile"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/radius_linearlayout"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_action_feedback"
+                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:onClick="sendFeedBack"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+
+                    android:text="Phản hồi"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNameProfile"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/radius_linearlayout"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_history_black_24dp"
+                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Lịch sử giao dịch"
+
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNameProfile"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/radius_linearlayout"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_baseline_insert_chart_outlined_24"
+                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:onClick="transferToReveneuActivity"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Báo cáo"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNameProfile"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/radius_linearlayout"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_exit_to_app_black_24dp"
+                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:onClick="logout"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Đăng xuất"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
 
 
         </LinearLayout>

@@ -9,25 +9,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.DebtorController;
+import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddNewDebtorActivity extends AppCompatActivity {
-    private TextInputEditText edFullname, edEmail, edPhoneNumber, edDob, edAddress;
+    private TextInputEditText edFullname, edEmail, edPhoneNumber, edAddress;
     private RadioButton rbMale, rbFemale;
+    private TextView tvDob;
     private DebtorController debtorController;
     private Debtor debtor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_add_new_debtor);
         initView();
         debtorController = new DebtorController(this);
@@ -37,40 +40,28 @@ public class AddNewDebtorActivity extends AppCompatActivity {
         edFullname = findViewById(R.id.edFullname);
         edEmail = findViewById(R.id.edEmail);
         edPhoneNumber = findViewById(R.id.edPhoneNumber);
-        edDob = findViewById(R.id.edDob);
+        tvDob = findViewById(R.id.tvDob);
         edAddress = findViewById(R.id.edAddress);
         rbMale = findViewById(R.id.rbMale);
         rbFemale = findViewById(R.id.rbFemale);
     }
 
     public void saveNewCustomer(View view) {
-       boolean success =  debtorController.createDebtor(edFullname, edEmail, edPhoneNumber, edDob, edAddress, rbMale);
-       if(success){
-           Intent intent = new Intent();
-           setResult(Activity.RESULT_OK, intent);
-           finish();
-       }
+        boolean success = debtorController.createDebtor(edFullname, edEmail, edPhoneNumber, tvDob, edAddress, rbMale);
+        if (success) {
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        }
 
 
     }
 
     public void getNewDate(View view) {
-
-        DatePickerDialog.OnDateSetListener mListener  = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                i1 = i1 + 1;
-                String date = i1 < 10 ? i + "-0" + i1 + "-" + i2 : i + "-" + i1 + "-" + i2;
-                String updateDate = i1 + "/" + i2 + "/" + i;
-                edDob.setText(date);
-            }
-        };
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog dialog = new DatePickerDialog(this, mListener, year, month, day);
-        dialog.show();
+        Date dob = new Date();
+        if (!tvDob.getText().toString().trim().equals(""))
+            dob = TimeController.getInstance().getDateAndMonthFromText(tvDob.getText().toString(), dob);
+        TimeController.getInstance().chooseDayDialog(tvDob, dob, this);
     }
 
     public void back(View view) {

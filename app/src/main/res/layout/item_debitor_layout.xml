@@ -21,17 +21,43 @@
         app:layout_constraintStart_toEndOf="@+id/imgViewProductPicture"
         app:layout_constraintTop_toTopOf="@id/imgViewProductPicture" />
 
-    <ImageView
+    <RelativeLayout
         android:id="@+id/imgViewProductPicture"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_weight="1"
-        android:background="@drawable/shape_box_border"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user_icon" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_image_in_rv"></ImageView>
+
+        <TextView
+            android:id="@+id/tvFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="L"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+<!--    <ImageView-->
+<!--        android:id="@+id/imgViewProductPicture"-->
+<!--        android:layout_width="65dp"-->
+<!--        android:layout_height="65dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@drawable/shape_box_border"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/user_icon" />-->
 
     <TextView
         android:id="@+id/tvDebtTotalAmount"

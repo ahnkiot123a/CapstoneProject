@@ -141,12 +141,26 @@ public class Debtor implements Serializable {
     }
 
     public void addDebtorToFirebase(Debtor debtor) {
-        String userId = UserDAO.getInstance().getUserID();
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference = databaseReference.child("Debtors").child(userId).child(debtor.getDebtorId());
+        databaseReference = databaseReference.child("Debtors").child(UserDAO.getInstance().getUserID())
+                .child(debtor.getDebtorId());
         debtor.setDebtorId(null);
         databaseReference.setValue(debtor);
+//        databaseReference.keepSynced(true);
+    }
+
+    public void updateDebtorToFirebase(Debtor debtor) {
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = databaseReference.child("Debtors").child(UserDAO.getInstance().getUserID())
+                .child(debtor.getDebtorId());
+        databaseReference.child("address").setValue(debtor.getAddress());
+        databaseReference.child("dateOfBirth").setValue(debtor.getDateOfBirth());
+        databaseReference.child("email").setValue(debtor.getEmail());
+        databaseReference.child("fullName").setValue(debtor.getFullName());
+        databaseReference.child("gender").setValue(debtor.isGender());
+        databaseReference.child("phoneNumber").setValue(debtor.getPhoneNumber());
 //        databaseReference.keepSynced(true);
     }
 

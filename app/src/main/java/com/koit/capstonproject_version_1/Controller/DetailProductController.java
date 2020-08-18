@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,6 +108,18 @@ public class DetailProductController {
         if (listUnit.size() < 2) {
             tvConvertRate.setVisibility(View.INVISIBLE);
             btnEditConvertRate.setVisibility(View.INVISIBLE);
+        }
+        recyclerConvertRate.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(activity);
+        recyclerConvertRate.setLayoutManager(linearLayoutManager1);
+
+        ConvertRateRecyclerAdapter convertRateRecyclerAdapter = new ConvertRateRecyclerAdapter(listUnit, activity.getApplicationContext());
+        recyclerConvertRate.setAdapter(convertRateRecyclerAdapter);
+    }
+    public void setRecyclerConvertRate(ArrayList<Unit> listUnit, LinearLayout linearConvertRate, RecyclerView recyclerConvertRate) {
+        if (listUnit.size() < 2) {
+            linearConvertRate.setVisibility(View.GONE);
+//            btnEditConvertRate.setVisibility(View.INVISIBLE);
         }
         recyclerConvertRate.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(activity);
