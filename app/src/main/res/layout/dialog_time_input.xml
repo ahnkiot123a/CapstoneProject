@@ -24,7 +24,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Từ ngày:"
+        android:text="Từ ngày"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView8" />
@@ -36,7 +36,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Đến ngày:"
+        android:text="Đến ngày"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView8" />
@@ -44,7 +44,7 @@
     <TextView
         android:id="@+id/tvDateStart"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_bg_search"
@@ -60,7 +60,7 @@
     <TextView
         android:id="@+id/tvDateEnd"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/shape_bg_search"
@@ -87,11 +87,11 @@
             android:id="@+id/btnConfirm"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:background="@drawable/shape_bg_search"
-            android:fontFamily="sans-serif-medium"
             android:layout_marginRight="20dp"
+            android:background="@drawable/background_btn_login"
+            android:fontFamily="sans-serif-medium"
             android:text="Xác nhận"
-            android:textColor="@color/theme" />
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btnCancel"

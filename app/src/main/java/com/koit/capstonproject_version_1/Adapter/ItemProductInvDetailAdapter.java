@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
@@ -37,16 +37,15 @@ public class ItemProductInvDetailAdapter extends RecyclerView.Adapter<ItemProduc
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        tvProductTotal.setText("Tổng số lượng hàng (" + getProductTotal() + ")");
-        if(position < list.size()){
+        tvProductTotal.setText("(" + getProductTotal() + ")");
+        if(position > -1){
             Product product = list.get(position);
-            for(Unit unit : product.getUnits()){
-                holder.tvProductName.setText(product.getProductName());
-                holder.tvProductQuantity.setText(String.format("%d", unit.getUnitQuantity()));
-                holder.tvUnitName.setText(unit.getUnitName());
-                holder.tvUnitPrice.setText(Money.getInstance().formatVN(unit.getUnitPrice()));
-                holder.tvTotalPrice.setText(Money.getInstance().formatVN(unit.getUnitQuantity()*unit.getUnitPrice()));
-            }
+            holder.tvProductName.setText(product.getProductName());
+            List<Unit> units = product.getUnits();
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
+            holder.rvUnit.setLayoutManager(layoutManager);
+            ItemUnitInProductAdapter unitInProductAdapter = new ItemUnitInProductAdapter(units);
+            holder.rvUnit.setAdapter(unitInProductAdapter);
         }
 
 
@@ -54,18 +53,9 @@ public class ItemProductInvDetailAdapter extends RecyclerView.Adapter<ItemProduc
 
     @Override
     public int getItemCount() {
-        return getSize();
+        return list.size();
     }
 
-    public int getSize(){
-        int size = 0;
-        if(!list.isEmpty()){
-            for(Product p : list){
-                size += p.getUnits().size();
-            }
-        }
-        return size;
-    }
 
     public int getProductTotal(){
         int total = 0;
@@ -81,16 +71,14 @@ public class ItemProductInvDetailAdapter extends RecyclerView.Adapter<ItemProduc
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvProductName, tvProductQuantity, tvUnitName, tvUnitPrice, tvTotalPrice;
+        private TextView tvProductName;
+        private RecyclerView rvUnit;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvProductName = itemView.findViewById(R.id.tvProductName);
-            tvProductQuantity = itemView.findViewById(R.id.tvProductQuantity);
-            tvUnitName = itemView.findViewById(R.id.tvUnitName);
-            tvUnitPrice = itemView.findViewById(R.id.tvUnitPrice);
-            tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
+            rvUnit = itemView.findViewById(R.id.rvUnit);
 
         }
     }

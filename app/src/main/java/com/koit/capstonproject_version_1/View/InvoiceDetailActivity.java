@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,8 @@ public class InvoiceDetailActivity extends AppCompatActivity {
     private TextView tvInvoiceTime, tvProductTotal, tvTotalPrice, tvDiscount, tvMustPayMoney, tvPaidMoney, tvDebtMoney;
     private TextView tvDebtorName, tvDebtorPhone;
     private RecyclerView rvProduct;
+    private LinearLayout layoutDebit;
+    private LinearLayout layoutLoading, layoutProduct;
 
     private Invoice invoice;
     private InvoiceDetailController invoiceDetailController;
@@ -37,21 +40,11 @@ public class InvoiceDetailActivity extends AppCompatActivity {
 
 
         invoiceDetailController = new InvoiceDetailController(this);
-        invoiceDetailController.setProductInOrderDetail(rvProduct, invoice.getInvoiceId(), tvProductTotal);
+        invoiceDetailController.setProductInOrderDetail(rvProduct, invoice.getInvoiceId(), tvProductTotal, layoutLoading, layoutProduct);
+        invoiceDetailController.setLayoutDebit(layoutDebit, tvDebtorName, tvDebtorPhone, invoice);
 
 
         setInvoiceValue();
-    }
-
-    private void setInvoiceValue() {
-        tvInvoiceTime.setText(String.format("%s   %s", invoice.getInvoiceTime(), invoice.getInvoiceDate()));
-        tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()));
-        tvDiscount.setText(Money.getInstance().formatVN(invoice.getDiscount()));
-        long mustPayMoney = invoice.getTotal() - invoice.getDiscount();
-        tvMustPayMoney.setText(Money.getInstance().formatVN(mustPayMoney));
-        tvPaidMoney.setText(Money.getInstance().formatVN(invoice.getFirstPaid()));
-        long debtMoney = mustPayMoney > invoice.getFirstPaid() ? mustPayMoney - invoice.getFirstPaid() : 0;
-        tvDebtMoney.setText(Money.getInstance().formatVN(debtMoney));
     }
 
     private void initView() {
@@ -66,6 +59,9 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         tvDebtorName = findViewById(R.id.tvDebtorName);
         tvDebtorPhone = findViewById(R.id.tvDebtorPhone);
         rvProduct = findViewById(R.id.rvProduct);
+        layoutDebit = findViewById(R.id.layoutDebit);
+        layoutLoading = findViewById(R.id.layoutLoading);
+        layoutProduct = findViewById(R.id.layoutProduct);
 
         //set title in toolbar
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);
@@ -74,6 +70,20 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         tvToolbarTitle.setTypeface(null, Typeface.BOLD);
         tvToolbarTitle.setText(invoice.getInvoiceId());
     }
+
+
+    private void setInvoiceValue() {
+        tvInvoiceTime.setText(String.format("%s   %s", invoice.getInvoiceTime(), invoice.getInvoiceDate()));
+        tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()));
+        tvDiscount.setText(Money.getInstance().formatVN(invoice.getDiscount()));
+        long mustPayMoney = invoice.getTotal() - invoice.getDiscount();
+        tvMustPayMoney.setText(Money.getInstance().formatVN(mustPayMoney));
+        tvPaidMoney.setText(Money.getInstance().formatVN(invoice.getFirstPaid()));
+        long debtMoney = mustPayMoney > invoice.getFirstPaid() ? mustPayMoney - invoice.getFirstPaid() : 0;
+        tvDebtMoney.setText(Money.getInstance().formatVN(debtMoney));
+
+    }
+
 
     public void back(View view) {
         onBackPressed();

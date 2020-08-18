@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.InvoiceHistoryActivity">
+    tools:context=".View.ui.OrderDebtorActivity">
 
-    <include layout="@layout/toolbar_general_activity" />
+    <include layout="@layout/toolbar_general_activity"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,37 +14,6 @@
         android:layout_below="@+id/toolbarGeneral"
         android:background="@color/super_light_gray"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_bg_search"
-            android:orientation="horizontal">
-
-            <SearchView
-                android:id="@+id/svInvoice"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:clickable="true"
-                android:focusable="true"
-                android:iconifiedByDefault="false"
-                android:queryHint="Nhập mã, tên khách hàng">
-            </SearchView>
-
-            <ImageButton
-                android:id="@+id/btnVoice"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.8"
-                android:background="@drawable/barcode_icon_layout"
-                android:left="5dp"
-                app:srcCompat="@drawable/ic_baseline_keyboard_voice_24" />
-        </LinearLayout>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -58,7 +27,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Lọc theo"
+                android:text="Lọc theo mốc thời gian:"
                 android:textColor="@color/gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,18 +43,6 @@
                 android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Spinner
-                android:id="@+id/invoiceStatusSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textAlignment="viewEnd"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/radius_linearlayout"
-                android:spinnerMode="dropdown"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -109,25 +66,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="Hôm nay, 04/08/2020"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvInvoiceHistory"
+            android:id="@+id/rvOrderDebtor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+
 </RelativeLayout>

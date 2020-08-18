@@ -1,6 +1,5 @@
 package com.koit.capstonproject_version_1.View;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,18 +9,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
-import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
-import com.koit.capstonproject_version_1.Controller.OrderSwipeControllerActions;
 import com.koit.capstonproject_version_1.Controller.TimeController;
-import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
 public class InvoiceHistoryActivity extends AppCompatActivity {
 
@@ -88,7 +81,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, statusList);
         invoiceStatusSpinner.setAdapter(statusAdapter);
 
-        String[] timeList = {"Hôm nay", "7 ngày trước", "30 ngày trước", "Chọn ngày"};
+        String[] timeList = {"Hôm nay", "7 ngày trước", "30 ngày trước", "Tuỳ chỉnh"};
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeList);
         timeSpinner.setAdapter(timeAdapter);
     }

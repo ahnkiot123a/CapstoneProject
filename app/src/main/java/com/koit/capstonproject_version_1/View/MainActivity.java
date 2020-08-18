@@ -20,7 +20,6 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
@@ -52,12 +51,13 @@ public class MainActivity extends AppCompatActivity {
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+
+        currentUser = UserDAO.getInstance().getUser();
         getBottomNavigation();
         getNavigationMenuLeft();
 
 
 
-        currentUser = UserDAO.getInstance().getUser();
 
         createProductController = new CreateProductController(this);
 
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         tvNameProfileLeft = headerView.findViewById(R.id.tvNameProfileLeft);
         tvEmailProfileLeft = headerView.findViewById(R.id.tvEmailLeft);
         navDrawer = findViewById(R.id.drawer_layout);
+
 
         if (currentUser != null) {
             tvNameProfileLeft.setText(currentUser.getFullName());

@@ -6,9 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,20 +22,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Adapter.DraftOrderAdapter;
 import com.koit.capstonproject_version_1.Adapter.InvoiceHistoryAdapter;
-import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
-import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.UIModel.Money;
-import com.koit.capstonproject_version_1.Model.Unit;
+import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DraftOrderActivity;
 import com.koit.capstonproject_version_1.View.InvoiceDetailActivity;
 import com.koit.capstonproject_version_1.View.InvoiceHistoryActivity;
-import com.koit.capstonproject_version_1.View.ListProductActivity;
 import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
-import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,12 +46,16 @@ public class InvoiceHistoryController {
     private ArrayList<Invoice> draftOrderList;
 
     private DatePickerDialog.OnDateSetListener onDateSetListenerOrderHistory;
+    private DatePickerDialog.OnDateSetListener onDateSetListenerStart;
+    private DatePickerDialog.OnDateSetListener onDateSetListenerEnd;
 
     private String time = "Thời gian";
     private String status = "Tất cả đơn hàng";
-    private Date dateInput;
+    private Date dateInput, start, end;
     private OrderSwipeController orderSwipeController;
     private String draftOrderTime = "Tất cả";
+    private boolean hasInvoice = false;
+
 
     public InvoiceHistoryController(Activity activity) {
         this.activity = activity;
@@ -87,6 +87,7 @@ public class InvoiceHistoryController {
             @Override
             public void getInvoice(Invoice invoice) {
                 if (invoice != null && !invoice.isDrafted()) {
+                    hasInvoice = true;
                     invoiceHistoryAdapter.showShimmer = false;
                     if (status.equals("Tất cả đơn hàng") && time.equals("Hôm nay")) {
                         tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
@@ -109,7 +110,7 @@ public class InvoiceHistoryController {
                         }
                     }
 
-                    if (status.equals("Tất cả đơn hàng") && time.equals("Chọn ngày")) {
+                    if (status.equals("Tất cả đơn hàng") && time.equals("Tuỳ chỉnh")) {
                         if (dateInput != null) {
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (date.equals(dateInput)) {
@@ -142,7 +143,7 @@ public class InvoiceHistoryController {
                         }
                     }
 
-                    if (status.equals("Hoá đơn còn nợ") && time.equals("Chọn ngày")) {
+                    if (status.equals("Hoá đơn còn nợ") && time.equals("Tuỳ chỉnh")) {
                         if (dateInput != null) {
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() > 0 && date.equals(dateInput)) {
@@ -173,7 +174,7 @@ public class InvoiceHistoryController {
                         }
                     }
 
-                    if (status.equals("Hoá đơn trả hết") && time.equals("Chọn ngày")) {
+                    if (status.equals("Hoá đơn trả hết") && time.equals("Tuỳ chỉnh")) {
                         if (dateInput != null) {
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() == 0 && date.equals(dateInput)) {
@@ -183,8 +184,12 @@ public class InvoiceHistoryController {
                     }
 
                 }
-                invoiceHistoryAdapter.showShimmer = false;
                 textView.setText(invoiceList.size() + " đơn hàng");
+                if(!hasInvoice){
+                    invoiceHistoryAdapter.showShimmer = false;
+                    invoiceList.clear();
+                }
+                Log.d("hasInvoice", hasInvoice + "");
                 invoiceHistoryAdapter.notifyDataSetChanged();
             }
         };
@@ -198,7 +203,7 @@ public class InvoiceHistoryController {
     }
 
     private void sendInvoiceToDetail(int position) {
-        if (position > -1) {
+        if (!invoiceList.isEmpty()) {
             Invoice invoice = invoiceList.get(position);
             Intent intent = new Intent(activity, InvoiceDetailActivity.class);
             intent.putExtra(InvoiceHistoryActivity.INVOICE, invoice);
@@ -260,17 +265,18 @@ public class InvoiceHistoryController {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 time = timeSpinner.getSelectedItem().toString();
                 status = statusSpinner.getSelectedItem().toString();
-                if (time.equals("Chọn ngày")) {
-                    showDatePicker(onDateSetListenerOrderHistory);
-                    onDateSetListenerOrderHistory = new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            String sDate = setDate(year, month, dayOfMonth);
-                            tvTime.setText(sDate);
-                            dateInput = TimeController.getInstance().convertStrToDate(sDate);
-                            invoiceList(recyclerView, textView, tvTime);
-                        }
-                    };
+                if (time.equals("Tuỳ chỉnh")) {
+                    buildTimeDialog(recyclerView, textView, timeSpinner, searchView, tvTime);
+//                    showDatePicker(onDateSetListenerOrderHistory);
+//                    onDateSetListenerOrderHistory = new DatePickerDialog.OnDateSetListener() {
+//                        @Override
+//                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                            String sDate = setDate(year, month, dayOfMonth);
+//                            tvTime.setText(sDate);
+//                            dateInput = TimeController.getInstance().convertStrToDate(sDate);
+//                            invoiceList(recyclerView, textView, tvTime);
+//                        }
+//                    };
                 } else {
                     if (!InvoiceHistoryActivity.isFirstTimeRun) {
                         invoiceList(recyclerView, textView, tvTime);
@@ -323,26 +329,26 @@ public class InvoiceHistoryController {
         });
     }
 
-//    //build timer dialog when search by custom time
-//    private void buildTimeDialog(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner, final SearchView searchView, final TextView tvTime) {
-//        final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-//        View view = activity.getLayoutInflater().inflate(R.layout.dialog_time_input, null);
-//        final TextView tvDateStart, tvDateEnd;
-//        Button btnCancel, btnConfirm;
-//
-//        tvDateStart = view.findViewById(R.id.tvDateStart);
-//        tvDateEnd = view.findViewById(R.id.tvDateEnd);
-//        btnCancel = view.findViewById(R.id.btnCancel);
-//        btnConfirm = view.findViewById(R.id.btnConfirm);
-//
-//        tvDateStart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showDatePicker(onDateSetListenerStart);
-//
-//            }
-//        });
-//
+    //build timer dialog when search by custom time
+    private void buildTimeDialog(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner, final SearchView searchView, final TextView tvTime) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+        View view = activity.getLayoutInflater().inflate(R.layout.dialog_time_input, null);
+        final TextView tvDateStart, tvDateEnd;
+        Button btnCancel, btnConfirm;
+
+        tvDateStart = view.findViewById(R.id.tvDateStart);
+        tvDateEnd = view.findViewById(R.id.tvDateEnd);
+        btnCancel = view.findViewById(R.id.btnCancel);
+        btnConfirm = view.findViewById(R.id.btnConfirm);
+
+        tvDateStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                start = TimeController.getInstance().chooseDayInOrderHistory(alertDialog.getContext());
+                tvDateStart.setText(TimeController.getInstance().convertDateToStr(start));
+            }
+        });
+
 //        onDateSetListenerStart = new DatePickerDialog.OnDateSetListener() {
 //            @Override
 //            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -361,13 +367,20 @@ public class InvoiceHistoryController {
 //                }
 //            }
 //        };
-//
-//        tvDateEnd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showDatePicker(onDateSetListenerEnd);
-//            }
-//        });
+
+        tvDateEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                end = TimeController.getInstance().chooseDayInOrderHistory(alertDialog.getContext());
+                if (start.before(end)) {
+                    tvDateStart.setText(TimeController.getInstance().convertDateToStr(end));
+                    tvDateEnd.setText(TimeController.getInstance().convertDateToStr(start));
+                } else {
+                    tvDateEnd.setText(TimeController.getInstance().convertDateToStr(end));
+                }
+            }
+        });
+
 //
 //        onDateSetListenerEnd = new DatePickerDialog.OnDateSetListener() {
 //            @Override
@@ -387,36 +400,35 @@ public class InvoiceHistoryController {
 //                }
 //            }
 //        };
-//
-//        btnConfirm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                start = TimeController.getInstance().convertStrToDate(tvDateStart.getText().toString());
-//                end = TimeController.getInstance().convertStrToDate(tvDateEnd.getText().toString());
-//                if (start.equals(end)) {
-//                    tvTime.setText(TimeController.getInstance().convertDateToStr(start));
-//                } else {
-//                    tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
-//                }
-//                alertDialog.cancel();
-//                invoiceList(recyclerView, textView, tvTime);
-//                etSearchEvent(searchView);
-//            }
-//        });
-//
-//        btnCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                alertDialog.cancel();
-//                timeSpinner.setSelection(0);
-//            }
-//        });
-//
-//        alertDialog.setView(view);
-//        alertDialog.setCanceledOnTouchOutside(false);
-//        alertDialog.show();
-//
-//    }
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                start = TimeController.getInstance().convertStrToDate(tvDateStart.getText().toString());
+                end = TimeController.getInstance().convertStrToDate(tvDateEnd.getText().toString());
+                if (start.equals(end)) {
+                    tvTime.setText(TimeController.getInstance().convertDateToStr(start));
+                } else {
+                    tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
+                }
+                alertDialog.cancel();
+                invoiceList(recyclerView, textView, tvTime);
+                etSearchEvent(searchView);
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.cancel();
+                timeSpinner.setSelection(0);
+            }
+        });
+        alertDialog.setView(view);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+
+    }
 
     private String setDate(int year, int month, int day) {
         month += 1;
@@ -476,7 +488,7 @@ public class InvoiceHistoryController {
             @Override
             public void onRightClicked(final int position) {
                 //remove item in 2 list
-                      AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 builder.setMessage("Bạn có muốn xóa đơn tạm này không? ")
                         .setCancelable(true)
                         .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
@@ -487,7 +499,7 @@ public class InvoiceHistoryController {
                                 invoiceHistoryDAO.deleteDraftOrder(invoice.getInvoiceId());
                                 draftOrderList.remove(position);
                                 draftOrderAdapter.notifyItemRemoved(position);
-                                count.setText(draftOrderList.size()+" hóa đơn tạm");
+                                count.setText(draftOrderList.size() + " hóa đơn tạm");
                                 Toast.makeText(activity, "Bạn đã xoá thành công đơn tạm", Toast.LENGTH_SHORT).show();
                             }
                         })

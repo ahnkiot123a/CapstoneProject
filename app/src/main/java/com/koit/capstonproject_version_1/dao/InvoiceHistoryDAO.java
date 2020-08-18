@@ -81,28 +81,6 @@ public class InvoiceHistoryDAO {
         getDebtorById(id, iDebtor);
     }
 
-    public String getDebtorById(String id) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Debtors").child(UserDAO.getInstance().getUserID()).child(id);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Debtor debtor = snapshot.getValue(Debtor.class);
-                debtor.setDebtorId(snapshot.getKey());
-                if (debtor != null) {
-                    debtorName = debtor.getFullName();
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("TAG", "Failed to read value.", error.toException());
-
-            }
-        });
-        return debtorName;
-    }
 
     public void getDebtorById(String id, final IDebtor iDebtor) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()

@@ -72,7 +72,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                     holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
                 }
 
-//                tvCount.setText(listFiltered.size() + " đơn hàng");
+                tvCount.setText(listFiltered.size() + " đơn hàng");
                 Invoice invoice = listFiltered.get(position);
 
                 holder.tvOrderId.setBackground(null);
@@ -81,7 +81,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 InvoiceHistoryController controller = new InvoiceHistoryController(context);
 
                 holder.tvCustomer.setBackground(null);
-                if (invoice.getDebtorId().isEmpty()) {
+                if (invoice.getDebtorId().isEmpty() || invoice.getDebtorId() == null) {
                     holder.tvCustomer.setText("Khách lẻ");
                 } else {
                     controller.fillDebtorName(invoice.getDebtorId(), holder.tvCustomer);

@@ -6,10 +6,6 @@ import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
-import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.View.RevenueActivity;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +17,8 @@ public class TimeController {
 
     private static TimeController mInstance;
     static Locale locale = new Locale("vi", "VN");
+    private Date dateChose = null;
+
 
     public TimeController() {
     }
@@ -222,6 +220,46 @@ public class TimeController {
                             textView.setText(dateFormat.format(date));
                     }
                 }).display();
+    }
+
+    public Date chooseDayInOrderHistory(Context context) {
+
+        // create a new locale
+        Date defaultDate = TimeController.getInstance().convertStrToDate(getCurrentDate());
+        new SingleDateAndTimePickerDialog.Builder(context)
+                .bottomSheet()
+                .curved()
+                .displayMinutes(false)
+                .displayHours(false)
+                .displayDays(false)
+                .displayMonth(true)
+                .customLocale(locale)
+                .displayMonthNumbers(true)
+                .displayYears(true)
+                .defaultDate(defaultDate)
+                .displayDaysOfMonth(true)
+                .titleTextColor(Color.parseColor("#1fb34a"))
+                .mainColor(Color.parseColor("#1fb34a"))
+                .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                    @Override
+                    public void onDisplayed(SingleDateAndTimePicker picker) {
+                        //retrieve the SingleDateAndTimePicker
+                    }
+                })
+                .title("Chọn ngày")
+                .listener(new SingleDateAndTimePickerDialog.Listener() {
+                    @Override
+                    public void onDateSelected(Date date) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        Date now = new Date();
+                        if (date.after(now)) {
+                            dateChose = now;
+                        } else {
+                            dateChose = date;
+                        }
+                    }
+                }).display();
+        return dateChose;
     }
 
 }
