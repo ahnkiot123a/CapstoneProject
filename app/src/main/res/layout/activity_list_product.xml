@@ -28,8 +28,8 @@
 
             <ImageButton
                 android:id="@+id/backToLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@null"
                 android:onClick="back"
                 android:src="@drawable/ic_baseline_arrow_white_ios_24" />

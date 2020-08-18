@@ -113,6 +113,11 @@ public class RevenueActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
             }
         });
+        setUpBarChart();
+
+    }
+    //https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/main/java/com/xxmassdeveloper/mpchartexample/BarChartActivity.java
+    private void setUpBarChart() {
         ArrayList<BarEntry> NoOfEmp = new ArrayList<>();
         NoOfEmp.add(new BarEntry(0, 3));
         NoOfEmp.add(new BarEntry(1, 4));

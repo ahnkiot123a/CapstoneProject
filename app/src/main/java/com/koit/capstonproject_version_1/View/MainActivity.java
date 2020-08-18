@@ -20,6 +20,7 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
@@ -51,11 +52,16 @@ public class MainActivity extends AppCompatActivity {
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-
         getBottomNavigation();
         getNavigationMenuLeft();
 
+
+
+        currentUser = UserDAO.getInstance().getUser();
+
         createProductController = new CreateProductController(this);
+
+
     }
 
     private void getNavigationMenuLeft() {
@@ -65,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         tvEmailProfileLeft = headerView.findViewById(R.id.tvEmailLeft);
         navDrawer = findViewById(R.id.drawer_layout);
 
-        currentUser = UserDAO.getInstance().getUser();
         if (currentUser != null) {
             tvNameProfileLeft.setText(currentUser.getFullName());
             String text = !currentUser.getPhoneNumber().isEmpty() ? currentUser.getPhoneNumber() : currentUser.getEmail();
@@ -143,8 +148,9 @@ public class MainActivity extends AppCompatActivity {
     private void logout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Bạn có muốn đăng xuất không?");
+        builder.setCancelable(false);
         builder.setPositiveButton("Không", null);
-        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 SharedPrefs.getInstance().clear();
