@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
@@ -16,30 +17,25 @@ import com.koit.capstonproject_version_1.R;
 
 public class DraftOrderActivity extends AppCompatActivity {
 
-    public static boolean isFirstTimeRun = true;
 
     private RecyclerView rvDraftOrder;
     private TextView tvDraftOrderCount, tvTime;
     private Spinner timeSpinner;
-//    private SearchView svDraftOrder;
+    private ConstraintLayout layoutNotFound;
 
     private InvoiceHistoryController controller;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_draft_order);
-
         initView();
 
-        buildRvDraftOrder();
         buildSpinner();
         controller.setupRecyclerView(rvDraftOrder, tvDraftOrderCount);
-
-        controller.draftSpinnerEvent(rvDraftOrder, tvDraftOrderCount, timeSpinner, tvTime);
-//        controller.etSearchEvent(svDraftOrder);
-
+        controller.draftSpinnerEvent(rvDraftOrder, tvDraftOrderCount, timeSpinner, tvTime, layoutNotFound);
     }
 
     private void initView() {
@@ -47,7 +43,7 @@ public class DraftOrderActivity extends AppCompatActivity {
         tvDraftOrderCount = findViewById(R.id.tvDraftOrderCount);
         timeSpinner = findViewById(R.id.timeSpinner);
         tvTime = findViewById(R.id.tvTime);
-//        svDraftOrder = findViewById(R.id.svDraftOrder);
+        layoutNotFound = findViewById(R.id.layout_not_found_item);
 
         controller = new InvoiceHistoryController(this);
 
@@ -59,8 +55,8 @@ public class DraftOrderActivity extends AppCompatActivity {
         tvToolbarTitle.setText("Hoá đơn tạm");
     }
 
-        private void buildRvDraftOrder() {
-        controller.draftOrderList(rvDraftOrder, tvDraftOrderCount, tvTime);
+    private void buildRvDraftOrder() {
+        controller.draftOrderList(rvDraftOrder, tvDraftOrderCount, tvTime, layoutNotFound);
     }
 
     private void buildSpinner() {
@@ -72,5 +68,6 @@ public class DraftOrderActivity extends AppCompatActivity {
     public void back(View view) {
         onBackPressed();
     }
+
 
 }

@@ -24,8 +24,18 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
     private final ArrayList<Invoice> list;
     private TextView tvCount;
     private Activity context;
+    private DraftOrderAdapter.OnItemClickListener mListener;
+
     public boolean showShimmer = true;
     private final int SHIMMER_ITEM_NUMBER = 1;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(DraftOrderAdapter.OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     public DraftOrderAdapter(ArrayList<Invoice> list, Activity context, TextView tvCount) {
         this.list = list;
@@ -38,7 +48,7 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
     @Override
     public DraftOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_draft_order, parent, false);
-        return new DraftOrderAdapter.ViewHolder(view);
+        return new DraftOrderAdapter.ViewHolder(view, mListener);
     }
 
     @Override
@@ -83,7 +93,7 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
         ImageView ivPencil;
         RelativeLayout invoiceItemContainer;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             shimmerFrameLayout = itemView.findViewById(R.id.shimmer_layout);
             tvOrderId = itemView.findViewById(R.id.tvOrderId);
@@ -93,6 +103,20 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
             ivPencil = itemView.findViewById(R.id.ivPencil);
             invoiceItemContainer = itemView.findViewById(R.id.invoiceItemContainer);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
         }
     }
+
+
 }

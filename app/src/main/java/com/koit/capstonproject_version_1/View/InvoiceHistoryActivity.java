@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
@@ -25,6 +26,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
     private TextView tvInvoiceCount, tvTime;
     private Spinner invoiceStatusSpinner, timeSpinner;
     private SearchView svInvoice;
+    private ConstraintLayout layoutNotFound;
     private InvoiceHistoryController invoiceHistoryController;
 
     @Override
@@ -38,7 +40,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
 //        buildRvInvoiceHistory();
         buildSpinner();
 
-        invoiceHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, svInvoice, tvTime);
+        invoiceHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound);
 
         invoiceHistoryController.etSearchEvent(svInvoice);
 
@@ -55,6 +57,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         invoiceStatusSpinner = findViewById(R.id.invoiceStatusSpinner);
         timeSpinner = findViewById(R.id.timeSpinner);
         svInvoice = findViewById(R.id.svInvoice);
+        layoutNotFound = findViewById(R.id.layout_not_found_item);
         tvTime = findViewById(R.id.tvTime);
 
 
@@ -70,11 +73,6 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         InvoiceHistoryActivity.isFirstTimeRun = true;
     }
 
-
-//    private void buildRvInvoiceHistory() {
-//        invoiceHistoryController = new InvoiceHistoryController(this);
-//        invoiceHistoryController.invoiceList(rvInvoiceHistory, tvInvoiceCount);
-//    }
 
     private void buildSpinner() {
         String[] statusList = {"Tất cả đơn hàng", "Hoá đơn còn nợ", "Hoá đơn trả hết"};

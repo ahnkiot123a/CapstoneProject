@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class InvoiceDetailController {
             @Override
             public void getListProductInOrder(Product product) {
                 listProductInOrder.add(product);
+                Log.d("listProductInOrderDetai", listProductInOrder.toString());
             }
 
             @Override

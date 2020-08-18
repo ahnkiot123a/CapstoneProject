@@ -1,8 +1,11 @@
 package com.koit.capstonproject_version_1.dao;
 
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,11 +27,11 @@ public class InvoiceHistoryDAO {
 
     }
 
-    public void getInvoiceList(final IInvoice iInvoice) {
+    public void getInvoiceList(final IInvoice iInvoice, final RecyclerView recyclerViewListProduct, final ConstraintLayout layoutNotFound) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getInvoiceList(dataSnapshot, iInvoice);
+                getInvoiceList(dataSnapshot, iInvoice, recyclerViewListProduct, layoutNotFound);
             }
 
             @Override
@@ -40,15 +43,17 @@ public class InvoiceHistoryDAO {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    private void getInvoiceList(DataSnapshot dataSnapshot, IInvoice iInvoice) {
+    private void getInvoiceList(DataSnapshot dataSnapshot, IInvoice iInvoice, RecyclerView recyclerViewListProduct, ConstraintLayout layoutNotFound) {
         DataSnapshot data = dataSnapshot.child("Invoices").child(UserDAO.getInstance().getUserID());
+        boolean hasInvoice = false;
         for (DataSnapshot value : data.getChildren()) {
             final Invoice invoice = value.getValue(Invoice.class);
             if (invoice != null) {
+                hasInvoice = true;
                 invoice.setInvoiceId(value.getKey());
-                if(invoice.getDebtorId().isEmpty()){
+                if (invoice.getDebtorId().isEmpty()) {
                     invoice.setDebtorName("Khách lẻ");
-                }else{
+                } else {
                     getDebtorName(invoice.getDebtorId());
                     IDebtor iDebtor = new IDebtor() {
                         @Override
@@ -66,10 +71,14 @@ public class InvoiceHistoryDAO {
             }
 
         }
+        if (!hasInvoice) {
+            recyclerViewListProduct.setVisibility(View.GONE);
+            layoutNotFound.setVisibility(View.VISIBLE);
+        }
     }
 
     //set debtor name in invoice
-    public void getDebtorName(String id){
+    public void getDebtorName(String id) {
         IDebtor iDebtor = new IDebtor() {
             @Override
             public void getDebtor(Debtor debtor) {
@@ -95,6 +104,7 @@ public class InvoiceHistoryDAO {
                     Log.d("debtor", debtor.toString());
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("TAG", "Failed to read value.", error.toException());
