@@ -2,8 +2,11 @@ package com.koit.capstonproject_version_1.Model;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginResult;
@@ -29,8 +32,6 @@ import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
 import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
 
 import java.io.Serializable;
-
-import androidx.annotation.NonNull;
 
 public class User implements Serializable {
     RegisterVerifyPhoneActivity registerVerifyPhoneActivity;
@@ -201,6 +202,8 @@ public class User implements Serializable {
                     Toast.makeText(LoginActivity.getApplicationContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.getApplicationContext(), MainActivity.class);
                     LoginActivity.startActivity(intent);
+
+
                 } else {
                     Log.d(TAG_FB, "signInWithCredential:failure", task.getException());
                     Toast.makeText(LoginActivity.getApplicationContext(), "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
@@ -211,6 +214,7 @@ public class User implements Serializable {
                 // [END_EXCLUDE]
             }
         });
+
     }
 
     public void getUserWithPhoneAndPasswordInterface(String phoneNumber, final IUser iUser) {

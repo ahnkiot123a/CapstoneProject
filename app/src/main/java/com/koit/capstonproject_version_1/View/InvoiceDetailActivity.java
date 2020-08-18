@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.koit.capstonproject_version_1.Controller.InvoiceDetailController;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
@@ -22,6 +23,7 @@ public class InvoiceDetailActivity extends AppCompatActivity {
     private RecyclerView rvProduct;
 
     private Invoice invoice;
+    private InvoiceDetailController invoiceDetailController;
 
 
     @Override
@@ -29,19 +31,20 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_invoice_detail);
-
         Intent intent = getIntent();
         invoice = (Invoice) intent.getSerializableExtra(InvoiceHistoryActivity.INVOICE);
-
         initView();
+
+
+        invoiceDetailController = new InvoiceDetailController(this);
+        invoiceDetailController.setProductInOrderDetail(rvProduct, invoice.getInvoiceId(), tvProductTotal);
+
+
         setInvoiceValue();
-
-
-
     }
 
     private void setInvoiceValue() {
-        tvInvoiceTime.setText(invoice.getInvoiceTime() + "   " + invoice.getInvoiceDate());
+        tvInvoiceTime.setText(String.format("%s   %s", invoice.getInvoiceTime(), invoice.getInvoiceDate()));
         tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()));
         tvDiscount.setText(Money.getInstance().formatVN(invoice.getDiscount()));
         long mustPayMoney = invoice.getTotal() - invoice.getDiscount();

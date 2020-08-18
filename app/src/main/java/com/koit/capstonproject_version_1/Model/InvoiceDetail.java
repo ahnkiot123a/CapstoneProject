@@ -10,7 +10,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoiceDetail;
-import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
@@ -184,6 +183,16 @@ public class InvoiceDetail implements Serializable {
                     }
                     productInWarehouse.setUnits(unitInWarehouse);
                 }
+                for (int i = 0; i < productInOrder.getUnits().size(); i++) {
+                    for (int j = 0; j < productInWarehouse.getUnits().size(); j++) {
+                        if (productInOrder.getUnits().get(i).getUnitId()
+                                .equals(productInWarehouse.getUnits().get(j).getUnitId())) {
+                            productInOrder.getUnits().get(i).setUnitName(productInWarehouse.getUnits().get(j).getUnitName());
+                        }
+                    }
+                }
+
+
                 iInvoiceDetail.getListProductInWarehouse(productInWarehouse);
                 iInvoiceDetail.getListProductInOrder(productInOrder);
                 Log.d("ListProductInOrder", productInOrder.toString());

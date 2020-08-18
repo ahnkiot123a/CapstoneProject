@@ -8,6 +8,7 @@ import com.koit.capstonproject_version_1.R;
 
 public class Dialog {
 
+
     private Activity activity;
     private AlertDialog dialog;
 
@@ -21,6 +22,7 @@ public class Dialog {
         builder.setView(inflater.inflate(R.layout.custom_dialog_loading, null));
         dialog = builder.create();
         dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
     }
 
     public void dismissLoadingDialog(){

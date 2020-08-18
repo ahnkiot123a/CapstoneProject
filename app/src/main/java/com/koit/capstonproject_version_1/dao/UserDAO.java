@@ -11,12 +11,9 @@ import com.koit.capstonproject_version_1.View.LoginActivity;
 public class UserDAO {
 
     private static UserDAO mInstance;
-    private DatabaseReference databaseReference;
-
-
 
     public UserDAO() {
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+
     }
 
     public static UserDAO getInstance() {

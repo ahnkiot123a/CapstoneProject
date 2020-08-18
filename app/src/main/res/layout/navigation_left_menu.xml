@@ -34,7 +34,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
@@ -44,6 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:layout_gravity="center"
                 android:fontFamily="sans-serif-medium"
                 android:text="Nguyễn Quang Anh"
                 android:textColor="@color/white"
@@ -78,7 +79,7 @@
             android:drawableRight="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="10dp"
             android:fontFamily="sans-serif-medium"
-            android:onClick="getUpdateActivity"
+            android:onClick="intentToSelectProduct"
             android:paddingRight="10dp"
             android:text="Bán hàng"
             android:textAlignment="textStart"
@@ -99,7 +100,7 @@
             android:drawableRight="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="10dp"
             android:fontFamily="sans-serif-medium"
-            android:onClick="getUpdateActivity"
+            android:onClick="callDraftOrderActivity"
             android:paddingRight="10dp"
             android:text="Hóa đơn tạm"
             android:textAlignment="textStart"
@@ -181,7 +182,7 @@
             android:fontFamily="sans-serif-medium"
             android:onClick="callCreateProductActivity"
             android:paddingRight="10dp"
-            android:text="Doanh thu"
+            android:text="Báo cáo"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/black"

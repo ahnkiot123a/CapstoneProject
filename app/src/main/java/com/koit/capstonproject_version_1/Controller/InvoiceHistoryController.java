@@ -183,6 +183,7 @@ public class InvoiceHistoryController {
                     }
 
                 }
+                invoiceHistoryAdapter.showShimmer = false;
                 textView.setText(invoiceList.size() + " đơn hàng");
                 invoiceHistoryAdapter.notifyDataSetChanged();
             }
@@ -197,10 +198,12 @@ public class InvoiceHistoryController {
     }
 
     private void sendInvoiceToDetail(int position) {
-        Invoice invoice = invoiceList.get(position);
-        Intent intent = new Intent(activity, InvoiceDetailActivity.class);
-        intent.putExtra(InvoiceHistoryActivity.INVOICE, invoice);
-        activity.startActivity(intent);
+        if (position > -1) {
+            Invoice invoice = invoiceList.get(position);
+            Intent intent = new Intent(activity, InvoiceDetailActivity.class);
+            intent.putExtra(InvoiceHistoryActivity.INVOICE, invoice);
+            activity.startActivity(intent);
+        }
     }
 
     public void draftOrderList(RecyclerView rvDraftOrder, final TextView tvCount, final TextView tvTime) {
