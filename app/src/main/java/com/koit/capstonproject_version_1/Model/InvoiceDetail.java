@@ -59,11 +59,18 @@ public class InvoiceDetail implements Serializable {
                     String unitId = listSelectedProductInOrder.get(i).getUnits().get(j).getUnitId();
                     long unitQuantity = listSelectedProductInOrder.get(i).getUnits().get(j).getUnitQuantity();
                     long unitPrice = listSelectedProductInOrder.get(i).getUnits().get(j).getUnitPrice();
+                    String unitName = listSelectedProductInOrder.get(i).getUnits().get(j).getUnitName();
 
                     DatabaseReference databaseReferencePrice = databaseReference.child("unitPrice");
                     databaseReferencePrice.setValue(unitPrice);
                     DatabaseReference databaseReferenceQuantity = databaseReference.child("unitQuantity");
                     databaseReferenceQuantity.setValue(unitQuantity);
+                    DatabaseReference databaseReferenceName = databaseReference.child("unitName");
+                    databaseReferenceName.setValue(unitName);
+                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference = databaseReference.child("InvoiceDetail").child(UserDAO.getInstance().getUserID()).
+                            child(invoiceId).child("products").child(listSelectedProductInOrder.get(i).getProductId()).child("productName");
+                    databaseReference.setValue(listSelectedProductInOrder.get(i).getProductName());
                 }
             } else {
                 for (int j = 0; j < listSelectedProductInOrder.get(i).getUnits().size(); j++) {
@@ -124,6 +131,36 @@ public class InvoiceDetail implements Serializable {
         DataSnapshot dataSnapshotInvoiceDetail = dataSnapshot.child("InvoiceDetail").child(UserDAO.getInstance().getUserID())
                 .child(invoiceId).child("products");
         if (dataSnapshotInvoiceDetail != null) {
+            for (DataSnapshot valueInvoiceDetail : dataSnapshotInvoiceDetail.getChildren()) {
+                Product productInOrder = new Product();
+                DataSnapshot dataSnapshotProduct = dataSnapshotInvoiceDetail.child(valueInvoiceDetail.getKey()).child("productName");
+                productInOrder.setProductName(dataSnapshotProduct.getValue().toString());
+                productInOrder.setProductId(valueInvoiceDetail.getKey());
+                DataSnapshot dataSnapshotUnits = dataSnapshotInvoiceDetail.child(productInOrder.getProductId()).child("units");
+                List<Unit> unitList = new ArrayList<>();
+                for (DataSnapshot valueUnit : dataSnapshotUnits.getChildren()) {
+                    Unit unit = valueUnit.getValue(Unit.class);
+
+                    if (unit != null) {
+                        unit.setUnitId(valueUnit.getKey());
+                        unitList.add(unit);
+                    }
+                }
+                productInOrder.setUnits(unitList);
+                iInvoiceDetail.getListProductInOrder(productInOrder);
+                if (productInOrder != null)
+                    Log.d("ListProductInOrder", productInOrder.toString());
+                else Log.d("ListProductInOrder", "null");
+            }
+
+        }
+
+    }
+
+    private void getListProductInDraftOrder(DataSnapshot dataSnapshot, IInvoiceDetail iInvoiceDetail, String invoiceId) {
+        DataSnapshot dataSnapshotInvoiceDetail = dataSnapshot.child("InvoiceDetail").child(UserDAO.getInstance().getUserID())
+                .child(invoiceId).child("products");
+        if (dataSnapshotInvoiceDetail != null) {
 //            DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(UserDAO.getInstance().getUserID());
             for (DataSnapshot valueInvoiceDetail : dataSnapshotInvoiceDetail.getChildren()) {
 
@@ -131,14 +168,14 @@ public class InvoiceDetail implements Serializable {
                 Log.d("ktdataSnapshotProduct", dataSnapshot.toString());
                 Product productInOrder = new Product();
                 Product productInWarehouse = new Product();
-                if (!valueInvoiceDetail.getKey().startsWith("nonListedProduct")) {
-                    DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products")
-                            .child(UserDAO.getInstance().getUserID()).child(valueInvoiceDetail.getKey());
-                    productInOrder = dataSnapshotProduct.getValue(Product.class);
-                } else {
-                    DataSnapshot dataSnapshotProduct = dataSnapshotInvoiceDetail.child(valueInvoiceDetail.getKey()).child("productName");
-                    productInOrder.setProductName(dataSnapshotProduct.getValue().toString());
-                }
+//                if (!valueInvoiceDetail.getKey().startsWith("nonListedProduct")) {
+//                    DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products")
+//                            .child(UserDAO.getInstance().getUserID()).child(valueInvoiceDetail.getKey());
+//                    productInOrder = dataSnapshotProduct.getValue(Product.class);
+//                } else {
+                DataSnapshot dataSnapshotProduct = dataSnapshotInvoiceDetail.child(valueInvoiceDetail.getKey()).child("productName");
+                productInOrder.setProductName(dataSnapshotProduct.getValue().toString());
+//                }
 //                Log.d("ktProductInvoiceDetail",product.toString());
 //                Log.d("ktGetKeyInvoiceDetail", valueInvoiceDetail.getKey());
                 productInOrder.setProductId(valueInvoiceDetail.getKey());
@@ -181,13 +218,20 @@ public class InvoiceDetail implements Serializable {
                             unitInWarehouse.add(unit);
                         }
                     }
-                    productInWarehouse.setUnits(unitInWarehouse);
+                    if (unitInWarehouse.size() > 0)
+                        productInWarehouse.setUnits(unitInWarehouse);
+                    else {
+                        productInOrder = null;
+                        productInWarehouse = null;
+                    }
                 }
-                for (int i = 0; i < productInOrder.getUnits().size(); i++) {
-                    for (int j = 0; j < productInWarehouse.getUnits().size(); j++) {
-                        if (productInOrder.getUnits().get(i).getUnitId()
-                                .equals(productInWarehouse.getUnits().get(j).getUnitId())) {
-                            productInOrder.getUnits().get(i).setUnitName(productInWarehouse.getUnits().get(j).getUnitName());
+                if (productInWarehouse != null) {
+                    for (int i = 0; i < productInOrder.getUnits().size(); i++) {
+                        for (int j = 0; j < productInWarehouse.getUnits().size(); j++) {
+                            if (productInOrder.getUnits().get(i).getUnitId()
+                                    .equals(productInWarehouse.getUnits().get(j).getUnitId())) {
+                                productInOrder.getUnits().get(i).setUnitName(productInWarehouse.getUnits().get(j).getUnitName());
+                            }
                         }
                     }
                 }
@@ -195,11 +239,18 @@ public class InvoiceDetail implements Serializable {
 
                 iInvoiceDetail.getListProductInWarehouse(productInWarehouse);
                 iInvoiceDetail.getListProductInOrder(productInOrder);
-                Log.d("ListProductInOrder", productInOrder.toString());
-                Log.d("ListProductWarehouse", productInWarehouse.toString());
+                if (productInOrder != null)
+                    Log.d("ListProductInOrder", productInOrder.toString());
+                else Log.d("ListProductInOrder", "null");
+                if (productInWarehouse != null)
+                    Log.d("ListProductWarehouse", productInWarehouse.toString());
+                else
+                    Log.d("ListProductWarehouse", "null");
+
             }
 
         }
 
     }
+
 }
