@@ -8,11 +8,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.SuggestedProduct;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -235,14 +238,37 @@ public class CreateOrderController {
                 }
 
                 listProductWarehouse.get(i).setUnits(unitInWareHouse);
-                addProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
-
+//                addProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
+                updateUnitsToFireBase(listProductWarehouse.get(i));
             }
 
         }
 
     }
+    public void updateUnitsToFireBase(Product product) {
+      final Product productInWarehouse = product;
+        IProduct iProduct = new IProduct() {
+            @Override
+            public void getSuggestedProduct(SuggestedProduct product) {
 
+            }
+
+            @Override
+            public void isExistBarcode(boolean existed) {
+
+            }
+
+            @Override
+            public void getProductById(Product product) {
+                if (product != null && product.isActive()){
+                    Unit unit = new Unit();
+                    unit.updateUnitsToFirebase(productInWarehouse);
+                }
+            }
+        };
+        product.getProductById(product.getProductId(),iProduct);
+
+    }
     public long calTotalQuantityInUnitList(List<Unit> units) {
         long quantity = 0;
         for (int i = 0; i < units.size(); i++) {

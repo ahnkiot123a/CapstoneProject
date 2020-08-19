@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.Model;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -100,5 +101,12 @@ public class Unit implements Serializable {
         databaseReference = firebaseDatabase.getReference().child("Units").child(userId).child(productId);
 //        databaseReference.push().setValue(this);
         databaseReference.setValue(unitList);
+    }
+    public void updateUnitsToFirebase(Product product){
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("Units").child(UserDAO.getInstance().getUserID())
+                .child(product.getProductId());
+//        databaseReference.push().setValue(this);
+        databaseReference.setValue(product.getUnits());
     }
 }

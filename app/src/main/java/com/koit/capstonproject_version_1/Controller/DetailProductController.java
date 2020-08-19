@@ -25,6 +25,7 @@ import com.koit.capstonproject_version_1.Adapter.UnitRecyclerAdapter;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.View.ListProductActivity;
+import com.koit.capstonproject_version_1.dao.CreateProductDAO;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.File;
@@ -165,7 +166,7 @@ public class DetailProductController {
     }
 
     public void removeProduct(Product product) {
-        product.removeProduct(UserDAO.getInstance().getUserID(), product.getProductId());
+        product.removeProduct(product);
         Unit unit = new Unit();
         unit.removeProductUnits(UserDAO.getInstance().getUserID(), product.getProductId());
         Intent intent = new Intent(activity, ListProductActivity.class);

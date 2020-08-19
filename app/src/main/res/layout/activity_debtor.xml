@@ -24,7 +24,7 @@
             android:clickable="true"
             android:focusable="true"
             android:iconifiedByDefault="false"
-            android:queryHint="Nhập mã, tên khách hàng">
+            android:queryHint="Nhập số điện thoại, tên khách hàng">
         </SearchView>
     </LinearLayout>
 <androidx.recyclerview.widget.RecyclerView

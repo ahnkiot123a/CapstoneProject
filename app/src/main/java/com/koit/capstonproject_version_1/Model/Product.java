@@ -18,6 +18,7 @@ import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.View.SelectProductActivity;
+import com.koit.capstonproject_version_1.dao.CreateProductDAO;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
@@ -342,9 +343,12 @@ public class Product implements Serializable {
         }
     }
 
-    public void removeProduct(String userId, String productId) {
+    public void removeProduct(Product product) {
+        if (product.getProductImageUrl() != null) {
+            CreateProductDAO.getInstance().deleteImageProduct(product.getProductImageUrl());
+        }
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("Products").child(userId).child(productId);
+        databaseReference = firebaseDatabase.getReference().child("Products").child(UserDAO.getInstance().getUserID()).child(product.getProductId());
         databaseReference.removeValue();
     }
 
@@ -573,38 +577,9 @@ public class Product implements Serializable {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final Product product = snapshot.getValue(Product.class);
-                product.setProductId(snapshot.getKey());
-//                iProduct.getProductById(product);
 
-                final List<Unit> unitList = new ArrayList<>();
-                DatabaseReference nodeUnits = FirebaseDatabase.getInstance().getReference()
-                        .child("Units").child(UserDAO.getInstance().getUserID()).child(id);
-                nodeUnits.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshotUnit) {
-                        for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
-                            Log.d("kiemtraUnit", valueUnit + "");
-                            Unit unit = valueUnit.getValue(Unit.class);
-
-                            unit.setUnitId(valueUnit.getKey());
-                            unitList.add(unit);
-                        }
-                        product.setUnits(unitList);
-                        if (product != null) {
-                            Log.d("productByID", product.toString());
-                        }
-                        iProduct.getProductById(product);
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
+                     Product product = snapshot.getValue(Product.class);
+                     iProduct.getProductById(product);
             }
 
             @Override

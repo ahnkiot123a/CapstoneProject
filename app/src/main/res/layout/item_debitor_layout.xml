@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/tvDebitorName"
+        android:id="@+id/tvDebtorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/tvDebitorPhone"
+        android:id="@+id/tvDebtorPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"

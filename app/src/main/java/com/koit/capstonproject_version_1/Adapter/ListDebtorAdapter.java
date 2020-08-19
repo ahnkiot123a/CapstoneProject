@@ -15,9 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Model.Debtor;
-import com.koit.capstonproject_version_1.Model.Invoice;
-import com.koit.capstonproject_version_1.Model.InvoiceDetail;
-import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DebitConfirmationActivity;
@@ -26,42 +23,31 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder> implements Filterable {
-    List<Debtor> debtorList;
+public class ListDebtorAdapter extends RecyclerView.Adapter<ListDebtorAdapter.ViewHolder> implements Filterable  {
     List<Debtor> listFiltered;
     Context context;
-    Invoice invoice;
-    InvoiceDetail invoiceDetail;
-    List<Product> listSelectedProductWarehouse;
+    List<Debtor> debtorList;
 
-    public DebtorAdapter(List<Debtor> debtorList, Context context, Invoice invoice, InvoiceDetail invoiceDetail, List<Product> listSelectedProductWarehouse) {
-        this.debtorList = debtorList;
-        this.context = context;
-        this.listFiltered = debtorList;
-        this.invoice = invoice;
-        this.invoiceDetail = invoiceDetail;
-        this.listSelectedProductWarehouse = listSelectedProductWarehouse;
-    }
 
-    public DebtorAdapter(List<Debtor> debtorList, Context context) {
+    public ListDebtorAdapter(List<Debtor> debtorList, Context context) {
         this.debtorList = debtorList;
         this.listFiltered = debtorList;
         this.context = context;
     }
 
-    public DebtorAdapter() {
+    public ListDebtorAdapter() {
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListDebtorAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.item_debitor_layout, parent, false);
-        return new DebtorAdapter.ViewHolder(itemView);
+        View itemView = layoutInflater.inflate(R.layout.item_in_list_debtor_layout, parent, false);
+        return new ListDebtorAdapter.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ListDebtorAdapter.ViewHolder holder, int position) {
         final Debtor debtor = listFiltered.get(position);
         holder.tvDebitorName.setText(debtor.getFullName());
         holder.tvDebitorPhone.setText(debtor.getPhoneNumber());
@@ -70,19 +56,7 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
         holder.itemDebtor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentDebtor = new Intent(context, DebitConfirmationActivity.class);
-                intentDebtor.putExtra("debtor", debtor);
-                intentDebtor.putExtra("invoice", invoice);
-                intentDebtor.putExtra("invoiceDetail", invoiceDetail);
-                Bundle args2 = new Bundle();
-                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-                intentDebtor.putExtra("BUNDLE", args2);
 
-                //  invoice = SelectDebtorActivity.getInstance().getInvoice();
-                //Log.d("InvoiceAdapter", invoice.toString());
-                intentDebtor.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                context.startActivity(intentDebtor);
             }
         });
     }
@@ -91,6 +65,7 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
     public int getItemCount() {
         return listFiltered != null ? listFiltered.size() : 0;
     }
+
 
     @Override
     public Filter getFilter() {
@@ -104,8 +79,8 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
                     List<Debtor> lstFiltered = new ArrayList<>();
                     for (Debtor iv : debtorList) {
                         if (
-                                 iv.getFullName().toLowerCase().contains(key.toLowerCase())
-                                || iv.getPhoneNumber().toLowerCase().contains(key.toLowerCase())
+                                iv.getFullName().toLowerCase().contains(key.toLowerCase())
+                                        || iv.getPhoneNumber().toLowerCase().contains(key.toLowerCase())
                         ) {
                             lstFiltered.add(iv);
                         }
@@ -126,19 +101,17 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
         };
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvDebitorName, tvDebitorPhone, tvDebtTotalAmount,tvFirstDebtorName;
         private ConstraintLayout itemDebtor;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvDebitorName = itemView.findViewById(R.id.tvDebitorName);
-            tvDebitorPhone = itemView.findViewById(R.id.tvDebitorPhone);
+            tvDebitorName = itemView.findViewById(R.id.tvDebtorName);
+            tvDebitorPhone = itemView.findViewById(R.id.tvDebtorPhone);
             tvDebtTotalAmount = itemView.findViewById(R.id.tvDebtTotalAmount);
             itemDebtor = itemView.findViewById(R.id.itemDebtor);
             tvFirstDebtorName = itemView.findViewById(R.id.tvFirstName);
         }
     }
-
 }

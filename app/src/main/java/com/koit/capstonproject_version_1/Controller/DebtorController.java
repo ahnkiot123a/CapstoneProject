@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.koit.capstonproject_version_1.Adapter.DebtorAdapter;
+import com.koit.capstonproject_version_1.Adapter.ListDebtorAdapter;
+import com.koit.capstonproject_version_1.Adapter.SelectDebtorAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.View.SelectDebtorActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +30,15 @@ public class DebtorController {
     private InvoiceDetail invoiceDetail;
     private List<Product> listSelectedProductWarehouse;
     private List<Debtor> debtorList;
-    private DebtorAdapter debtorAdapter;
+    private SelectDebtorAdapter selectDebtorAdapter;
+    private ListDebtorAdapter listDebtorAdapter;
     private InputController inputController;
 
     public DebtorController(Context context) {
         this.context = context;
         inputController = new InputController();
+        debtor = new Debtor();
+
     }
 
     public DebtorController(Context context, Invoice invoice, InvoiceDetail invoiceDetail, List<Product> listSelectedProductWarehouse) {
@@ -52,13 +55,31 @@ public class DebtorController {
         debtorList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
-        debtorAdapter = new DebtorAdapter(debtorList, context, invoice, invoiceDetail, listSelectedProductWarehouse);
-        recyclerViewDebtor.setAdapter(debtorAdapter);
+        selectDebtorAdapter = new SelectDebtorAdapter(debtorList, context, invoice, invoiceDetail, listSelectedProductWarehouse);
+        recyclerViewDebtor.setAdapter(selectDebtorAdapter);
         IDebtor iDebtor = new IDebtor() {
             @Override
             public void getDebtor(Debtor debtor) {
                 debtorList.add(debtor);
-                debtorAdapter.notifyDataSetChanged();
+                selectDebtorAdapter.notifyDataSetChanged();
+            }
+
+
+        };
+        debtor.getListDebtor(iDebtor);
+
+    }
+    public void getListDebtor(RecyclerView recyclerViewDebtor) {
+        debtorList = new ArrayList<>();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerViewDebtor.setLayoutManager(layoutManager);
+        listDebtorAdapter = new ListDebtorAdapter(debtorList, context);
+        recyclerViewDebtor.setAdapter(listDebtorAdapter);
+        IDebtor iDebtor = new IDebtor() {
+            @Override
+            public void getDebtor(Debtor debtor) {
+                debtorList.add(debtor);
+                listDebtorAdapter.notifyDataSetChanged();
             }
 
 
@@ -148,7 +169,21 @@ public class DebtorController {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                debtorAdapter.getFilter().filter(newText);
+                selectDebtorAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+    }
+    public void etSearchEventListDebtor(SearchView svDebtor) {
+        svDebtor.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                listDebtorAdapter.getFilter().filter(newText);
                 return true;
             }
         });

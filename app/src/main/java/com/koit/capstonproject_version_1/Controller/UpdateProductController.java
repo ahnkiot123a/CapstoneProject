@@ -41,7 +41,6 @@ public class UpdateProductController {
 
     public UpdateProductController() {
     }
-
     public void updateProduct(TextInputEditText etBarcode, TextInputEditText tetProductName,
                               TextInputEditText tetDescription, TextView tvCategory,
                               Switch switchActive, Product currentProduct
@@ -49,13 +48,24 @@ public class UpdateProductController {
         String barcode = etBarcode.getText().toString().trim();
         String name = tetProductName.getText().toString().trim();
         String description = tetDescription.getText().toString().trim();
-        String categoryName = tvCategory.getText().toString().trim();
+        final String categoryName = tvCategory.getText().toString().trim();
         Boolean active = (switchActive.isChecked()) ? true : false;
         currentProduct.setBarcode(barcode);
         currentProduct.setProductName(name);
         currentProduct.setCategoryName(categoryName);
         currentProduct.setProductDescription(description);
         currentProduct.setActive(active);
+        ICategory iCategory = new ICategory() {
+            @Override
+            public void getCategory(Category category) {
+                if (category == null) {
+                    Category category2 = new Category(categoryName);
+                    category2.addCategoryToFireBase(category2);
+                }
+            }
+        };
+        Category category = new Category();
+        category.getCategoryByCategoryName(currentProduct.getCategoryName(),iCategory);
         //  Uri uri = CreateProductActivity.photoUri;
         //  String imgName = CreateProductActivity.photoName;
         if (UpdateProductInformationActivity.photoName != null) {

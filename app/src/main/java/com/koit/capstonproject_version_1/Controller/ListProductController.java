@@ -113,7 +113,7 @@ public class ListProductController extends AppCompatActivity {
                                 UserDAO userDAO = new UserDAO();
                                 Unit unit = new Unit();
                                 Product product = listProduct.get(position);
-                                product.removeProduct(userDAO.getUserID(), product.getProductId());
+                                product.removeProduct(product);
                                 unit.removeProductUnits(userDAO.getUserID(), product.getProductId());
                                 Intent intent = new Intent(listProductActivity, ListProductActivity.class);
                                 listProductActivity.startActivity(intent);
