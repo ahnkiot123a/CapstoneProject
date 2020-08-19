@@ -40,7 +40,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
 //        buildRvInvoiceHistory();
         buildSpinner();
 
-        invoiceHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound);
+//        invoiceHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound);
 
         invoiceHistoryController.etSearchEvent(svInvoice);
 

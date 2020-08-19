@@ -43,6 +43,8 @@ public class InvoiceHistoryDAO {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
+
+
     private void getInvoiceList(DataSnapshot dataSnapshot, IInvoice iInvoice, RecyclerView recyclerViewListProduct, ConstraintLayout layoutNotFound) {
         DataSnapshot data = dataSnapshot.child("Invoices").child(UserDAO.getInstance().getUserID());
         boolean hasInvoice = false;
@@ -189,6 +191,7 @@ public class InvoiceHistoryDAO {
         invoiceDetailRef.removeValue();
 
     }
+
 
 //    public void getProductList(String oid){
 //            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
