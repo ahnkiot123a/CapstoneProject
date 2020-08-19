@@ -113,10 +113,10 @@
                 android:textSize="20sp" />
 
             <LinearLayout
+                android:id="@+id/linearAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvNameProfile"
-                android:id="@+id/linearAccount"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/radius_linearlayout"
@@ -143,12 +143,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearChangePwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvNameProfile"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/linearChangePwd"
                 android:background="@drawable/radius_linearlayout"
                 android:orientation="vertical">
 

@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -176,6 +178,27 @@ public class UserController {
             userInformationActivity.startActivity(intent);
             //userInformationActivity.onBackPressed();
         }
+    }
+
+    public void logout(final Activity activity) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity);
+        builder.setMessage("Bạn có muốn đăng xuất không?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Thoát", null);
+        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPrefs.getInstance().clear();
+                LoginManager.getInstance().logOut();
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(activity, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                activity.startActivity(intent);
+            }
+        });
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

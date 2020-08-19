@@ -53,8 +53,6 @@ public class InvoiceHistoryController {
     private Date dateInput, start, end;
     private OrderSwipeController orderSwipeController;
     private String draftOrderTime = "Tất cả";
-    private boolean hasInvoice = false;
-    private boolean hasDraftOrder = false;
 
 
     public InvoiceHistoryController(Activity activity) {
@@ -77,7 +75,7 @@ public class InvoiceHistoryController {
 
 
     //get invoice list by time and status
-    public void invoiceList(final RecyclerView recyclerViewListProduct, final TextView textView, final TextView tvTime, final ConstraintLayout layoutNotFound) {
+    public void invoiceList(final RecyclerView recyclerViewListProduct, final TextView textView, final TextView tvTime, final ConstraintLayout layoutNotFound, final SearchView searchView) {
         invoiceList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewListProduct.setLayoutManager(layoutManager);
@@ -86,11 +84,8 @@ public class InvoiceHistoryController {
         IInvoice iInvoice = new IInvoice() {
             @Override
             public void getInvoice(Invoice invoice) {
-                Log.d("abc", "co");
                 if (invoice != null) {
-                    Log.d("abc", "co");
                     if (!invoice.isDrafted()) {
-                        hasInvoice = true;
                         invoiceHistoryAdapter.showShimmer = false;
                         if (status.equals("Tất cả đơn hàng") && time.equals("Hôm nay")) {
                             tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
@@ -188,15 +183,8 @@ public class InvoiceHistoryController {
 
                     }
                     textView.setText(invoiceList.size() + " đơn hàng");
-                    Log.d("hasInvoice", hasInvoice + "");
                     invoiceHistoryAdapter.notifyDataSetChanged();
-                }
-                if(hasInvoice){
-                    recyclerViewListProduct.setVisibility(View.VISIBLE);
-                    layoutNotFound.setVisibility(View.GONE);
-                }else {
-                    recyclerViewListProduct.setVisibility(View.GONE);
-                    layoutNotFound.setVisibility(View.VISIBLE);
+                    invoiceHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                 }
 
             }
@@ -232,7 +220,6 @@ public class InvoiceHistoryController {
             public void getInvoice(Invoice invoice) {
                 if (invoice != null) {
                     if (invoice.isDrafted()) {
-                        hasDraftOrder = true;
                         draftOrderAdapter.showShimmer = false;
                         if (draftOrderTime.equals("Tất cả")) {
                             tvTime.setText("");
@@ -266,13 +253,7 @@ public class InvoiceHistoryController {
                         tvCount.setText(draftOrderList.size() + " hoá đơn tạm");
                         draftOrderAdapter.notifyDataSetChanged();
                     }
-                    if(hasDraftOrder){
-                        rvDraftOrder.setVisibility(View.VISIBLE);
-                        layoutNotFound.setVisibility(View.GONE);
-                    }else {
-                        rvDraftOrder.setVisibility(View.GONE);
-                        layoutNotFound.setVisibility(View.VISIBLE);
-                    }
+
                 }
 
             }
@@ -281,7 +262,11 @@ public class InvoiceHistoryController {
         draftOrderAdapter.setOnItemClickListener(new DraftOrderAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                if(!draftOrderList.isEmpty()){
+                    Invoice invoice = draftOrderList.get(position);
+                    InvoiceDetailController invoiceDetailController = new InvoiceDetailController(activity);
+                    invoiceDetailController.getListProductInDraftOrder(invoice.getInvoiceId());
+                }
             }
         });
     }
@@ -298,8 +283,7 @@ public class InvoiceHistoryController {
                     buildTimeDialog(recyclerView, textView, timeSpinner, searchView, tvTime, layoutNotFound);
                 } else {
                     if (!InvoiceHistoryActivity.isFirstTimeRun) {
-                        invoiceList(recyclerView, textView, tvTime, layoutNotFound);
-                        etSearchEvent(searchView);
+                        invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView);
                     }
                     InvoiceHistoryActivity.isFirstTimeRun = false;
                 }
@@ -317,8 +301,7 @@ public class InvoiceHistoryController {
                 time = timeSpinner.getSelectedItem().toString();
                 status = statusSpinner.getSelectedItem().toString();
                 if (!InvoiceHistoryActivity.isFirstTimeRun) {
-                    invoiceList(recyclerView, textView, tvTime, layoutNotFound);
-                    etSearchEvent(searchView);
+                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView);
                 }
                 InvoiceHistoryActivity.isFirstTimeRun = false;
             }
@@ -430,7 +413,7 @@ public class InvoiceHistoryController {
                     tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
                 }
                 alertDialog.cancel();
-                invoiceList(recyclerView, textView, tvTime, layoutNotFound);
+                invoiceList(recyclerView, textView, tvTime, layoutNotFound,searchView);
                 etSearchEvent(searchView);
             }
         });
@@ -480,11 +463,11 @@ public class InvoiceHistoryController {
     }
 
     public void etSearchEvent(SearchView searchView) {
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 invoiceHistoryAdapter.getFilter().filter(query.trim());
+                Log.d("query", query);
                 return true;
             }
 

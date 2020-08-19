@@ -17,14 +17,21 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
+import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Controller.InputController;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeControllerActions;
-import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Controller.RandomStringController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
@@ -35,13 +42,6 @@ import com.koit.capstonproject_version_1.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ListItemInOrderActivity extends AppCompatActivity {
     private RecyclerView recyclerViewListProduct;
