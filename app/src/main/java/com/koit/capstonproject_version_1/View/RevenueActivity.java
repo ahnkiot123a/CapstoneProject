@@ -31,6 +31,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
+import com.koit.capstonproject_version_1.Controller.RevenueController;
 import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
@@ -49,7 +50,7 @@ public class RevenueActivity extends AppCompatActivity {
     ConstraintLayout revenueLayout;
     Date dateFrom;
     Date dateTo;
-    boolean isFirstTime = false;
+    boolean isFirstTime = true;
     Spinner spinnerGraph;
     LottieAnimationView animationView;
     TextView tvTotal;
@@ -60,12 +61,13 @@ public class RevenueActivity extends AppCompatActivity {
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_revenue_activvity);
         initView();
+        setSpinner();
+        //set up UI loading
         shimmerFrameLayout.startShimmer();
         animationView.setVisibility(View.VISIBLE);
-        setSpinner();
         TimeController.getInstance().setCurrentDate(tvFrom, tvTo);
         getDetailRevenueActivity();
-        InvoiceHistoryController invoiceHistoryController = new InvoiceHistoryController(this, chart);
+        RevenueController revenueController = new RevenueController(this, chart);
 
         spinnerChooseTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -113,7 +115,9 @@ public class RevenueActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String stringDate = tvFrom.getText().toString();
-                dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDate, dateFrom);
+                dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDate);
+                RevenueController revenueController = new RevenueController(RevenueActivity.this, chart);
+                revenueController.getListInvoice(dateFrom, dateTo, animationView, tvTotal, shimmerFrameLayout);
             }
 
             @Override
@@ -128,7 +132,9 @@ public class RevenueActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String stringDate = tvTo.getText().toString();
-                dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDate, dateTo);
+                dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDate);
+                RevenueController revenueController = new RevenueController(RevenueActivity.this, chart);
+                revenueController.getListInvoice(dateFrom, dateTo, animationView, tvTotal, shimmerFrameLayout);
             }
 
             @Override
@@ -136,8 +142,16 @@ public class RevenueActivity extends AppCompatActivity {
             }
         });
 
-        invoiceHistoryController.getListInvoice(TimeController.getInstance().changeStringToDate(tvFrom.getText().toString()),
-                TimeController.getInstance().changeStringToDate(tvTo.getText().toString()), animationView,tvTotal,shimmerFrameLayout);
+        //set timeFrom and timTo for the first time
+        dateFrom = TimeController.getInstance().getDateAndMonthFromText(tvFrom.getText().toString());
+        dateTo = TimeController.getInstance().getDateAndMonthFromText(tvTo.getText().toString());
+        if (dateFrom.after(dateTo)) {
+            Date temp = new Date();
+            temp = dateFrom;
+            dateFrom = dateTo;
+            dateTo = temp;
+        }
+        revenueController.getListInvoice(dateFrom, dateTo, animationView, tvTotal, shimmerFrameLayout);
     }
 
     private void initView() {
@@ -275,8 +289,8 @@ public class RevenueActivity extends AppCompatActivity {
             String stringDateTo = bundle.getString("dateTo");
             tvFrom.setText(stringDateFrom);
             tvTo.setText(stringDateTo);
-            dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDateFrom, dateFrom);
-            dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDateTo, dateTo);
+            dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDateFrom);
+            dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDateTo);
             spinnerChooseTime.setSelection(bundle.getInt("searchType"));
         }
     }

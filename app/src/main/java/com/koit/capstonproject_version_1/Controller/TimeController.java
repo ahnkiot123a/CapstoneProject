@@ -141,7 +141,7 @@ public class TimeController {
         tvTo.setText(TimeController.getInstance().changeDateToString(today));
     }
 
-    public Date getDateAndMonthFromText(String stringDate, Date date) {
+    public Date getDateAndMonthFromText(String stringDate,Date date) {
         if (stringDate.length() == 7) {
             date = TimeController.getInstance().changeStringToMonth(stringDate);
         } else {
@@ -149,7 +149,15 @@ public class TimeController {
         }
         return date;
     }
-
+    public Date getDateAndMonthFromText(String stringDate) {
+        Date date = new Date();
+        if (stringDate.length() == 7) {
+            date = TimeController.getInstance().changeStringToMonth(stringDate);
+        } else {
+            date = TimeController.getInstance().changeStringToDate(stringDate);
+        }
+        return date;
+    }
     public void chooseDayDialog(final TextView textView, Date defaultDate, Context context) {
         // create a new locale
         new SingleDateAndTimePickerDialog.Builder(context)

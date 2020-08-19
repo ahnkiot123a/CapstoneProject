@@ -61,19 +61,13 @@ public class InvoiceHistoryController {
     private Date dateInput;
     private OrderSwipeController orderSwipeController;
     private String draftOrderTime = "Tất cả";
-    private BarChart chart;
-    List<Invoice> listInvoice;
 
     public InvoiceHistoryController(Activity activity) {
         this.activity = activity;
         invoiceHistoryDAO = new InvoiceHistoryDAO();
     }
 
-    public InvoiceHistoryController(Activity activity, BarChart chart) {
-        this.activity = activity;
-        invoiceHistoryDAO = new InvoiceHistoryDAO();
-        this.chart = chart;
-    }
+
 
     //get debtor name and fill text view
     public void fillDebtorName(String id, final TextView textView) {
@@ -532,17 +526,5 @@ public class InvoiceHistoryController {
         });
     }
 
-    public void getListInvoice(Date dateFrom, Date dateTo, LottieAnimationView animationView, TextView tvTotal, ShimmerFrameLayout shimmerFrameLayout) {
-        listInvoice = new ArrayList<>();
-        IInvoice iInvoice = new IInvoice() {
-            @Override
-            public void getInvoice(Invoice invoice) {
-                if (invoice != null && !invoice.isDrafted()) {
-                    listInvoice.add(invoice);
-                }
-                Log.d("ListInvoice",listInvoice.toString());
-            }
-        };
-        invoiceHistoryDAO.getInvoiceList(iInvoice);
-    }
+
 }
