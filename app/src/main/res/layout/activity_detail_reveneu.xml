@@ -50,15 +50,15 @@
         </Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:transitionName="timeLayout"
-            android:layout_width="match_parent"
             android:id="@+id/timeLayout"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/backgroud_shadow_radius"
             android:orientation="horizontal"
             android:padding="5dp"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:paddingBottom="5dp"
+            android:transitionName="timeLayout">
 
             <Spinner
                 android:id="@+id/spinnerChooseTypeTime"
@@ -88,8 +88,8 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/backgroud_date_time"
                 android:gravity="center"
-                android:padding="8dp"
                 android:onClick="chooseTimeFrom"
+                android:padding="8dp"
                 android:text="31/7/2020"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -110,9 +110,9 @@
                 android:id="@+id/tvToDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="chooseTimeTo"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/backgroud_date_time"
+                android:onClick="chooseTimeTo"
                 android:padding="8dp"
                 android:text="31/8/2020"
                 android:textColor="@color/black"
@@ -131,13 +131,13 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:transitionName="revenueLayout"
-                android:layout_width="match_parent"
                 android:id="@+id/revenueLayout"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/background_border_and_shadow"
+                android:transitionName="revenueLayout"
                 app:layout_constraintBottom_toTopOf="@+id/barChart"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintTop_toTopOf="parent">
@@ -155,18 +155,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:drawablePadding="5dp"
-                    android:text="1.000.000"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:drawablePadding="5dp"
+                        android:text="..."
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView

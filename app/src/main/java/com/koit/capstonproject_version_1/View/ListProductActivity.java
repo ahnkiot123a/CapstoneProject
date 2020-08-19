@@ -119,14 +119,28 @@ public class ListProductActivity extends AppCompatActivity {
 
 
     public void back(View view) {
-        Intent intent = new Intent(this.getApplicationContext(), MainActivity.class);
-        this.startActivity(intent);
+      onBackPressed();
     }
 
     public void searchByBarcode(View view) {
         CameraController cameraController = new CameraController(this);
         cameraController.askCameraPermission(CreateProductActivity.BARCODE_PER_CODE);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this.getApplicationContext(), MainActivity.class);
+        this.startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
+                linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();

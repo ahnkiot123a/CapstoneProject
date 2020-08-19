@@ -98,7 +98,7 @@ public class TimeController {
         return dateFormat.format(date);
     }
 
-    public static Date changeStringToDate(String stringDate) {
+    public Date changeStringToDate(String stringDate) {
         Date date = new Date();
         try {
             date = new SimpleDateFormat("dd-MM-yyyy").parse(stringDate);

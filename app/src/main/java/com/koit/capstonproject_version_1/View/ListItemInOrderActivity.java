@@ -63,6 +63,7 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     LinearLayout layoutSearch;
     int LAUNCH_SECOND_ACTIVITY = 1;
     private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +91,6 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -101,14 +101,16 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     private void getListProduct() {
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("BUNDLE");
-        listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
-        listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerViewListProduct.setLayoutManager(layoutManager);
-        itemAdapter = new ItemInOrderAdapter(this, R.layout.item_layout_in_order, listSelectedProductWarehouse,
-                tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder);
-        recyclerViewListProduct.setAdapter(itemAdapter);
-        itemAdapter.notifyDataSetChanged();
+        if (args != null) {
+            listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
+            listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerViewListProduct.setLayoutManager(layoutManager);
+            itemAdapter = new ItemInOrderAdapter(this, R.layout.item_layout_in_order, listSelectedProductWarehouse,
+                    tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder);
+            recyclerViewListProduct.setAdapter(itemAdapter);
+            itemAdapter.notifyDataSetChanged();
+        }
     }
 
 

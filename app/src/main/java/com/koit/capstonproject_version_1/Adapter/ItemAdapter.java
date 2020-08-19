@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,12 +93,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                 @Override
                 public void onSuccess(Uri uri) {
                     // Got the download URL for 'users/me/profile.png'
-                    Glide.with(context)
-                            .load(uri)
-                            .fitCenter()
-                            .into(holder.imageView);
-                    holder.shimmerFrameLayout.stopShimmer();
-                    holder.shimmerFrameLayout.setShimmer(null);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && context.isDestroyed()) {
+                        return;
+                    } else {
+                        Glide.with(context)
+                                .load(uri)
+                                .fitCenter()
+                                .into(holder.imageView);
+                        holder.shimmerFrameLayout.stopShimmer();
+                        holder.shimmerFrameLayout.setShimmer(null);
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

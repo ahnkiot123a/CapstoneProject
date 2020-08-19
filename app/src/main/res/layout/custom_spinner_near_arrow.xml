@@ -4,6 +4,7 @@
     android:layout_height="50dp"
     android:layout_marginStart="8dp"
     android:padding="10dp"
+    android:textColor="@color/black"
     android:gravity="center"
     android:background="@drawable/item_underline"
     android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24" />
