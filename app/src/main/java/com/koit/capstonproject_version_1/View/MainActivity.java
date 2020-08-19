@@ -1,11 +1,9 @@
 package com.koit.capstonproject_version_1.View;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,13 +14,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
-import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
+import com.koit.capstonproject_version_1.Controller.UserController;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
@@ -43,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Category> categoryList;
     private User currentUser;
     private CreateProductController createProductController;
+    private UserController userController;
 
 
     @Override
@@ -60,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         createProductController = new CreateProductController(this);
+        userController = new UserController();
 
 
     }
@@ -143,33 +141,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logout(View view) {
-        logout();
+        userController.logout(this);
     }
 
-    private void logout() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Bạn có muốn đăng xuất không?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Không", null);
-        builder.setNegativeButton("Có", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                SharedPrefs.getInstance().clear();
-                LoginManager.getInstance().logOut();
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    public void back(View view) {
-        navDrawer.closeDrawers();
-    }
+//    private void logout() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Bạn có muốn đăng xuất không?");
+//        builder.setCancelable(false);
+//        builder.setPositiveButton("Thoát", null);
+//        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                SharedPrefs.getInstance().clear();
+//                LoginManager.getInstance().logOut();
+//                FirebaseAuth.getInstance().signOut();
+//                Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//            }
+//        });
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//    }
+//
+//    public void back(View view) {
+//        navDrawer.closeDrawers();
+//    }
 
     public void getUpdateActivity(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -206,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         if (navDrawer.isDrawerOpen(GravityCompat.START)) {
             navDrawer.closeDrawers();
         } else {
-            logout();
+            userController.logout(this);
         }
     }
 }

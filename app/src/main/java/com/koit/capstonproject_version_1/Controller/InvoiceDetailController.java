@@ -1,6 +1,8 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
@@ -17,12 +19,16 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.View.ListItemInOrderActivity;
 import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InvoiceDetailController {
+
+    public static boolean loadSuccess = false;
     private Activity activity;
     private InvoiceDetail invoiceDetail;
     private InvoiceHistoryDAO invoiceHistoryDAO = new InvoiceHistoryDAO();
@@ -44,16 +50,51 @@ public class InvoiceDetailController {
         IInvoiceDetail iInvoiceDetail = new IInvoiceDetail() {
             @Override
             public void getListProductInOrder(Product product) {
-                listProductInOrder.add(product);
-                Log.d("listProductInOrderDetai", listProductInOrder.toString());
+                if (product != null)
+                    listProductInOrder.add(product);
             }
 
             @Override
             public void getListProductInWarehouse(Product product) {
-                listProductInWarehouse.add(product);
+                if (product != null)
+                    listProductInWarehouse.add(product);
             }
         };
         invoiceDetail.getListProductInOrder(iInvoiceDetail, invoiceId);
+    }
+
+    public void getListProductInDraftOrder(String invoiceId) {
+        IInvoiceDetail iInvoiceDetail = new IInvoiceDetail() {
+            @Override
+            public void getListProductInOrder(Product product) {
+                if (product != null) {
+                    listProductInOrder.add(product);
+                }
+            }
+
+            @Override
+            public void getListProductInWarehouse(Product product) {
+                if (product != null) {
+                    listProductInWarehouse.add(product);
+
+                }
+            }
+        };
+        invoiceDetail.getListProductInDraftOrder(iInvoiceDetail, invoiceId);
+    }
+
+    public void sendDraftOrder(String invoiceId) {
+        getListProductInDraftOrder(invoiceId);
+        if (loadSuccess) {
+            Log.d("listProductInOrderDetai", listProductInOrder.toString());
+            Log.d("listProInWarehouseDT", listProductInWarehouse.toString());
+            Intent intent2 = new Intent(activity, ListItemInOrderActivity.class);
+            Bundle args2 = new Bundle();
+            args2.putSerializable("listSelectedProductInOrder", (Serializable) listProductInOrder);
+            args2.putSerializable("listSelectedProductWarehouse", (Serializable) listProductInWarehouse);
+            intent2.putExtra("BUNDLE", args2);
+            activity.startActivity(intent2);
+        }
     }
 
 

@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoiceDetail;
+import com.koit.capstonproject_version_1.Controller.InvoiceDetailController;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
@@ -127,6 +128,24 @@ public class InvoiceDetail implements Serializable {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
+    public void getListProductInDraftOrder(final IInvoiceDetail iInvoiceDetail, final String invoiceId) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                getListProductInDraftOrder(snapshot, iInvoiceDetail, invoiceId);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        DatabaseReference nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+        
+    }
+
     private void getListProductInOrder(DataSnapshot dataSnapshot, IInvoiceDetail iInvoiceDetail, String invoiceId) {
         DataSnapshot dataSnapshotInvoiceDetail = dataSnapshot.child("InvoiceDetail").child(UserDAO.getInstance().getUserID())
                 .child(invoiceId).child("products");
@@ -140,7 +159,6 @@ public class InvoiceDetail implements Serializable {
                 List<Unit> unitList = new ArrayList<>();
                 for (DataSnapshot valueUnit : dataSnapshotUnits.getChildren()) {
                     Unit unit = valueUnit.getValue(Unit.class);
-
                     if (unit != null) {
                         unit.setUnitId(valueUnit.getKey());
                         unitList.add(unit);
@@ -148,43 +166,28 @@ public class InvoiceDetail implements Serializable {
                 }
                 productInOrder.setUnits(unitList);
                 iInvoiceDetail.getListProductInOrder(productInOrder);
-                if (productInOrder != null)
+                if (productInOrder != null) {
+                    InvoiceDetailController.loadSuccess = true;
                     Log.d("ListProductInOrder", productInOrder.toString());
-                else Log.d("ListProductInOrder", "null");
+
+                } else Log.d("ListProductInOrder", "null");
             }
 
         }
 
     }
 
-    private void getListProductInDraftOrder(DataSnapshot dataSnapshot, IInvoiceDetail iInvoiceDetail, String invoiceId) {
+    public void getListProductInDraftOrder(DataSnapshot dataSnapshot, IInvoiceDetail iInvoiceDetail, String invoiceId) {
         DataSnapshot dataSnapshotInvoiceDetail = dataSnapshot.child("InvoiceDetail").child(UserDAO.getInstance().getUserID())
                 .child(invoiceId).child("products");
         if (dataSnapshotInvoiceDetail != null) {
-//            DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(UserDAO.getInstance().getUserID());
             for (DataSnapshot valueInvoiceDetail : dataSnapshotInvoiceDetail.getChildren()) {
-
-
                 Log.d("ktdataSnapshotProduct", dataSnapshot.toString());
                 Product productInOrder = new Product();
                 Product productInWarehouse = new Product();
-//                if (!valueInvoiceDetail.getKey().startsWith("nonListedProduct")) {
-//                    DataSnapshot dataSnapshotProduct = dataSnapshot.child("Products")
-//                            .child(UserDAO.getInstance().getUserID()).child(valueInvoiceDetail.getKey());
-//                    productInOrder = dataSnapshotProduct.getValue(Product.class);
-//                } else {
                 DataSnapshot dataSnapshotProduct = dataSnapshotInvoiceDetail.child(valueInvoiceDetail.getKey()).child("productName");
                 productInOrder.setProductName(dataSnapshotProduct.getValue().toString());
-//                }
-//                Log.d("ktProductInvoiceDetail",product.toString());
-//                Log.d("ktGetKeyInvoiceDetail", valueInvoiceDetail.getKey());
                 productInOrder.setProductId(valueInvoiceDetail.getKey());
-
-//                product.setProductId(dataSnapshotProduct.getKey());
-
-
-//                Log.d("productInvoiceDetail", product.toString());
-
                 DataSnapshot dataSnapshotUnits = dataSnapshotInvoiceDetail.child(productInOrder.getProductId()).child("units");
                 List<Unit> unitList = new ArrayList<>();
                 for (DataSnapshot valueUnit : dataSnapshotUnits.getChildren()) {

@@ -66,7 +66,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         } else {
             holder.shimmerFrameLayout.stopShimmer();
             holder.shimmerFrameLayout.setShimmer(null);
-            if (!list.isEmpty()) {
+            if (!listFiltered.isEmpty()) {
                 SortController.getInstance().sortInvoiceListByDate(this.listFiltered);
                 if (listFiltered.size() != 1) {
                     holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
@@ -140,6 +140,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 listFiltered = (ArrayList<Invoice>) filterResults.values;
+                if (listFiltered != null)
                 tvCount.setText(listFiltered.size() + " đơn hàng");
                 notifyDataSetChanged();
             }
