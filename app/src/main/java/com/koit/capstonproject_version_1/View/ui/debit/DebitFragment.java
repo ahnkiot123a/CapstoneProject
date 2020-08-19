@@ -2,6 +2,8 @@ package com.koit.capstonproject_version_1.View.ui.debit;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,9 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.koit.capstonproject_version_1.Controller.DebtPaymentDetailController;
 import com.koit.capstonproject_version_1.Controller.DebtorController;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ public class DebitFragment extends Fragment {
     private PieChart chart;
     private TextView tvTotalDebt, tvPaid, tvRemaining;
     private DebtorController debtorController;
+    private DebtPaymentDetailController debtPaymentDetailController;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,11 +64,26 @@ public class DebitFragment extends Fragment {
             }
         });
         setUpPieChart();
-
         recyclerViewDebitors = root.findViewById(R.id.recyclerViewDebitors);
         debtorController = new DebtorController(this.getContext());
         debtorController.getListDebtor(recyclerViewDebitors, tvRemaining);
         debtorController.etSearchEventListDebtor(svDebtor);
+
+        debtPaymentDetailController = new DebtPaymentDetailController(this.getActivity());
+        debtPaymentDetailController.getListDebtPayments(tvPaid);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                long paidAmount = Money.getInstance().reFormatVN(tvPaid.getText().toString());
+                long remainingAmount = Money.getInstance().reFormatVN(tvRemaining.getText().toString());
+                long totalDebt = paidAmount + remainingAmount;
+                tvTotalDebt.setText(Money.getInstance().formatVN(totalDebt));
+                float percentPaid = (float) paidAmount / totalDebt *100;
+//                setUpPieChart(percentPaid);
+                Log.d("percent", percentPaid +"");
+            }
+        },1000);
         return root;
     }
 
