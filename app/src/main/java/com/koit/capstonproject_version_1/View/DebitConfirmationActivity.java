@@ -70,11 +70,11 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         invoiceName.setText("Hoá đơn " + invoice.getInvoiceId() );
         tvDateTime.setText(invoice.getInvoiceDate() + "\n " + invoice.getInvoiceTime());
         tvDebitMoney.setText(Money.getInstance().formatVN(invoice.getDebitAmount()));
-        long oldDebtAmount = debtor.getDebitTotal();
+        long oldDebtAmount = debtor.getRemainingDebit();
         tvOldDebtAmount.setText(Money.getInstance().formatVN(oldDebtAmount));
         long newDebtAmount = oldDebtAmount + invoice.getDebitAmount();
         tvNewDebitAmount.setText(Money.getInstance().formatVN(newDebtAmount));
-        debtor.setDebitTotal(newDebtAmount);
+        debtor.setRemainingDebit(newDebtAmount);
     }
 
     private void getData() {

@@ -65,7 +65,7 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
         final Debtor debtor = listFiltered.get(position);
         holder.tvDebitorName.setText(debtor.getFullName());
         holder.tvDebitorPhone.setText(debtor.getPhoneNumber());
-        holder.tvDebtTotalAmount.setText(Money.getInstance().formatVN(debtor.getDebitTotal()) + " Đ");
+        holder.tvDebtTotalAmount.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " Đ");
         holder.tvFirstDebtorName.setText(debtor.getFullName().charAt(0)+"");
         holder.itemDebtor.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -48,6 +48,10 @@ public class DebitFragment extends Fragment {
                 ViewModelProviders.of(this).get(DebitViewModel.class);
         View root = inflater.inflate(R.layout.fragment_debit, container, false);
         chart = root.findViewById(R.id.pieChart);
+        svDebtor = root.findViewById(R.id.svDebtor);
+        tvRemaining = root.findViewById(R.id.tvRemaining);
+        tvTotalDebt = root.findViewById(R.id.tvTotalDebt);
+        tvPaid = root.findViewById(R.id.tvPaid);
         debitViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -57,10 +61,9 @@ public class DebitFragment extends Fragment {
         setUpPieChart();
 
         recyclerViewDebitors = root.findViewById(R.id.recyclerViewDebitors);
-        buildRecyclerviewDebtors();
-        svDebtor = root.findViewById(R.id.svDebtor);
+        debtorController = new DebtorController(this.getContext());
+        debtorController.getListDebtor(recyclerViewDebitors, tvRemaining);
         debtorController.etSearchEventListDebtor(svDebtor);
-
         return root;
     }
 
@@ -126,10 +129,5 @@ public class DebitFragment extends Fragment {
         // entry label styling
         chart.setEntryLabelColor(Color.BLACK);
         chart.setEntryLabelTextSize(20);
-    }
-    private void buildRecyclerviewDebtors() {
-        debtorController = new DebtorController(this.getContext());
-        debtorController.getListDebtor(recyclerViewDebitors);
-//        debtorController.getListDebtor(recyclerViewDebitors, invoice, invoiceDetail);
     }
 }

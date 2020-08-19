@@ -1,8 +1,6 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.View.DebitConfirmationActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +23,9 @@ public class ListDebtorAdapter extends RecyclerView.Adapter<ListDebtorAdapter.Vi
     List<Debtor> listFiltered;
     Context context;
     List<Debtor> debtorList;
+    TextView tvRemaining;
 
-
-    public ListDebtorAdapter(List<Debtor> debtorList, Context context) {
+    public ListDebtorAdapter(List<Debtor> debtorList, Context context ) {
         this.debtorList = debtorList;
         this.listFiltered = debtorList;
         this.context = context;
@@ -48,10 +44,11 @@ public class ListDebtorAdapter extends RecyclerView.Adapter<ListDebtorAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ListDebtorAdapter.ViewHolder holder, int position) {
+
         final Debtor debtor = listFiltered.get(position);
         holder.tvDebitorName.setText(debtor.getFullName());
         holder.tvDebitorPhone.setText(debtor.getPhoneNumber());
-        holder.tvDebtTotalAmount.setText(Money.getInstance().formatVN(debtor.getDebitTotal()) + " Đ");
+        holder.tvDebtTotalAmount.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " Đ");
         holder.tvFirstDebtorName.setText(debtor.getFullName().charAt(0)+"");
         holder.itemDebtor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +56,15 @@ public class ListDebtorAdapter extends RecyclerView.Adapter<ListDebtorAdapter.Vi
 
             }
         });
-    }
 
+    }
+    public long getDebitTotal(){
+        long debitTotal = 0;
+        for (Debtor d : debtorList){
+            debitTotal += d.getRemainingDebit();
+        }
+        return  debitTotal;
+    }
     @Override
     public int getItemCount() {
         return listFiltered != null ? listFiltered.size() : 0;

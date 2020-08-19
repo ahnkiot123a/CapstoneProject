@@ -2,18 +2,17 @@ package com.koit.capstonproject_version_1.Model;
 
 import java.io.Serializable;
 
-public class DebitPayment implements Serializable {
+public class DebtPayment implements Serializable {
     private String debitPaymentId, debtorId;
-    private long debitBeforePay, payAmount;
+    private long  payAmount;
     private String payDate, payTime;
 
-    public DebitPayment() {
+    public DebtPayment() {
     }
 
-    public DebitPayment(String debitPaymentId, String debtorId, long debitBeforePay, long payAmount, String payDate, String payTime) {
+    public DebtPayment(String debitPaymentId, String debtorId, long payAmount, String payDate, String payTime) {
         this.debitPaymentId = debitPaymentId;
         this.debtorId = debtorId;
-        this.debitBeforePay = debitBeforePay;
         this.payAmount = payAmount;
         this.payDate = payDate;
         this.payTime = payTime;
@@ -33,14 +32,6 @@ public class DebitPayment implements Serializable {
 
     public void setDebtorId(String debtorId) {
         this.debtorId = debtorId;
-    }
-
-    public long getDebitBeforePay() {
-        return debitBeforePay;
-    }
-
-    public void setDebitBeforePay(long debitBeforePay) {
-        this.debitBeforePay = debitBeforePay;
     }
 
     public long getPayAmount() {
@@ -66,4 +57,5 @@ public class DebitPayment implements Serializable {
     public void setPayTime(String payTime) {
         this.payTime = payTime;
     }
+
 }

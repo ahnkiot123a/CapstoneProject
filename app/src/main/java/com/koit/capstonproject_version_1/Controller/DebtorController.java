@@ -19,6 +19,7 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,7 @@ public class DebtorController {
         debtor.getListDebtor(iDebtor);
 
     }
-    public void getListDebtor(RecyclerView recyclerViewDebtor) {
+    public void getListDebtor(RecyclerView recyclerViewDebtor, final TextView tvRemaining) {
         debtorList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
@@ -79,6 +80,7 @@ public class DebtorController {
             @Override
             public void getDebtor(Debtor debtor) {
                 debtorList.add(debtor);
+                tvRemaining.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
                 listDebtorAdapter.notifyDataSetChanged();
             }
 
@@ -88,6 +90,11 @@ public class DebtorController {
 
     }
 
+    public long getCurrentDebit(List<Debtor> debtors){
+        long total = 0;
+        for (Debtor d : debtors) total += d.getRemainingDebit();
+        return total;
+    }
     public boolean createDebtor(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
                                 TextView tvDob, TextInputEditText edAddress, RadioButton rbMale) {
         boolean success = false;
@@ -115,7 +122,7 @@ public class DebtorController {
             debtor.setAddress(address);
             debtor.setGender(gender);
             debtor.addDebtorToFirebase(debtor);
-            debtor.setDebitTotal(0);
+            debtor.setRemainingDebit(0);
 
             success = true;
         }
