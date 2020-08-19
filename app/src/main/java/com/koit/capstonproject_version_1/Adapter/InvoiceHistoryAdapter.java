@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
+import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
 import com.koit.capstonproject_version_1.Controller.SortController;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
@@ -78,7 +79,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
                 holder.tvOrderId.setBackground(null);
                 holder.tvOrderId.setText(invoice.getInvoiceId());
 
-                InvoiceHistoryController controller = new InvoiceHistoryController(context);
+                OrderHistoryController controller = new OrderHistoryController(context);
 
                 holder.tvCustomer.setBackground(null);
                 if (invoice.getDebtorId().isEmpty() || invoice.getDebtorId() == null) {
@@ -120,6 +121,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String key = charSequence.toString();
+                Log.d("key", key);
                 if (key.isEmpty()) {
                     listFiltered = list;
                 } else {

@@ -12,7 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
+import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
 import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
@@ -27,7 +27,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
     private Spinner invoiceStatusSpinner, timeSpinner;
     private SearchView svInvoice;
     private ConstraintLayout layoutNotFound;
-    private InvoiceHistoryController invoiceHistoryController;
+    private OrderHistoryController orderHistoryController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +40,9 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
 //        buildRvInvoiceHistory();
         buildSpinner();
 
-//        invoiceHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound);
+        orderHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound);
 
-        invoiceHistoryController.etSearchEvent(svInvoice);
+        orderHistoryController.etSearchEvent(svInvoice);
 
     }
 
@@ -69,7 +69,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         //set current date
         tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
 
-        invoiceHistoryController = new InvoiceHistoryController(this);
+        orderHistoryController = new OrderHistoryController(this);
         InvoiceHistoryActivity.isFirstTimeRun = true;
     }
 
@@ -84,9 +84,6 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         timeSpinner.setAdapter(timeAdapter);
     }
 
-    public void chooseDate(View view){
-        invoiceHistoryController.chooseDate(tvTime);
-    }
 
 
 

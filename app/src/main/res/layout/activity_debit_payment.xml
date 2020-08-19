@@ -114,6 +114,7 @@
             android:layout_height="wrap_content"
             android:max="100"
             android:progress="80"
+            android:indeterminateTint="@color/yellow_chrome"
             android:scrollbarSize="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -261,11 +262,12 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDebtPaymentHistory"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

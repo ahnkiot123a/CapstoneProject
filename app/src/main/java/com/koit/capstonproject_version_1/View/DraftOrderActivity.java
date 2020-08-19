@@ -11,7 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.koit.capstonproject_version_1.Controller.InvoiceHistoryController;
+import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
@@ -23,7 +23,7 @@ public class DraftOrderActivity extends AppCompatActivity {
     private Spinner timeSpinner;
     private ConstraintLayout layoutNotFound;
 
-    private InvoiceHistoryController controller;
+    private OrderHistoryController controller;
 
 
     @Override
@@ -45,7 +45,7 @@ public class DraftOrderActivity extends AppCompatActivity {
         tvTime = findViewById(R.id.tvTime);
         layoutNotFound = findViewById(R.id.layout_not_found_item);
 
-        controller = new InvoiceHistoryController(this);
+        controller = new OrderHistoryController(this);
 
         tvTime.setText("");
 
