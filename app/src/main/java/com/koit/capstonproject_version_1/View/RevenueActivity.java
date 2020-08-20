@@ -249,7 +249,6 @@ public class RevenueActivity extends AppCompatActivity {
             yAxis.setDrawLimitLinesBehindData(true);
             xAxis.setDrawLimitLinesBehindData(true);
         }
-
     }
 
     private void setDataForLinechart() {
@@ -274,7 +273,6 @@ public class RevenueActivity extends AppCompatActivity {
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.light_blue_linear_color);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setFillDrawable(drawable);
-
 
         lineChart.setData(data);
     }

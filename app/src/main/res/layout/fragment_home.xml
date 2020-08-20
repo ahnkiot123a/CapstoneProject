@@ -16,16 +16,16 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_home_2"/>
+        android:src="@drawable/background_home_2" />
 
 
     <ImageButton
         android:id="@+id/btnLeftMenu"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_below="@id/main_activityStatusBarScrim"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:layout_below="@id/main_activityStatusBarScrim"
         android:onClick="navigationMenuLeft"
         android:src="@drawable/icons8_menu_100px_1" />
 
@@ -56,7 +56,7 @@
             app:layout_constraintHorizontal_bias="0.555"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"/>
+            tools:ignore="MissingConstraints" />
 
         <ImageButton
             android:id="@+id/imgbtnBarcode"
@@ -150,11 +150,47 @@
                         android:orientation="vertical"
                         android:padding="16dp">
 
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/icons8_draft_order_100xp" />
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/icons8_draft_order_100xp" />
+
+                            <RelativeLayout
+                                android:id="@+id/cart_badge"
+                                android:layout_width="36dp"
+                                android:layout_height="28dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginLeft="-25dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_toRightOf="@+id/imageView"
+                                android:scaleType="fitStart">
+
+                                <ImageView
+                                    android:id="@+id/myImageView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/badge_background" />
+
+                                <TextView
+                                    android:id="@+id/totalOrderDraftQuantity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignLeft="@+id/myImageView"
+                                    android:layout_alignTop="@+id/myImageView"
+                                    android:layout_alignRight="@+id/myImageView"
+                                    android:layout_alignBottom="@+id/myImageView"
+                                    android:gravity="center"
+                                    android:text="99"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/white" />
+                            </RelativeLayout>
+
+                        </RelativeLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
