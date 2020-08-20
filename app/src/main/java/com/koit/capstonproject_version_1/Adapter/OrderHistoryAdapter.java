@@ -25,7 +25,7 @@ import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
 
-public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAdapter.ViewHolder> implements Filterable {
+public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder> implements Filterable {
 
     private final ArrayList<Invoice> list;
     private ArrayList<Invoice> listFiltered;
@@ -45,7 +45,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         mListener = listener;
     }
 
-    public InvoiceHistoryAdapter(ArrayList<Invoice> list, Activity context, TextView tvCount) {
+    public OrderHistoryAdapter(ArrayList<Invoice> list, Activity context, TextView tvCount) {
         this.list = list;
         this.listFiltered = list;
         this.context = context;

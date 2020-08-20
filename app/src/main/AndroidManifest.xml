@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
-        <activity android:name=".View.DebitPaymentActivity"></activity>
+        <activity android:name=".View.InputPayDebtMoneyActivity"></activity>
+        <activity android:name=".View.DebitPaymentActivity" />
         <activity android:name=".View.ui.OrderDebtorActivity" />
         <activity
             android:name=".View.InvoiceHistoryActivity"
@@ -51,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.SelectDebtorActivity" />
-        <activity android:name=".View.EditDebtorActivity"/>
+        <activity android:name=".View.EditDebtorActivity" />
         <activity android:name=".View.ListProductActivity" />
         <activity android:name=".View.RegisterActivity" />
         <activity

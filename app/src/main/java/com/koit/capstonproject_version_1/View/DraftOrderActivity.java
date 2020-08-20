@@ -35,7 +35,7 @@ public class DraftOrderActivity extends AppCompatActivity {
 
         buildSpinner();
         controller.setupRecyclerView(rvDraftOrder, tvDraftOrderCount);
-//        controller.draftSpinnerEvent(rvDraftOrder, tvDraftOrderCount, timeSpinner, tvTime, layoutNotFound);
+        controller.draftSpinnerEvent(rvDraftOrder, tvDraftOrderCount, timeSpinner, tvTime, layoutNotFound);
     }
 
     private void initView() {

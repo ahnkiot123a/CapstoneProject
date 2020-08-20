@@ -84,8 +84,9 @@ public class InvoiceDetailController {
     }
 
     public void sendDraftOrder(String invoiceId) {
-        getListProductInDraftOrder(invoiceId);
-        if (loadSuccess) {
+//        getListProductInDraftOrder(invoiceId);
+        try {
+            OrderHistoryController.semaphore.acquire();
             Log.d("listProductInOrderDetai", listProductInOrder.toString());
             Log.d("listProInWarehouseDT", listProductInWarehouse.toString());
             Intent intent2 = new Intent(activity, ListItemInOrderActivity.class);
@@ -94,7 +95,10 @@ public class InvoiceDetailController {
             args2.putSerializable("listSelectedProductWarehouse", (Serializable) listProductInWarehouse);
             intent2.putExtra("BUNDLE", args2);
             activity.startActivity(intent2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
     }
 
 

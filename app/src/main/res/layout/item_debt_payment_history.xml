@@ -4,19 +4,36 @@
     android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <TextView
+        android:id="@+id/tvstt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="tiền trả"
+        android:text="Số tiền trả: "
         android:fontFamily="sans-serif-medium"
         android:textSize="16sp"
         android:layout_marginTop="10dp"
+        android:textStyle="bold"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/tvPayAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tiền trả"
+        android:fontFamily="sans-serif-medium"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/green_chrome"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/tvstt"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvPayDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -26,4 +43,16 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPayTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="giờ trả"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvPayDate" />
 </androidx.constraintlayout.widget.ConstraintLayout>

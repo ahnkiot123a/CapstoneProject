@@ -40,45 +40,33 @@
             app:layout_constraintStart_toEndOf="@+id/ivAvatar"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvNgang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-medium"
-            android:text=" - "
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/tvDebtorName"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/tvDebtorPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-medium"
             android:text="033333333333"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/tvNgang"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/ivAvatar"
+            app:layout_constraintTop_toBottomOf="@id/tvDebtorName" />
 
         <TextView
             android:id="@+id/tvDebtorAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-medium"
             android:text="Hà Nội"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/ivAvatar"
-            app:layout_constraintTop_toBottomOf="@+id/tvDebtorName" />
+            app:layout_constraintTop_toBottomOf="@+id/tvDebtorPhone" />
 
         <Button
             android:id="@+id/btnUpdateProduct"
@@ -114,7 +102,7 @@
             android:layout_height="wrap_content"
             android:max="100"
             android:progress="80"
-            android:indeterminateTint="@color/yellow_chrome"
+
             android:scrollbarSize="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -164,6 +152,7 @@
             <TableRow>
 
                 <TextView
+                    android:id="@+id/tvDebtTotal"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -176,10 +165,10 @@
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizePresetSizes="2sp"
                     android:textSize="18sp"
-
                     tools:targetApi="o" />
 
                 <TextView
+                    android:id="@+id/tvPayAmountTotal"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -195,6 +184,7 @@
                     tools:targetApi="o" />
 
                 <TextView
+                    android:id="@+id/tvDebtAmountTotal"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

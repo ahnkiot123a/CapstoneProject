@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoiceDetail;
 import com.koit.capstonproject_version_1.Controller.InvoiceDetailController;
+import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
@@ -126,13 +127,17 @@ public class InvoiceDetail implements Serializable {
         DatabaseReference nodeRoot = FirebaseDatabase.getInstance().getReference();
         nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+
+
     }
+
 
     public void getListProductInDraftOrder(final IInvoiceDetail iInvoiceDetail, final String invoiceId) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 getListProductInDraftOrder(snapshot, iInvoiceDetail, invoiceId);
+                OrderHistoryController.semaphore.release();
             }
 
             @Override

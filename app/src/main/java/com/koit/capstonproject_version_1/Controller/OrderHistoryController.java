@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Adapter.DraftOrderAdapter;
-import com.koit.capstonproject_version_1.Adapter.InvoiceHistoryAdapter;
+import com.koit.capstonproject_version_1.Adapter.OrderHistoryAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.Debtor;
@@ -34,15 +34,17 @@ import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 
 public class OrderHistoryController {
     private Activity activity;
     private InvoiceHistoryDAO invoiceHistoryDAO;
-    private InvoiceHistoryAdapter invoiceHistoryAdapter;
+    private OrderHistoryAdapter orderHistoryAdapter;
     private DraftOrderAdapter draftOrderAdapter;
 
     private ArrayList<Invoice> invoiceList;
     private ArrayList<Invoice> draftOrderList;
+    public static Semaphore semaphore = new Semaphore(0);
 
     private DatePickerDialog.OnDateSetListener onDateSetListenerStart;
     private DatePickerDialog.OnDateSetListener onDateSetListenerEnd;
@@ -78,14 +80,14 @@ public class OrderHistoryController {
         invoiceList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewListProduct.setLayoutManager(layoutManager);
-        invoiceHistoryAdapter = new InvoiceHistoryAdapter(invoiceList, activity, textView);
-        recyclerViewListProduct.setAdapter(invoiceHistoryAdapter);
+        orderHistoryAdapter = new OrderHistoryAdapter(invoiceList, activity, textView);
+        recyclerViewListProduct.setAdapter(orderHistoryAdapter);
         IInvoice iInvoice = new IInvoice() {
             @Override
             public void getInvoice(Invoice invoice) {
                 if (invoice != null) {
                     if (!invoice.isDrafted()) {
-                        invoiceHistoryAdapter.showShimmer = false;
+                        orderHistoryAdapter.showShimmer = false;
                         if (status.equals("Tất cả đơn hàng") && time.equals("Hôm nay")) {
                             tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
                             if (invoice.getInvoiceDate().equals(TimeController.getInstance().getCurrentDate())) {
@@ -181,16 +183,16 @@ public class OrderHistoryController {
                         }
 
                     }
-                    invoiceHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                    orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                     textView.setText(invoiceList.size() + " đơn hàng");
-                    invoiceHistoryAdapter.notifyDataSetChanged();
+                    orderHistoryAdapter.notifyDataSetChanged();
                 }
 
             }
 
         };
         invoiceHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound);
-        invoiceHistoryAdapter.setOnItemClickListener(new InvoiceHistoryAdapter.OnItemClickListener() {
+        orderHistoryAdapter.setOnItemClickListener(new OrderHistoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 sendInvoiceToDetail(position);
@@ -263,7 +265,7 @@ public class OrderHistoryController {
                 if (!draftOrderList.isEmpty()) {
                     Invoice invoice = draftOrderList.get(position);
                     InvoiceDetailController invoiceDetailController = new InvoiceDetailController(activity);
-                    invoiceDetailController.getListProductInDraftOrder(invoice.getInvoiceId());
+                    invoiceDetailController.sendDraftOrder(invoice.getInvoiceId());
                 }
             }
         });
@@ -282,7 +284,7 @@ public class OrderHistoryController {
                 } else {
                     if (!InvoiceHistoryActivity.isFirstTimeRun) {
                         invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView);
-                        invoiceHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                        orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
 
                     }
                     InvoiceHistoryActivity.isFirstTimeRun = false;
@@ -302,7 +304,7 @@ public class OrderHistoryController {
                 status = statusSpinner.getSelectedItem().toString();
                 if (!InvoiceHistoryActivity.isFirstTimeRun) {
                     invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView);
-                    invoiceHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                    orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                 }
                 InvoiceHistoryActivity.isFirstTimeRun = false;
             }
@@ -470,7 +472,7 @@ public class OrderHistoryController {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                invoiceHistoryAdapter.getFilter().filter(newText);
+                orderHistoryAdapter.getFilter().filter(newText);
                 return true;
             }
         });
