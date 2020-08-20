@@ -185,7 +185,7 @@
                                     android:layout_alignRight="@+id/myImageView"
                                     android:layout_alignBottom="@+id/myImageView"
                                     android:gravity="center"
-                                    android:text="99"
+                                    android:text="99+"
                                     android:textSize="16sp"
                                     android:textColor="@color/white" />
                             </RelativeLayout>

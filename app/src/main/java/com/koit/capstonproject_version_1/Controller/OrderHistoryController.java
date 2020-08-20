@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -208,6 +210,31 @@ public class OrderHistoryController {
             activity.startActivity(intent);
         }
     }
+
+    public void setTotalDraftOrder(final RelativeLayout cart_badge, final TextView totalOrderDraftQuantity) {
+        draftOrderList = new ArrayList<>();
+        IInvoice iInvoice = new IInvoice() {
+            @Override
+            public void getInvoice(Invoice invoice) {
+                if (invoice.isDrafted()) {
+                    draftOrderList.add(invoice);
+                    Log.d("draftedOrder", invoice.toString());
+                    Log.d("draftOrderList", draftOrderList.size() + "");
+                }
+                if (draftOrderList.size() > 99) {
+                    totalOrderDraftQuantity.setText("99+");
+                    cart_badge.setVisibility(View.VISIBLE);
+                } else if (draftOrderList.size() > 0 && draftOrderList.size() <= 99) {
+                    totalOrderDraftQuantity.setText(draftOrderList.size() + "");
+                    cart_badge.setVisibility(View.VISIBLE);
+                } else cart_badge.setVisibility(View.GONE);
+
+            }
+        };
+        invoiceHistoryDAO.getDraftOrderList(iInvoice);
+
+    }
+
 
     public void draftOrderList(final RecyclerView rvDraftOrder, final TextView tvCount, final TextView tvTime, final ConstraintLayout layoutNotFound) {
         draftOrderList = new ArrayList<>();

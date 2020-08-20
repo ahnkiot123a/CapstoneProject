@@ -96,11 +96,55 @@ public class InvoiceHistoryDAO {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
+
     private void getInvoiceList(DataSnapshot dataSnapshot, IInvoice iInvoice) {
         DataSnapshot data = dataSnapshot.child("Invoices").child(UserDAO.getInstance().getUserID());
         for (DataSnapshot value : data.getChildren()) {
             final Invoice invoice = value.getValue(Invoice.class);
             if (invoice != null) {
+                invoice.setInvoiceId(value.getKey());
+                if (invoice.getDebtorId().isEmpty()) {
+                    invoice.setDebtorName("Khách lẻ");
+                } else {
+                    getDebtorName(invoice.getDebtorId());
+                    IDebtor iDebtor = new IDebtor() {
+                        @Override
+                        public void getDebtor(Debtor debtor) {
+                            if (debtor != null) {
+                                invoice.setDebtorName(debtor.getFullName());
+                            }
+                        }
+                    };
+                    getDebtorById(invoice.getDebtorId(), iDebtor);
+
+                }
+                Log.i("invoice", invoice.toString());
+                iInvoice.getInvoice(invoice);
+            }
+
+        }
+    }
+    public void getDraftOrderList(final IInvoice iInvoice) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getDraftOrderList(dataSnapshot, iInvoice);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    private void getDraftOrderList(DataSnapshot dataSnapshot, IInvoice iInvoice) {
+        DataSnapshot data = dataSnapshot.child("Invoices").child(UserDAO.getInstance().getUserID());
+        for (DataSnapshot value : data.getChildren()) {
+            final Invoice invoice = value.getValue(Invoice.class);
+            if (invoice != null && invoice.isDrafted()) {
                 invoice.setInvoiceId(value.getKey());
                 if (invoice.getDebtorId().isEmpty()) {
                     invoice.setDebtorName("Khách lẻ");
