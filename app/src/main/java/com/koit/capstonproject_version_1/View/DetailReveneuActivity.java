@@ -14,16 +14,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.koit.capstonproject_version_1.Controller.TimeController;
-import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.sql.Time;
 import java.util.Date;
-import java.util.Locale;
 
 public class DetailReveneuActivity extends AppCompatActivity {
     TextView tvFrom;
@@ -80,7 +77,7 @@ public class DetailReveneuActivity extends AppCompatActivity {
                 if (stringDate.length() == 7) {
                     dateFrom = TimeController.getInstance().changeStringToMonth(stringDate);
                 } else {
-                    dateFrom = TimeController.getInstance().changeStringToDate(stringDate);
+                    dateFrom = TimeController.getInstance().changeStringDayToDate(stringDate);
                 }
                 Log.d("checkDateFrom", dateFrom.toString());
             }
@@ -101,7 +98,7 @@ public class DetailReveneuActivity extends AppCompatActivity {
                 if (stringDate.length() == 7) {
                     dateTo = TimeController.getInstance().changeStringToMonth(stringDate);
                 } else {
-                    dateTo = TimeController.getInstance().changeStringToDate(stringDate);
+                    dateTo = TimeController.getInstance().changeStringDayToDate(stringDate);
                 }
                 Log.d("checkDateTo", dateTo.toString());
             }
@@ -160,17 +157,17 @@ public class DetailReveneuActivity extends AppCompatActivity {
 
     public void chooseTimeFrom(View view) {
         if (isDayType()) {
-            TimeController.getInstance().chooseDayDialog(tvFrom, dateFrom, this);
+            TimeController.getInstance().chooseDayDialog(tvFrom, dateFrom, this,"01-01-2020");
         } else {
-            TimeController.getInstance().chooseMonthDialog(tvFrom, dateFrom, this);
+            TimeController.getInstance().chooseMonthDialog(tvFrom, dateFrom, this,"01-01-2020");
         }
     }
 
     public void chooseTimeTo(View view) {
         if (isDayType()) {
-            TimeController.getInstance().chooseDayDialog(tvTo, dateTo, this);
+            TimeController.getInstance().chooseDayDialog(tvTo, dateTo, this,"01-01-2020");
         } else {
-            TimeController.getInstance().chooseMonthDialog(tvTo, dateTo, this);
+            TimeController.getInstance().chooseMonthDialog(tvTo, dateTo, this,"01-01-2020");
         }
     }
 

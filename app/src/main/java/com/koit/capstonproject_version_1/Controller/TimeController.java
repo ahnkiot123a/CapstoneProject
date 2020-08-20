@@ -98,12 +98,12 @@ public class TimeController {
         return dateFormat.format(date);
     }
 
-    public Date changeStringToDate(String stringDate) {
+    public Date changeStringDayToDate(String stringDate) {
         Date date = new Date();
         try {
             date = new SimpleDateFormat("dd-MM-yyyy").parse(stringDate);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return date;
     }
@@ -113,7 +113,7 @@ public class TimeController {
         try {
             date = new SimpleDateFormat("MM-yyyy").parse(stringMonth);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return date;
     }
@@ -141,23 +141,71 @@ public class TimeController {
         tvTo.setText(TimeController.getInstance().changeDateToString(today));
     }
 
-    public Date getDateAndMonthFromText(String stringDate,Date date) {
+    public Date getDateAndMonthFromText(String stringDate, Date date) {
         if (stringDate.length() == 7) {
             date = TimeController.getInstance().changeStringToMonth(stringDate);
         } else {
-            date = TimeController.getInstance().changeStringToDate(stringDate);
+            date = TimeController.getInstance().changeStringDayToDate(stringDate);
         }
         return date;
     }
+
+    //return the first day of month
+    public Date changeStringDayToFirstDayOfMonth(String day) {
+        Date date = new Date();
+        Date firstDay = new Date();
+        try {
+            date = new SimpleDateFormat("dd-MM-yyyy").parse(day);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            firstDay = cal.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return firstDay;
+    }
+
     public Date getDateAndMonthFromText(String stringDate) {
         Date date = new Date();
         if (stringDate.length() == 7) {
             date = TimeController.getInstance().changeStringToMonth(stringDate);
         } else {
-            date = TimeController.getInstance().changeStringToDate(stringDate);
+            date = TimeController.getInstance().changeStringDayToDate(stringDate);
         }
         return date;
     }
+
+    public int getDateInYear(Date date) {
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        //first day of year
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.DAY_OF_YEAR, 1);
+        Date start = cal.getTime();
+
+//        //last day of year
+//        cal.set(Calendar.YEAR, year);
+//        cal.set(Calendar.MONTH, 11);
+//        cal.set(Calendar.DAY_OF_MONTH, 31); // new years eve
+//        Date end = cal.getTime();
+
+        long diff = date.getTime() - start.getTime();
+        int dateInYear = (int) (diff / (24 * 60 * 60 * 1000)) + 1;
+        return dateInYear;
+    }
+
+    //return month from 2020, if 01/2021, month must be 13
+    public int getMonthFrom2020(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        return (year - 2020) * 12 + month;
+    }
+
     public void chooseDayDialog(final TextView textView, Date defaultDate, Context context) {
         // create a new locale
         new SingleDateAndTimePickerDialog.Builder(context)
@@ -195,8 +243,53 @@ public class TimeController {
                 }).display();
     }
 
+    public void chooseDayDialog(final TextView textView, Date defaultDate, Context context, String sMinimumDate) {
 
-    public void chooseMonthDialog(final TextView textView, Date defaultDate, Context context) {
+        final Date minimumDate = changeStringDayToDate(sMinimumDate);
+        // create a new locale
+        new SingleDateAndTimePickerDialog.Builder(context)
+                .bottomSheet()
+                .curved()
+                .displayMinutes(false)
+                .displayHours(false)
+                .displayDays(false)
+                .displayMonth(true)
+                .customLocale(locale)
+                .displayMonthNumbers(true)
+                .displayYears(true)
+                .defaultDate(defaultDate)
+                .displayDaysOfMonth(true)
+                .titleTextColor(Color.parseColor("#1fb34a"))
+                .mainColor(Color.parseColor("#1fb34a"))
+                .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                    @Override
+                    public void onDisplayed(SingleDateAndTimePicker picker) {
+                        //retrieve the SingleDateAndTimePicker
+                    }
+                })
+                .title("Chọn ngày")
+                .listener(new SingleDateAndTimePickerDialog.Listener() {
+                    @Override
+                    public void onDateSelected(Date date) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        //if choseDate after now, set to Now
+                        Date now = new Date();
+                        if (date.after(now)) {
+                            textView.setText(dateFormat.format(now));
+                        } else {
+                            //if choseDate before minumumDate, set to minimumDate
+                            if (date.before(minimumDate)) {
+                                textView.setText(dateFormat.format(minimumDate));
+                            } else
+                                textView.setText(dateFormat.format(date));
+                        }
+
+                    }
+                }).display();
+    }
+
+    public void chooseMonthDialog(final TextView textView, Date defaultDate, Context context, String sMinimumDate) {
+        final Date minimumDate = changeStringDayToDate(sMinimumDate);
         new SingleDateAndTimePickerDialog.Builder(context)
                 .bottomSheet()
                 .curved()
@@ -220,12 +313,16 @@ public class TimeController {
                 .listener(new SingleDateAndTimePickerDialog.Listener() {
                     @Override
                     public void onDateSelected(Date date) {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yyyy");
                         Date now = new Date();
                         if (date.after(now)) {
-                            textView.setText(dateFormat.format(now));
-                        } else
-                            textView.setText(dateFormat.format(date));
+                            textView.setText(changeDateToMonthString(now));
+                        } else {
+                            if (date.before(minimumDate)) {
+                                textView.setText(changeDateToMonthString(minimumDate));
+                            } else
+                                textView.setText(changeDateToMonthString(date));
+                        }
+
                     }
                 }).display();
     }
