@@ -19,6 +19,7 @@ import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.DayAxisValueFormatter;
+import com.koit.capstonproject_version_1.helper.MonthAxisValueFormatter;
 import com.koit.capstonproject_version_1.helper.MyMarkerView;
 import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 import com.koit.capstonproject_version_1.helper.MyValueFormatter;
@@ -40,98 +41,133 @@ public class RevenueController {
         this.chart = chart;
     }
 
-    public void getListInvoice(final Date dateFrom, final Date dateTo, final LottieAnimationView animationView, final TextView tvTotal, final ShimmerFrameLayout shimmerFrameLayout) {
-        listInvoice = new ArrayList<>();
+    public void getListInvoiceAfter(Date dateFrom, Date dateTo,
+                                    final TextView tvTotal, int searchByType) {
+        Log.d("checkDateFromAndTo", dateFrom.toString() + "\n" + dateTo.toString());
+        setDataForBarchart(dateFrom, dateTo, searchByType);
+        tvTotal.setText(Money.getInstance().formatVN(getTotalRevenue(listInvoice, dateFrom, dateTo, searchByType)));
+    }
 
+    public void getListInvoiceFirstTimme(final Date dateFrom, final Date dateTo, final LottieAnimationView animationView,
+                                         final TextView tvTotal, final ShimmerFrameLayout shimmerFrameLayout) {
+        listInvoice = new ArrayList<>();
         final IInvoice iInvoice = new IInvoice() {
             @Override
             public void getInvoice(Invoice invoice) {
-                //if dateFrom> dateTo swap
+                //get all invoice
                 if (invoice != null && !invoice.isDrafted()) {
-                    Date dateInInvoice = TimeController.getInstance().changeStringToDate(invoice.getInvoiceDate());
-                    //date in invoice between dateFrom and dateTo
-                    if ((dateFrom.before(dateInInvoice) || (dateFrom.equals(dateInInvoice))) &&
-                            (dateTo.after(dateInInvoice) || dateTo.equals(dateInInvoice))) {
-                        long total = invoice.getTotal();
-                        boolean isExist = false;
-                        for (Invoice il : listInvoice
-                        ) {
-                            if (invoice.getInvoiceDate().equals(il.getInvoiceDate())) {
-                                isExist = true;
-                                total += il.getTotal();
-                                il.setTotal(total);
-                            }
+                    long total = invoice.getTotal();
+                    boolean isExist = false;
+                    for (Invoice il : listInvoice
+                    ) {
+                        if (invoice.getInvoiceDate().equals(il.getInvoiceDate())) {
+                            isExist = true;
+                            total += il.getTotal();
+                            il.setTotal(total);
                         }
-                        if (!isExist) {
-                            listInvoice.add(invoice);
-                        } else {
-                        }
-                        setDataForBarchart(dateFrom, dateTo);
-                        //set textview total revenue
-                        tvTotal.setText(Money.getInstance().formatVN(getTotalRevenue(listInvoice)));
                     }
+                    if (!isExist) {
+                        listInvoice.add(invoice);
+                    }
+                    setDataForBarchart(dateFrom, dateTo, 0);
+                    //set textview total revenue
+                    tvTotal.setText(Money.getInstance().formatVN(getTotalRevenue(listInvoice, dateFrom, dateTo, 0)));
                     //set UI loading
                     animationView.setVisibility(View.GONE);
                     shimmerFrameLayout.stopShimmer();
                     shimmerFrameLayout.setShimmer(null);
+                    //setData for the first time load
                 }
             }
         };
-
         invoiceHistoryDAO.getInvoiceList(iInvoice);
     }
 
-    public void setDataForBarchart(Date dateFrom, Date dateTo) {
-        int x = 0;
-        long y = 0;
+    public void setDataForBarchart(Date dateFrom, Date dateTo, int searchByType) {
+        //search by day
+        if (0 == searchByType) {
+            int x = 0;
+            long y = 0;
+            List<BarEntry> elements = new ArrayList<>();
 
-        //get Diff from dateFrom to dateTo
-        long diff = dateTo.getTime() - dateFrom.getTime();
-        int totalDay = (int) (diff / (24 * 60 * 60 * 1000));
-        Log.d("totalDay", totalDay + "");
+            //days between 2 days
+            for (int i = TimeController.getInstance().getDateInYear(dateFrom); i < TimeController.getInstance().getDateInYear(dateTo) + 1; i++) {
+                String stringDateFrom = TimeController.getInstance().changeDateToString(dateFrom);
+                // xAxis in chart
+                x = i + 1;
+                y = 0;
+                String day = "";
 
-        List<BarEntry> elements = new ArrayList<>();
+                for (Invoice iv : listInvoice) {
+                    if (stringDateFrom.equals(iv.getInvoiceDate()))
+                        y += iv.getTotal();
+                }
 
-        for (int i = 1; i < totalDay + 2; i++) {
-            String stringDateFrom = TimeController.getInstance().changeDateToString(dateFrom);
-            // xAxis in chart
-            x = i + 1;
-            y = 0;
-            String day = "";
-            for (Invoice iv : listInvoice) {
-//                arrayDate = iv.getInvoiceDate().split("[-]");
-//            x = Math.round(Integer.parseInt(arrayDate[0]));
-                if (stringDateFrom.equals(iv.getInvoiceDate()))
-                    y += iv.getTotal();
-                day = iv.getInvoiceDate();
+                elements.add(new BarEntry(x, y, TimeController.getInstance().changeDateToString(dateFrom)));
+                //add 1 day to dateFrom
+                Calendar c = Calendar.getInstance();
+                c.setTime(dateFrom);
+                c.add(Calendar.DATE, 1);
+                dateFrom = c.getTime();
             }
-            elements.add(new BarEntry(x, y, TimeController.getInstance().changeDateToString(dateFrom)));
-            //add 1 day to dateFrom
-            Calendar c = Calendar.getInstance();
-            c.setTime(dateFrom);
-            c.add(Calendar.DATE, 1);
-            dateFrom = c.getTime();
+
+            BarDataSet bardataset = new BarDataSet(elements, "Doanh thu");
+            BarData data = new BarData();
+            data.addDataSet(bardataset);
+            chart.setData(data);
+
+            bardataset.setColors(activity.getResources().getColor(R.color.light_blue));
+            //data in top of bar
+            bardataset.setDrawValues(false);
+            setUpBarChart(true);
+        } else
+        //searh by Month
+        {
+            int x = 0;
+            long y = 0;
+            List<BarEntry> elements = new ArrayList<>();
+
+            //month between 2 months
+            for (int i = TimeController.getInstance().getMonthFrom2020(dateFrom); i < TimeController.getInstance().getMonthFrom2020(dateTo) + 1; i++) {
+                // xAxis in chart
+                x = i;
+                y = 0;
+
+                for (Invoice iv : listInvoice) {
+                    if (dateFrom.equals(TimeController.getInstance().changeStringDayToFirstDayOfMonth(iv.getInvoiceDate())))
+                        y += iv.getTotal();
+                    Log.d("checkDateInInvoice", TimeController.getInstance().changeStringDayToFirstDayOfMonth(iv.getInvoiceDate()) + "");
+                }
+
+                elements.add(new BarEntry(x, y, TimeController.getInstance().changeDateToMonthString(dateFrom)));
+                //add 1 month to dateFrom
+                Calendar c = Calendar.getInstance();
+                c.setTime(dateFrom);
+                c.add(Calendar.MONTH, 1);
+                dateFrom = c.getTime();
+                Log.d("checkDateFromRC", dateFrom.toString());
+            }
+            Log.d("checkElemetns", elements.toString());
+            BarDataSet bardataset = new BarDataSet(elements, "Doanh thu");
+            BarData data = new BarData();
+            data.addDataSet(bardataset);
+            chart.setData(data);
+
+            bardataset.setColors(activity.getResources().getColor(R.color.light_blue));
+            //data in top of bar
+            bardataset.setDrawValues(false);
+            setUpBarChart(false);
+
         }
-
-        BarDataSet bardataset = new BarDataSet(elements, "Doanh thu");
-        BarData data = new BarData();
-        data.addDataSet(bardataset);
-        chart.setData(data);
-
-        bardataset.setColors(activity.getResources().getColor(R.color.light_blue));
-        //data in top of bar
-        bardataset.setDrawValues(false);
-        setUpBarChart();
-
     }
+
     //set up UI for Bar Graph
-    private void setUpBarChart() {
+    private void setUpBarChart(boolean isSearchByDay) {
         chart.invalidate();
         chart.getDescription().setText("");
 
         chart.animateY(1000);
-
-        chart.setVisibleXRangeMaximum(20); // allow 20 values to be displayed at once on the x-axis, not more
+        chart.setVisibleXRangeMaximum(1000); // allow 50 values to be displayed at once on the x-axis, not more
         chart.moveViewToX(10); // set the left edge of the chart to x-index 10
         chart.setDrawBarShadow(false);
         chart.setDrawValueAboveBar(true);
@@ -148,7 +184,13 @@ public class RevenueController {
         chart.setDrawGridBackground(false);
         // chart.setDrawYLabels(false);
 
-        ValueFormatter xAxisFormatter = new DayAxisValueFormatter(chart);
+        ValueFormatter xAxisFormatter;
+        if (isSearchByDay)
+            xAxisFormatter = new DayAxisValueFormatter(chart);
+        else {
+            //search by month
+            xAxisFormatter = new MonthAxisValueFormatter(chart);
+        }
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(true);
@@ -157,7 +199,6 @@ public class RevenueController {
         xAxis.setLabelCount(7);
         xAxis.setAxisLineWidth(2);
         xAxis.setValueFormatter(xAxisFormatter);
-
 //        xAxis.setValueFormatter(new MyXAxisValueFormatter()) ;
 
         YAxis rightAxis = chart.getAxisRight();
@@ -173,13 +214,26 @@ public class RevenueController {
 
     }
 
-    private long getTotalRevenue(List<Invoice> listInvoice) {
+    //get Total Revenue betweeen 2 dates
+    private long getTotalRevenue(List<Invoice> listInvoice, Date dateFrom, Date dateTo, int searchByType) {
+        Log.d("ChekDateFrom", dateFrom.toString());
         long total = 0;
         for (Invoice invoice : listInvoice
         ) {
-            total += invoice.getTotal();
+            Date dateInInvoice;
+            //search by day
+            if (searchByType == 0) {
+                dateInInvoice = TimeController.getInstance().changeStringDayToDate(invoice.getInvoiceDate());
+            }else{
+                dateInInvoice = TimeController.getInstance().changeStringDayToFirstDayOfMonth(invoice.getInvoiceDate());
+            }
+            if ((dateFrom.before(dateInInvoice) || (dateFrom.equals(dateInInvoice))) &&
+                    (dateTo.after(dateInInvoice) || dateTo.equals(dateInInvoice))) {
+                total += invoice.getTotal();
+            }
         }
         return total;
+
     }
 
 }

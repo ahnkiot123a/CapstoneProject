@@ -25,11 +25,11 @@ public class DayAxisValueFormatter extends ValueFormatter
 
         int month = determineMonth(days);
         String monthName = mMonths[month % mMonths.length];
-        String yearName = String.valueOf(year);
+//        String yearName = String.valueOf(year);
 
         if (chart.getVisibleXRange() > 30 * 6) {
 
-            return monthName + " " + yearName;
+            return monthName;
         } else {
 
             int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2016));

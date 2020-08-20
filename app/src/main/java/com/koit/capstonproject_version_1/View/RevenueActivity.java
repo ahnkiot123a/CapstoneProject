@@ -52,6 +52,7 @@ public class RevenueActivity extends AppCompatActivity {
     LottieAnimationView animationView;
     TextView tvTotal;
     ShimmerFrameLayout shimmerFrameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,7 @@ public class RevenueActivity extends AppCompatActivity {
         animationView.setVisibility(View.VISIBLE);
         TimeController.getInstance().setCurrentDate(tvFrom, tvTo);
         getDetailRevenueActivity();
-        RevenueController revenueController = new RevenueController(this, chart);
+        final RevenueController revenueController = new RevenueController(this, chart);
 
         spinnerChooseTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -111,10 +112,9 @@ public class RevenueActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String stringDate = tvFrom.getText().toString();
-                dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDate);
-                RevenueController revenueController = new RevenueController(RevenueActivity.this, chart);
-                revenueController.getListInvoice(dateFrom, dateTo, animationView, tvTotal, shimmerFrameLayout);
+                arrangeDate();
+                revenueController.getListInvoiceAfter(dateFrom, dateTo, tvTotal,
+                        spinnerChooseTime.getSelectedItemPosition());
             }
 
             @Override
@@ -128,18 +128,21 @@ public class RevenueActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String stringDate = tvTo.getText().toString();
-                dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDate);
-                RevenueController revenueController = new RevenueController(RevenueActivity.this, chart);
-                revenueController.getListInvoice(dateFrom, dateTo, animationView, tvTotal, shimmerFrameLayout);
+                arrangeDate();
+                revenueController.getListInvoiceAfter(dateFrom, dateTo, tvTotal,
+                        spinnerChooseTime.getSelectedItemPosition());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
-
         //set timeFrom and timTo for the first time
+        arrangeDate();
+        revenueController.getListInvoiceFirstTimme(dateFrom, dateTo, animationView, tvTotal, shimmerFrameLayout);
+    }
+
+    private void arrangeDate() {
         dateFrom = TimeController.getInstance().getDateAndMonthFromText(tvFrom.getText().toString());
         dateTo = TimeController.getInstance().getDateAndMonthFromText(tvTo.getText().toString());
         if (dateFrom.after(dateTo)) {
@@ -148,7 +151,6 @@ public class RevenueActivity extends AppCompatActivity {
             dateFrom = dateTo;
             dateTo = temp;
         }
-        revenueController.getListInvoice(dateFrom, dateTo, animationView, tvTotal, shimmerFrameLayout);
     }
 
     private void initView() {
@@ -326,17 +328,17 @@ public class RevenueActivity extends AppCompatActivity {
 
     public void chooseTimeFrom(View view) {
         if (isDayType()) {
-            TimeController.getInstance().chooseDayDialog(tvFrom, dateFrom, this);
+            TimeController.getInstance().chooseDayDialog(tvFrom, dateFrom, this, "01-01-2020");
         } else {
-            TimeController.getInstance().chooseMonthDialog(tvFrom, dateFrom, this);
+            TimeController.getInstance().chooseMonthDialog(tvFrom, dateFrom, this, "01-01-2020");
         }
     }
 
     public void chooseTimeTo(View view) {
         if (isDayType()) {
-            TimeController.getInstance().chooseDayDialog(tvTo, dateTo, this);
+            TimeController.getInstance().chooseDayDialog(tvTo, dateTo, this, "01-01-2020");
         } else {
-            TimeController.getInstance().chooseMonthDialog(tvTo, dateTo, this);
+            TimeController.getInstance().chooseMonthDialog(tvTo, dateTo, this, "01-01-2020");
         }
     }
 
