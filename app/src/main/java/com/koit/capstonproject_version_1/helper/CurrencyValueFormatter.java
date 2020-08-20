@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
  * @author Philipp Jahoda
  * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
  */
-public class MyValueFormatter extends ValueFormatter
+public class CurrencyValueFormatter extends ValueFormatter
 {
 
     private String[] mSuffix = new String[]{
@@ -23,7 +23,7 @@ public class MyValueFormatter extends ValueFormatter
     private DecimalFormat mFormat;
     private String mText = "";
 
-    public MyValueFormatter() {
+    public CurrencyValueFormatter() {
         mFormat = new DecimalFormat("###E00");
     }
 
@@ -32,7 +32,7 @@ public class MyValueFormatter extends ValueFormatter
      *
      * @param appendix a text that will be appended
      */
-    public MyValueFormatter(String appendix) {
+    public CurrencyValueFormatter(String appendix) {
         this();
         mText = appendix;
     }

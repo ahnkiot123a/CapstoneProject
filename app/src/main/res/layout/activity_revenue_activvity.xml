@@ -46,7 +46,6 @@
 
 
         </Toolbar>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/timeLayout"
             android:layout_width="match_parent"
@@ -123,8 +122,42 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/linearLayoutEmptyInvoice"
+            android:visibility="gone"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageViewEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:src="@drawable/icons8_bar_chart_200px_3" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Chưa có dữ liệu!"
+                android:textColor="#302E2E"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Bạn chưa có đơn hàng nào" />
+
+        </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layoutChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"

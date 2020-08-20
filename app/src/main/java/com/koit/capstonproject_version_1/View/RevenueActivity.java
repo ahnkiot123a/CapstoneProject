@@ -6,10 +6,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,12 +35,15 @@ import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.MyMarkerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
 public class RevenueActivity extends AppCompatActivity {
+    LinearLayout layoutChart;
+    LinearLayout linearLayoutEmptyInvoice;
     BarChart chart;
     LineChart lineChart;
     Spinner spinnerChooseTime;
@@ -52,6 +57,8 @@ public class RevenueActivity extends AppCompatActivity {
     LottieAnimationView animationView;
     TextView tvTotal;
     ShimmerFrameLayout shimmerFrameLayout;
+    RevenueController revenueController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +70,9 @@ public class RevenueActivity extends AppCompatActivity {
         //set up UI loading
         shimmerFrameLayout.startShimmer();
         animationView.setVisibility(View.VISIBLE);
+
         TimeController.getInstance().setCurrentDate(tvFrom, tvTo);
-        getDetailRevenueActivity();
-        final RevenueController revenueController = new RevenueController(this, chart);
+        revenueController = new RevenueController(this, chart, lineChart);
 
         spinnerChooseTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -139,7 +146,8 @@ public class RevenueActivity extends AppCompatActivity {
         });
         //set timeFrom and timTo for the first time
         arrangeDate();
-        revenueController.getListInvoiceFirstTimme(dateFrom, dateTo, animationView, tvTotal, shimmerFrameLayout);
+        revenueController.getListInvoiceFirstTimme(dateFrom, dateTo, animationView, tvTotal,
+                shimmerFrameLayout, linearLayoutEmptyInvoice, layoutChart);
     }
 
     private void arrangeDate() {
@@ -165,132 +173,25 @@ public class RevenueActivity extends AppCompatActivity {
         animationView = findViewById(R.id.animationView);
         tvTotal = findViewById(R.id.tvTotal);
         shimmerFrameLayout = findViewById(R.id.shimmer_layout);
+        linearLayoutEmptyInvoice = findViewById(R.id.linearLayoutEmptyInvoice);
+        layoutChart = findViewById(R.id.layoutChart);
     }
 
-    //https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/main/java/com/xxmassdeveloper/mpchartexample/BarChartActivity.java
-    private void setUpBarChart() {
-//        InvoiceHistoryController invoiceHistoryController = new InvoiceHistoryController(this, chart);
-//        invoiceHistoryController.setDataForBarchart();
-        chart.invalidate();
-        chart.getDescription().setText("");
 
-        chart.animateY(1000);
-
-        chart.setVisibleXRangeMaximum(20); // allow 20 values to be displayed at once on the x-axis, not more
-        chart.moveViewToX(10); // set the left edge of the chart to x-index 10
-        chart.setDrawBarShadow(false);
-        chart.setDrawValueAboveBar(true);
-        chart.getDescription().setEnabled(false);
-
-        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
-        mv.setChartView(chart);
-        chart.setMarker(mv);
-
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
-        chart.setMaxVisibleValueCount(60);
-
-        chart.setDrawGridBackground(false);
-        // chart.setDrawYLabels(false);
-
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setTextSize(12);
-
-        YAxis rightAxis = chart.getAxisRight();
-        rightAxis.setEnabled(false);
-
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setTextSize(14);
-
-    }
-
-    //set Line chart
-    private void setUpLineChart() {
-//        setDataForLinechart(lineChart);
-        // create marker to display box when values are selected
-        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
-        // Set the marker to the chart
-        mv.setChartView(lineChart);
-        lineChart.setMarker(mv);
-        // draw points over time
-        lineChart.animateX(500);
-        lineChart.getDescription().setText("");
-
-        XAxis xAxis;
-        {   // // X-Axis Style // //
-            xAxis = lineChart.getXAxis();
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-            xAxis.setDrawGridLines(true);
-            xAxis.setTextSize(14);
-            xAxis.enableGridDashedLine(5f, 10f, 2f);
-        }
-        YAxis yAxis;
-        {   // // Y-Axis Style // //
-            yAxis = lineChart.getAxisLeft();
-            // disable dual axis (only use LEFT axis)
-            lineChart.getAxisRight().setEnabled(false);
-            yAxis.setTextSize(14);
-            // horizontal grid lines
-            yAxis.enableGridDashedLine(5f, 10f, 2f);
-        }
-
-
-        {   // // Create Limit Lines // //
-            LimitLine llXAxis = new LimitLine(9f, "Index 10");
-            llXAxis.setLineWidth(4f);
-            llXAxis.enableDashedLine(15f, 15f, 0f);
-            llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-            llXAxis.setTextSize(10f);
-//            llXAxis.setTypeface(tfRegular);
-//            ll2.setTypeface(tfRegular);
-            // draw limit lines behind data instead of on top
-            yAxis.setDrawLimitLinesBehindData(true);
-            xAxis.setDrawLimitLinesBehindData(true);
-        }
-    }
-
-    private void setDataForLinechart() {
-        List<Entry> NoOfEmp = new ArrayList<>();
-        NoOfEmp.add(new Entry(1, 4));
-        NoOfEmp.add(new Entry(2, 3));
-        NoOfEmp.add(new Entry(3, 6));
-        NoOfEmp.add(new Entry(4, 7));
-        NoOfEmp.add(new Entry(5, 4));
-        NoOfEmp.add(new Entry(6, 6));
-        NoOfEmp.add(new Entry(7, 20));
-        NoOfEmp.add(new Entry(8, 3));
-
-        LineDataSet lineDataSet = new LineDataSet(NoOfEmp, "Doanh thu");
-        LineData data = new LineData();
-        data.addDataSet(lineDataSet);
-        lineDataSet.setLineWidth(4);
-        lineDataSet.setCircleColor(getResources().getColor(R.color.red));
-        lineDataSet.setColors(getResources().getColor(R.color.light_blue));
-        lineDataSet.setDrawValues(false);
-        //draw gardient color
-        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.light_blue_linear_color);
-        lineDataSet.setDrawFilled(true);
-        lineDataSet.setFillDrawable(drawable);
-
-        lineChart.setData(data);
-    }
-
-    private void getDetailRevenueActivity() {
-        Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("BUNDLE");
-        if (bundle != null) {
-            isFirstTime = true;
-            String stringDateFrom = bundle.getString("dateFrom");
-            String stringDateTo = bundle.getString("dateTo");
-            tvFrom.setText(stringDateFrom);
-            tvTo.setText(stringDateTo);
-            dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDateFrom);
-            dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDateTo);
-            spinnerChooseTime.setSelection(bundle.getInt("searchType"));
-        }
-    }
+//    private void getDetailRevenueActivity() {
+//        Intent intent = getIntent();
+//        Bundle bundle = intent.getBundleExtra("BUNDLE");
+//        if (bundle != null) {
+//            isFirstTime = true;
+//            String stringDateFrom = bundle.getString("dateFrom");
+//            String stringDateTo = bundle.getString("dateTo");
+//            tvFrom.setText(stringDateFrom);
+//            tvTo.setText(stringDateTo);
+//            dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDateFrom);
+//            dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDateTo);
+//            spinnerChooseTime.setSelection(bundle.getInt("searchType"));
+//        }
+//    }
 
     private void setSpinner() {
         String[] statusList = {"Theo ngày", "Theo tháng"};
@@ -308,6 +209,7 @@ public class RevenueActivity extends AppCompatActivity {
         bundle.putString("dateFrom", tvFrom.getText().toString());
         bundle.putString("dateTo", tvTo.getText().toString());
         bundle.putInt("searchType", spinnerChooseTime.getSelectedItemPosition());
+        bundle.putSerializable("listInvoice", (Serializable) revenueController.getListInvoice());
         intent.putExtra("BUNDLE", bundle);
         Pair[] pairs = new Pair[2];
         pairs[0] = new Pair<View, String>(this.getTimeLayout(), "timeLayout");

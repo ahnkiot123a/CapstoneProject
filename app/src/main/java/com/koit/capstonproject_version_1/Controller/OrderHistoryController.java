@@ -231,7 +231,7 @@ public class OrderHistoryController {
 
             }
         };
-        invoiceHistoryDAO.getDraftOrderList(iInvoice);
+        //invoiceHistoryDAO.getDraftOrderList(iInvoice);
 
     }
 

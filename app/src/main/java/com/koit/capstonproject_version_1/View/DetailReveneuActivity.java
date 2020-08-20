@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.koit.capstonproject_version_1.Controller.TimeController;
+import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.Date;
+import java.util.List;
 
 public class DetailReveneuActivity extends AppCompatActivity {
     TextView tvFrom;
@@ -121,6 +123,7 @@ public class DetailReveneuActivity extends AppCompatActivity {
         tvTo.setText(stringDateTo);
         dateFrom = TimeController.getInstance().getDateAndMonthFromText(stringDateFrom, dateFrom);
         dateTo = TimeController.getInstance().getDateAndMonthFromText(stringDateTo, dateTo);
+        List<Invoice> invoiceList = (List<Invoice>) bundle.getSerializable("listInvoice");
     }
 
     private void setSpinner() {
@@ -130,30 +133,9 @@ public class DetailReveneuActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        backToReveneu();
+        onBackPressed();
     }
 
-    private void backToReveneu() {
-        Intent intent = new Intent(DetailReveneuActivity.this, RevenueActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("dateFrom", tvFrom.getText().toString());
-        bundle.putString("dateTo", tvTo.getText().toString());
-        bundle.putInt("searchType", spinnerChooseTypeTime.getSelectedItemPosition());
-        intent.putExtra("BUNDLE", bundle);
-        Pair[] pairs = new Pair[2];
-        pairs[0] = new Pair<View, String>(this.getTimeLayout(), "timeLayout");
-        pairs[1] = new Pair<View, String>(this.getRevenueLayout(), "revenueLayout");
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, pairs);
-        startActivity(intent, options.toBundle());
-    }
-
-    private ConstraintLayout getRevenueLayout() {
-        return revenueLayout;
-    }
-
-    private ConstraintLayout getTimeLayout() {
-        return timeLayout;
-    }
 
     public void chooseTimeFrom(View view) {
         if (isDayType()) {
@@ -180,6 +162,6 @@ public class DetailReveneuActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        backToReveneu();
+        super.onBackPressed();
     }
 }

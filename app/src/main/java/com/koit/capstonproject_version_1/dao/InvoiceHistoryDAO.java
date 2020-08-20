@@ -2,11 +2,13 @@ package com.koit.capstonproject_version_1.dao;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,12 +81,13 @@ public class InvoiceHistoryDAO {
         }
     }
 
-
-    public void getInvoiceList(final IInvoice iInvoice) {
+    //For revenue controller
+    public void getInvoiceList(final IInvoice iInvoice, final LinearLayout layoutNotFound,
+                               final LottieAnimationView animationView, final LinearLayout layoutChart) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getInvoiceList(dataSnapshot, iInvoice);
+                getInvoiceList(dataSnapshot, iInvoice, layoutNotFound, animationView, layoutChart);
             }
 
             @Override
@@ -95,11 +98,13 @@ public class InvoiceHistoryDAO {
         nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
-
-
-    private void getInvoiceList(DataSnapshot dataSnapshot, IInvoice iInvoice) {
+    //for layout chart
+    private void getInvoiceList(DataSnapshot dataSnapshot, IInvoice iInvoice, LinearLayout layoutNotFound,
+                                LottieAnimationView animationView, LinearLayout layoutChart) {
+        boolean hasInvoice = false;
         DataSnapshot data = dataSnapshot.child("Invoices").child(UserDAO.getInstance().getUserID());
         for (DataSnapshot value : data.getChildren()) {
+            hasInvoice = true;
             final Invoice invoice = value.getValue(Invoice.class);
             if (invoice != null) {
                 invoice.setInvoiceId(value.getKey());
@@ -121,50 +126,11 @@ public class InvoiceHistoryDAO {
                 Log.i("invoice", invoice.toString());
                 iInvoice.getInvoice(invoice);
             }
-
         }
-    }
-    public void getDraftOrderList(final IInvoice iInvoice) {
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getDraftOrderList(dataSnapshot, iInvoice);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-        nodeRoot = FirebaseDatabase.getInstance().getReference();
-        nodeRoot.keepSynced(true);
-        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
-    }
-
-    private void getDraftOrderList(DataSnapshot dataSnapshot, IInvoice iInvoice) {
-        DataSnapshot data = dataSnapshot.child("Invoices").child(UserDAO.getInstance().getUserID());
-        for (DataSnapshot value : data.getChildren()) {
-            final Invoice invoice = value.getValue(Invoice.class);
-            if (invoice != null && invoice.isDrafted()) {
-                invoice.setInvoiceId(value.getKey());
-                if (invoice.getDebtorId().isEmpty()) {
-                    invoice.setDebtorName("Khách lẻ");
-                } else {
-                    getDebtorName(invoice.getDebtorId());
-                    IDebtor iDebtor = new IDebtor() {
-                        @Override
-                        public void getDebtor(Debtor debtor) {
-                            if (debtor != null) {
-                                invoice.setDebtorName(debtor.getFullName());
-                            }
-                        }
-                    };
-                    getDebtorById(invoice.getDebtorId(), iDebtor);
-
-                }
-                Log.i("invoice", invoice.toString());
-                iInvoice.getInvoice(invoice);
-            }
-
+        if (!hasInvoice) {
+            layoutNotFound.setVisibility(View.VISIBLE);
+            animationView.setVisibility(View.GONE);
+            layoutChart.setVisibility(View.GONE);
         }
     }
 
