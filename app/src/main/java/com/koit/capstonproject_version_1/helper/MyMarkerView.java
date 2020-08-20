@@ -1,4 +1,4 @@
-package com.koit.capstonproject_version_1.View;
+package com.koit.capstonproject_version_1.helper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,12 +18,12 @@ public class MyMarkerView extends MarkerView {
 
     public MyMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
-
         tvContent = findViewById(R.id.tvContent);
     }
 
     // runs every time the MarkerView is redrawn, can be used to update the
     // content (user-interface)
+    @SuppressLint("SetTextI18n")
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
@@ -31,10 +31,10 @@ public class MyMarkerView extends MarkerView {
 
             CandleEntry ce = (CandleEntry) e;
 
-            tvContent.setText(Utils.formatNumber(ce.getHigh(), 0, true));
+            tvContent.setText(e.getData() + "\n" + Utils.formatNumber(ce.getHigh(), 0, true));
         } else {
 
-            tvContent.setText(Utils.formatNumber(e.getY(), 0, true));
+            tvContent.setText(e.getData() + "\n" + Utils.formatNumber(e.getY(), 0, true));
         }
 
         super.refreshContent(e, highlight);

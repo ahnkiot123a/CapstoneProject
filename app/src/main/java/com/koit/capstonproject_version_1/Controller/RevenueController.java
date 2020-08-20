@@ -13,11 +13,13 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.View.MyMarkerView;
+import com.koit.capstonproject_version_1.helper.DayAxisValueFormatter;
+import com.koit.capstonproject_version_1.helper.MyMarkerView;
 import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 import com.koit.capstonproject_version_1.helper.MyValueFormatter;
 
@@ -48,8 +50,8 @@ public class RevenueController {
                 if (invoice != null && !invoice.isDrafted()) {
                     Date dateInInvoice = TimeController.getInstance().changeStringToDate(invoice.getInvoiceDate());
                     //date in invoice between dateFrom and dateTo
-                    if ((dateFrom.before(dateInInvoice)||(dateFrom.equals(dateInInvoice))) &&
-                            (dateTo.after(dateInInvoice)||dateTo.equals(dateInInvoice))) {
+                    if ((dateFrom.before(dateInInvoice) || (dateFrom.equals(dateInInvoice))) &&
+                            (dateTo.after(dateInInvoice) || dateTo.equals(dateInInvoice))) {
                         long total = invoice.getTotal();
                         boolean isExist = false;
                         for (Invoice il : listInvoice
@@ -95,13 +97,15 @@ public class RevenueController {
             // xAxis in chart
             x = i + 1;
             y = 0;
+            String day = "";
             for (Invoice iv : listInvoice) {
 //                arrayDate = iv.getInvoiceDate().split("[-]");
 //            x = Math.round(Integer.parseInt(arrayDate[0]));
                 if (stringDateFrom.equals(iv.getInvoiceDate()))
                     y += iv.getTotal();
+                day = iv.getInvoiceDate();
             }
-            elements.add(new BarEntry(x, y));
+            elements.add(new BarEntry(x, y, TimeController.getInstance().changeDateToString(dateFrom)));
             //add 1 day to dateFrom
             Calendar c = Calendar.getInstance();
             c.setTime(dateFrom);
@@ -120,10 +124,8 @@ public class RevenueController {
         setUpBarChart();
 
     }
-
+    //set up UI for Bar Graph
     private void setUpBarChart() {
-//        InvoiceHistoryController invoiceHistoryController = new InvoiceHistoryController(this, chart);
-//        invoiceHistoryController.setDataForBarchart();
         chart.invalidate();
         chart.getDescription().setText("");
 
@@ -146,10 +148,17 @@ public class RevenueController {
         chart.setDrawGridBackground(false);
         // chart.setDrawYLabels(false);
 
+        ValueFormatter xAxisFormatter = new DayAxisValueFormatter(chart);
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(true);
         xAxis.setTextSize(12);
+        xAxis.setGranularity(1f); // only intervals of 1 day
+        xAxis.setLabelCount(7);
+        xAxis.setAxisLineWidth(2);
+        xAxis.setValueFormatter(xAxisFormatter);
+
+//        xAxis.setValueFormatter(new MyXAxisValueFormatter()) ;
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);

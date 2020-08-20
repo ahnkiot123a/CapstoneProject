@@ -10,7 +10,7 @@ public class Helper  {
     public Helper() {
     }
 
-    public static Helper getmInstance() {
+    public static Helper getInstance() {
         if (mInstance==null) mInstance = new Helper();
         return mInstance;
     }
