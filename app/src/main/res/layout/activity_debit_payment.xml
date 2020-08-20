@@ -242,6 +242,7 @@
                     android:background="@drawable/background_btn_login"
                     android:fontFamily="sans-serif-medium"
                     android:text="Trả nợ"
+                    android:onClick="callInputPayDebtMoney"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp"

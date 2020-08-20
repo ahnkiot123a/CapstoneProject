@@ -23,5 +23,6 @@
     <string name="title_debit">Sổ nợ</string>
     <string name="title_account">Cá nhân</string>
     <string name="search_hint">mã, tên khách hàng,...</string>
+    <string name="InputDebtMoney">Nhập số tiền trả</string>
 
 </resources>

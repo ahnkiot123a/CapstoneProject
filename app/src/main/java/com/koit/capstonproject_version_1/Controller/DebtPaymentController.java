@@ -72,6 +72,7 @@ public class DebtPaymentController {
                         Log.d("TotalPayAmountByDebtor", Money.getInstance().formatVN(getTotalPayAmountByDebtor(list)));
                 }
             };
+            Log.d("qlandbac", list.toString());
             debtPayment.getListDebtPaymentByDebtor(iDebtPayment, debtor.getDebtorId());
             rvDebtPayment.setAdapter(debtPaymentAdapter);
         }

@@ -101,4 +101,10 @@ public class DebitPaymentActivity extends AppCompatActivity {
         intent.putExtra(ITEM_DEBTOR, currentDebtor);
         startActivity(intent);
     }
+
+    public void callInputPayDebtMoney(View view) {
+        Intent intent = new Intent(this, InputPayDebtMoneyActivity.class);
+        intent.putExtra(ITEM_DEBTOR, currentDebtor);
+        startActivity(intent);
+    }
 }
