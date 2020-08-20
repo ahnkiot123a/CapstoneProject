@@ -2,6 +2,8 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,26 +31,27 @@ public class DebtPaymentController {
         debtPayment = new DebtPayment();
     }
 
-    public void getListDebtPaymentByDebtor(String debtorId) {
-        IDebtPayment iDebtPayment = new IDebtPayment() {
-            @Override
-            public void getDebtPayment(DebtPayment debtPayment) {
-                if (debtPayment != null) {
-                    debtPaymentList.add(debtPayment);
-                    Log.d("TotalPayAmountByDebtor", Money.getInstance().formatVN(getTotalPayAmountByDebtor()));
-                }
-            }
-        };
-        debtPayment.getListDebtPaymentByDebtor(iDebtPayment, debtorId);
-    }
+//    public void getListDebtPaymentByDebtor(String debtorId) {
+//        IDebtPayment iDebtPayment = new IDebtPayment() {
+//            @Override
+//            public void getDebtPayment(DebtPayment debtPayment) {
+//                if (debtPayment != null) {
+//                    debtPaymentList.add(debtPayment);
+//                    Log.d("TotalPayAmountByDebtor", Money.getInstance().formatVN(getTotalPayAmountByDebtor()));
+//                }
+//            }
+//        };
+//        debtPayment.getListDebtPaymentByDebtor(iDebtPayment, debtorId);
+//    }
 
-    public long getTotalPayAmountByDebtor() {
+    public long getTotalPayAmountByDebtor(List<DebtPayment> list) {
         long total = 0;
-        for (DebtPayment d : debtPaymentList) total += d.getPayAmount();
+        for (DebtPayment d : list) total += d.getPayAmount();
         return total;
     }
 
-    public void setDebtPaymentList(Debtor debtor, RecyclerView rvDebtPayment) {
+    public void setDebtPaymentList(Debtor debtor, RecyclerView rvDebtPayment, final TextView tvPayAmountTotal,
+                                   final TextView tvDebtTotal, final TextView tvDebtAmountTotal, final ProgressBar pbDebt) {
         final List<DebtPayment> list = new ArrayList<>();
         if (debtor != null) {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
@@ -57,14 +60,20 @@ public class DebtPaymentController {
             IDebtPayment iDebtPayment = new IDebtPayment() {
                 @Override
                 public void getDebtPayment(DebtPayment debtPayment) {
-                    if (debtPayment != null) {
                         list.add(debtPayment);
-                        Log.d("TotalPayAmountByDebtor", Money.getInstance().formatVN(getTotalPayAmountByDebtor()));
-                    }
+                        debtPaymentAdapter.notifyDataSetChanged();
+                        long debtTotal = Money.getInstance().reFormatVND(tvDebtAmountTotal.getText().toString());
+                        long payAmountToTal = getTotalPayAmountByDebtor(list);
+                        long debtAmountTotal = debtTotal + payAmountToTal;
+                        pbDebt.setMax((int) debtAmountTotal);
+                        pbDebt.setProgress((int) payAmountToTal);
+                        tvPayAmountTotal.setText(Money.getInstance().formatVN(payAmountToTal) + " đ");
+                        tvDebtTotal.setText(Money.getInstance().formatVN(debtAmountTotal) + " đ");
+                        Log.d("TotalPayAmountByDebtor", Money.getInstance().formatVN(getTotalPayAmountByDebtor(list)));
                 }
             };
             debtPayment.getListDebtPaymentByDebtor(iDebtPayment, debtor.getDebtorId());
-            debtPaymentAdapter.notifyDataSetChanged();
+            rvDebtPayment.setAdapter(debtPaymentAdapter);
         }
     }
 

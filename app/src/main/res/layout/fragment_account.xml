@@ -24,8 +24,8 @@
 
         <ImageButton
             android:id="@+id/backToLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@null"
             android:onClick="navigationMenuLeft"
             android:src="@drawable/ic_menu_left_nav" />
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Cá nhân"
-            android:textColor="#FFF"
+            android:textColor="@color/white"
             android:textSize="28sp"
             android:textStyle="bold" />
 
@@ -59,8 +59,8 @@
 
             <RelativeLayout
                 android:id="@+id/layoutImage"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp">
 

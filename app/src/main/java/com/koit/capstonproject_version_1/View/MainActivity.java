@@ -165,9 +165,9 @@ public class MainActivity extends AppCompatActivity {
 //        dialog.show();
 //    }
 //
-//    public void back(View view) {
-//        navDrawer.closeDrawers();
-//    }
+    public void closeNavigationLeft(View view) {
+        navDrawer.closeDrawers();
+    }
 
     public void getUpdateActivity(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

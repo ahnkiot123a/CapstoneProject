@@ -2,8 +2,6 @@ package com.koit.capstonproject_version_1.View.ui.debit;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.DataSet;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.koit.capstonproject_version_1.Controller.DebtPaymentDetailController;
 import com.koit.capstonproject_version_1.Controller.DebtorController;
-import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
@@ -108,15 +100,21 @@ public class DebitFragment extends Fragment {
             dataSet.setColors(colors);
             dataSet.setValueTextColor(Color.WHITE);
             data.setValueTextSize(15f);
+
+
+            chart.setHoleRadius(300);
+
             chart.setData(data);
             //Get the chart
             chart.setUsePercentValues(true);
             chart.getDescription().setEnabled(false);
             chart.setExtraOffsets(5, 10, 5, 5);
-            chart.setCenterTextSize(18);
+
+            chart.setCenterTextSize(2f);
             chart.setDragDecelerationFrictionCoef(0.95f);
 
             chart.setCenterText("Đã trả "+ String.format("%.1f",percentPaid) +"%");
+
 
             chart.setDrawHoleEnabled(true);
             chart.setHoleColor(Color.WHITE);

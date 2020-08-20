@@ -34,15 +34,53 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.512" />
 
-            <Spinner
-                android:id="@+id/timeSpinner"
+            <TextView
+                android:id="@+id/tvViewFrom"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/radius_linearlayout"
-                android:spinnerMode="dropdown"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="Từ"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView7"
+                app:layout_constraintEnd_toStartOf="@+id/tvFromDate"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvFromDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/backgroud_date_time"
+                android:gravity="center"
+                android:onClick="chooseTimeFrom"
+                android:padding="8dp"
+                android:text="31/7/2020"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvViewTo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvViewTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="đến"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvToDate"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvToDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/backgroud_date_time"
+                android:onClick="chooseTimeTo"
+                android:padding="8dp"
+                android:text="31/8/2020"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,18 +1,18 @@
 package com.koit.capstonproject_version_1.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.DebtorController;
 import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.Debtor;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.Date;
@@ -32,8 +32,13 @@ public class EditDebtorActivity extends AppCompatActivity {
         tvToolbarTitle.setText("Thông tin khách hàng");
         initView();
         debtorController = new DebtorController(this);
-        debtor = new Debtor("KH20200804100001","hanoi","","luatnd@gmail.com","Nguyen Duc Luat","034413666",true,0);
+        getDebtor();
         setDebtorInfo();
+    }
+
+    private void getDebtor() {
+        Intent intent = getIntent();
+        debtor = (Debtor) intent.getSerializableExtra(DebitPaymentActivity.ITEM_DEBTOR);
     }
 
     private void setDebtorInfo() {

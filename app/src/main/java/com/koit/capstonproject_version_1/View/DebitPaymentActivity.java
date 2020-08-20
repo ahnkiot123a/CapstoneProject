@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,16 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Controller.DebtPaymentController;
 import com.koit.capstonproject_version_1.Model.Debtor;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.helper.Helper;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DebitPaymentActivity extends AppCompatActivity {
 
     public static final String ITEM_DEBTOR = "ITEM_DEBTOR";
     private RecyclerView rvDebtPaymentHistory;
-    private TextView tvDebtTotal, tvPayAmountTotal, tvDebtAmountTotal, tvDebtorName, tvDebtorPhone, tvDebtorAddress;
-    private Debtor currentDebtor;
+    private TextView tvDebtTotal, tvPayAmountTotal, tvDebtAmountTotal, tvDebtorName, tvDebtorPhone, tvDebtorAddress, tvFirstName;
+    private CircleImageView ivAvatar;
+    private ProgressBar pbDebit;
 
+    private Debtor currentDebtor;
     private DebtPaymentController debtPaymentController;
 
     @Override
@@ -32,6 +39,7 @@ public class DebitPaymentActivity extends AppCompatActivity {
         initView();
         currentDebtor = getCurrentDebtor();
 
+        Helper.getInstance().setImage(ivAvatar, tvFirstName, currentDebtor.getFullName().charAt(0));
         setInformationDebtor();
         setDebtPaymentList();
 
@@ -43,12 +51,18 @@ public class DebitPaymentActivity extends AppCompatActivity {
             tvDebtorName.setText(currentDebtor.getFullName());
             tvDebtorPhone.setText(currentDebtor.getPhoneNumber());
             tvDebtorAddress.setText(currentDebtor.getAddress());
+            long debtAmountTotal = currentDebtor.getRemainingDebit();
+            tvDebtAmountTotal.setText(Money.getInstance().formatVN(debtAmountTotal) + " đ");
+            tvPayAmountTotal.setText("0 đ");
+            tvDebtTotal.setText(Money.getInstance().formatVN(debtAmountTotal) + " đ");
+            pbDebit.setMax((int) debtAmountTotal);
+            pbDebit.setProgress(0);
         }
     }
 
     private void setDebtPaymentList() {
         debtPaymentController = new DebtPaymentController(this);
-        debtPaymentController.setDebtPaymentList(currentDebtor, rvDebtPaymentHistory);
+        debtPaymentController.setDebtPaymentList(currentDebtor, rvDebtPaymentHistory, tvPayAmountTotal, tvDebtTotal, tvDebtAmountTotal, pbDebit);
     }
 
     private Debtor getCurrentDebtor() {
@@ -66,14 +80,25 @@ public class DebitPaymentActivity extends AppCompatActivity {
         tvDebtorName = findViewById(R.id.tvDebtorName);
         tvDebtorPhone = findViewById(R.id.tvDebtorPhone);
         tvDebtorAddress = findViewById(R.id.tvDebtorAddress);
+        ivAvatar = findViewById(R.id.imgAvatar);
+        pbDebit = findViewById(R.id.pbDebit);
+        tvFirstName = findViewById(R.id.tvFirstName);
 
         //set title in toolbar
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);
         TextView tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
         tvToolbarTitle.setText("Thông tin nợ");
+
+
     }
 
     public void back(View view){
         onBackPressed();
+    }
+
+    public void callEditDebtorActivity(View view) {
+        Intent intent = new Intent(this, EditDebtorActivity.class);
+        intent.putExtra(ITEM_DEBTOR, currentDebtor);
+        startActivity(intent);
     }
 }

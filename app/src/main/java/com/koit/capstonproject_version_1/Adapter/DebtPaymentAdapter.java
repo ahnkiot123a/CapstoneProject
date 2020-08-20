@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.koit.capstonproject_version_1.Controller.SortController;
 import com.koit.capstonproject_version_1.Model.DebtPayment;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
@@ -31,7 +32,7 @@ public class DebtPaymentAdapter extends RecyclerView.Adapter<DebtPaymentAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        SortController.getInstance().sortDebtPaymentListByDate((list));
         DebtPayment dp = list.get(position);
         holder.tvPayAmount.setText(Money.getInstance().formatVN(dp.getPayAmount()));
         holder.tvPayDate.setText(dp.getPayDate());
@@ -46,11 +47,10 @@ public class DebtPaymentAdapter extends RecyclerView.Adapter<DebtPaymentAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvPayAmount, tvPayDate, tvPayTime;
+         TextView tvPayAmount, tvPayDate, tvPayTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             tvPayAmount = itemView.findViewById(R.id.tvPayAmount);
             tvPayDate = itemView.findViewById(R.id.tvPayDate);
             tvPayTime = itemView.findViewById(R.id.tvPayTime);
