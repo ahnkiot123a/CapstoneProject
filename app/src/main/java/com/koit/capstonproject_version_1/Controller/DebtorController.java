@@ -80,7 +80,7 @@ public class DebtorController {
             @Override
             public void getDebtor(Debtor debtor) {
                 debtorList.add(debtor);
-                tvRemaining.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) );
+                tvRemaining.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
                 listDebtorAdapter.notifyDataSetChanged();
             }
 

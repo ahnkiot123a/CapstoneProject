@@ -167,7 +167,7 @@ public class Debtor implements Serializable {
     public void updateTotalDebit(Debtor debtor) {
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Debtors")
-                .child(UserDAO.getInstance().getUserID()).child(debtor.getDebtorId()).child("debitTotal");
+                .child(UserDAO.getInstance().getUserID()).child(debtor.getDebtorId()).child("remainingDebit");
         databaseReference.setValue(debtor.getRemainingDebit());
     }
 }

@@ -34,5 +34,17 @@ public class Money {
         else return 0;
     }
 
+    public long reFormatVND(String money) {
+        String[] a = money.split("\\s");
+        String[] array = a[0].split("[.]");
+        String formatMoney = "";
+        for (int i = 0; i < array.length; i++) {
+            formatMoney = formatMoney.concat(array[i]);
+        }
+        if (!formatMoney.equals(""))
+            return Long.parseLong(formatMoney);
+        else return 0;
+    }
+
 
 }

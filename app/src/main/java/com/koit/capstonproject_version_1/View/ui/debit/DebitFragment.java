@@ -63,16 +63,16 @@ public class DebitFragment extends Fragment {
 //                textView.setText(s);
             }
         });
-        setUpPieChart();
+//        setUpPieChart();
         recyclerViewDebitors = root.findViewById(R.id.recyclerViewDebitors);
         debtorController = new DebtorController(this.getContext());
         debtorController.getListDebtor(recyclerViewDebitors, tvRemaining);
         debtorController.etSearchEventListDebtor(svDebtor);
 
         debtPaymentDetailController = new DebtPaymentDetailController(this.getActivity());
-        debtPaymentDetailController.getListDebtPayments(tvPaid);
+        debtPaymentDetailController.getListDebtPayments(tvPaid, tvRemaining, tvTotalDebt, chart);
 
-        new Handler().postDelayed(new Runnable() {
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 long paidAmount = Money.getInstance().reFormatVN(tvPaid.getText().toString());
@@ -80,14 +80,83 @@ public class DebitFragment extends Fragment {
                 long totalDebt = paidAmount + remainingAmount;
                 tvTotalDebt.setText(Money.getInstance().formatVN(totalDebt));
                 float percentPaid = (float) paidAmount / totalDebt *100;
-//                setUpPieChart(percentPaid);
+                setUpPieChart(percentPaid);
                 Log.d("percent", percentPaid +"");
             }
-        },1000);
+        },2000);*/
         return root;
     }
 
     //https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/main/java/com/xxmassdeveloper/mpchartexample/PieChartActivity.java
+    private void setUpPieChart(float percentPaid) {
+        //Color
+        try {
+
+
+            final int[] MY_COLORS = {getResources().getColor(R.color.yellow_chrome), getResources().getColor(R.color.green_chrome)};
+            List<Integer> colors = new ArrayList<>();
+            for (int c : MY_COLORS) colors.add(c);
+            //pupulating list of PieEntires
+            List<PieEntry> pieEntires = new ArrayList<>();
+            pieEntires.add(new PieEntry(100 - percentPaid, 100 - percentPaid));
+            pieEntires.add(new PieEntry(percentPaid, percentPaid));
+
+            PieDataSet dataSet = new PieDataSet(pieEntires, "");
+            dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+            PieData data = new PieData(dataSet);
+            //set color in array MY_COLORS
+            dataSet.setColors(colors);
+            dataSet.setValueTextColor(Color.WHITE);
+            data.setValueTextSize(15f);
+            chart.setData(data);
+            //Get the chart
+            chart.setUsePercentValues(true);
+            chart.getDescription().setEnabled(false);
+            chart.setExtraOffsets(5, 10, 5, 5);
+            chart.setCenterTextSize(18);
+            chart.setDragDecelerationFrictionCoef(0.95f);
+
+            chart.setCenterText("Đã trả "+ String.format("%.1f",percentPaid) +"%");
+
+            chart.setDrawHoleEnabled(true);
+            chart.setHoleColor(Color.WHITE);
+
+            chart.setTransparentCircleColor(Color.WHITE);
+            chart.setTransparentCircleAlpha(110);
+
+            chart.setHoleRadius(58f);
+            chart.setTransparentCircleRadius(61f);
+
+            chart.setDrawCenterText(true);
+
+            chart.setRotationAngle(0);
+            // enable rotation of the chart by touch
+            chart.setRotationEnabled(true);
+            chart.setHighlightPerTapEnabled(true);
+
+            // chart.setUnit(" €");
+            // chart.setDrawUnitsInChart(true);
+
+            chart.animateY(1400, Easing.EaseInOutQuad);
+            // chart.spin(2000, 0, 360);
+
+            Legend l = chart.getLegend();
+            l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+            l.setOrientation(Legend.LegendOrientation.VERTICAL);
+            l.setDrawInside(false);
+            l.setXEntrySpace(7f);
+            l.setYEntrySpace(0f);
+            l.setYOffset(0f);
+
+            // entry label styling
+            chart.setEntryLabelColor(Color.BLACK);
+            chart.setEntryLabelTextSize(20);
+        }catch (Exception e){
+
+        }
+
+    }
     private void setUpPieChart() {
         //Color
         final int[] MY_COLORS = {getResources().getColor(R.color.yellow_chrome), getResources().getColor(R.color.green_chrome)};
