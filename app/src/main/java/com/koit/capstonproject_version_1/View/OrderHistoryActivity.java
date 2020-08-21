@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -91,4 +92,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
     }
 
 
+    public void callCreateOrder(View view) {
+        Intent intent = new Intent(this, SelectProductActivity.class);
+        startActivity(intent);
+    }
 }

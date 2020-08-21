@@ -175,6 +175,7 @@
                 android:gravity="center"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:onClick="callCreateOrder"
                 android:text="Tạo hoá đơn mới"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
