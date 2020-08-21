@@ -2,7 +2,6 @@ package com.koit.capstonproject_version_1.View;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -65,7 +64,6 @@ public class ConvertRateActivity extends AppCompatActivity {
     }
 
 
-
     private void initView() {
         toolbar = findViewById(R.id.toolbarGeneral);
         tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
@@ -79,34 +77,15 @@ public class ConvertRateActivity extends AppCompatActivity {
         detailProductController = new DetailProductController();
 
         listCategoryController = new ListCategoryController(this);
-//        listCategoryController.getListCategory(this);
-//        //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
-//        (new Handler()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                categoryList = listCategoryController.getCategories();
-//                for (Category category : categoryList){
-//                    Log.i("kiemtraCategory",category.getCategoryName());
-//                }
-//
-//            }
-//        }, 3000);
-
     }
 
-    public void addProduct(View view){
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                addProductToFirebase();
-            }
-        },2000)   ;
+    public void addProduct(View view) {
+        addProductToFirebase();
     }
 
     private void addProductToFirebase() {
 
-        try{
+        try {
             addUnitToFirebase();
             createProductController.addProductInFirebase(currentProduct);
             Toast.makeText(this.getApplicationContext(), "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
@@ -115,21 +94,21 @@ public class ConvertRateActivity extends AppCompatActivity {
             intent.putExtra(CreateProductActivity.NEW_PRODUCT, currentProduct);
             startActivity(intent);
             this.finish();
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "Thêm sản phẩm thất bại! Vui lòng thử lại...", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private void addUnitToFirebase() {
-        if(unitList.size() >1){
+        if (unitList.size() > 1) {
             setConvertRateFromRv();
-        }else{
+        } else {
             unitList.get(0).setConvertRate(1);
         }
         setUnitQuantityFromRV();
         currentProduct.setUnits(unitList);
-        addProductQuantityController.addUnitsToFireBase(currentProduct,unitList);
+        addProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
     }
 
 
@@ -143,13 +122,13 @@ public class ConvertRateActivity extends AppCompatActivity {
     }
 
     private void buildRecyclerViewUnits() {
-        if(unitList.size() >1){
+        if (unitList.size() > 1) {
             rvConvertRate.setHasFixedSize(true);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             rvConvertRate.setLayoutManager(linearLayoutManager);
-            editConvertRateAdapter = new EditConvertRateAdapter( unitList,this);
+            editConvertRateAdapter = new EditConvertRateAdapter(unitList, this);
             rvConvertRate.setAdapter(editConvertRateAdapter);
-        }else{
+        } else {
             layoutConvertRate.setVisibility(View.GONE);
         }
     }
@@ -158,7 +137,7 @@ public class ConvertRateActivity extends AppCompatActivity {
         rvUnitQuantity.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvUnitQuantity.setLayoutManager(linearLayoutManager);
-        addProductQuantityAdapter = new AddProductQuantityAdapter( unitList,this);
+        addProductQuantityAdapter = new AddProductQuantityAdapter(unitList, this);
         rvUnitQuantity.setAdapter(addProductQuantityAdapter);
     }
 
@@ -183,7 +162,7 @@ public class ConvertRateActivity extends AppCompatActivity {
         addProductQuantityController.calInventoryByUnit(unitList);
     }
 
-    public void back(View view){
+    public void back(View view) {
         onBackPressed();
     }
 

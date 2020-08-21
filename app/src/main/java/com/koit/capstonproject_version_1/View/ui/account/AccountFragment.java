@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,8 +25,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AccountFragment extends Fragment {
 
     private AccountViewModel accountViewModel;
-    private TextView tvNameProfile,tvFirstName;
-    private LinearLayout linearAccount,linearChangePwd;
+    private TextView tvNameProfile, tvFirstName;
+    private LinearLayout linearAccount, linearChangePwd;
     private FirebaseUser currentUserFacebook;
     private CircleImageView profile_img;
     private Button btnAccountInfo;
@@ -52,28 +51,25 @@ public class AccountFragment extends Fragment {
         btnAccountInfo = root.findViewById(R.id.accountInfo);
         btnChangePassword = root.findViewById(R.id.changePassword);
         // tvNameProfile.setText(currentUser.getDisplayName());
-        if (user != null && currentUserFacebook == null)
-        {
+        if (user != null && currentUserFacebook == null) {
             tvNameProfile.setText(user.getFullName());
-            if(user.getFullName().length()>0)
-            tvFirstName.setText(user.getFullName().charAt(0)+"");
+            if (user.getFullName().length() > 0)
+                tvFirstName.setText(user.getFullName().charAt(0) + "");
             else {
                 tvFirstName.setText("");
                 profile_img.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 profile_img.setBackground(null);
             }
-        }
-        else if (currentUserFacebook != null) {
+        } else if (currentUserFacebook != null) {
             tvNameProfile.setText(currentUserFacebook.getDisplayName());
             tvFirstName.setText("");
             Glide.with(this).load(currentUserFacebook.getPhotoUrl()).into(profile_img);
             Log.d("kiemtra", currentUserFacebook.getEmail());
-           linearAccount.setVisibility(View.GONE);
-           linearChangePwd.setVisibility(View.GONE);
+            linearAccount.setVisibility(View.GONE);
+            linearChangePwd.setVisibility(View.GONE);
             btnAccountInfo.setEnabled(false);
             btnChangePassword.setEnabled(false);
         }
-
 
         return root;
     }

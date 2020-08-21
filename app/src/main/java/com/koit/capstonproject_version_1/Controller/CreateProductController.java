@@ -1,12 +1,10 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
-import android.appwidget.AppWidgetHost;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.Interface.ICategory;
@@ -70,7 +68,6 @@ public class CreateProductController {
     public void createProduct(TextInputEditText etBarcode, TextInputEditText tetProductName, TextInputEditText tetDescription,
                               TextView tvCategory, boolean checked) {
         String barcode = etBarcode.getText().toString().trim();
-
         String productName = tetProductName.getText().toString().trim();
         if (productName.isEmpty()) {
             tetProductName.setError("Tên sản phẩm không được để trống");
@@ -80,7 +77,7 @@ public class CreateProductController {
             ArrayList<Unit> listUnit = CreateProductActivity.getUnitFromRv();
             String photoName = CreateProductActivity.photoName;
             String productID = RandomStringController.getInstance().randomString();
-//                    Log.i("photoPath", photoName);
+            Log.i("photoPath", photoName);
             Product product = new Product();
             product.setProductId(productID);
             product.setBarcode(barcode);
@@ -104,7 +101,8 @@ public class CreateProductController {
         CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
 
     }
-    public void addCategory(final Product currentProduct){
+
+    public void addCategory(final Product currentProduct) {
         ICategory iCategory = new ICategory() {
             @Override
             public void getCategory(Category category) {
@@ -115,8 +113,9 @@ public class CreateProductController {
             }
         };
         Category category = new Category();
-        category.getCategoryByCategoryName(currentProduct.getCategoryName(),iCategory);
+        category.getCategoryByCategoryName(currentProduct.getCategoryName(), iCategory);
     }
+
     public void addCategoryToFirebase(Product currentProduct, List<Category> categoryList) {
         String userId = UserDAO.getInstance().getUserID();
 

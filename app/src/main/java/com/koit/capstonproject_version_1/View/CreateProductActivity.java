@@ -92,20 +92,6 @@ public class CreateProductActivity extends AppCompatActivity {
 
         //build recyclerview unit
         buildRvUnit();
-        /*listCategoryController = new ListCategoryController(this);
-        listCategoryController.getListCategory(this);
-        //  CategoryDAO.getInstance().getListCategory(this, lvCategory);
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                categoryList = listCategoryController.getCategories();
-                for (Category category : categoryList){
-                    Log.i("kiemtraCategory",category.getCategoryName());
-                }
-
-            }
-        }, 5000);*/
 
 
     }
