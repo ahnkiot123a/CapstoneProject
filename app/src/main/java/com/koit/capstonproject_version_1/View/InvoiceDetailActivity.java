@@ -35,7 +35,7 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_invoice_detail);
         Intent intent = getIntent();
-        invoice = (Invoice) intent.getSerializableExtra(InvoiceHistoryActivity.INVOICE);
+        invoice = (Invoice) intent.getSerializableExtra(OrderHistoryActivity.INVOICE);
         initView();
 
 

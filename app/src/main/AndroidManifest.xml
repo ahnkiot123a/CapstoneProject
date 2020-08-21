@@ -24,9 +24,9 @@
         android:theme="@style/CustomAppTheme">
         <activity android:name=".View.InputPayDebtMoneyActivity"></activity>
         <activity android:name=".View.DebitPaymentActivity" />
-        <activity android:name=".View.ui.OrderDebtorActivity" />
+        <activity android:name=".View.OrderDebtorActivity" />
         <activity
-            android:name=".View.InvoiceHistoryActivity"
+            android:name=".View.OrderHistoryActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".View.RevenueActivity" />
         <activity android:name=".View.DetailReveneuActivity" />

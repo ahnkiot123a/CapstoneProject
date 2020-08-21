@@ -27,7 +27,7 @@ public class Helper {
     public void setImage(CircleImageView ivAvatar, TextView tvFirstName, char firstName){
         //set color background of image
         ivAvatar.setImageDrawable(new ColorDrawable(Helper.getInstance().getColor()));
-        tvFirstName.setText(String.valueOf(firstName));
+        tvFirstName.setText(String.valueOf(firstName).toUpperCase());
     }
 
 }

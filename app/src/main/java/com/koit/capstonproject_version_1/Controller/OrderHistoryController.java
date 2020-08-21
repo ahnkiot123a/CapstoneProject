@@ -30,7 +30,7 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.InvoiceDetailActivity;
-import com.koit.capstonproject_version_1.View.InvoiceHistoryActivity;
+import com.koit.capstonproject_version_1.View.OrderHistoryActivity;
 import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
 import java.util.ArrayList;
@@ -80,6 +80,7 @@ public class OrderHistoryController {
     //get invoice list by time and status
     public void invoiceList(final RecyclerView recyclerViewListProduct, final TextView textView, final TextView tvTime, final ConstraintLayout layoutNotFound, final SearchView searchView) {
         invoiceList = new ArrayList<>();
+        final boolean hasInvoice = false;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewListProduct.setLayoutManager(layoutManager);
         orderHistoryAdapter = new OrderHistoryAdapter(invoiceList, activity, textView);
@@ -183,11 +184,19 @@ public class OrderHistoryController {
                                 }
                             }
                         }
+                        orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                        textView.setText(invoiceList.size() + " đơn hàng");
+                        orderHistoryAdapter.notifyDataSetChanged();
 
                     }
-                    orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
-                    textView.setText(invoiceList.size() + " đơn hàng");
-                    orderHistoryAdapter.notifyDataSetChanged();
+
+                    if (invoiceList.isEmpty()) {
+                        recyclerViewListProduct.setVisibility(View.GONE);
+                        layoutNotFound.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerViewListProduct.setVisibility(View.VISIBLE);
+                        layoutNotFound.setVisibility(View.GONE);
+                    }
                 }
 
             }
@@ -206,7 +215,7 @@ public class OrderHistoryController {
         if (!invoiceList.isEmpty()) {
             Invoice invoice = invoiceList.get(position);
             Intent intent = new Intent(activity, InvoiceDetailActivity.class);
-            intent.putExtra(InvoiceHistoryActivity.INVOICE, invoice);
+            intent.putExtra(OrderHistoryActivity.INVOICE, invoice);
             activity.startActivity(intent);
         }
     }
@@ -231,7 +240,7 @@ public class OrderHistoryController {
 
             }
         };
-        //invoiceHistoryDAO.getDraftOrderList(iInvoice);
+        invoiceHistoryDAO.getDraftOrderList(iInvoice);
 
     }
 
@@ -280,7 +289,13 @@ public class OrderHistoryController {
                         tvCount.setText(draftOrderList.size() + " hoá đơn tạm");
                         draftOrderAdapter.notifyDataSetChanged();
                     }
-
+                    if (draftOrderList.isEmpty()) {
+                        rvDraftOrder.setVisibility(View.GONE);
+                        layoutNotFound.setVisibility(View.VISIBLE);
+                    } else {
+                        rvDraftOrder.setVisibility(View.VISIBLE);
+                        layoutNotFound.setVisibility(View.GONE);
+                    }
                 }
 
             }
@@ -309,12 +324,12 @@ public class OrderHistoryController {
                 if (time.equals("Tuỳ chỉnh")) {
                     buildTimeDialog(recyclerView, textView, timeSpinner, searchView, tvTime, layoutNotFound);
                 } else {
-                    if (!InvoiceHistoryActivity.isFirstTimeRun) {
+                    if (!OrderHistoryActivity.isFirstTimeRun) {
                         invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView);
                         orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
 
                     }
-                    InvoiceHistoryActivity.isFirstTimeRun = false;
+                    OrderHistoryActivity.isFirstTimeRun = false;
                 }
             }
 
@@ -329,11 +344,11 @@ public class OrderHistoryController {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 time = timeSpinner.getSelectedItem().toString();
                 status = statusSpinner.getSelectedItem().toString();
-                if (!InvoiceHistoryActivity.isFirstTimeRun) {
+                if (!OrderHistoryActivity.isFirstTimeRun) {
                     invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView);
                     orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                 }
-                InvoiceHistoryActivity.isFirstTimeRun = false;
+                OrderHistoryActivity.isFirstTimeRun = false;
             }
 
             @Override

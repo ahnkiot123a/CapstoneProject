@@ -107,4 +107,10 @@ public class DebitPaymentActivity extends AppCompatActivity {
         intent.putExtra(ITEM_DEBTOR, currentDebtor);
         startActivity(intent);
     }
+
+    public void callOrderDebtorActivity(View view) {
+        Intent intent = new Intent(this, OrderDebtorActivity.class);
+        intent.putExtra(ITEM_DEBTOR, currentDebtor);
+        startActivity(intent);
+    }
 }

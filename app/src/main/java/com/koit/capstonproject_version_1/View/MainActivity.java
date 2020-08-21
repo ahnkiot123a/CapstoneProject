@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void invoiceHistoryEvent(View view){
-        Intent intent = new Intent(this, InvoiceHistoryActivity.class);
+        Intent intent = new Intent(this, OrderHistoryActivity.class);
         startActivity(intent);
     }
 

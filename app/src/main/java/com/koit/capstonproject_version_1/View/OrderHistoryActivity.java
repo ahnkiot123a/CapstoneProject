@@ -17,7 +17,7 @@ import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
-public class InvoiceHistoryActivity extends AppCompatActivity {
+public class OrderHistoryActivity extends AppCompatActivity {
 
     public final static String INVOICE = "INVOICE";
 
@@ -60,7 +60,6 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         layoutNotFound = findViewById(R.id.layout_not_found_item);
         tvTime = findViewById(R.id.tvTime);
 
-
         //set title in toolbar
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);
         TextView tvToolbarTitle = toolbar.findViewById(R.id.tvToolbarTitle);
@@ -70,7 +69,7 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
 
         orderHistoryController = new OrderHistoryController(this);
-        InvoiceHistoryActivity.isFirstTimeRun = true;
+        OrderHistoryActivity.isFirstTimeRun = true;
     }
 
 

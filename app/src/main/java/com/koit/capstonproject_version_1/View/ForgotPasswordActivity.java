@@ -26,8 +26,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         initView();
 
         forgotPasswordController = new ForgotPasswordController(ForgotPasswordActivity.this);
-
-
     }
 
     private void initView() {

@@ -260,6 +260,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
+                    android:onClick="callOrderDebtorActivity"
                     android:text="Đơn hàng nợ"
                     android:textAlignment="textStart"
                     android:textAllCaps="false"

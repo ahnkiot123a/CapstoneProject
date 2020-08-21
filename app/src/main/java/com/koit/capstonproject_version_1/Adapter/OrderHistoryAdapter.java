@@ -101,7 +101,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     holder.tvOrderStatus.setText("Vẫn còn nợ");
                 } else {
                     holder.tvOrderStatus.setTextColor(Color.rgb(50, 205, 50));
-                    holder.tvOrderStatus.setText("Đã thanh toán");
+                    holder.tvOrderStatus.setText("Đã trả hết");
                 }
                 holder.imageView.setBackground(null);
                 holder.imageView.setImageDrawable(context.getDrawable(R.drawable.icons8_money));
