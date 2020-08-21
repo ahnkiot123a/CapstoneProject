@@ -108,7 +108,7 @@ public class TimeController {
         return date;
     }
 
-    public Date changeStringToMonth(String stringMonth) {
+    public Date changeStringMonthToFirstDayOfMonth(String stringMonth) {
         Date date = new Date();
         try {
             date = new SimpleDateFormat("MM-yyyy").parse(stringMonth);
@@ -143,7 +143,7 @@ public class TimeController {
 
     public Date getDateAndMonthFromText(String stringDate, Date date) {
         if (stringDate.length() == 7) {
-            date = TimeController.getInstance().changeStringToMonth(stringDate);
+            date = TimeController.getInstance().changeStringMonthToFirstDayOfMonth(stringDate);
         } else {
             date = TimeController.getInstance().changeStringDayToDate(stringDate);
         }
@@ -169,7 +169,7 @@ public class TimeController {
     public Date getDateAndMonthFromText(String stringDate) {
         Date date = new Date();
         if (stringDate.length() == 7) {
-            date = TimeController.getInstance().changeStringToMonth(stringDate);
+            date = TimeController.getInstance().changeStringMonthToFirstDayOfMonth(stringDate);
         } else {
             date = TimeController.getInstance().changeStringDayToDate(stringDate);
         }
