@@ -44,7 +44,6 @@ public class RevenueController {
     private List<Invoice> listInvoice;
     private InvoiceHistoryDAO invoiceHistoryDAO;
     private LineChart lineChart;
-
     public RevenueController(Activity activity, BarChart chart, LineChart lineChart) {
         this.activity = activity;
         invoiceHistoryDAO = new InvoiceHistoryDAO();
