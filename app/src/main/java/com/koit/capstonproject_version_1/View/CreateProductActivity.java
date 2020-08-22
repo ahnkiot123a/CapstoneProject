@@ -54,7 +54,7 @@ public class CreateProductActivity extends AppCompatActivity {
     public static final String NEW_PRODUCT = "PRODUCT";
 
     public static String photoName;
-    public static Uri photoUri;
+    public static Uri photoUri = null;
 
     private TextInputEditText etBarcode;
     private CreateProductController controller;

@@ -1,12 +1,15 @@
 package com.koit.capstonproject_version_1.dao;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,9 +18,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.iceteck.silicompressorr.FileUtils;
+import com.iceteck.silicompressorr.SiliCompressor;
 import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
+
+import java.io.File;
 
 public class CreateProductDAO {
     private static CreateProductDAO mInstance;
@@ -42,7 +49,7 @@ public class CreateProductDAO {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 SuggestedProduct product = dataSnapshot.getValue(SuggestedProduct.class);
                 iProduct.getSuggestedProduct(product);
-                if(product != null){
+                if (product != null) {
                     Log.i("suggestedProduct", product.toString());
                 }
             }
@@ -96,31 +103,47 @@ public class CreateProductDAO {
 //        databaseReference.keepSynced(true);
     }
 
-    public void addImageProduct(Uri uri, String imgName) {
+    public void addImageProduct(Uri uri, String imgName, Activity activity) {
         storageReference = FirebaseStorage.getInstance().getReference();
         final StorageReference image = storageReference.child("ProductPictures/" + imgName);
-        if(uri != null){
-            image.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        if (uri != null) {
+            final File file = new File(SiliCompressor.with(activity).compress(FileUtils.getPath(activity, uri)
+                    , new File(activity.getCacheDir(), "temp")));
+            final Uri compressUri = Uri.fromFile(file);
+//            image.putFile(compressUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    if(taskSnapshot.)
+//                    image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                        @Override
+//                        public void onSuccess(Uri uri) {
+//                            Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + uri.toString());
+//                        }
+//                    });
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Log.i("saveImageProduct", "save failed");
+//                }
+//            });
+            image.putFile(compressUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + uri.toString());
-                        }
-                    });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.i("saveImageProduct", "save failed");
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + compressUri.toString());
+                    } else {
+                        Log.i("saveImageProduct", "save failed");
+
+                    }
+                    file.delete();
                 }
             });
         }
 
     }
 
-    public void deleteImageProduct( String imgName) {
+    public void deleteImageProduct(String imgName) {
 //        final StorageReference image = storageReference
         final StorageReference image = storageReference.child("ProductPictures/" + imgName);
         image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {

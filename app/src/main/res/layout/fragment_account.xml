@@ -4,63 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/medium_light_gray"
+    android:background="@drawable/light_green_linear_color"
     tools:context=".View.ui.account.AccountFragment">
 
     <View
         android:id="@+id/main_activityStatusBarScrim"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:background="@drawable/green_linear_color" />
+        android:background="@null" />
 
-    <Toolbar
-        android:id="@+id/toolbar_top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/btnLeftMenu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_below="@id/main_activityStatusBarScrim"
-        android:background="@drawable/green_linear_color"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/AppTheme">
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:onClick="navigationMenuLeft"
+        android:background="@null"
+        android:src="@drawable/ic_menu_left_nav" />
 
-        <ImageButton
-            android:id="@+id/backToLogin"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:onClick="navigationMenuLeft"
-            android:src="@drawable/ic_menu_left_nav" />
+<!--    <Toolbar-->
+<!--        android:id="@+id/toolbar_top"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/main_activityStatusBarScrim"-->
+<!--        android:background="@null"-->
+<!--        android:minHeight="?attr/actionBarSize"-->
+<!--        app:theme="@style/AppTheme">-->
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Cá nhân"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-    </Toolbar>
+<!--        <ImageButton-->
+<!--            android:id="@+id/backToLogin"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@null"-->
+<!--            android:onClick="navigationMenuLeft"-->
+<!--            android:src="@drawable/ic_menu_left_nav" />-->
+<!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:id="@+id/toolbar_title"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:text="Cá nhân"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:textColor="@color/white"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:textSize="28sp"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:textStyle="bold" />&ndash;&gt;-->
+<!--    </Toolbar>-->
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar_top"
-        android:paddingLeft="10dp"
-        android:layout_marginTop="0dp"
-        android:paddingRight="10dp"
-        android:layout_marginBottom="20dp">
+        android:layout_below="@id/btnLeftMenu"
+        android:layout_marginTop="-20dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/layoutImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp">
 
@@ -68,10 +78,11 @@
                     android:id="@+id/profile_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/background_image_in_rv" />
+                    android:background="@drawable/default_avatar" />
 
                 <TextView
                     android:id="@+id/tvFirstName"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
@@ -109,8 +120,9 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="qwertyuio"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:id="@+id/linearAccount"
@@ -212,16 +224,16 @@
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:background="@color/white"
                     android:drawableLeft="@drawable/ic_history_black_24dp"
                     android:drawableRight="@drawable/ic_chevron_right_black_24dp"
                     android:drawablePadding="10dp"
                     android:fontFamily="sans-serif-medium"
+                    android:onClick="callOrderHistory"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Lịch sử giao dịch"
-
+                    android:text="Lịch sử đơn hàng"
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />

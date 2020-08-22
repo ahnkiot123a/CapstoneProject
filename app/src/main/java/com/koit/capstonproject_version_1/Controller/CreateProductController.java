@@ -138,6 +138,6 @@ public class CreateProductController {
     public void addImageProduct() {
         Uri uri = CreateProductActivity.photoUri;
         String imgName = CreateProductActivity.photoName;
-        CreateProductDAO.getInstance().addImageProduct(uri, imgName);
+        CreateProductDAO.getInstance().addImageProduct(uri, imgName, activity);
     }
 }

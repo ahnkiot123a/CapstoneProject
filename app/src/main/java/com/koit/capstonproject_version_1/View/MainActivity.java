@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
         getNavigationMenuLeft();
 
 
-
-
         createProductController = new CreateProductController(this);
         userController = new UserController();
 
@@ -100,11 +98,13 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
     }
-    public void transferToReveneuActivity(View view){
+
+    public void transferToReveneuActivity(View view) {
         Intent intent = new Intent(this, RevenueActivity.class);
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
     }
+
     public void sendFeedBack(android.view.View view) {
         Intent intent = new Intent(this, FeedbackActivity.class);
         intent.putExtra("currentUser", currentUser);
@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
         // If the navigation drawer is not open then open it, if its already open then close it.
         if (!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
     }
-    public void intentToSelectProduct(View view){
+
+    public void intentToSelectProduct(View view) {
         Intent intent = new Intent(MainActivity.this, SelectProductActivity.class);
         startActivity(intent);
     }
@@ -130,12 +131,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void callDraftOrderActivity(View view){
+    public void callDraftOrderActivity(View view) {
         Intent intent = new Intent(MainActivity.this, DraftOrderActivity.class);
         startActivity(intent);
     }
 
-    public void invoiceHistoryEvent(View view){
+    public void callOrderHistory(View view) {
         Intent intent = new Intent(this, OrderHistoryActivity.class);
         startActivity(intent);
     }
@@ -144,27 +145,6 @@ public class MainActivity extends AppCompatActivity {
         userController.logout(this);
     }
 
-//    private void logout() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("Bạn có muốn đăng xuất không?");
-//        builder.setCancelable(false);
-//        builder.setPositiveButton("Thoát", null);
-//        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                SharedPrefs.getInstance().clear();
-//                LoginManager.getInstance().logOut();
-//                FirebaseAuth.getInstance().signOut();
-//                Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
-//            }
-//        });
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-//    }
-//
     public void closeNavigationLeft(View view) {
         navDrawer.closeDrawers();
     }
@@ -192,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         boolean success = intent.getBooleanExtra(ConvertRateActivity.IS_SUCCESS, false);
         final Product currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
-        if(success){
+        if (success) {
             createProductController.addImageProduct();
             createProductController.addCategory(currentProduct);
 

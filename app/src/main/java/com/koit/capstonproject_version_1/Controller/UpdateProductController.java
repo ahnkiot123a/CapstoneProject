@@ -1,9 +1,7 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,7 +27,6 @@ import com.koit.capstonproject_version_1.dao.CreateProductDAO;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UpdateProductController {
 
@@ -70,11 +67,11 @@ public class UpdateProductController {
         //  String imgName = CreateProductActivity.photoName;
         if (UpdateProductInformationActivity.photoName != null) {
             if (currentProduct.getProductImageUrl() == null) {
-                CreateProductDAO.getInstance().addImageProduct(UpdateProductInformationActivity.photoUri, UpdateProductInformationActivity.photoName);
+                CreateProductDAO.getInstance().addImageProduct(UpdateProductInformationActivity.photoUri, UpdateProductInformationActivity.photoName, activity);
                 currentProduct.setProductImageUrl(UpdateProductInformationActivity.photoName);
             } else if (!currentProduct.getProductImageUrl().equals(UpdateProductInformationActivity.photoName)) {
                 CreateProductDAO.getInstance().deleteImageProduct(currentProduct.getProductImageUrl());
-                CreateProductDAO.getInstance().addImageProduct(UpdateProductInformationActivity.photoUri, UpdateProductInformationActivity.photoName);
+                CreateProductDAO.getInstance().addImageProduct(UpdateProductInformationActivity.photoUri, UpdateProductInformationActivity.photoName, activity);
                 currentProduct.setProductImageUrl(UpdateProductInformationActivity.photoName);
             }
         }

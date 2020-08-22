@@ -82,7 +82,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDraftOrder"
             android:layout_marginTop="10dp"
-            android:background="@color/white"
+            android:background="@color/medium_light_gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -113,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
                 android:text="Bạn chưa có hoá đơn tạm nào được tạo!"
                 android:textSize="20sp"
                 android:textStyle="bold"

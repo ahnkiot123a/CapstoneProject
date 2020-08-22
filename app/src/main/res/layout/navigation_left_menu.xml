@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@drawable/green_linear_color"
+        android:background="@drawable/light_green_linear_color"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingTop="26dp">
@@ -47,8 +47,8 @@
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-medium"
                 android:text="Nguyễn Quang Anh"
-                android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textColor="@color/gray"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -58,9 +58,14 @@
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-medium"
                 android:text="0326797171"
-                android:textColor="@color/white" />
+                android:textColor="@color/gray" />
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,6 +75,8 @@
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingLeft="10dp">
+
+
 
         <Button
             android:id="@+id/getShopAddressActivity"
@@ -120,7 +127,7 @@
             android:drawableRight="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="10dp"
             android:fontFamily="sans-serif-medium"
-            android:onClick="invoiceHistoryEvent"
+            android:onClick="callOrderHistory"
             android:paddingRight="10dp"
             android:text="Lịch sử đơn hàng"
             android:textAlignment="textStart"
@@ -180,7 +187,7 @@
             android:drawableRight="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="10dp"
             android:fontFamily="sans-serif-medium"
-            android:onClick="callCreateProductActivity"
+            android:onClick="transferToReveneuActivity"
             android:paddingRight="10dp"
             android:text="Báo cáo"
             android:textAlignment="textStart"

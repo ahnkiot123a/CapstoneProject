@@ -98,7 +98,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 holder.tvOrderStatus.setBackground(null);
                 if (invoice.getDebitAmount() != 0) {
                     holder.tvOrderStatus.setTextColor(Color.rgb(236, 135, 14));
-                    holder.tvOrderStatus.setText("Vẫn còn nợ");
+                    holder.tvOrderStatus.setText("Còn nợ: " + Money.getInstance().formatVN(invoice.getDebitAmount()) + " đ");
                 } else {
                     holder.tvOrderStatus.setTextColor(Color.rgb(50, 205, 50));
                     holder.tvOrderStatus.setText("Đã trả hết");
