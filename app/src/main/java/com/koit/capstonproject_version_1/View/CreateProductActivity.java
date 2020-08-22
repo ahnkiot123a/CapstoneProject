@@ -53,7 +53,7 @@ public class CreateProductActivity extends AppCompatActivity {
     public static final int REQUEST_CATEGORY_CODE = 2;
     public static final String NEW_PRODUCT = "PRODUCT";
 
-    public static String photoName;
+    public static String photoName = "";
     public static Uri photoUri = null;
 
     private TextInputEditText etBarcode;
@@ -262,26 +262,23 @@ public class CreateProductActivity extends AppCompatActivity {
             Log.i("image", cameraController.getCurrentPhotoPath());
             String photoPath = cameraController.getCurrentPhotoPath();
             File file = new File(photoPath);
-            Uri uri = Uri.fromFile(file);
-            ivProduct.setImageURI(uri);
+            photoUri = Uri.fromFile(file);
+            ivProduct.setImageURI(photoUri);
             ivProduct.setRotation(ivProduct.getRotation() + 90);
             photoName = file.getName();
             Log.i("photoName", photoName);
-            photoUri = uri;
 
 
         }
 
         if (requestCode == GALLERY_REQ_CODE && resultCode == Activity.RESULT_OK) {
-            Uri contentUri = data.getData();
+            photoUri  = data.getData();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String imgFileName = "JPEG" + "_" + timeStamp + "." + getFileExt(contentUri);
+            String imgFileName = "JPEG" + "_" + timeStamp + "." + getFileExt(photoUri);
             Log.i("gallery", "onActivityResult: Gallery Image Uri " + imgFileName);
             photoName = imgFileName;
-            ivProduct.setImageURI(contentUri);
-            Log.i("contentUri", contentUri.toString());
+            ivProduct.setImageURI(photoUri);
             ivProduct.setRotation(ivProduct.getRotation() + 180);
-            photoUri = contentUri;
         }
 
         if (requestCode == REQUEST_CATEGORY_CODE && resultCode == Activity.RESULT_OK) {

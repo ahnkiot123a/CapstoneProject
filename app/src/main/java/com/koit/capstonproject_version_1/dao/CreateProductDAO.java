@@ -103,7 +103,7 @@ public class CreateProductDAO {
 //        databaseReference.keepSynced(true);
     }
 
-    public void addImageProduct(Uri uri, String imgName, Activity activity) {
+    public void addImageProduct(final Uri uri, String imgName, Activity activity) {
         storageReference = FirebaseStorage.getInstance().getReference();
         final StorageReference image = storageReference.child("ProductPictures/" + imgName);
         if (uri != null) {
