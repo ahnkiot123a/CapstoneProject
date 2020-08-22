@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,46 +12,51 @@
         android:layout_height="26dp"
         android:background="@null" />
 
-    <ImageButton
+    <LinearLayout
         android:id="@+id/btnLeftMenu"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_below="@id/main_activityStatusBarScrim"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
-        android:onClick="navigationMenuLeft"
-        android:background="@null"
-        android:src="@drawable/ic_menu_left_nav" />
+        android:gravity="center_vertical"
+        android:onClick="navigationMenuLeft">
 
-<!--    <Toolbar-->
-<!--        android:id="@+id/toolbar_top"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/main_activityStatusBarScrim"-->
-<!--        android:background="@null"-->
-<!--        android:minHeight="?attr/actionBarSize"-->
-<!--        app:theme="@style/AppTheme">-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_left_nav" />
+    </LinearLayout>
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/backToLogin"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:background="@null"-->
-<!--            android:onClick="navigationMenuLeft"-->
-<!--            android:src="@drawable/ic_menu_left_nav" />-->
-<!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
-<!--        &lt;!&ndash;            android:id="@+id/toolbar_title"&ndash;&gt;-->
-<!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-<!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--        &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
-<!--        &lt;!&ndash;            android:text="Cá nhân"&ndash;&gt;-->
-<!--        &lt;!&ndash;            android:textColor="@color/white"&ndash;&gt;-->
-<!--        &lt;!&ndash;            android:textSize="28sp"&ndash;&gt;-->
-<!--        &lt;!&ndash;            android:textStyle="bold" />&ndash;&gt;-->
-<!--    </Toolbar>-->
+    <!--    <Toolbar-->
+    <!--        android:id="@+id/toolbar_top"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/main_activityStatusBarScrim"-->
+    <!--        android:background="@null"-->
+    <!--        android:minHeight="?attr/actionBarSize"-->
+    <!--        app:theme="@style/AppTheme">-->
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/backToLogin"-->
+    <!--            android:layout_width="50dp"-->
+    <!--            android:layout_height="50dp"-->
+    <!--            android:background="@null"-->
+    <!--            android:onClick="navigationMenuLeft"-->
+    <!--            android:src="@drawable/ic_menu_left_nav" />-->
+    <!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/toolbar_title"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:text="Cá nhân"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:textColor="@color/white"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:textSize="28sp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:textStyle="bold" />&ndash;&gt;-->
+    <!--    </Toolbar>-->
 
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnLeftMenu"
         android:layout_marginTop="-20dp"
@@ -69,8 +73,8 @@
 
             <RelativeLayout
                 android:id="@+id/layoutImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp">
 
@@ -82,7 +86,6 @@
 
                 <TextView
                     android:id="@+id/tvFirstName"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
@@ -90,7 +93,8 @@
                     android:text="T"
                     android:textColor="@color/white"
                     android:textSize="30dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </RelativeLayout>
             <!--            <de.hdodenhof.circleimageview.CircleImageView-->
             <!--                android:id="@+id/profile_img"-->
@@ -121,8 +125,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="qwertyuio"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/linearAccount"
@@ -150,8 +154,6 @@
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -180,8 +182,6 @@
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -192,7 +192,6 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/radius_linearlayout"
                 android:orientation="vertical">
-
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -209,8 +208,6 @@
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -265,8 +262,6 @@
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -294,13 +289,8 @@
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />
-
             </LinearLayout>
-
-
         </LinearLayout>
-
-
     </ScrollView>
 
 </RelativeLayout>
