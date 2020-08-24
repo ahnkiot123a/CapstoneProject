@@ -117,11 +117,35 @@ public class DebtPayment implements Serializable {
         DataSnapshot dataSnapshotAllDebtPayments = dataSnapshot.child("DebtPayments")
                 .child(UserDAO.getInstance().getUserID());
         if (dataSnapshotAllDebtPayments != null) {
-            for (DataSnapshot valueAllDebtPayments : dataSnapshotAllDebtPayments.getChildren()){
+            for (DataSnapshot valueAllDebtPayments : dataSnapshotAllDebtPayments.getChildren()) {
 
             }
         }
 
+    }
+
+    public void addDebtPaymentToFirebase(DebtPayment debtPayment) {
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = databaseReference.child("DebtPayments").child(UserDAO.getInstance().getUserID())
+                .child(debtPayment.getDebtorId()).child(debtPayment.getDebitPaymentId());
+        databaseReference.child("payAmount").setValue(debtPayment.getPayAmount());
+        databaseReference.child("payDate").setValue(debtPayment.getPayDate());
+        databaseReference.child("payTime").setValue(debtPayment.getPayTime());
+//        databaseReference.keepSynced(true);
+    }
+
+    public void addInvoiceToDebtPaymentFirebase(DebtPayment debtPayment, Invoice invoice) {
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = databaseReference.child("DebtPayments").child(UserDAO.getInstance().getUserID())
+                .child(debtPayment.getDebtorId()).child(debtPayment.getDebitPaymentId())
+                .child("invoiceDebtPayments").child(invoice.getInvoiceId());
+        databaseReference.child("payMoney").setValue(invoice.getPayMoney());
+//        databaseReference.child("payAmount").setValue(debtPayment.getPayAmount());
+//        databaseReference.child("payDate").setValue(debtPayment.getPayDate());
+//        databaseReference.child("payTime").setValue(debtPayment.getPayTime());
+//        databaseReference.keepSynced(true);
     }
 
 

@@ -54,7 +54,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
                 createOrderController.addInvoiceToFirebase(invoice);
                 createOrderController.addInvoiceDetailToFirebase(invoiceDetail);
                 createOrderController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
-                debtor.updateTotalDebit(debtor);
+                debtor.updateRemainingDebit(debtor);
                 Intent intent = new Intent(DebitConfirmationActivity.this,SelectProductActivity.class);
                 startActivity(intent);
                 finish();

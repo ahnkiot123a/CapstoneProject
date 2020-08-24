@@ -43,5 +43,11 @@ public class RandomStringController {
 
         return result;
     }
+    public String randomDebtPaymentId() {
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String result = "TN" + "" + timeStamp + "";
+
+        return result;
+    }
 
 }

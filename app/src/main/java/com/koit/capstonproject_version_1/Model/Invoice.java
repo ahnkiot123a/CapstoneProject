@@ -10,10 +10,22 @@ public class Invoice implements Serializable {
     private String invoiceId, debtorId, invoiceDate, invoiceTime, debtorImage, debtorName;
     private long debitAmount, discount, firstPaid, total;
     private boolean isDrafted;
-
+    private long payMoney;
+    private static Invoice mInstance;
+    public static Invoice getInstance() {
+        if (mInstance == null) {
+            mInstance = new Invoice();
+        }
+        return mInstance;
+    }
 
     public Invoice() {
 
+    }
+
+    public Invoice(String invoiceId, long payMoney) {
+        this.invoiceId = invoiceId;
+        this.payMoney = payMoney;
     }
 
     public Invoice(String invoiceId, String debtorId, String invoiceDate, String invoiceTime, String debtorImage, long debitAmount, long discount, long firstPaid, long total, boolean isDrafted) {
@@ -132,6 +144,14 @@ public class Invoice implements Serializable {
         this.total = total;
     }
 
+    public long getPayMoney() {
+        return payMoney;
+    }
+
+    public void setPayMoney(long payMoney) {
+        this.payMoney = payMoney;
+    }
+
     @Override
     public String toString() {
         return "Invoice{" +
@@ -156,6 +176,14 @@ public class Invoice implements Serializable {
                 child(invoice.getInvoiceId());
         invoice.setInvoiceId(null);
         databaseReference.setValue(invoice);
+//        databaseReference.keepSynced(true);
+    }
+    public void updateDebitAmount(Invoice invoice) {
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = databaseReference.child("Invoices").child(UserDAO.getInstance().getUserID()).
+                child(invoice.getInvoiceId()).child("debitAmount");
+        databaseReference.setValue(invoice.getDebitAmount());
 //        databaseReference.keepSynced(true);
     }
 }

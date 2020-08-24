@@ -18,7 +18,13 @@ public class Debtor implements Serializable {
     private long remainingDebit;
     private DatabaseReference nodeRoot;
     private DataSnapshot dataRoot;
-
+    private static Debtor mInstance;
+    public static Debtor getInstance() {
+        if (mInstance == null) {
+            mInstance = new Debtor();
+        }
+        return mInstance;
+    }
 
     public Debtor(String debtorId, String address, String dateOfBirth, String email, String fullName, String phoneNumber, boolean gender, long remainingDebit) {
         this.debtorId = debtorId;
@@ -108,8 +114,7 @@ public class Debtor implements Serializable {
                 ", fullName='" + fullName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", gender=" + gender +
-                ", nodeRoot=" + nodeRoot +
-                ", dataRoot=" + dataRoot +
+                ", remainingDebit=" + remainingDebit +
                 '}';
     }
 
@@ -164,7 +169,7 @@ public class Debtor implements Serializable {
 //        databaseReference.keepSynced(true);
     }
 
-    public void updateTotalDebit(Debtor debtor) {
+    public void updateRemainingDebit(Debtor debtor) {
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Debtors")
                 .child(UserDAO.getInstance().getUserID()).child(debtor.getDebtorId()).child("remainingDebit");
