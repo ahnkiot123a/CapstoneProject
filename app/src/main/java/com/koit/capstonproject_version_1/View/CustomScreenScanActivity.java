@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.View;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +45,6 @@ public class CustomScreenScanActivity extends Activity implements DecoratedBarco
         captureManager = new CaptureManager(this, barcodeView);
         captureManager.initializeFromIntent(getIntent(), savedInstanceState);
         captureManager.decode();
-
     }
 
     private void findViewByID() {
@@ -119,14 +119,13 @@ public class CustomScreenScanActivity extends Activity implements DecoratedBarco
             btnSwitchFlashlight.setVisibility(View.VISIBLE);
             tvPaused.setVisibility(View.INVISIBLE);
             tvMessagePause.setVisibility(View.INVISIBLE);
-            if (isFlashlightOn){
+            if (isFlashlightOn) {
                 tvMessageFlashOn.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 tvMessageFlashOn.setVisibility(View.INVISIBLE);
             }
         }
     }
-
 
     public void back(View view) {
         onBackPressed();
@@ -145,5 +144,6 @@ public class CustomScreenScanActivity extends Activity implements DecoratedBarco
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d("ResultBarcodeCSC", grantResults.toString());
     }
 }
