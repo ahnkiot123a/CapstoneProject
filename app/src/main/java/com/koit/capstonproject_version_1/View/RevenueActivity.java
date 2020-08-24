@@ -73,6 +73,9 @@ public class RevenueActivity extends AppCompatActivity {
 
         TimeController.getInstance().setCurrentDate(tvFrom, tvTo);
         revenueController = new RevenueController(this, chart, lineChart);
+        //set no data text
+        lineChart.setNoDataText("");
+        chart.setNoDataText("");
 
         spinnerChooseTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

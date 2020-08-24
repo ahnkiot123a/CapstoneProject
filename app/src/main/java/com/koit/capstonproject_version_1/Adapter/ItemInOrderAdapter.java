@@ -197,7 +197,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
             listUnitname.add(listUnit.get(i).getUnitName());
         }
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, listUnitname);
+                new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, listUnitname);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUnit.setAdapter(adapter);
         int spinnerPosition = adapter.getPosition(product.getUnits().get(0).getUnitName());

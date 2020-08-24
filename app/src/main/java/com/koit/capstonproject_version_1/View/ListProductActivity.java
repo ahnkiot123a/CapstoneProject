@@ -137,8 +137,8 @@ public class ListProductActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
-                linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
+//        listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
+//                linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ListProductActivity extends AppCompatActivity {
 //                etBarcode.setText("");
             } else {
                 String barcode = intentResult.getContents().trim();
-                searchView.setQuery(barcode, false);
+                searchView.setQuery(barcode, true);
                 searchView.clearFocus();
             }
         }

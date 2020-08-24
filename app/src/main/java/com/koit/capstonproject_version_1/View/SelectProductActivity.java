@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.CreateOrderController;
+import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
 import com.koit.capstonproject_version_1.Controller.SelectProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
 import com.koit.capstonproject_version_1.Model.Product;
@@ -62,26 +64,15 @@ public class SelectProductActivity extends AppCompatActivity {
     private static SelectProductActivity instance;
     private Toolbar toolbar_top;
     private TextView orderDraftQuantity;
+    private RelativeLayout cart_badge;
+    private OrderHistoryController orderHistoryController;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
-          setContentView(R.layout.activity_select_product);
-        category_Spinner = findViewById(R.id.category_Spinner);
-        recyclerViewListProduct = findViewById(R.id.recyclerViewListProduct);
-        linearLayoutEmpty = findViewById(R.id.linearLayoutEmptyProduct);
-        layoutSearch = findViewById(R.id.layoutSearch);
-        layoutNotFoundItem = findViewById(R.id.layout_not_found_item);
-        btnAddNewProduct = findViewById(R.id.btnAddNewProduct);
-        pBarList = findViewById(R.id.pBarList);
-        imgbtnBarcodeInList = findViewById(R.id.imgbtnBarcodeInList);
-        searchView = findViewById(R.id.searchViewInList);
-        orderDraftQuantity = findViewById(R.id.orderDraftQuantity);
+        setContentView(R.layout.activity_select_product);
+        initView();
         setOrderDraftQuantity();
-
-        checkBoxSelectMultiProduct = findViewById(R.id.checkBoxSelectMultiProduct);
-        layoutButton = findViewById(R.id.layoutBtnSelectedProduct);
-        toolbar_top = findViewById(R.id.toolbar_top);
         searchView.requestFocus();
         checkBoxSelectMultiProduct.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -136,6 +127,10 @@ public class SelectProductActivity extends AppCompatActivity {
 
             }
         });
+
+        orderHistoryController = new OrderHistoryController(this);
+        orderHistoryController.setTotalDraftOrder(cart_badge, orderDraftQuantity);
+
         instance = this;
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("BUNDLEBACK");
@@ -151,6 +146,23 @@ public class SelectProductActivity extends AppCompatActivity {
         } else {
             toolbar_top.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void initView() {
+        category_Spinner = findViewById(R.id.category_Spinner);
+        recyclerViewListProduct = findViewById(R.id.recyclerViewListProduct);
+        linearLayoutEmpty = findViewById(R.id.linearLayoutEmptyProduct);
+        layoutSearch = findViewById(R.id.layoutSearch);
+        layoutNotFoundItem = findViewById(R.id.layout_not_found_item);
+        btnAddNewProduct = findViewById(R.id.btnAddNewProduct);
+        pBarList = findViewById(R.id.pBarList);
+        imgbtnBarcodeInList = findViewById(R.id.imgbtnBarcodeInList);
+        searchView = findViewById(R.id.searchViewInList);
+        orderDraftQuantity = findViewById(R.id.orderDraftQuantity);
+        cart_badge = findViewById(R.id.cart_badge);
+        checkBoxSelectMultiProduct = findViewById(R.id.checkBoxSelectMultiProduct);
+        layoutButton = findViewById(R.id.layoutBtnSelectedProduct);
+        toolbar_top = findViewById(R.id.toolbar_top);
     }
 
     private void setOrderDraftQuantity() {
@@ -226,10 +238,10 @@ public class SelectProductActivity extends AppCompatActivity {
             if (intentResult.getContents() == null) {
 //                searchView.setText("");
             } else {
-                String barcode = intentResult.getContents().trim() + "!@#$%";
+                String barcode = intentResult.getContents().trim() + "Se!@#";
                 Log.d("barcodeSelect", barcode);
                 searhByBarcode(barcode);
-                searchView.setQuery(barcode.substring(0, barcode.length() - 5), false);
+                //    searchView.setQuery(barcode.substring(0, barcode.length() - 5), false);
 //                searchView.clearFocus();
             }
         }
@@ -313,5 +325,46 @@ public class SelectProductActivity extends AppCompatActivity {
     }
 
     public void transferToDraftOrder(View view) {
+        Intent intentget = getIntent();
+        Bundle bundle = intentget.getBundleExtra("BUNDLEBACK");
+        if (bundle != null) {
+            final List<Product> listSelectedProductInOrder = (ArrayList<Product>) bundle.getSerializable("listSelectedProductInOrder");
+            if (listSelectedProductInOrder.size() > 0) {
+                //show dialog
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Bạn sẽ chuyển sang danh sách đơn tạm.\n Bạn có muốn lưu đơn này không? ")
+                        .setPositiveButton("Lưu đơn", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                CreateOrderController createOrderController = new CreateOrderController(SelectProductActivity.this);
+                                createOrderController.insertDraftOrder(listSelectedProductInOrder);
+                                Intent intent = new Intent(SelectProductActivity.this, DraftOrderActivity.class);
+                                startActivity(intent);
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("Hủy đơn", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(SelectProductActivity.this, DraftOrderActivity.class);
+                                startActivity(intent);
+                                dialog.cancel();
+                            }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                    }
+                });
+                alert.show();
+            } else {
+                Intent intent = new Intent(SelectProductActivity.this, DraftOrderActivity.class);
+                startActivity(intent);
+            }
+        } else {
+            Intent intent = new Intent(SelectProductActivity.this, DraftOrderActivity.class);
+            startActivity(intent);
+        }
     }
 }

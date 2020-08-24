@@ -107,7 +107,7 @@ public class RevenueController {
             for (int i = TimeController.getInstance().getDateInYear(dateFrom); i < TimeController.getInstance().getDateInYear(dateTo) + 1; i++) {
                 String stringDateFrom = TimeController.getInstance().changeDateToString(dateFrom);
                 // xAxis in chart
-                x = i + 1;
+                x = i;
                 y = 0;
                 String day = "";
 
@@ -217,6 +217,7 @@ public class RevenueController {
 
     //set up UI for Bar Graph
     public void setUpBarChart(boolean isSearchByDay) {
+        chart.setNoDataText("");
         chart.invalidate();
         chart.getDescription().setText("");
 

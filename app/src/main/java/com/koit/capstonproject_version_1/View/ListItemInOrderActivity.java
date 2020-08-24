@@ -1,15 +1,19 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,55 +24,83 @@ import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.CaptureManager;
+import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Controller.InputController;
-import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
-import com.koit.capstonproject_version_1.Controller.OrderSwipeControllerActions;
+import com.koit.capstonproject_version_1.Controller.ListItemInOrderController;
 import com.koit.capstonproject_version_1.Controller.RandomStringController;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListItemInOrderActivity extends AppCompatActivity {
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+public class ListItemInOrderActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private RecyclerView recyclerViewListProduct;
     private SearchView searchViewInList;
     private TextView tvTotalQuantity;
     private TextView tvTotalPrice;
     private List<Product> listSelectedProductWarehouse = new ArrayList<>();
     private List<Product> listSelectedProductInOrder = new ArrayList<>();
-    OrderSwipeController orderSwipeController = null;
-    ItemInOrderAdapter itemAdapter;
-    private View popupInputDialogView = null;
+    private ItemInOrderAdapter itemAdapter;
     private EditText productName;
+    public static final int BARCODE_PER_CODE = 101;
     private EditText price;
     private EditText quantity;
     private Button cancleBtn;
     private Button addBtn;
     private EditText unitName;
-    LinearLayout LinearUpper;
-    LinearLayout layoutSearch;
-    int LAUNCH_SECOND_ACTIVITY = 1;
+    private LinearLayout LinearUpper;
+    private LinearLayout layoutSearch;
+    private CaptureManager captureManager;
     private Toolbar toolbar;
+    private DecoratedBarcodeView barcodeView;
+    private Bundle savedInstanceState2;
+    private ListItemInOrderController listItemInOrderController;
+    private ZXingScannerView mScannerView;
+    private int mCameraId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
+        savedInstanceState2 = savedInstanceState;
         setContentView(R.layout.activity_list_item_in_order);
+        initView();
+        searchViewInList.clearFocus();
+        recyclerViewListProduct.setHasFixedSize(true);
+        recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
+        getIntentListProduct();
+        listItemInOrderController = new ListItemInOrderController(this, listSelectedProductInOrder,
+                listSelectedProductWarehouse);
+        listItemInOrderController.getListProduct("", recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
+        //swipe
+        searchViewInList.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                backToPrevious(true);
+            }
+        });
+        listItemInOrderController.setupRecyclerView(recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
+
+    }
+
+    private void initView() {
         recyclerViewListProduct = findViewById(R.id.recyclerViewListProduct);
         searchViewInList = findViewById(R.id.searchViewInList);
         tvTotalQuantity = findViewById(R.id.tvTotalQuantity);
@@ -76,40 +108,25 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         LinearUpper = findViewById(R.id.LinearUpper);
         layoutSearch = findViewById(R.id.layoutSearchInOrder);
         toolbar = findViewById(R.id.toolbar_top);
-        searchViewInList.clearFocus();
-        recyclerViewListProduct.setHasFixedSize(true);
-        recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
-        getListProduct();
-        //swipe
-        setupRecyclerView(recyclerViewListProduct);
-        searchViewInList.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                backToPrevious(true);
-            }
-        });
+        ViewGroup contentFrame = findViewById(R.id.zxing_barcode_scanner);
+        mScannerView = new ZXingScannerView(this);
+        contentFrame.addView(mScannerView);
     }
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        searchViewInList.setQuery("", false);
-        LinearUpper.requestFocus();
-    }
-
-    private void getListProduct() {
+    private void getIntentListProduct() {
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("BUNDLE");
         if (args != null) {
             listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
             listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-            recyclerViewListProduct.setLayoutManager(layoutManager);
-            itemAdapter = new ItemInOrderAdapter(this, R.layout.item_layout_in_order, listSelectedProductWarehouse,
-                    tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder);
-            recyclerViewListProduct.setAdapter(itemAdapter);
-            itemAdapter.notifyDataSetChanged();
+
+//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+//            recyclerViewListProduct.setLayoutManager(layoutManager);
+//            itemAdapter = new ItemInOrderAdapter(this, R.layout.item_layout_in_order, listSelectedProductWarehouse,
+//                    tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder);
+//            recyclerViewListProduct.setAdapter(itemAdapter);
+//            itemAdapter.notifyDataSetChanged();
         }
     }
 
@@ -136,42 +153,60 @@ public class ListItemInOrderActivity extends AppCompatActivity {
     }
 
     public void searchByBarcode(View view) {
-//        SelectProductActivity.getInstance().searchByBarcodeInOrder();
-        CameraController cameraController = new CameraController(ListItemInOrderActivity.this);
-        cameraController.askCameraPermission(CreateProductActivity.BARCODE_PER_CODE);
+        CameraController cameraController = new CameraController(this);
+        cameraController.askCameraPermission(BARCODE_PER_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //search by barcode
-//        if (requestCode == LAUNCH_SECOND_ACTIVITY) {
-//            if (resultCode == SelectProductActivity.RESULT_OK) {
-//                Product product = (Product) data.getBundleExtra("BUNDLE_PRODUCT").getSerializable("product");
-//                listSelectedProductWarehouse.add(product);
-//                Product productInOrder = new Product();
-//                productInOrder.setProductId(product.getProductId());
-//                productInOrder.setProductName(product.getProductName());
-//                productInOrder.setUnits(SelectProductActivity.getMinUnit(product.getUnits()));
-//                listSelectedProductInOrder.add(productInOrder);
-//            }
-//            if (resultCode == SelectProductActivity.RESULT_CANCELED) {
-//                //Write your code if there's no result
-//            }
-//        }
-        //scan
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (intentResult != null) {
             if (intentResult.getContents() != null) {
-                String barcode = intentResult.getContents().trim() + "%$#@!";
-                Intent intent2 = new Intent(ListItemInOrderActivity.this, SelectProductActivity.class);
-                Bundle args2 = new Bundle();
-                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
-                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-                args2.putString("barcode", barcode);
-                intent2.putExtra("BUNDLEBACK", args2);
-                startActivity(intent2);
+                String barcode = intentResult.getContents().trim() + "CO!@#";
+                listItemInOrderController.getListProduct(barcode, recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
+                Log.d("ResultBarcode", barcode);
+//                Intent intent2 = new Intent(ListItemInOrderActivity.this, SelectProductActivity.class);
+//                Bundle args2 = new Bundle();
+//                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+//                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+//                args2.putString("barcode", barcode);
+//                intent2.putExtra("BUNDLEBACK", args2);
+//                startActivity(intent2);
+
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mScannerView.setResultHandler(this);
+        mScannerView.startCamera(mCameraId);
+        //to set flash
+//        mScannerView.setFlash(true);
+        //to set autoFocus
+//        mScannerView.setAutoFocus(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mScannerView.stopCamera();           // Stop camera on pause
+    }
+    //scan result
+    @Override
+    public void handleResult(Result rawResult) {
+        try {
+            Uri beepSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + File.pathSeparator + File.separator + getPackageName() + "/raw/beep_sound");
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), beepSound);
+            r.play();
+            listItemInOrderController.getListProduct(rawResult.getText() + "CO!@#", recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
+            mScannerView.setResultHandler(this);
+            mScannerView.startCamera(mCameraId);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -285,32 +320,6 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         backToPrevious(false);
     }
 
-    public void setupRecyclerView(RecyclerView recyclerView) {
-        orderSwipeController = new OrderSwipeController(new OrderSwipeControllerActions() {
-            @Override
-            public void onRightClicked(final int position) {
-                //remove item in 2 list
-                listSelectedProductInOrder.remove(position);
-                listSelectedProductWarehouse.remove(position);
-                itemAdapter.notifyItemRemoved(position);
-
-                tvTotalQuantity.setText(ItemInOrderAdapter.getTotalQuantity(listSelectedProductInOrder) + "");
-                tvTotalPrice.setText(Money.getInstance().formatVN(ItemInOrderAdapter.getTotalPrice(listSelectedProductInOrder)));
-//                itemAdapter.notifyItemRangeChanged(position, itemAdapter.getItemCount());
-            }
-
-        });
-
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(orderSwipeController);
-        itemTouchhelper.attachToRecyclerView(recyclerView);
-
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                orderSwipeController.onDraw(c);
-            }
-        });
-    }
 
     public void transferToSelectDebtor(View view) {
         if (listSelectedProductInOrder.size() > 0) {
@@ -384,4 +393,6 @@ public class ListItemInOrderActivity extends AppCompatActivity {
         });
         alert.show();
     }
+
+
 }

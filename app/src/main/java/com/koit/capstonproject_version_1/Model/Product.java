@@ -186,8 +186,8 @@ public class Product implements Serializable {
         nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
-    //for ListProductController
 
+    //for ListProductController
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
                                 String searchText, TextView textView, LinearLayout linearLayoutEmpty,
                                 ConstraintLayout constraintLayoutfound, LinearLayout layoutNotFoundItem,
@@ -250,6 +250,7 @@ public class Product implements Serializable {
                             layoutNotFoundItem.setVisibility(View.GONE);
 
                         }
+                        Log.d("ProductLPisfound", isFound + "");
                     }
                 }
 
@@ -386,6 +387,7 @@ public class Product implements Serializable {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
+    //for SelectProduct
     private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
                                 String searchText, LinearLayout linearLayoutEmpty,
                                 LinearLayout layoutSearch, LinearLayout layoutNotFoundItem,
@@ -394,6 +396,7 @@ public class Product implements Serializable {
         userDAO = new UserDAO();
         DataSnapshot dataSnapshotProduct;
         dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
+        boolean barcodeIsFound = false;
         boolean isFound = false;
         // khong co san pham nao
         if (dataSnapshotProduct.getValue() == null) {
@@ -428,11 +431,11 @@ public class Product implements Serializable {
                     }
                 }
                 product.setUnits(unitList);
-
+                //no search, list all product
                 if (searchText == null) {
                     listProductInterface.getListProductModel(product);
                 } else {
-                    //user searched
+                    //user search
                     category_Spinner.setSelection(0);
                     if (searchText == "") {
                         //list product in first time or list all product
@@ -440,37 +443,36 @@ public class Product implements Serializable {
                     } else {
                         //check is barcode search or not
                         //search by barcode in select product
-                        if (searchText.contains("!@#$%")) {
-                            searchText = searchText.substring(0, searchText.length() - 5);
-                            if (product.getBarcode().equals(searchText) && (product.isActive())) {
-                                isFound = true;
+                        if (searchText.contains("Se!@#")) {
+                            String searchTextTemp = searchText.substring(0, searchText.length() - 5).trim();
+                            Log.d("Product!@#$%", searchText);
+
+                            if (product.getBarcode().contains(searchTextTemp) && (product.isActive())) {
+                                barcodeIsFound = true;
                                 // transferToListItemInOrder
                                 List<Product> productList = new ArrayList<>();
                                 productList.add(product);
                                 SelectProductActivity.getInstance().transferToListItemInOrder(productList);
-                            }
-                            if (!isFound) {
-//                            textView.setText("0 sản phẩm");
-                                layoutNotFoundItem.setVisibility(View.VISIBLE);
-                            } else {
-                                layoutNotFoundItem.setVisibility(View.GONE);
+                                Log.d("ProductbarCode", product.getBarcode());
                             }
                         }
                         // search in list product in order
-                        else if (searchText.contains("%$#@!")) {
-                            searchText = searchText.substring(0, searchText.length() - 5);
-                            if (product.getBarcode().equals(searchText) && (product.isActive())) {
-                                isFound = true;
+                        else if (searchText.contains("CO!@#")) {
+                            String searchTextTemp = searchText.substring(0, searchText.length() - 5).trim();
+                            Log.d("Product!@#$%", searchText);
+
+                            if (product.getBarcode().equals(searchTextTemp) && (product.isActive())) {
+                                barcodeIsFound = true;
                                 // transferToListItemInOrder
                                 List<Product> productList = new ArrayList<>();
                                 productList.add(product);
                                 SelectProductActivity.getInstance().transferToListItemInOrder(productList);
                             }
-                            if (!isFound) {
+                            if (!barcodeIsFound) {
 //                            textView.setText("0 sản phẩm");
                                 layoutNotFoundItem.setVisibility(View.VISIBLE);
                                 SelectProductActivity.getInstance().transferToListItemInOrder(null);
-                                Toast.makeText(SelectProductActivity.getInstance(), "Không tìm thấy sản phẩm.", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(SelectProductActivity.getInstance(), "Không tìm thấy sản phẩm.", Toast.LENGTH_SHORT).show();
                             } else {
                                 layoutNotFoundItem.setVisibility(View.GONE);
                             }
@@ -489,12 +491,13 @@ public class Product implements Serializable {
                                 layoutNotFoundItem.setVisibility(View.GONE);
                             }
                         }
-                        //product contains searched characters or barcode
 
                     }
                 }
             }
         }
+
+
     }
 
     //Cate tus beo for SelectProductController
@@ -578,8 +581,8 @@ public class Product implements Serializable {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                     Product product = snapshot.getValue(Product.class);
-                     iProduct.getProductById(product);
+                Product product = snapshot.getValue(Product.class);
+                iProduct.getProductById(product);
             }
 
             @Override
@@ -588,5 +591,77 @@ public class Product implements Serializable {
 
             }
         });
+    }
+
+    //for ListItemInOrderController
+    public void getListProduct(final String searchText, final ListProductInterface
+            listProductInterface) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getListProduct(dataSnapshot, listProductInterface, searchText);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    //for ListItemInOrderController
+    private void getListProduct(DataSnapshot dataSnapshot, ListProductInterface listProductInterface,
+                                String searchText) {
+        userDAO = new UserDAO();
+        DataSnapshot dataSnapshotProduct;
+        dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
+
+        boolean isBarcodeFound = false;
+        boolean isSearchByBarcode = false;
+        // khong co san pham nao
+        if (dataSnapshotProduct.getValue() == null) {
+        } else {
+            DataSnapshot dataSnapshotUnits = dataSnapshot.child("Units").child(userDAO.getUserID());
+            //Lấy danh sách san pham
+            for (DataSnapshot valueProduct : dataSnapshotProduct.getChildren()) {
+                Product product = valueProduct.getValue(Product.class);
+
+                product.setProductId(valueProduct.getKey());
+                DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
+
+                //lay unit theo ma san pham
+                List<Unit> unitList = new ArrayList<>();
+                for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                    Unit unit = valueUnit.getValue(Unit.class);
+
+                    if (unit != null) {
+                        unit.setUnitId(valueUnit.getKey());
+                        unitList.add(unit);
+                    }
+                }
+                product.setUnits(unitList);
+
+                // search in list product in order
+                if (searchText.contains("CO!@#")) {
+//                    Toast.makeText(SelectProductActivity.getInstance(), "Found " + product.getBarcode(), Toast.LENGTH_SHORT).show();
+
+                    isSearchByBarcode = true;
+                    String searchTextTemp = searchText.substring(0, searchText.length() - 5).trim();
+                    if (product.getBarcode().equals(searchTextTemp) && (product.isActive())) {
+                        isBarcodeFound = true;
+                        // transferToListItemInOrder
+                        listProductInterface.getListProductModel(product);
+                    }
+                }
+
+            }
+            if (isSearchByBarcode)
+                if (!isBarcodeFound) {
+                    Toast.makeText(SelectProductActivity.getInstance(), "Không tìm thấy sản phẩm " + searchText, Toast.LENGTH_SHORT).show();
+                }
+        }
     }
 }

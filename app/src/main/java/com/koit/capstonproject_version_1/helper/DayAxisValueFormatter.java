@@ -7,7 +7,7 @@ public class DayAxisValueFormatter extends ValueFormatter
 {
 
     private final String[] mMonths = new String[]{
-            "/1", "/2", "/3", "/4", "/5", "/6", "/7", "/8", "/9", "/10", "/11", "/12"
+            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
     };
 
     private final BarLineChartBase<?> chart;
@@ -29,7 +29,7 @@ public class DayAxisValueFormatter extends ValueFormatter
 
         if (chart.getVisibleXRange() > 30 * 6) {
 
-            return monthName;
+            return "/"+monthName;
         } else {
 
             int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2016));
@@ -60,7 +60,7 @@ public class DayAxisValueFormatter extends ValueFormatter
                     break;
             }
 
-            return dayOfMonth == 0 ? "" : dayOfMonth + appendix + " " + monthName;
+            return dayOfMonth == 0 ? "" : dayOfMonth + appendix + "/" + monthName;
         }
     }
 
