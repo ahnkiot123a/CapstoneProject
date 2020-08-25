@@ -175,6 +175,8 @@ public class DebtPayment implements Serializable {
                 .child("invoiceDebtPayments").child(invoice.getInvoiceId());
         databaseReference.child("payMoney").setValue(invoice.getPayMoney());
         databaseReference.child("debitAmount").setValue(invoice.getDebitAmount());
+        databaseReference.child("invoiceDate").setValue(invoice.getInvoiceDate());
+        databaseReference.child("invoiceTime").setValue(invoice.getInvoiceTime());
 //        databaseReference.child("payAmount").setValue(debtPayment.getPayAmount());
 //        databaseReference.child("payDate").setValue(debtPayment.getPayDate());
 //        databaseReference.child("payTime").setValue(debtPayment.getPayTime());
