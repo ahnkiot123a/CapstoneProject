@@ -15,6 +15,7 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.ui.debit.DebitFragment;
 import com.koit.capstonproject_version_1.helper.Helper;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -100,12 +101,14 @@ public class DebitPaymentActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EditDebtorActivity.class);
         intent.putExtra(ITEM_DEBTOR, currentDebtor);
         startActivity(intent);
+        finish();
     }
 
     public void callInputPayDebtMoney(View view) {
         Intent intent = new Intent(this, InputPayDebtMoneyActivity.class);
         intent.putExtra(ITEM_DEBTOR, currentDebtor);
         startActivity(intent);
+        finish();
     }
 
     public void callOrderDebtorActivity(View view) {

@@ -119,20 +119,11 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
         if (payAmount > debtor.getRemainingDebit()) payAmount = debtor.getRemainingDebit();
         payDebtController = new PayDebtController(this, debtor, payAmount);
         payDebtController.payDebt();
-        debtor.setRemainingDebit(debtor.getRemainingDebit() - payAmount);
-        callDebitPaymentActivity();
-//        payDebtController.callDebitPaymentActivity();
-//        callDebitPaymentActivity();
     }
 
     public void back(View view) {
         onBackPressed();
     }
-    public void callDebitPaymentActivity() {
-        Intent intent = new Intent(this, DebitPaymentActivity.class);
-        intent.putExtra(ITEM_DEBTOR, debtor);
-        startActivity(intent);
-        finish();
 
-    }
+
 }

@@ -23,6 +23,8 @@ public class EditDebtorActivity extends AppCompatActivity {
     private RadioButton rbMale,rbFemale;
     private Debtor debtor;
     private DebtorController debtorController;
+    public static final String ITEM_DEBTOR = "ITEM_DEBTOR";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,10 @@ public class EditDebtorActivity extends AppCompatActivity {
     public void updateDebtor(View view){
       boolean success =  debtorController.updateDebtor(edFullname,edEmail,edPhoneNumber,tvDob,edAddress,rbMale,debtor);
       if (success){
+          Intent intent = new Intent(this, DebitPaymentActivity.class);
+          intent.putExtra(ITEM_DEBTOR, debtor);
+          startActivity(intent);
+          finish();
 //          debtorController.tranIntent(EditDebtorActivity.this,MainActivity.class);
       }
     }

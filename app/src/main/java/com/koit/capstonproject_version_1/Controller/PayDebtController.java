@@ -67,7 +67,6 @@ public class PayDebtController {
             public void getInvoice(Invoice invoice) {
                 if (invoice != null) {
                     if (!invoice.isDrafted()) {
-//                        orderHistoryAdapter.showShimmer = false;
                         if (invoice.getDebtorId().equals(debtor.getDebtorId())) {
                             invoiceList.add(invoice);
                             long debitAmount = invoice.getDebitAmount();
@@ -88,11 +87,15 @@ public class PayDebtController {
                                     invoice.setPayMoney(payMoney);
                                     debtor.setRemainingDebit(remainingDebit);
                                 }
-                                debtPayment.addInvoiceToDebtPaymentFirebase(debtPayment,invoice);
+                                debtPayment.addInvoiceToDebtPaymentFirebase(debtPayment, invoice);
                                 Invoice.getInstance().updateDebitAmount(invoice);
                                 Debtor.getInstance().updateRemainingDebit(debtor);
+                                Intent intent = new Intent(activity, DebitPaymentActivity.class);
+                                intent.putExtra(ITEM_DEBTOR, debtor);
+                                activity.startActivity(intent);
+                                activity.finish();
                             }
-                            Log.d("payMoney", invoice.getPayMoney()+"");
+                            Log.d("payMoney", invoice.getPayMoney() + "");
                             Log.d("dbtor", debtor.toString());
                             Log.d("ktInvoice", invoice.toString());
                             Log.d("payAmountRemaining", payAmount + "");
@@ -100,20 +103,13 @@ public class PayDebtController {
                         }
 
                     }
-//                    tvOrderTotal.setText(invoiceList.size() + " đơn hàng");
-//                    orderHistoryAdapter.notifyDataSetChanged();
+
                 }
 
             }
 
         };
         invoiceHistoryDAO.getDebitInvoiceList(iInvoice);
+    }
 
-    }
-    public void callDebitPaymentActivity(){
-        Intent intent = new Intent(activity, DebitPaymentActivity.class);
-        intent.putExtra(ITEM_DEBTOR, debtor);
-        activity.startActivity(intent);
-        activity.finish();
-    }
 }
