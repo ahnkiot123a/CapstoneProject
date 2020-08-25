@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -49,41 +52,56 @@ public class DetailProductController {
     }
 
     public void setProductImageView(final ImageView productImage, Product product) {
-        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
-            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
-        /*long ONE_MEGABYTE = 1024 * 1024;
-        storagePicture.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                productImage.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Failed loaded uri: ", e.getMessage());
-            }
-        });*/
-            try {
-                final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
-                storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("SaveFileFSuccess", taskSnapshot.toString());
-                        // Local temp file has been created
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        productImage.setImageBitmap(bitmap);
+//        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+//            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
+//            try {
+//                final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
+//                storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                        Log.d("SaveFileFSuccess", taskSnapshot.toString());
+//                        // Local temp file has been created
+//                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+//                        productImage.setImageBitmap(bitmap);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        Log.d("SaveFileFailed", exception.getMessage());
+//                        // Handle any errors
+//                    }
+//                });
+//            } catch (IOException e) {
+//                Log.d("SaveFileFailed", e.getMessage());
+//            }
+//        }
+
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
+        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty() && !product.getProductImageUrl().equals("")) {
+            storageReference.child("ProductPictures").child(product.getProductImageUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'users/me/profile.png'
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed()) {
+                        return;
+                    } else {
+                        Glide.with(activity)
+                                .load(uri)
+                                .centerCrop()
+                                .into(productImage);
+
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.d("SaveFileFailed", exception.getMessage());
-                        // Handle any errors
-                    }
-                });
-            } catch (IOException e) {
-                Log.d("SaveFileFailed", e.getMessage());
-            }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+
+                }
+            });
+        } else {
+
         }
     }
 
@@ -117,6 +135,7 @@ public class DetailProductController {
         ConvertRateRecyclerAdapter convertRateRecyclerAdapter = new ConvertRateRecyclerAdapter(listUnit, activity.getApplicationContext());
         recyclerConvertRate.setAdapter(convertRateRecyclerAdapter);
     }
+
     public void setRecyclerConvertRate(ArrayList<Unit> listUnit, LinearLayout linearConvertRate, RecyclerView recyclerConvertRate) {
         if (listUnit.size() < 2) {
             linearConvertRate.setVisibility(View.GONE);

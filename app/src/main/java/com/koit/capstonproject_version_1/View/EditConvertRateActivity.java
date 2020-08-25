@@ -57,7 +57,6 @@ public class EditConvertRateActivity extends AppCompatActivity {
                         Toast.makeText(EditConvertRateActivity.this, "Tỉ lệ chuyển đổi giữa các đơn vị phải lớn hơn 1", Toast.LENGTH_SHORT).show();
                         flagConvertRate = false;
                     }
-
                 }
                 if (flagConvertRate) {
                     currentProduct.setUnits(unitList);

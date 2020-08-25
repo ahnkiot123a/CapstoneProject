@@ -53,7 +53,7 @@ public class EditProductQuantityActivity extends AppCompatActivity {
                 List<Unit> addUnitList = getListUnitAdd();
                 for (int i = 0; i < unitList.size(); i++) {
                     long quantity = unitList.get(i).getUnitQuantity() + addUnitList.get(i).getUnitQuantity();
-                    if (quantity < 0) quantity = 0;
+//                    if (quantity < 0) quantity = 0;
                     unitList.get(i).setUnitQuantity(quantity);
                 }
                 editProductQuantityController.calInventoryByUnit(unitList);

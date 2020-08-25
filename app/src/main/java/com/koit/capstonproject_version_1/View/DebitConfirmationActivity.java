@@ -18,18 +18,19 @@ import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DebitConfirmationActivity extends AppCompatActivity {
     private TextView tvDebtorName, tvDebtorPhone, tvOldDebtAmount,
-            tvDateTime, tvDebitMoney, tvNewDebitAmount, invoiceName,tvToolbarTitle;
-    private Button btnConfirmDebit;
+            tvDateTime, tvDebitMoney, tvNewDebitAmount, invoiceName, tvToolbarTitle;
+    private Button btnConfirmDebit, btnCancelDebit;
     private Debtor debtor;
     private Invoice invoice;
     private InvoiceDetail invoiceDetail;
     private List<Product> listSelectedProductWarehouse;
-    private  List<Product> listSelectedProductInOrder;
+    private List<Product> listSelectedProductInOrder;
     private CreateOrderController createOrderController;
 
     @Override
@@ -44,6 +45,28 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         getData();
         setInformation();
         actionBtnConfirmDebit();
+        actionBtnCancleDebit();
+    }
+
+    private void actionBtnCancleDebit() {
+        btnCancelDebit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DebitConfirmationActivity.this, ListItemInOrderActivity.class);
+
+                Bundle args2 = new Bundle();
+                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+                intent.putExtra("BUNDLE", args2);
+
+                //  invoice = SelectDebtorActivity.getInstance().getInvoice();
+                //Log.d("InvoiceAdapter", invoice.toString());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void actionBtnConfirmDebit() {
@@ -53,9 +76,9 @@ public class DebitConfirmationActivity extends AppCompatActivity {
                 invoice.setDrafted(false);
                 createOrderController.addInvoiceToFirebase(invoice);
                 createOrderController.addInvoiceDetailToFirebase(invoiceDetail);
-                createOrderController.updateUnitQuantity(listSelectedProductInOrder,listSelectedProductWarehouse);
+                createOrderController.updateUnitQuantity(listSelectedProductInOrder, listSelectedProductWarehouse);
                 debtor.updateRemainingDebit(debtor);
-                Intent intent = new Intent(DebitConfirmationActivity.this,SelectProductActivity.class);
+                Intent intent = new Intent(DebitConfirmationActivity.this, SelectProductActivity.class);
                 startActivity(intent);
                 finish();
                 Toast.makeText(DebitConfirmationActivity.this, "Cho nợ thành công", Toast.LENGTH_SHORT).show();
@@ -67,7 +90,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
     private void setInformation() {
         tvDebtorName.setText(debtor.getFullName());
         tvDebtorPhone.setText(debtor.getPhoneNumber());
-        invoiceName.setText("Hoá đơn " + invoice.getInvoiceId() );
+        invoiceName.setText("Hoá đơn " + invoice.getInvoiceId());
         tvDateTime.setText(invoice.getInvoiceDate() + "\n " + invoice.getInvoiceTime());
         tvDebitMoney.setText(Money.getInstance().formatVN(invoice.getDebitAmount()));
         long oldDebtAmount = debtor.getRemainingDebit();
@@ -78,7 +101,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        Intent intent =getIntent();
+        Intent intent = getIntent();
         debtor = (Debtor) intent.getSerializableExtra("debtor");
         invoice = (Invoice) intent.getSerializableExtra("invoice");
         invoiceDetail = (InvoiceDetail) intent.getSerializableExtra("invoiceDetail");
@@ -99,7 +122,9 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         btnConfirmDebit = findViewById(R.id.btnConfirmDebit);
         invoiceName = findViewById(R.id.invoiceName);
         tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
+        btnCancelDebit = findViewById(R.id.btnCancelDebit);
     }
+
     public void back(View view) {
         onBackPressed();
     }

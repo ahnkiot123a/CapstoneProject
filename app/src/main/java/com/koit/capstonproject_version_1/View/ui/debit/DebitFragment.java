@@ -55,10 +55,10 @@ public class DebitFragment extends Fragment {
 //                textView.setText(s);
             }
         });
-//        setUpPieChart();
+        setUpPieChart(0);
         recyclerViewDebitors = root.findViewById(R.id.recyclerViewDebitors);
         debtorController = new DebtorController(this.getContext());
-        debtorController.getListDebtor(recyclerViewDebitors, tvRemaining);
+        debtorController.getListDebtor(recyclerViewDebitors, tvRemaining, tvTotalDebt);
         debtorController.etSearchEventListDebtor(svDebtor);
 
         debtPaymentDetailController = new DebtPaymentDetailController(this.getActivity());

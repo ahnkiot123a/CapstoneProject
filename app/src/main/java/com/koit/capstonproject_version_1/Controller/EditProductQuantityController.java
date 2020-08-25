@@ -30,6 +30,7 @@ public class EditProductQuantityController {
         for (int i = 0; i < unitList.size(); i++) {
             total = total + unitList.get(i).getConvertRate() * unitList.get(i).getUnitQuantity();
         }
+        if (total < 0 ) total = 0;
         for (int i = 0; i < unitList.size(); i++) {
             unitList.get(i).setUnitQuantity(total / unitList.get(i).getConvertRate());
         }

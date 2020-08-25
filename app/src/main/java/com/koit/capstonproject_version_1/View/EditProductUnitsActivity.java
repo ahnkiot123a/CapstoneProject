@@ -67,11 +67,23 @@ public class EditProductUnitsActivity extends AppCompatActivity {
 
                     }
                 }
+                boolean flagDuplicateUnitName = true;
+                for (int i = 0; i < unitList.size(); i++) {
+                    for (int j = i+1; j < unitList.size(); j++) {
+                        if (unitList.get(i).getUnitName().equals(unitList.get(j).getUnitName())) {
+                            flagDuplicateUnitName = false;
+                            break;
+                        }
+                    }
+
+                }
 
                 if (!flagUnitName)
                     Toast.makeText(EditProductUnitsActivity.this, "Tên đơn vị không được để trống", Toast.LENGTH_SHORT).show();
                 else if (!flagUnitPrice)
                     Toast.makeText(EditProductUnitsActivity.this, "Giá của sản phẩm ở từng đơn vị phải lớn hơn 0", Toast.LENGTH_SHORT).show();
+                else if (!flagDuplicateUnitName)
+                    Toast.makeText(EditProductUnitsActivity.this, "Tên đơn vị không được trùng nhau", Toast.LENGTH_SHORT).show();
                 else if (flagCompareUnit) {
                     currentProduct.setUnits(unitList);
                     editProductQuantityController.addUnitsToFireBase(currentProduct, unitList);

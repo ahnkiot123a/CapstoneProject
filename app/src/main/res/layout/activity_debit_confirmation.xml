@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/toolbarGeneral"
         android:layout_margin="10dp"
         android:orientation="vertical">
@@ -250,16 +250,43 @@
             android:layout_marginTop="10dp"
             android:background="@color/light_gray" />
 
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnConfirmDebit"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/theme"-->
+<!--                android:text="Xác nhận cho nợ"-->
+<!--                android:textColor="@color/white" />-->
+<!--        </LinearLayout>-->
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+           >
 
             <Button
-                android:id="@+id/btnConfirmDebit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/theme"
-                android:text="Xác nhận cho nợ"
+                android:id="@+id/btnCancelDebit"
+
+                android:layout_weight="0.5"
+                android:background="@color/gray"
+                android:text="Huỷ"
+                android:textColor="@color/white" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnConfirmDebit"
+
+                android:layout_weight="0.5"
+                android:background="@drawable/green_linear_color"
+                android:text="Xác nhận"
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>

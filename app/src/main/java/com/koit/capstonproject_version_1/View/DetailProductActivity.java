@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.View;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.koit.capstonproject_version_1.Controller.DetailProductController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
@@ -62,13 +64,13 @@ public class DetailProductActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DetailProductActivity.this);
                 builder.setMessage("Bạn có chắc chắn muốn xoá sản phẩm này không? ")
                         .setCancelable(false)
-                        .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Xoá", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 detailProductController.removeProduct(product);
                                 finish();
                             }
                         })
-                        .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }

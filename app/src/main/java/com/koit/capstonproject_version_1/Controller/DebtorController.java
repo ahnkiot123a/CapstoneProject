@@ -70,7 +70,7 @@ public class DebtorController {
         debtor.getListDebtor(iDebtor);
 
     }
-    public void getListDebtor(RecyclerView recyclerViewDebtor, final TextView tvRemaining) {
+    public void getListDebtor(RecyclerView recyclerViewDebtor, final TextView tvRemaining, final TextView tvTotalDebt) {
         debtorList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
@@ -81,6 +81,7 @@ public class DebtorController {
             public void getDebtor(Debtor debtor) {
                 debtorList.add(debtor);
                 tvRemaining.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
+                tvTotalDebt.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
                 listDebtorAdapter.notifyDataSetChanged();
             }
 
