@@ -10,15 +10,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtPayment;
-import com.koit.capstonproject_version_1.Controller.Interface.IInvoiceDetail;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DebtPayment implements Serializable {
     private String debitPaymentId, debtorId;
     private long payAmount;
     private String payDate, payTime;
+    private List<Invoice> invoices;
 
     public DebtPayment() {
     }
@@ -29,6 +31,23 @@ public class DebtPayment implements Serializable {
         this.payAmount = payAmount;
         this.payDate = payDate;
         this.payTime = payTime;
+    }
+
+    public DebtPayment(String debitPaymentId, String debtorId, long payAmount, String payDate, String payTime, List<Invoice> invoices) {
+        this.debitPaymentId = debitPaymentId;
+        this.debtorId = debtorId;
+        this.payAmount = payAmount;
+        this.payDate = payDate;
+        this.payTime = payTime;
+        this.invoices = invoices;
+    }
+
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
 
     public String getDebitPaymentId() {
@@ -79,6 +98,7 @@ public class DebtPayment implements Serializable {
                 ", payAmount=" + payAmount +
                 ", payDate='" + payDate + '\'' +
                 ", payTime='" + payTime + '\'' +
+                ", invoiceDebtPayments=" + invoices +
                 '}';
     }
 
@@ -107,6 +127,18 @@ public class DebtPayment implements Serializable {
                 DebtPayment debtPayment = valueDebtPayment.getValue(DebtPayment.class);
                 debtPayment.setDebitPaymentId(valueDebtPayment.getKey());
                 debtPayment.setDebtorId(debtorId);
+                DataSnapshot dataSnapshotInvoiceDebtPayment = dataSnapshotDebtPayment
+                        .child(debtPayment.getDebitPaymentId()).child("invoiceDebtPayments");
+                List<Invoice> invoiceList = new ArrayList<>();
+                for (DataSnapshot valueInvoiceDebtPayment : dataSnapshotInvoiceDebtPayment.getChildren()){
+                    Invoice invoice = valueInvoiceDebtPayment.getValue(Invoice.class);
+                    invoice.setInvoiceId(valueInvoiceDebtPayment.getKey());
+                    invoiceList.add(invoice);
+                }
+                debtPayment.setInvoices(invoiceList);
+
+
+
                 iDebtPayment.getDebtPayment(debtPayment);
                 Log.d("ListDebtPaymentByDebtor", debtPayment.toString());
             }
@@ -142,6 +174,7 @@ public class DebtPayment implements Serializable {
                 .child(debtPayment.getDebtorId()).child(debtPayment.getDebitPaymentId())
                 .child("invoiceDebtPayments").child(invoice.getInvoiceId());
         databaseReference.child("payMoney").setValue(invoice.getPayMoney());
+        databaseReference.child("debitAmount").setValue(invoice.getDebitAmount());
 //        databaseReference.child("payAmount").setValue(debtPayment.getPayAmount());
 //        databaseReference.child("payDate").setValue(debtPayment.getPayDate());
 //        databaseReference.child("payTime").setValue(debtPayment.getPayTime());

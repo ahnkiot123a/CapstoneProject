@@ -23,8 +23,9 @@ public class Invoice implements Serializable {
 
     }
 
-    public Invoice(String invoiceId, long payMoney) {
+    public Invoice(String invoiceId, long debitAmount, long payMoney) {
         this.invoiceId = invoiceId;
+        this.debitAmount = debitAmount;
         this.payMoney = payMoney;
     }
 
@@ -166,6 +167,7 @@ public class Invoice implements Serializable {
                 ", firstPaid=" + firstPaid +
                 ", total=" + total +
                 ", isDrafted=" + isDrafted +
+                ", payMoney=" + payMoney +
                 '}';
     }
 
