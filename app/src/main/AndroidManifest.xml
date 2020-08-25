@@ -22,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme">
-        <activity android:name=".View.DebtPaymentDetail"></activity>
+        <activity android:name=".View.DebtPaymentDetailActivity"></activity>
         <activity android:name=".View.InputPayDebtMoneyActivity" />
         <activity android:name=".View.DebitPaymentActivity" />
         <activity android:name=".View.OrderDebtorActivity" />

@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -36,7 +37,6 @@ import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
-import com.koit.capstonproject_version_1.Model.UIModel.LinearLayoutManagerWrapper;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
@@ -67,6 +67,8 @@ public class CreateProductActivity extends AppCompatActivity {
     private static RecyclerView recyclerCreateUnit;
     private Switch switchActive;
 
+    private LinearLayout layoutUnitList;
+
     private ArrayList<Integer> listUnit;
     private CameraController cameraController;
     private static CreateUnitAdapter createUnitAdapter;
@@ -93,25 +95,23 @@ public class CreateProductActivity extends AppCompatActivity {
         createListRecyclerview();
 
         //build recyclerview unit
-        buildRvUnit();
-
-
+//        buildRvUnit();
     }
 
-    private void buildRvUnit() {
-        recyclerCreateUnit.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
-        recyclerCreateUnit.setLayoutManager(linearLayoutManager);
-        createUnitAdapter = new CreateUnitAdapter(this, listUnit);
-        recyclerCreateUnit.setAdapter(createUnitAdapter);
-
-        createUnitAdapter.setOnItemClickLister(new CreateUnitAdapter.OnItemClickLister() {
-            @Override
-            public void onDeleteClick(int position) {
-                removeItem(position);
-            }
-        });
-    }
+//    private void buildRvUnit() {
+//        recyclerCreateUnit.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
+//        recyclerCreateUnit.setLayoutManager(linearLayoutManager);
+//        createUnitAdapter = new CreateUnitAdapter(this, listUnit);
+//        recyclerCreateUnit.setAdapter(createUnitAdapter);
+//
+//        createUnitAdapter.setOnItemClickLister(new CreateUnitAdapter.OnItemClickLister() {
+//            @Override
+//            public void onDeleteClick(int position) {
+//                removeItem(position);
+//            }
+//        });
+//    }
 
     private void createListRecyclerview() {
         listUnit = new ArrayList<>();
@@ -125,9 +125,10 @@ public class CreateProductActivity extends AppCompatActivity {
         tetDescription = findViewById(R.id.etDescription);
         tvCategory = findViewById(R.id.tvCategory);
         ivProduct = findViewById(R.id.ivProduct);
-        recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
+//        recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
         switchActive = findViewById(R.id.switchActive);
         lvCategory = findViewById(R.id.lvCategory);
+        layoutUnitList = findViewById(R.id.layoutUnitList);
 
 
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);
@@ -151,8 +152,29 @@ public class CreateProductActivity extends AppCompatActivity {
 
     //event click thêm đơn vị button
     public void addUnitRv(View view) {
-        int position = listUnit.size() + 1;
-        insertItem(position);
+//        int position = listUnit.size() + 1;
+//        insertItem(position);
+        addView();
+    }
+
+    private void addView(){
+        View unitItem = getLayoutInflater().inflate(R.layout.row_add_unit, null, false);
+        EditText etUnitName = unitItem.findViewById(R.id.etUnitName);
+        EditText etUnitPrice = unitItem.findViewById(R.id.etUnitPrice);
+        ImageButton btnRemove = unitItem.findViewById(R.id.btnRemove);
+
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeView(v);
+            }
+        });
+
+        layoutUnitList.addView(unitItem);
+    }
+
+    private void removeView(View view){
+        layoutUnitList.removeView(view);
     }
 
     //insert one unit item in recycler view

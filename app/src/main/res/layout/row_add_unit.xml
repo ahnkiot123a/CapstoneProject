@@ -13,9 +13,10 @@
         <TableRow>
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/etUnitName"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:background="@null"
                 android:fontFamily="sans-serif-medium"
                 android:hint="Tên đơn vị"
@@ -30,9 +31,10 @@
                 android:background="@color/light_gray" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/etUnitPrice"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="1.2"
+                android:layout_weight="1"
                 android:background="@null"
                 android:fontFamily="sans-serif-medium"
                 android:hint="Giá"
@@ -41,6 +43,7 @@
                 android:textSize="18sp" />
 
             <ImageButton
+                android:id="@+id/btnRemove"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_gravity="center"

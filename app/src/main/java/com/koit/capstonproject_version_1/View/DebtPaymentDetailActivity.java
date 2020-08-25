@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.koit.capstonproject_version_1.R;
 
-public class DebtPaymentDetail extends AppCompatActivity {
+public class DebtPaymentDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

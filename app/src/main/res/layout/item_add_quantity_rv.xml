@@ -1,80 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemProduct"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_height="60dp"
+        android:background="@drawable/shape_box_border"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
 
-            <TextView
-                android:id="@+id/tvUnitName"
-                android:layout_weight="1"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Thùng"
-                android:textColor="@color/gray"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvUnitName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Thùng"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:gravity="center">
+        <EditText
+            android:id="@+id/etProductQuantity"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/shape_textview_border"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:text="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ibAddQuantity"
+            app:layout_constraintTop_toTopOf="parent">
 
-                <ImageButton
-                    android:id="@+id/ibMinusQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@null"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_baseline_minus_24" />
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null">
+        </EditText>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etProductQuantity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-medium"
-                        android:inputType="number"
-                        android:background="@null"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:gravity="center"
-                        android:textColor="@color/gray"
-                        android:textSize="18sp"
-                        android:windowSoftInputMode="stateUnchanged" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <ImageButton
-                    android:id="@+id/ibAddQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@null"
-                    android:src="@drawable/ic_baseline_add_item_24" />
-            </LinearLayout>
+        <ImageButton
+            android:id="@+id/ibMinusQuantity"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_minus_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/etProductQuantity"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/ibAddQuantity"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="130dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_add_item_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/light_gray" />
+        <Spinner
+            android:id="@+id/spinnerChooseType"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/shape_textview_border"
+            app:layout_constraintBottom_toBottomOf="@+id/etProductQuantity"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
