@@ -22,7 +22,7 @@ public class CustomToast extends Toast {
         super(context);
     }
 
-    public static Toast makeText(Context context, String message, int duration, int type, boolean androidicon) {
+    public static Toast makeText(Context context, String message, int duration, int type, boolean androidicon, int position) {
         Toast toast = new Toast(context);
         toast.setDuration(duration);
         View layout = LayoutInflater.from(context).inflate(R.layout.custom_toast_layout, null, false);
@@ -49,7 +49,7 @@ public class CustomToast extends Toast {
             img.setImageResource(R.drawable.ic_baseline_360_24);
         }
         toast.setView(layout);
-        toast.setGravity(Gravity.CENTER, 0,-50);
+        toast.setGravity(position, 0,0);
         return toast;
     }
 

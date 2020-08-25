@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -119,8 +120,8 @@ public class ListProductController extends AppCompatActivity {
                                 unit.removeProductUnits(userDAO.getUserID(), product.getProductId());
                                 Intent intent = new Intent(listProductActivity, ListProductActivity.class);
                                 listProductActivity.startActivity(intent);
-                                CustomToast.makeText(listProductActivity,"Bạn đã xoá thành công sản phẩm",
-                                        Toast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+                                CustomToast.makeText(listProductActivity, "Bạn đã xoá thành công sản phẩm",
+                                        Toast.LENGTH_LONG, CustomToast.SUCCESS, true, Gravity.BOTTOM).show();
                             }
                         })
                         .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {

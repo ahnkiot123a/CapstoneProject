@@ -46,7 +46,8 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
+import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
+import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
 import java.io.File;
 import java.io.Serializable;
@@ -140,7 +141,7 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
                 listItemInOrderController = new ListItemInOrderController(this, listSelectedProductInOrder,
                         listSelectedProductWarehouse);
                 listItemInOrderController.getListProductInDraftOrder(invoiceId);
-                InvoiceHistoryDAO invoiceHistoryDAO = new InvoiceHistoryDAO();
+                OrderHistoryDAO invoiceHistoryDAO = new OrderHistoryDAO();
                 invoiceHistoryDAO.deleteDraftOrder(invoiceId);
             } else {
                 listItemInOrderController = new ListItemInOrderController(this, listSelectedProductInOrder,

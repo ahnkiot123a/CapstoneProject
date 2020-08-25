@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -175,7 +176,7 @@ public class RegisterController {
             verificationId = s;
             token = forceResendingToken;
             CustomToast.makeText(registerVerifyPhoneActivity,"Mã xác nhận OTP đã được gửi tới máy bạn!",
-                    Toast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+                    Toast.LENGTH_LONG,CustomToast.SUCCESS,true, Gravity.CENTER).show();
         }
 
         @Override
@@ -191,14 +192,14 @@ public class RegisterController {
         // such as a request that specifies an invalid phone number or verification code.
         public void onVerificationFailed(@NonNull FirebaseException e) {
             CustomToast.makeText(registerVerifyPhoneActivity, e.getMessage(),
-                    Toast.LENGTH_LONG,CustomToast.ERROR,true).show();
+                    Toast.LENGTH_LONG,CustomToast.ERROR,true, Gravity.BOTTOM).show();
         }
 
         @Override
         public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
             super.onCodeAutoRetrievalTimeOut(s);
             CustomToast.makeText(registerVerifyPhoneActivity,"Mã OTP của bạn đã hết hạn. Vui lòng nhấn vào 'Gửi lại mã'",
-                    Toast.LENGTH_LONG,CustomToast.WARNING,true).show();
+                    Toast.LENGTH_LONG,CustomToast.WARNING,true, Gravity.CENTER).show();
         }
     };
 

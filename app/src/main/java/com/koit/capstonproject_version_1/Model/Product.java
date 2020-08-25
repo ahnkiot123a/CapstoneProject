@@ -498,8 +498,8 @@ public class Product implements Serializable {
             }
             if (isSearchByBarcode)
                 if (!barcodeIsFound) {
-                    CustomToast.makeText(SelectProductActivity.getInstance(),"Không tìm thấy sản phẩm ",
-                            Toast.LENGTH_LONG,CustomToast.CONFUSING,true).show();
+                    CustomToast.makeText(SelectProductActivity.getInstance(), "Không tìm thấy sản phẩm ",
+                            Toast.LENGTH_LONG, CustomToast.CONFUSING, true, Gravity.CENTER).show();
 //                    Toast.makeText(SelectProductActivity.getInstance(), "Không tìm thấy sản phẩm " + searchText.substring(0, searchText.length() - 5).trim(), Toast.LENGTH_SHORT).show();
                     SelectProductActivity.getInstance().searhByBarcode("");
                 }
@@ -668,8 +668,8 @@ public class Product implements Serializable {
             }
             if (isSearchByBarcode)
                 if (!isBarcodeFound) {
-                    CustomToast.makeText(SelectProductActivity.getInstance(),"Không tìm thấy sản phẩm ",
-                            Toast.LENGTH_LONG,CustomToast.CONFUSING,true).show();
+                    CustomToast.makeText(SelectProductActivity.getInstance(), "Không tìm thấy sản phẩm ",
+                            Toast.LENGTH_LONG, CustomToast.CONFUSING, true, Gravity.CENTER).show();
                 }
         }
     }
