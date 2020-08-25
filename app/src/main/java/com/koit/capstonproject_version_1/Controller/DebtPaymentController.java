@@ -56,7 +56,7 @@ public class DebtPaymentController {
         if (debtor != null) {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
             rvDebtPayment.setLayoutManager(layoutManager);
-            debtPaymentAdapter = new DebtPaymentAdapter(list);
+            debtPaymentAdapter = new DebtPaymentAdapter(list, activity);
             IDebtPayment iDebtPayment = new IDebtPayment() {
                 @Override
                 public void getDebtPayment(DebtPayment debtPayment) {
@@ -77,5 +77,7 @@ public class DebtPaymentController {
             rvDebtPayment.setAdapter(debtPaymentAdapter);
         }
     }
+
+
 
 }

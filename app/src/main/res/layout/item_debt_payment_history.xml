@@ -5,6 +5,7 @@
     android:layout_height="65dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
+    android:id="@+id/layoutDebtPayment"
     android:background="@drawable/backgroud_date_time">
 
 
