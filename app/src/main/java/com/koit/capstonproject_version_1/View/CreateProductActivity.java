@@ -69,7 +69,8 @@ public class CreateProductActivity extends AppCompatActivity {
 
     private LinearLayout layoutUnitList;
 
-    private ArrayList<Integer> listUnit;
+    private ArrayList<Unit> listUnit = new ArrayList<>();
+
     private CameraController cameraController;
     private static CreateUnitAdapter createUnitAdapter;
 
@@ -91,12 +92,16 @@ public class CreateProductActivity extends AppCompatActivity {
         cameraController = new CameraController(this);
 
 
-        //create list in recyclerview
-        createListRecyclerview();
+//        //create list in recyclerview
+//        createListRecyclerview();
+
+        addOneUnitView();
 
         //build recyclerview unit
 //        buildRvUnit();
     }
+
+
 
 //    private void buildRvUnit() {
 //        recyclerCreateUnit.setHasFixedSize(true);
@@ -113,10 +118,10 @@ public class CreateProductActivity extends AppCompatActivity {
 //        });
 //    }
 
-    private void createListRecyclerview() {
-        listUnit = new ArrayList<>();
-        listUnit.add(1);
-    }
+//    private void createListRecyclerview() {
+//        listUnit = new ArrayList<>();
+//        listUnit.add(1);
+//    }
 
     private void initView() {
         //find view by id
@@ -154,11 +159,11 @@ public class CreateProductActivity extends AppCompatActivity {
     public void addUnitRv(View view) {
 //        int position = listUnit.size() + 1;
 //        insertItem(position);
-        addView();
+        addOneUnitView();
     }
 
-    private void addView(){
-        View unitItem = getLayoutInflater().inflate(R.layout.row_add_unit, null, false);
+    private void addOneUnitView() {
+        final View unitItem = getLayoutInflater().inflate(R.layout.row_add_unit, null, false);
         EditText etUnitName = unitItem.findViewById(R.id.etUnitName);
         EditText etUnitPrice = unitItem.findViewById(R.id.etUnitPrice);
         ImageButton btnRemove = unitItem.findViewById(R.id.btnRemove);
@@ -166,20 +171,23 @@ public class CreateProductActivity extends AppCompatActivity {
         btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeView(v);
+                if (layoutUnitList.getChildCount() > 1)
+                    removeView(unitItem);
             }
         });
 
         layoutUnitList.addView(unitItem);
     }
 
-    private void removeView(View view){
+    private void removeView(View view) {
         layoutUnitList.removeView(view);
     }
 
+
+
     //insert one unit item in recycler view
     private void insertItem(int position) {
-        listUnit.add(position);
+//        listUnit.add(position);
         createUnitAdapter.notifyDataSetChanged();
     }
 
@@ -192,7 +200,7 @@ public class CreateProductActivity extends AppCompatActivity {
     //create product
     public void addProduct(View view) {
         try {
-            controller.createProduct(etBarcode, tetProductName, tetDescription, tvCategory, switchActive.isChecked());
+            controller.createProduct(etBarcode, tetProductName, tetDescription, tvCategory, switchActive.isChecked(), layoutUnitList);
         } catch (Exception e) {
             Toast.makeText(this, "Thêm sản phẩm thất bại! Vui lòng thử lại...", Toast.LENGTH_SHORT).show();
         }

@@ -12,35 +12,72 @@
 
         <TableRow>
 
-            <EditText
-                android:id="@+id/etUnitName"
+<!--            <EditText-->
+<!--                android:id="@+id/etUnitName"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_weight="1.2"-->
+<!--                android:background="@null"-->
+<!--                android:fontFamily="sans-serif-medium"-->
+<!--                android:hint="Tên đơn vị"-->
+<!--                android:padding="10dp"-->
+<!--                android:textColor="@color/gray"-->
+<!--                android:textSize="18sp" />-->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1.2"
-                android:background="@null"
-                android:fontFamily="sans-serif-medium"
-                android:hint="Tên đơn vị"
-                android:padding="10dp"
-                android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUnitName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:hint="Tên đơn vị"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    android:windowSoftInputMode="stateUnchanged" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:background="@color/light_gray" />
+<!--            <EditText-->
+<!--                android:id="@+id/etUnitPrice"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@null"-->
+<!--                android:fontFamily="sans-serif-medium"-->
+<!--                android:hint="Giá"-->
+<!--                android:padding = "10dp"-->
+<!--                android:textColor="@color/gray"-->
+<!--                android:textSize="18sp" />-->
 
-            <EditText
-                android:id="@+id/etUnitPrice"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:fontFamily="sans-serif-medium"
-                android:hint="Giá"
-                android:padding = "10dp"
-                android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUnitPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:hint="Giá"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    android:windowSoftInputMode="stateUnchanged" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <ImageButton
                 android:id="@+id/btnRemove"

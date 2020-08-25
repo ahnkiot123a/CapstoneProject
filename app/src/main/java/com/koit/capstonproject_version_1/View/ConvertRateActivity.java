@@ -14,15 +14,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.koit.capstonproject_version_1.Adapter.EditProductQuantityAdapter;
+import com.koit.capstonproject_version_1.Adapter.AddQuantityAdapter;
 import com.koit.capstonproject_version_1.Adapter.EditConvertRateAdapter;
-import com.koit.capstonproject_version_1.Controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.DetailProductController;
+import com.koit.capstonproject_version_1.Controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
@@ -42,7 +41,7 @@ public class ConvertRateActivity extends AppCompatActivity {
     private LinearLayout layoutConvertRate;
     private ArrayList<Unit> unitList;
     private EditConvertRateAdapter editConvertRateAdapter;
-    private EditProductQuantityAdapter editProductQuantityAdapter;
+    private AddQuantityAdapter addQuantityAdapter;
     private CreateProductController createProductController;
     private EditProductQuantityController editProductQuantityController;
     private DetailProductController detailProductController;
@@ -87,12 +86,12 @@ public class ConvertRateActivity extends AppCompatActivity {
     private void addProductToFirebase() {
 
         try {
-            Dialog dialog = new Dialog(this);
-            dialog.showLoadingDialog(R.raw.loading_animation);
+//            Dialog dialog = new Dialog(this);
+//            dialog.showLoadingDialog(R.raw.loading_animation);
             createProductController.addProductInFirebase(currentProduct);
             addUnitToFirebase();
             createProductController.addCategory(currentProduct);
-            createProductController.addImageProduct(dialog);
+            createProductController.addImageProduct();
             Toast.makeText(this.getApplicationContext(), "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ListProductActivity.class);
             intent.putExtra(IS_SUCCESS, true);
@@ -100,6 +99,7 @@ public class ConvertRateActivity extends AppCompatActivity {
             startActivity(intent);
             this.finish();
         } catch (Exception e) {
+            Log.d("createProduct", e.toString());
             Toast.makeText(this, "Thêm sản phẩm thất bại! Vui lòng thử lại...", Toast.LENGTH_SHORT).show();
         }
 
@@ -142,8 +142,8 @@ public class ConvertRateActivity extends AppCompatActivity {
         rvUnitQuantity.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvUnitQuantity.setLayoutManager(linearLayoutManager);
-        editProductQuantityAdapter = new EditProductQuantityAdapter(unitList, this);
-        rvUnitQuantity.setAdapter(editProductQuantityAdapter);
+        addQuantityAdapter = new AddQuantityAdapter(unitList, this);
+        rvUnitQuantity.setAdapter(addQuantityAdapter);
     }
 
     private void setConvertRateFromRv() {
@@ -156,9 +156,8 @@ public class ConvertRateActivity extends AppCompatActivity {
     }
 
     private void setUnitQuantityFromRV() {
-        List<Unit> list = new ArrayList<>();
-        for (int i = 0; i < editProductQuantityAdapter.getItemCount(); i++) {
-            EditProductQuantityAdapter.ViewHolder viewHolder = (EditProductQuantityAdapter.ViewHolder) rvUnitQuantity.findViewHolderForAdapterPosition(i);
+        for (int i = 0; i < addQuantityAdapter.getItemCount(); i++) {
+            AddQuantityAdapter.ViewHolder viewHolder = (AddQuantityAdapter.ViewHolder) rvUnitQuantity.findViewHolderForAdapterPosition(i);
             String unitQuantity = viewHolder.getEtProductQuantity().getText().toString().trim();
             long quantity = unitQuantity.isEmpty() ? 0 : Long.parseLong(unitQuantity);
             unitList.get(i).setUnitQuantity(quantity);
