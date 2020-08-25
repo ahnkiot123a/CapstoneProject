@@ -22,11 +22,11 @@ import java.util.List;
 
 public class CreateOrderController {
     private Activity activity;
-    private AddProductQuantityController addProductQuantityController;
+    private EditProductQuantityController editProductQuantityController;
 
     public CreateOrderController(Activity activity) {
         this.activity = activity;
-        addProductQuantityController = new AddProductQuantityController();
+        editProductQuantityController = new EditProductQuantityController();
     }
 
     public long calTotalProductQuantity(List<Product> listSelectedProductInOrder) {
@@ -236,7 +236,7 @@ public class CreateOrderController {
                 }
 
                 listProductWarehouse.get(i).setUnits(unitInWareHouse);
-//                addProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
+//                editProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
                 updateUnitsToFireBase(listProductWarehouse.get(i));
             }
 

@@ -323,7 +323,7 @@
                         android:drawablePadding="5dp"
                         android:fontFamily="sans-serif-medium"
                         android:onClick="addProductQuantity"
-                        android:text="Thêm số lượng"
+                        android:text="Sửa số lượng"
                         android:padding="10dp"
                         android:textColor="@color/white"
                         android:textSize="12sp" />

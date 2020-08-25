@@ -251,7 +251,7 @@
                             android:fontFamily="sans-serif-medium"
                             android:onClick="addProductQuantity"
                             android:padding="5dp"
-                            android:text="Thêm số lượng"
+                            android:text="Sửa số lượng"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
 

@@ -3,52 +3,27 @@ package com.koit.capstonproject_version_1.View;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.hsalf.smileyrating.SmileyRating;
-import com.koit.capstonproject_version_1.Adapter.ConvertRateRecyclerAdapter;
-import com.koit.capstonproject_version_1.Adapter.UnitRecyclerAdapter;
 import com.koit.capstonproject_version_1.Controller.DetailProductController;
-import com.koit.capstonproject_version_1.Controller.UpdateProductController;
-import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
-import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.dao.UserDAO;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class DetailProductActivity extends AppCompatActivity {
     private ImageView productImage;
@@ -175,7 +150,7 @@ public class DetailProductActivity extends AppCompatActivity {
     }
 
     public void addProductQuantity(View view) {
-        Intent intent = new Intent(DetailProductActivity.this, AddQuantityActivity.class);
+        Intent intent = new Intent(DetailProductActivity.this, EditProductQuantityActivity.class);
         intent.putExtra("product", product);
         startActivityForResult(intent, REQUEST_QUANTITY_CODE);
     }

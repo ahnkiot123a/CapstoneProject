@@ -14,9 +14,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.koit.capstonproject_version_1.Adapter.AddProductQuantityAdapter;
+import com.koit.capstonproject_version_1.Adapter.EditProductQuantityAdapter;
 import com.koit.capstonproject_version_1.Adapter.EditConvertRateAdapter;
-import com.koit.capstonproject_version_1.Controller.AddProductQuantityController;
+import com.koit.capstonproject_version_1.Controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.DetailProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
@@ -42,9 +42,9 @@ public class ConvertRateActivity extends AppCompatActivity {
     private LinearLayout layoutConvertRate;
     private ArrayList<Unit> unitList;
     private EditConvertRateAdapter editConvertRateAdapter;
-    private AddProductQuantityAdapter addProductQuantityAdapter;
+    private EditProductQuantityAdapter editProductQuantityAdapter;
     private CreateProductController createProductController;
-    private AddProductQuantityController addProductQuantityController;
+    private EditProductQuantityController editProductQuantityController;
     private DetailProductController detailProductController;
 
     private ListCategoryController listCategoryController;
@@ -74,7 +74,7 @@ public class ConvertRateActivity extends AppCompatActivity {
         layoutConvertRate = findViewById(R.id.layoutConvertRate);
 
         createProductController = new CreateProductController(this);
-        addProductQuantityController = new AddProductQuantityController();
+        editProductQuantityController = new EditProductQuantityController();
         detailProductController = new DetailProductController();
 
         listCategoryController = new ListCategoryController(this);
@@ -113,7 +113,7 @@ public class ConvertRateActivity extends AppCompatActivity {
         }
         setUnitQuantityFromRV();
         currentProduct.setUnits(unitList);
-        addProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
+        editProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
     }
 
 
@@ -142,8 +142,8 @@ public class ConvertRateActivity extends AppCompatActivity {
         rvUnitQuantity.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvUnitQuantity.setLayoutManager(linearLayoutManager);
-        addProductQuantityAdapter = new AddProductQuantityAdapter(unitList, this);
-        rvUnitQuantity.setAdapter(addProductQuantityAdapter);
+        editProductQuantityAdapter = new EditProductQuantityAdapter(unitList, this);
+        rvUnitQuantity.setAdapter(editProductQuantityAdapter);
     }
 
     private void setConvertRateFromRv() {
@@ -157,14 +157,14 @@ public class ConvertRateActivity extends AppCompatActivity {
 
     private void setUnitQuantityFromRV() {
         List<Unit> list = new ArrayList<>();
-        for (int i = 0; i < addProductQuantityAdapter.getItemCount(); i++) {
-            AddProductQuantityAdapter.ViewHolder viewHolder = (AddProductQuantityAdapter.ViewHolder) rvUnitQuantity.findViewHolderForAdapterPosition(i);
+        for (int i = 0; i < editProductQuantityAdapter.getItemCount(); i++) {
+            EditProductQuantityAdapter.ViewHolder viewHolder = (EditProductQuantityAdapter.ViewHolder) rvUnitQuantity.findViewHolderForAdapterPosition(i);
             String unitQuantity = viewHolder.getEtProductQuantity().getText().toString().trim();
             long quantity = unitQuantity.isEmpty() ? 0 : Long.parseLong(unitQuantity);
             unitList.get(i).setUnitQuantity(quantity);
         }
         Log.i("unitList", unitList.toString());
-        addProductQuantityController.calInventoryByUnit(unitList);
+        editProductQuantityController.calInventoryByUnit(unitList);
     }
 
     public void back(View view) {

@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.koit.capstonproject_version_1.Adapter.AddProductQuantityAdapter;
-import com.koit.capstonproject_version_1.Controller.AddProductQuantityController;
+import com.koit.capstonproject_version_1.Adapter.EditProductQuantityAdapter;
+import com.koit.capstonproject_version_1.Controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
@@ -23,14 +23,14 @@ import com.koit.capstonproject_version_1.dao.UserDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddQuantityActivity extends AppCompatActivity {
+public class EditProductQuantityActivity extends AppCompatActivity {
     private TextView tvToolbarTitle;
     private Product currentProduct;
     private RecyclerView recyclerUnitQuantity;
     private Button btnAddProductQuantiy;
     private List<Unit> unitList;
-    private AddProductQuantityAdapter addProductQuantityAdapter;
-    private AddProductQuantityController addProductQuantityController;
+    private EditProductQuantityAdapter editProductQuantityAdapter;
+    private EditProductQuantityController editProductQuantityController;
     UserDAO userDAO;
     Unit unit;
 
@@ -40,7 +40,7 @@ public class AddQuantityActivity extends AppCompatActivity {
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_add_quantity);
         initView();
-        tvToolbarTitle.setText("Thêm số lượng sản phẩm");
+        tvToolbarTitle.setText("Chỉnh sửa số lượng sản phẩm");
         setProductInformation();
         buildRyclerUnitQuantity();
         actionBtnAddProductQuantiy();
@@ -53,10 +53,11 @@ public class AddQuantityActivity extends AppCompatActivity {
                 List<Unit> addUnitList = getListUnitAdd();
                 for (int i = 0; i < unitList.size(); i++) {
                     long quantity = unitList.get(i).getUnitQuantity() + addUnitList.get(i).getUnitQuantity();
+                    if (quantity < 0) quantity = 0;
                     unitList.get(i).setUnitQuantity(quantity);
                 }
-                addProductQuantityController.calInventoryByUnit(unitList);
-                addProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
+                editProductQuantityController.calInventoryByUnit(unitList);
+                editProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
                 currentProduct.setUnits(unitList);
                 Intent intent = new Intent();
                 intent.putExtra("product", currentProduct);
@@ -70,21 +71,29 @@ public class AddQuantityActivity extends AppCompatActivity {
         recyclerUnitQuantity.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerUnitQuantity.setLayoutManager(linearLayoutManager);
-        addProductQuantityAdapter = new AddProductQuantityAdapter(unitList, this);
-        recyclerUnitQuantity.setAdapter(addProductQuantityAdapter);
+        editProductQuantityAdapter = new EditProductQuantityAdapter(unitList, this);
+        recyclerUnitQuantity.setAdapter(editProductQuantityAdapter);
     }
 
     private List<Unit> getListUnitAdd() {
         List<Unit> list = new ArrayList<>();
-        for (int i = 0; i < addProductQuantityAdapter.getItemCount(); i++) {
-            AddProductQuantityAdapter.ViewHolder viewHolder = (AddProductQuantityAdapter.ViewHolder) recyclerUnitQuantity.findViewHolderForAdapterPosition(i);
+        for (int i = 0; i < editProductQuantityAdapter.getItemCount(); i++) {
+            EditProductQuantityAdapter.ViewHolder viewHolder = (EditProductQuantityAdapter.ViewHolder) recyclerUnitQuantity.findViewHolderForAdapterPosition(i);
             String unitName = viewHolder.getTvUnitName().getText().toString().trim();
             String unitQuantity = viewHolder.getEtProductQuantity().getText().toString().trim();
+            String spinnerChooseType = viewHolder.getSpinnerChooseType().getSelectedItem().toString();
+
             if (unitQuantity.trim().equals("")) unitQuantity = "0";
             if (!unitName.isEmpty() && !unitQuantity.isEmpty()) {
                 Unit unit = new Unit();
                 unit.setUnitName(unitName);
-                unit.setUnitQuantity(Long.parseLong(unitQuantity));
+                long quantity = 0;
+                if (spinnerChooseType.equals("Thêm")) {
+                    quantity = Long.parseLong(unitQuantity);
+                } else {
+                    quantity = 0 - Long.parseLong(unitQuantity);
+                }
+                unit.setUnitQuantity(quantity);
                 list.add(unit);
             }
         }
@@ -95,7 +104,7 @@ public class AddQuantityActivity extends AppCompatActivity {
         tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
         recyclerUnitQuantity = findViewById(R.id.recyclerUnitQuantity);
         btnAddProductQuantiy = findViewById(R.id.btnAddProductQuantiy);
-        addProductQuantityController = new AddProductQuantityController();
+        editProductQuantityController = new EditProductQuantityController();
         userDAO = new UserDAO();
         unit = new Unit();
     }
@@ -105,8 +114,8 @@ public class AddQuantityActivity extends AppCompatActivity {
         currentProduct = (Product) intent.getSerializableExtra("product");
         unitList = currentProduct.getUnits();
 //        Collections.reverse(unitList);
-        addProductQuantityController.convertUnitList(unitList);
-        //addProductQuantityController.convertUnitList2(unitList);
+        editProductQuantityController.convertUnitList(unitList);
+        //editProductQuantityController.convertUnitList2(unitList);
     }
 
     @Override

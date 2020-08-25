@@ -1,16 +1,13 @@
 package com.koit.capstonproject_version_1.Controller;
 
-import com.koit.capstonproject_version_1.Adapter.AddProductQuantityAdapter;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class AddProductQuantityController {
-    public AddProductQuantityController() {
+public class EditProductQuantityController {
+    public EditProductQuantityController() {
     }
 // 32 goi ==> 1 thung + 2 goi
     public void convertUnitList(List<Unit> unitList) {

@@ -18,29 +18,29 @@ import com.koit.capstonproject_version_1.R;
 
 import java.util.List;
 
-public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQuantityAdapter.ViewHolder> {
+public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProductQuantityAdapter.ViewHolder> {
     List<Unit> unitArrayList;
     Context context;
 
-    public AddProductQuantityAdapter(List<Unit> unitArrayList, Context context) {
+    public EditProductQuantityAdapter(List<Unit> unitArrayList, Context context) {
         this.unitArrayList = unitArrayList;
         this.context = context;
 
     }
 
-    public AddProductQuantityAdapter() {
+    public EditProductQuantityAdapter() {
     }
 
     @NonNull
     @Override
-    public AddProductQuantityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EditProductQuantityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View itemView = layoutInflater.inflate(R.layout.item_add_quantity_rv, parent, false);
-        return new AddProductQuantityAdapter.ViewHolder(itemView);
+        return new EditProductQuantityAdapter.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final AddProductQuantityAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final EditProductQuantityAdapter.ViewHolder holder, final int position) {
         holder.tvUnitName.setText(unitArrayList.get(position).getUnitName());
         holder.etProductQuantity.setText("0");
         //unitArrayList.get(position).setUnitQuantity(0);
@@ -89,6 +89,9 @@ public class AddProductQuantityAdapter extends RecyclerView.Adapter<AddProductQu
             return etProductQuantity;
         }
 
+        public Spinner getSpinnerChooseType() {
+            return spinnerChooseType;
+        }
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

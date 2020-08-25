@@ -12,15 +12,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.koit.capstonproject_version_1.Adapter.ConvertRateRecyclerAdapter;
 import com.koit.capstonproject_version_1.Adapter.EditUnitAdapter;
-import com.koit.capstonproject_version_1.Controller.AddProductQuantityController;
+import com.koit.capstonproject_version_1.Controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditProductUnitsActivity extends AppCompatActivity {
@@ -30,7 +28,7 @@ public class EditProductUnitsActivity extends AppCompatActivity {
     private Button btnEditUnits;
     private List<Unit> unitList;
     private EditUnitAdapter editUnitAdapter;
-    private AddProductQuantityController addProductQuantityController;
+    private EditProductQuantityController editProductQuantityController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +74,7 @@ public class EditProductUnitsActivity extends AppCompatActivity {
                     Toast.makeText(EditProductUnitsActivity.this, "Giá của sản phẩm ở từng đơn vị phải lớn hơn 0", Toast.LENGTH_SHORT).show();
                 else if (flagCompareUnit) {
                     currentProduct.setUnits(unitList);
-                    addProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
+                    editProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
                     Intent intent = new Intent();
                     intent.putExtra("product", currentProduct);
                     setResult(Activity.RESULT_OK, intent);
@@ -98,7 +96,7 @@ public class EditProductUnitsActivity extends AppCompatActivity {
         tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
         recyclerUnits = findViewById(R.id.recyclerUnits);
         btnEditUnits = findViewById(R.id.btnEditUnits);
-        addProductQuantityController = new AddProductQuantityController();
+        editProductQuantityController = new EditProductQuantityController();
     }
 
     private void buildRecyclerViewUnits() {

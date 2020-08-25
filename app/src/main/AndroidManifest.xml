@@ -37,7 +37,7 @@
             android:name=".View.CreateProductActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".View.DetailProductActivity" />
-        <activity android:name=".View.AddQuantityActivity" />
+        <activity android:name=".View.EditProductQuantityActivity" />
         <activity
             android:name=".View.MainActivity"
             android:label="@string/title_activity_main"

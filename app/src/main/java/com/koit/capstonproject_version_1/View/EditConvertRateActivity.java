@@ -13,8 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.koit.capstonproject_version_1.Adapter.EditConvertRateAdapter;
-import com.koit.capstonproject_version_1.Adapter.EditUnitAdapter;
-import com.koit.capstonproject_version_1.Controller.AddProductQuantityController;
+import com.koit.capstonproject_version_1.Controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
@@ -29,7 +28,7 @@ public class EditConvertRateActivity extends AppCompatActivity {
     private Button btnEditConvertRate;
     private List<Unit> unitList;
     private EditConvertRateAdapter editConvertRateAdapter;
-    private AddProductQuantityController addProductQuantityController;
+    private EditProductQuantityController editProductQuantityController;
 
 
     @Override
@@ -62,7 +61,7 @@ public class EditConvertRateActivity extends AppCompatActivity {
                 }
                 if (flagConvertRate) {
                     currentProduct.setUnits(unitList);
-                    addProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
+                    editProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
                     Intent intent = new Intent();
                     intent.putExtra("product", currentProduct);
                     setResult(Activity.RESULT_OK, intent);
@@ -104,7 +103,7 @@ public class EditConvertRateActivity extends AppCompatActivity {
         btnEditConvertRate = findViewById(R.id.btnEditConvertRate);
         tvConvertRate = findViewById(R.id.tvConvertRate);
         recyclerConvertRate = findViewById(R.id.recyclerConvertRate);
-        addProductQuantityController = new AddProductQuantityController();
+        editProductQuantityController = new EditProductQuantityController();
     }
 
     private void getProduct() {

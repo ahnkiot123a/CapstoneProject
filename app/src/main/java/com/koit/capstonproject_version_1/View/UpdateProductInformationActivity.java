@@ -131,7 +131,7 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
         btnAddProductQuantiy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UpdateProductInformationActivity.this, AddQuantityActivity.class);
+                Intent intent = new Intent(UpdateProductInformationActivity.this, EditProductQuantityActivity.class);
                 intent.putExtra("product", currentProduct);
                 startActivityForResult(intent, REQUEST_QUANTITY_CODE);
             }
