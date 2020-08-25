@@ -9,7 +9,8 @@ import java.util.List;
 public class EditProductQuantityController {
     public EditProductQuantityController() {
     }
-// 32 goi ==> 1 thung + 2 goi
+
+    // 32 goi ==> 1 thung + 2 goi
     public void convertUnitList(List<Unit> unitList) {
         // Collections.reverse(unitList);
 
@@ -20,7 +21,8 @@ public class EditProductQuantityController {
             unitList.get(i).setUnitQuantity(quantity);
         }
     }
-// 32 goi = 1 thùng
+
+    // 32 goi = 1 thùng
     public void calInventoryByUnit(List<Unit> unitList) {
         //Collections.reverse(unitList);
 
