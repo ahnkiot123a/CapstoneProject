@@ -22,6 +22,7 @@ import com.koit.capstonproject_version_1.Controller.DetailProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
@@ -86,10 +87,14 @@ public class ConvertRateActivity extends AppCompatActivity {
     private void addProductToFirebase() {
 
         try {
-            addUnitToFirebase();
+            Dialog dialog = new Dialog(this);
+            dialog.showLoadingDialog(R.raw.loading_animation);
             createProductController.addProductInFirebase(currentProduct);
+            addUnitToFirebase();
+            createProductController.addCategory(currentProduct);
+            createProductController.addImageProduct(dialog);
             Toast.makeText(this.getApplicationContext(), "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, ListProductActivity.class);
             intent.putExtra(IS_SUCCESS, true);
             intent.putExtra(CreateProductActivity.NEW_PRODUCT, currentProduct);
             startActivity(intent);

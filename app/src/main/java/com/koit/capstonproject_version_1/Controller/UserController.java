@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -181,24 +182,35 @@ public class UserController {
     }
 
     public void logout(final Activity activity) {
+
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity);
-        builder.setMessage("Bạn có muốn đăng xuất không?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Thoát", null);
-        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
+        builder.setMessage("Bạn có muốn đăng xuất không?")
+                .setCancelable(true)
+                .setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SharedPrefs.getInstance().clear();
+                        LoginManager.getInstance().logOut();
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(activity, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(activity, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        activity.startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        final androidx.appcompat.app.AlertDialog alert = builder.create();
+        alert.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                SharedPrefs.getInstance().clear();
-                LoginManager.getInstance().logOut();
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(activity, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(activity, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                activity.startActivity(intent);
+            public void onShow(DialogInterface dialog) {
+                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(activity.getResources().getColor(R.color.theme));
+                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
             }
         });
-        androidx.appcompat.app.AlertDialog dialog = builder.create();
-        dialog.show();
+        alert.show();
     }
 
 }

@@ -3,19 +3,13 @@ package com.koit.capstonproject_version_1.Controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.koit.capstonproject_version_1.Adapter.OrderHistoryAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.DebtPayment;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.View.DebitPaymentActivity;
-import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
+import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
 import java.util.ArrayList;
 
@@ -24,7 +18,7 @@ public class PayDebtController {
     public Debtor debtor;
     public static final String ITEM_DEBTOR = "ITEM_DEBTOR";
 
-    private InvoiceHistoryDAO invoiceHistoryDAO;
+    private OrderHistoryDAO invoiceHistoryDAO;
     private long payAmount;
     //    private OrderHistoryAdapter orderHistoryAdapter;
     private ArrayList<Invoice> invoiceList;
@@ -36,7 +30,7 @@ public class PayDebtController {
         this.activity = activity;
         this.debtor = debtor;
         this.payAmount = payAmount;
-        invoiceHistoryDAO = new InvoiceHistoryDAO();
+        invoiceHistoryDAO = new OrderHistoryDAO();
     }
 
     public Debtor getDebtor() {

@@ -30,7 +30,7 @@ import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.DayAxisValueFormatter;
 import com.koit.capstonproject_version_1.helper.MonthAxisValueFormatter;
 import com.koit.capstonproject_version_1.helper.MyMarkerView;
-import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
+import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 import com.koit.capstonproject_version_1.helper.CurrencyValueFormatter;
 
 import java.util.ArrayList;
@@ -42,11 +42,11 @@ public class RevenueController {
     private BarChart chart;
     private Activity activity;
     private List<Invoice> listInvoice;
-    private InvoiceHistoryDAO invoiceHistoryDAO;
+    private OrderHistoryDAO orderHistoryDAO;
     private LineChart lineChart;
     public RevenueController(Activity activity, BarChart chart, LineChart lineChart) {
         this.activity = activity;
-        invoiceHistoryDAO = new InvoiceHistoryDAO();
+        orderHistoryDAO = new OrderHistoryDAO();
         this.chart = chart;
         this.lineChart = lineChart;
     }
@@ -92,7 +92,7 @@ public class RevenueController {
                 }
             }
         };
-        invoiceHistoryDAO.getInvoiceList(iInvoice, layoutNotFoundItem, animationView,layoutChart);
+        orderHistoryDAO.getInvoiceList(iInvoice, layoutNotFoundItem, animationView,layoutChart);
     }
 
     public void setDataForBarAndLinechart(Date dateFrom, Date dateTo, int searchByType) {

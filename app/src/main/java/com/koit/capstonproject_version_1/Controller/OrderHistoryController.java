@@ -31,7 +31,7 @@ import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.InvoiceDetailActivity;
 import com.koit.capstonproject_version_1.View.OrderHistoryActivity;
-import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
+import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,7 +40,7 @@ import java.util.concurrent.Semaphore;
 
 public class OrderHistoryController {
     private Activity activity;
-    private InvoiceHistoryDAO invoiceHistoryDAO;
+    private OrderHistoryDAO orderHistoryDAO;
     private OrderHistoryAdapter orderHistoryAdapter;
     private DraftOrderAdapter draftOrderAdapter;
 
@@ -60,7 +60,7 @@ public class OrderHistoryController {
 
     public OrderHistoryController(Activity activity) {
         this.activity = activity;
-        invoiceHistoryDAO = new InvoiceHistoryDAO();
+        orderHistoryDAO = new OrderHistoryDAO();
     }
 
     //get debtor name and fill text view
@@ -73,7 +73,7 @@ public class OrderHistoryController {
                 }
             }
         };
-        invoiceHistoryDAO.getDebtorById(id, iDebtor);
+        orderHistoryDAO.getDebtorById(id, iDebtor);
     }
 
 
@@ -202,7 +202,7 @@ public class OrderHistoryController {
             }
 
         };
-        invoiceHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound);
+        orderHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound);
         orderHistoryAdapter.setOnItemClickListener(new OrderHistoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -240,7 +240,7 @@ public class OrderHistoryController {
 
             }
         };
-        invoiceHistoryDAO.getDraftOrderList(iInvoice);
+        orderHistoryDAO.getDraftOrderList(iInvoice);
 
     }
 
@@ -300,7 +300,7 @@ public class OrderHistoryController {
 
             }
         };
-        invoiceHistoryDAO.getInvoiceList(iInvoice, rvDraftOrder, layoutNotFound);
+        orderHistoryDAO.getInvoiceList(iInvoice, rvDraftOrder, layoutNotFound);
         draftOrderAdapter.setOnItemClickListener(new DraftOrderAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -531,9 +531,9 @@ public class OrderHistoryController {
                         .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //remove item on right click
-                                InvoiceHistoryDAO invoiceHistoryDAO = new InvoiceHistoryDAO();
+                                OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
                                 Invoice invoice = draftOrderList.get(position);
-                                invoiceHistoryDAO.deleteDraftOrder(invoice.getInvoiceId());
+                                orderHistoryDAO.deleteDraftOrder(invoice.getInvoiceId());
                                 draftOrderList.remove(position);
                                 draftOrderAdapter.notifyItemRemoved(position);
                                 count.setText(draftOrderList.size() + " hóa đơn tạm");

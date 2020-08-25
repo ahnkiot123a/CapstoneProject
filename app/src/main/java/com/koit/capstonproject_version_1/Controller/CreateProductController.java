@@ -8,10 +8,9 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.Interface.ICategory;
-import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.SuggestedProduct;
+import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.View.ConvertRateActivity;
 import com.koit.capstonproject_version_1.View.CreateProductActivity;
@@ -41,29 +40,11 @@ public class CreateProductController {
 
     }
 
-    public void fillProduct(String barcode, final TextInputEditText tetProductName, final TextView tvCategory) {
-        final IProduct iProduct = new IProduct() {
-            @Override
-            public void getSuggestedProduct(SuggestedProduct product) {
-                if (product != null) {
-                    Log.i("product", product.toString());
-                    tetProductName.setText(product.getName().trim());
-                    tvCategory.setText(product.getCategoryName().trim());
-                }
-            }
-
-            @Override
-            public void isExistBarcode(boolean existed) {
-
-            }
-
-            @Override
-            public void getProductById(Product product) {
-
-            }
-        };
-        CreateProductDAO.getInstance().getSuggestedProduct(barcode, iProduct);
+    public void checkExistedBarcode(final String barcode, final TextInputEditText tetProductName
+            , final TextView tvCategory, final TextInputEditText etBarcode) {
+        createProductDAO.checkExistBarcode(barcode, tetProductName, tvCategory, activity, etBarcode);
     }
+
 
     public void createProduct(TextInputEditText etBarcode, TextInputEditText tetProductName, TextInputEditText tetDescription,
                               TextView tvCategory, boolean checked) {
@@ -71,6 +52,7 @@ public class CreateProductController {
         String productName = tetProductName.getText().toString().trim();
         if (productName.isEmpty()) {
             tetProductName.setError("Tên sản phẩm không được để trống");
+            tetProductName.requestFocus();
         } else {
             String category = tvCategory.getText().toString().trim();
 
@@ -88,7 +70,6 @@ public class CreateProductController {
             product.setActive(checked);
             product.setUnits(listUnit);
             Log.i("addProduct", product.toString());
-
             Intent intent = new Intent(activity, ConvertRateActivity.class);
             intent.putExtra(CreateProductActivity.NEW_PRODUCT, product);
             activity.startActivity(intent);
@@ -135,9 +116,9 @@ public class CreateProductController {
     }
 
 
-    public void addImageProduct() {
+    public void addImageProduct(Dialog dialog) {
         Uri uri = CreateProductActivity.photoUri;
         String imgName = CreateProductActivity.photoName;
-        CreateProductDAO.getInstance().addImageProduct(uri, imgName, activity);
+        CreateProductDAO.getInstance().addImageProduct(uri, imgName, activity, dialog);
     }
 }

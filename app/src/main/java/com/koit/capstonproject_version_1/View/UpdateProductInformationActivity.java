@@ -269,7 +269,7 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
             } else {
                 String barcode = intentResult.getContents();
                 etBarcode.setText(barcode);
-                controller.fillProduct(barcode, tetProductName, tvCategory);
+                controller.checkExistedBarcode(barcode, tetProductName, tvCategory, etBarcode);
 
             }
         }

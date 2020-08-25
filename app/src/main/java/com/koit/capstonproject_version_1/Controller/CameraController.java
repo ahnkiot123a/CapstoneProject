@@ -16,7 +16,6 @@ import androidx.core.content.FileProvider;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.koit.capstonproject_version_1.View.CreateProductActivity;
 import com.koit.capstonproject_version_1.View.CustomScreenScanActivity;
-import com.koit.capstonproject_version_1.View.ListItemInOrderActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,11 +52,12 @@ public class CameraController {
         }
     }
 
+
+
     public void scanBarcode() {
         IntentIntegrator integrator = new IntentIntegrator(activity);
         integrator.setOrientationLocked(true);
         integrator.setCaptureActivity(CustomScreenScanActivity.class);
-//        integrator.setCaptureActivity(ListItemInOrderActivity.class);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
         integrator.setPrompt("Đặt mã vạch vào trong khung để quét.");
 //        integrator.setTimeout(10000);

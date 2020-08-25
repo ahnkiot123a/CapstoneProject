@@ -29,6 +29,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.iceteck.silicompressorr.FileUtils;
+import com.iceteck.silicompressorr.SiliCompressor;
 import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
@@ -253,9 +255,7 @@ public class CreateProductActivity extends AppCompatActivity {
                 etBarcode.setText("");
             } else {
                 String barcode = intentResult.getContents();
-                etBarcode.setText(barcode);
-                controller.fillProduct(barcode, tetProductName, tvCategory);
-
+                controller.checkExistedBarcode(barcode, tetProductName, tvCategory, etBarcode);
             }
         }
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -263,6 +263,9 @@ public class CreateProductActivity extends AppCompatActivity {
             String photoPath = cameraController.getCurrentPhotoPath();
             File file = new File(photoPath);
             photoUri = Uri.fromFile(file);
+            File compressFile = new File(SiliCompressor.with(this).compress(FileUtils.getPath(this, photoUri)
+                    , new File(this.getCacheDir(), "temp")));
+            photoUri = Uri.fromFile(compressFile);
             ivProduct.setImageURI(photoUri);
             ivProduct.setRotation(ivProduct.getRotation() + 90);
             photoName = file.getName();
@@ -272,11 +275,14 @@ public class CreateProductActivity extends AppCompatActivity {
         }
 
         if (requestCode == GALLERY_REQ_CODE && resultCode == Activity.RESULT_OK) {
-            photoUri  = data.getData();
+            photoUri = data.getData();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imgFileName = "JPEG" + "_" + timeStamp + "." + getFileExt(photoUri);
             Log.i("gallery", "onActivityResult: Gallery Image Uri " + imgFileName);
             photoName = imgFileName;
+//            File compressFile = new File(SiliCompressor.with(this).compress(FileUtils.getPath(this, photoUri)
+//                    , new File(this.getCacheDir(), "temp")));
+//            photoUri = Uri.fromFile(compressFile);
             ivProduct.setImageURI(photoUri);
             ivProduct.setRotation(ivProduct.getRotation() + 180);
         }

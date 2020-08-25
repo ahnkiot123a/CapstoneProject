@@ -15,9 +15,7 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
-import com.koit.capstonproject_version_1.dao.UserDAO;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -250,11 +248,6 @@ public class CreateOrderController {
         IProduct iProduct = new IProduct() {
             @Override
             public void getSuggestedProduct(SuggestedProduct product) {
-
-            }
-
-            @Override
-            public void isExistBarcode(boolean existed) {
 
             }
 

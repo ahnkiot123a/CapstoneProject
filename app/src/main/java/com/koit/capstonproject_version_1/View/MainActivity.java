@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        addProductOther();
+//        addProductOther();
     }
 
     private void addProductOther() {
@@ -173,9 +173,8 @@ public class MainActivity extends AppCompatActivity {
         boolean success = intent.getBooleanExtra(ConvertRateActivity.IS_SUCCESS, false);
         final Product currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
         if (success) {
-            createProductController.addImageProduct();
+//            createProductController.addImageProduct();
             createProductController.addCategory(currentProduct);
-
         }
     }
 

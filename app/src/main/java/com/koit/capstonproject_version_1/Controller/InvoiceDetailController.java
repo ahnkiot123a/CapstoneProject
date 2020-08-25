@@ -20,7 +20,7 @@ import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.View.ListItemInOrderActivity;
-import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
+import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class InvoiceDetailController {
     public static boolean loadSuccess = false;
     private Activity activity;
     private InvoiceDetail invoiceDetail;
-    private InvoiceHistoryDAO invoiceHistoryDAO = new InvoiceHistoryDAO();
+    private OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
 
     final private List<Product> listProductInOrder = new ArrayList<>();
     final private List<Product> listProductInWarehouse = new ArrayList<>();
@@ -116,7 +116,7 @@ public class InvoiceDetailController {
                 }
             }
         };
-        invoiceHistoryDAO.getDebtorById(id, iDebtor);
+        orderHistoryDAO.getDebtorById(id, iDebtor);
     }
 
     public void setProductInOrderDetail(RecyclerView rvProduct, String invoiceId, TextView tvProductTotal, final LinearLayout layoutLoading, final LinearLayout layoutProduct) {

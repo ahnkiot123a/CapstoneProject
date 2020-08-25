@@ -2,7 +2,6 @@ package com.koit.capstonproject_version_1.Model;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Controller.RegisterController;
 import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
+import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
@@ -189,7 +189,7 @@ public class User implements Serializable {
         Log.d(TAG_FB, "handleFacebookAccessToken:" + token);
         // [START_EXCLUDE silent]
         final Dialog dialog = new Dialog(LoginActivity);
-        dialog.showLoadingDialog();
+        dialog.showLoadingDialog(R.raw.triangle_loading);
         // [END_EXCLUDE]
         token.getPermissions();
         String tokenID = loginResult.getAccessToken().getToken();

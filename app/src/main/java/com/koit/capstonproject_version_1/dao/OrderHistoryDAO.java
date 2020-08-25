@@ -19,13 +19,13 @@ import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 
-public class InvoiceHistoryDAO {
+public class OrderHistoryDAO {
 
     private DatabaseReference nodeRoot;
 
     private String debtorName = "";
 
-    public InvoiceHistoryDAO() {
+    public OrderHistoryDAO() {
 
     }
 

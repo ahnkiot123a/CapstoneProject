@@ -63,12 +63,13 @@ public class OrderDebtorActivity extends AppCompatActivity {
 
     }
 
+    public void back(View view){
+        onBackPressed();
+    }
+
     public void chooseTimeFrom(View view) {
     }
 
     public void chooseTimeTo(View view) {
-    }
-    public  void back(View view){
-        onBackPressed();
     }
 }
