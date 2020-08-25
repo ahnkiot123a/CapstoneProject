@@ -4,8 +4,10 @@ import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -42,6 +46,7 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.InvoiceHistoryDAO;
 
 import java.io.File;
 import java.io.Serializable;
@@ -74,6 +79,10 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
     private ListItemInOrderController listItemInOrderController;
     private ZXingScannerView mScannerView;
     private int mCameraId = -1;
+    private ViewGroup contentFrame;
+    private ImageView imgbtnBarcode;
+    private boolean isCameraActive;
+    private boolean isFirstTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +95,6 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
         getIntentListProduct();
-        listItemInOrderController = new ListItemInOrderController(this, listSelectedProductInOrder,
-                listSelectedProductWarehouse);
         listItemInOrderController.getListProduct("", recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
         //swipe
         searchViewInList.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -97,20 +104,22 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
             }
         });
         listItemInOrderController.setupRecyclerView(recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
-
+        isFirstTime = true;
+        isCameraActive = false;
     }
 
     private void initView() {
         recyclerViewListProduct = findViewById(R.id.recyclerViewListProduct);
         searchViewInList = findViewById(R.id.searchViewInList);
         tvTotalQuantity = findViewById(R.id.tvTotalQuantity);
+        imgbtnBarcode = findViewById(R.id.imgbtnBarcode);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
         LinearUpper = findViewById(R.id.LinearUpper);
         layoutSearch = findViewById(R.id.layoutSearchInOrder);
         toolbar = findViewById(R.id.toolbar_top);
-        ViewGroup contentFrame = findViewById(R.id.zxing_barcode_scanner);
-        mScannerView = new ZXingScannerView(this);
-        contentFrame.addView(mScannerView);
+        contentFrame = findViewById(R.id.zxing_barcode_scanner);
+//        mScannerView = new ZXingScannerView(this);
+//        contentFrame.addView(mScannerView);
     }
 
 
@@ -121,6 +130,22 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
             listSelectedProductWarehouse = (ArrayList<Product>) args.getSerializable("listSelectedProductWarehouse");
             listSelectedProductInOrder = (ArrayList<Product>) args.getSerializable("listSelectedProductInOrder");
 
+            if (listSelectedProductInOrder == null || listSelectedProductWarehouse == null) {
+                listSelectedProductInOrder = new ArrayList<>();
+                listSelectedProductWarehouse = new ArrayList<>();
+            }
+
+            String invoiceId = (String) args.get("invoiceId");
+            if (invoiceId != null) {
+                listItemInOrderController = new ListItemInOrderController(this, listSelectedProductInOrder,
+                        listSelectedProductWarehouse);
+                listItemInOrderController.getListProductInDraftOrder(invoiceId);
+                InvoiceHistoryDAO invoiceHistoryDAO = new InvoiceHistoryDAO();
+                invoiceHistoryDAO.deleteDraftOrder(invoiceId);
+            } else {
+                listItemInOrderController = new ListItemInOrderController(this, listSelectedProductInOrder,
+                        listSelectedProductWarehouse);
+            }
 //            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 //            recyclerViewListProduct.setLayoutManager(layoutManager);
 //            itemAdapter = new ItemInOrderAdapter(this, R.layout.item_layout_in_order, listSelectedProductWarehouse,
@@ -153,8 +178,7 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
     }
 
     public void searchByBarcode(View view) {
-        CameraController cameraController = new CameraController(this);
-        cameraController.askCameraPermission(BARCODE_PER_CODE);
+        //hide and show scan layout
     }
 
     @Override
@@ -182,8 +206,10 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
     @Override
     public void onResume() {
         super.onResume();
-        mScannerView.setResultHandler(this);
-        mScannerView.startCamera(mCameraId);
+        if (!isFirstTime) {
+            mScannerView.setResultHandler(this);
+            mScannerView.startCamera(mCameraId);
+        }
         //to set flash
 //        mScannerView.setFlash(true);
         //to set autoFocus
@@ -193,15 +219,19 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
     @Override
     public void onPause() {
         super.onPause();
-        mScannerView.stopCamera();           // Stop camera on pause
+        if (!isFirstTime) {
+            mScannerView.stopCamera();
+        }// Stop camera on pause
     }
+
     //scan result
     @Override
     public void handleResult(Result rawResult) {
         try {
-            Uri beepSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + File.pathSeparator + File.separator + getPackageName() + "/raw/beep_sound");
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), beepSound);
-            r.play();
+            //beep sound
+            ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_SYSTEM, 100);
+            tg.startTone(ToneGenerator.TONE_PROP_BEEP, 200);
+
             listItemInOrderController.getListProduct(rawResult.getText() + "CO!@#", recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
             mScannerView.setResultHandler(this);
             mScannerView.startCamera(mCameraId);
@@ -395,4 +425,27 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
     }
 
 
+    public void showHideBarcode(View view) {
+        if (isFirstTime) {
+            mScannerView = new ZXingScannerView(this);
+            contentFrame.addView(mScannerView);
+            mScannerView.setResultHandler(this);
+            isFirstTime = false;
+        }
+        if (isCameraActive) {
+            //hide and stop scan
+            Log.d("contentFramLI", "hide");
+            contentFrame.setVisibility(View.GONE);
+            imgbtnBarcode.setImageResource(R.drawable.icons8_no_barcode_100px);
+            mScannerView.stopCamera();
+            isCameraActive = false;
+        } else {
+            //show and start scan
+            Log.d("contentFramLI", "show");
+            contentFrame.setVisibility(View.VISIBLE);
+            mScannerView.startCamera(mCameraId);
+            imgbtnBarcode.setImageResource(R.drawable.icons8_barcode_100px);
+            isCameraActive = true;
+        }
+    }
 }

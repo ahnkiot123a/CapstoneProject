@@ -127,7 +127,7 @@
 
                 </SearchView>
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/imgbtnBarcode"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -137,9 +137,8 @@
                     android:background="@drawable/barcode_icon_layout"
                     android:left="5dp"
                     android:onClick="searchByBarcode"
-                    app:srcCompat="@drawable/barcode"
-
-                    />
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/barcode" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -179,6 +178,7 @@
                         android:layout_height="36dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/ic_baseline_notifications_24" />
+
                     <RelativeLayout
                         android:id="@+id/cart_badge"
                         android:layout_width="25dp"
@@ -189,10 +189,11 @@
                         android:scaleType="fitStart">
 
                         <ImageView
-                              android:id="@+id/myImageView"
+                            android:id="@+id/myImageView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/badge_background" />
+
                         <TextView
                             android:id="@+id/orderDraftQuantity"
                             android:layout_width="wrap_content"
@@ -243,8 +244,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="@drawable/background_bottom_line"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
                 android:weightSum="1">
 

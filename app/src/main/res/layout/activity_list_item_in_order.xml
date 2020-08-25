@@ -88,18 +88,20 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="0.8"
+                    android:scaleType="fitCenter"
                     android:background="@drawable/barcode_icon_layout"
                     android:left="5dp"
-                    android:onClick="searchByBarcode"
-                    app:srcCompat="@drawable/barcode" />
+                    android:onClick="showHideBarcode"
+                    app:srcCompat="@drawable/icons8_no_barcode_100px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp">
+                android:layout_height="wrap_content">
                 <com.journeyapps.barcodescanner.DecoratedBarcodeView
                     android:id="@+id/zxing_barcode_scanner"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="250dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
@@ -113,6 +115,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
@@ -126,7 +129,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="@color/white">
+                android:background="@drawable/background_border_and_shadow">
 
                 <ImageView
                     android:id="@+id/iconShoping"

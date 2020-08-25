@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -66,8 +67,30 @@ public class DraftOrderActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        onBackPressed();
+        back();
     }
 
+    public void back() {
+        boolean backToMain = true;
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("BUNDLE");
+        if (args != null) {
+            boolean isFromSelect = false;
+            isFromSelect = (boolean) args.get("fromSelect");
+            if (isFromSelect) {
+                Intent intent2 = new Intent(DraftOrderActivity.this, SelectProductActivity.class);
+                startActivity(intent2);
+                backToMain = false;
+            }
+        }
+        if (backToMain) {
+            Intent intent2 = new Intent(DraftOrderActivity.this, MainActivity.class);
+            startActivity(intent2);
+        }
+    }
 
+    @Override
+    public void onBackPressed() {
+        back();
+    }
 }

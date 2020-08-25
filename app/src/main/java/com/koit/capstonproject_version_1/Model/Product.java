@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Model;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -20,6 +21,7 @@ import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterfa
 import com.koit.capstonproject_version_1.View.SelectProductActivity;
 import com.koit.capstonproject_version_1.dao.CreateProductDAO;
 import com.koit.capstonproject_version_1.dao.UserDAO;
+import com.koit.capstonproject_version_1.helper.CustomToast;
 
 import java.io.Serializable;
 import java.text.Normalizer;
@@ -161,9 +163,6 @@ public class Product implements Serializable {
                 '}';
     }
 
-    public static void show(Context c, String message) {
-        Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
-    }
 
     //for ListProductController
     public void getListProduct(final String searchText, final ListProductInterface
@@ -398,6 +397,7 @@ public class Product implements Serializable {
         dataSnapshotProduct = dataSnapshot.child("Products").child(userDAO.getUserID());
         boolean barcodeIsFound = false;
         boolean isFound = false;
+        boolean isSearchByBarcode = false;
         // khong co san pham nao
         if (dataSnapshotProduct.getValue() == null) {
             linearLayoutEmpty.setVisibility(View.VISIBLE);
@@ -444,6 +444,7 @@ public class Product implements Serializable {
                         //check is barcode search or not
                         //search by barcode in select product
                         if (searchText.contains("Se!@#")) {
+                            isSearchByBarcode = true;
                             String searchTextTemp = searchText.substring(0, searchText.length() - 5).trim();
                             Log.d("Product!@#$%", searchText);
 
@@ -495,6 +496,13 @@ public class Product implements Serializable {
                     }
                 }
             }
+            if (isSearchByBarcode)
+                if (!barcodeIsFound) {
+                    CustomToast.makeText(SelectProductActivity.getInstance(),"Không tìm thấy sản phẩm ",
+                            Toast.LENGTH_LONG,CustomToast.CONFUSING,true).show();
+//                    Toast.makeText(SelectProductActivity.getInstance(), "Không tìm thấy sản phẩm " + searchText.substring(0, searchText.length() - 5).trim(), Toast.LENGTH_SHORT).show();
+                    SelectProductActivity.getInstance().searhByBarcode("");
+                }
         }
 
 
@@ -660,7 +668,8 @@ public class Product implements Serializable {
             }
             if (isSearchByBarcode)
                 if (!isBarcodeFound) {
-                    Toast.makeText(SelectProductActivity.getInstance(), "Không tìm thấy sản phẩm " + searchText, Toast.LENGTH_SHORT).show();
+                    CustomToast.makeText(SelectProductActivity.getInstance(),"Không tìm thấy sản phẩm ",
+                            Toast.LENGTH_LONG,CustomToast.CONFUSING,true).show();
                 }
         }
     }

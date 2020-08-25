@@ -84,13 +84,13 @@ public class InvoiceDetailController {
     }
 
     public void sendDraftOrder(String invoiceId) {
-        getListProductInDraftOrder(invoiceId);
+//        getListProductInDraftOrder(invoiceId);
         Log.d("listProductInOrderDetai", listProductInOrder.toString());
         Log.d("listProInWarehouseDT", listProductInWarehouse.toString());
         Intent intent2 = new Intent(activity, ListItemInOrderActivity.class);
         Bundle args2 = new Bundle();
-        args2.putSerializable("listSelectedProductInOrder", (Serializable) listProductInOrder);
-        args2.putSerializable("listSelectedProductWarehouse", (Serializable) listProductInWarehouse);
+//        args2.putSerializable("listSelectedProductInOrder", (Serializable) listProductInOrder);
+        args2.putString("invoiceId", invoiceId);
         intent2.putExtra("BUNDLE", args2);
         activity.startActivity(intent2);
     }

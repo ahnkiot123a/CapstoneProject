@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.Adapter.ItemBeforeOrderAdapter;
 import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
+import com.koit.capstonproject_version_1.Controller.Interface.IInvoiceDetail;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
+import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
@@ -35,22 +37,24 @@ public class ListItemInOrderController extends AppCompatActivity {
     private ItemInOrderAdapter itemAdapter;
     private List<Product> listSelectedProductInOrder;
     private List<Product> listSelectedProductInWareHouse;
-
+    private InvoiceDetail invoiceDetail;
     public ListItemInOrderController(Activity context, List<Product> listSelectedProductInOrder,
                                      List<Product> listSelectedProductInWareHouse) {
         this.context = context;
         product = new Product();
         this.listSelectedProductInWareHouse = listSelectedProductInWareHouse;
         this.listSelectedProductInOrder = listSelectedProductInOrder;
+        invoiceDetail = new InvoiceDetail();
     }
 
-    public void getListProduct(String searchText, RecyclerView recyclerViewListProduct, TextView tvTotalQuantity,
+    public void getListProduct(String searchText, final RecyclerView recyclerViewListProduct, TextView tvTotalQuantity,
                                TextView tvTotalPrice) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
         itemAdapter = new ItemInOrderAdapter(context, R.layout.item_layout_in_order, listSelectedProductInWareHouse,
                 tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder);
         recyclerViewListProduct.setAdapter(itemAdapter);
+
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
             public void getListProductModel(Product product) {
@@ -64,12 +68,33 @@ public class ListItemInOrderController extends AppCompatActivity {
                 productInOrder.setUnits(getMinUnit(product.getUnits()));
                 listSelectedProductInOrder.add(productInOrder);
 
+                recyclerViewListProduct.scrollToPosition(listSelectedProductInOrder.size()-1);
                 itemAdapter.notifyDataSetChanged();
             }
         };
         product.getListProduct(searchText, listProductInterface);
-    }
+        recyclerViewListProduct.scrollToPosition(listSelectedProductInOrder.size()-1);
 
+    }
+    public void getListProductInDraftOrder(String invoiceId) {
+        IInvoiceDetail iInvoiceDetail = new IInvoiceDetail() {
+            @Override
+            public void getListProductInOrder(Product product) {
+                if (product != null) {
+                    listSelectedProductInOrder.add(product);
+                }
+            }
+
+            @Override
+            public void getListProductInWarehouse(Product product) {
+                if (product != null) {
+                    listSelectedProductInWareHouse.add(product);
+
+                }
+            }
+        };
+        invoiceDetail.getListProductInDraftOrder(iInvoiceDetail, invoiceId);
+    }
     //return 1 unit that contain convert rate = 1;
     private List<Unit> getMinUnit(List<Unit> unitList) {
         List<Unit> list = new ArrayList<>();
@@ -88,6 +113,7 @@ public class ListItemInOrderController extends AppCompatActivity {
         // list contain max 1 item
         return list;
     }
+
     public void setupRecyclerView(RecyclerView recyclerView, final TextView tvTotalQuantity, final TextView tvTotalPrice) {
         orderSwipeController = new OrderSwipeController(new OrderSwipeControllerActions() {
             @Override

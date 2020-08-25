@@ -25,6 +25,8 @@ import com.koit.capstonproject_version_1.View.ForgotPasswordActivity;
 import com.koit.capstonproject_version_1.View.RegisterActivity;
 import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
 import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
+import com.koit.capstonproject_version_1.View.SelectProductActivity;
+import com.koit.capstonproject_version_1.helper.CustomToast;
 
 import java.util.concurrent.TimeUnit;
 
@@ -172,7 +174,8 @@ public class RegisterController {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
             token = forceResendingToken;
-            Toast.makeText(registerVerifyPhoneActivity, "Mã xác nhận OTP đã được gửi tới máy bạn!", Toast.LENGTH_LONG).show();
+            CustomToast.makeText(registerVerifyPhoneActivity,"Mã xác nhận OTP đã được gửi tới máy bạn!",
+                    Toast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
         }
 
         @Override
@@ -187,13 +190,15 @@ public class RegisterController {
         //This method is called in response to an invalid verification request,
         // such as a request that specifies an invalid phone number or verification code.
         public void onVerificationFailed(@NonNull FirebaseException e) {
-            Toast.makeText(registerVerifyPhoneActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+            CustomToast.makeText(registerVerifyPhoneActivity, e.getMessage(),
+                    Toast.LENGTH_LONG,CustomToast.ERROR,true).show();
         }
 
         @Override
         public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
             super.onCodeAutoRetrievalTimeOut(s);
-            //  Toast.makeText(RegisterVerifyPhone.this, "Mã OTP của bạn đã hết hạn. Vui lòng nhấn vào 'Gửi lại mã'", Toast.LENGTH_LONG).show();
+            CustomToast.makeText(registerVerifyPhoneActivity,"Mã OTP của bạn đã hết hạn. Vui lòng nhấn vào 'Gửi lại mã'",
+                    Toast.LENGTH_LONG,CustomToast.WARNING,true).show();
         }
     };
 

@@ -141,10 +141,13 @@ public class SelectProductActivity extends AppCompatActivity {
             }
             if (!bundle.getBoolean("isSearchText")) {
                 toolbar_top.setVisibility(View.VISIBLE);
+                searchView.clearFocus();
+
             }
             toolbar_top.setVisibility(View.GONE);
         } else {
             toolbar_top.setVisibility(View.VISIBLE);
+            searchView.clearFocus();
         }
     }
 
@@ -359,12 +362,19 @@ public class SelectProductActivity extends AppCompatActivity {
                 });
                 alert.show();
             } else {
-                Intent intent = new Intent(SelectProductActivity.this, DraftOrderActivity.class);
-                startActivity(intent);
+                intentToDraftOrder();
             }
         } else {
-            Intent intent = new Intent(SelectProductActivity.this, DraftOrderActivity.class);
-            startActivity(intent);
+            intentToDraftOrder();
         }
+    }
+
+    private void intentToDraftOrder() {
+        Intent intent = new Intent(SelectProductActivity.this, DraftOrderActivity.class);
+        Bundle args2 = new Bundle();
+        args2.putBoolean("fromSelect", true);
+        intent.putExtra("BUNDLE", args2);
+        startActivity(intent);
+
     }
 }

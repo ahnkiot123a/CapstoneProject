@@ -19,8 +19,10 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.ListProductActivity;
+import com.koit.capstonproject_version_1.View.SelectProductActivity;
 import com.koit.capstonproject_version_1.View.UpdateProductInformationActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
+import com.koit.capstonproject_version_1.helper.CustomToast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -117,7 +119,8 @@ public class ListProductController extends AppCompatActivity {
                                 unit.removeProductUnits(userDAO.getUserID(), product.getProductId());
                                 Intent intent = new Intent(listProductActivity, ListProductActivity.class);
                                 listProductActivity.startActivity(intent);
-                                Toast.makeText(listProductActivity, "Bạn đã xoá thành công sản phẩm", Toast.LENGTH_LONG).show();
+                                CustomToast.makeText(listProductActivity,"Bạn đã xoá thành công sản phẩm",
+                                        Toast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
                             }
                         })
                         .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
