@@ -70,6 +70,7 @@ public class ListItemInOrderController extends AppCompatActivity {
                         Unit unitOfProduct = listSelectedProductInOrder.get(position).getUnits().get(0);
                         listSelectedProductInOrder.get(position).getUnits().get(0).setUnitQuantity(unitOfProduct.getUnitQuantity() + 1);
                         hightLightPosition = position;
+                        //haha
                     } else {
                         //san pham co 1 unit nhung chua co trong danh sach
                         Product productInOrder = new Product();
