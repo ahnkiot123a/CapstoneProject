@@ -148,30 +148,13 @@ public class CreateProductController {
             public void getCategory(Category category) {
                 if (category == null) {
                     Category category2 = new Category(currentProduct.getCategoryName());
+                    if (!currentProduct.getCategoryName().trim().equals(""))
                     category2.addCategoryToFireBase(category2);
                 }
             }
         };
         Category category = new Category();
         category.getCategoryByCategoryName(currentProduct.getCategoryName(), iCategory);
-    }
-
-    public void addCategoryToFirebase(Product currentProduct, List<Category> categoryList) {
-        String userId = UserDAO.getInstance().getUserID();
-
-        boolean flag = true;
-        for (int i = 0; i < categoryList.size(); i++) {
-            if (currentProduct.getCategoryName().equals(categoryList.get(i).getCategoryName()) ||
-                    currentProduct.getCategoryName().trim().equals(""))
-                flag = false;
-        }
-        // Log.i("categoryList", categoryList.get(i).getCategoryName());
-
-        if (flag) {
-            Category category = new Category(currentProduct.getCategoryName());
-            category.addCategoryToFireBase(category);
-        }
-//        CreateProductDAO.getInstance().addProductInFirebase(currentProduct);
     }
 
 

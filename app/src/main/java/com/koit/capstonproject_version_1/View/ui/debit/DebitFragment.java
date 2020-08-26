@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class DebitFragment extends Fragment {
     private TextView tvTotalDebt, tvPaid, tvRemaining;
     private DebtorController debtorController;
     private DebtPaymentDetailController debtPaymentDetailController;
+    private LinearLayout linearLayoutEmptyDebit, linearLayoutDebitInfo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +51,8 @@ public class DebitFragment extends Fragment {
         tvRemaining = root.findViewById(R.id.tvRemaining);
         tvTotalDebt = root.findViewById(R.id.tvTotalDebt);
         tvPaid = root.findViewById(R.id.tvPaid);
+        linearLayoutDebitInfo = root.findViewById(R.id.linearLayoutDebitInfo);
+        linearLayoutEmptyDebit = root.findViewById(R.id.linearLayoutEmptyDebit);
         debitViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -58,7 +62,7 @@ public class DebitFragment extends Fragment {
         setUpPieChart(0);
         recyclerViewDebitors = root.findViewById(R.id.recyclerViewDebitors);
         debtorController = new DebtorController(this.getContext());
-        debtorController.getListDebtor(recyclerViewDebitors, tvRemaining, tvTotalDebt);
+        debtorController.getListDebtor(recyclerViewDebitors, tvRemaining, tvTotalDebt, linearLayoutEmptyDebit, linearLayoutDebitInfo);
         debtorController.etSearchEventListDebtor(svDebtor);
 
         debtPaymentDetailController = new DebtPaymentDetailController(this.getActivity());

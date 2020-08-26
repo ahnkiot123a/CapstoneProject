@@ -3,6 +3,8 @@ package com.koit.capstonproject_version_1.Controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -70,8 +72,13 @@ public class DebtorController {
         debtor.getListDebtor(iDebtor);
 
     }
-    public void getListDebtor(RecyclerView recyclerViewDebtor, final TextView tvRemaining, final TextView tvTotalDebt) {
+
+    public void getListDebtor(RecyclerView recyclerViewDebtor, final TextView tvRemaining,
+                              final TextView tvTotalDebt, final LinearLayout linearLayoutEmptyDebit,
+                              final LinearLayout linearLayoutDebitInfo) {
         debtorList = new ArrayList<>();
+        linearLayoutEmptyDebit.setVisibility(View.VISIBLE);
+        linearLayoutDebitInfo.setVisibility(View.GONE);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
         listDebtorAdapter = new ListDebtorAdapter(debtorList, context);
@@ -79,6 +86,8 @@ public class DebtorController {
         IDebtor iDebtor = new IDebtor() {
             @Override
             public void getDebtor(Debtor debtor) {
+                linearLayoutEmptyDebit.setVisibility(View.GONE);
+                linearLayoutDebitInfo.setVisibility(View.VISIBLE);
                 debtorList.add(debtor);
                 tvRemaining.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
                 tvTotalDebt.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
@@ -91,11 +100,12 @@ public class DebtorController {
 
     }
 
-    public long getCurrentDebit(List<Debtor> debtors){
+    public long getCurrentDebit(List<Debtor> debtors) {
         long total = 0;
         for (Debtor d : debtors) total += d.getRemainingDebit();
         return total;
     }
+
     public boolean createDebtor(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
                                 TextView tvDob, TextInputEditText edAddress, RadioButton rbMale) {
         boolean success = false;
@@ -132,7 +142,7 @@ public class DebtorController {
     }
 
     public boolean updateDebtor(TextInputEditText edFullname, TextInputEditText edEmail, TextInputEditText edPhoneNumber,
-                             TextView tvDob, TextInputEditText edAddress, RadioButton rbMale, Debtor debtor) {
+                                TextView tvDob, TextInputEditText edAddress, RadioButton rbMale, Debtor debtor) {
         boolean success = false;
 
         String fullName = edFullname.getText().toString().trim();
@@ -163,11 +173,13 @@ public class DebtorController {
         return success;
 
     }
+
     public void tranIntent(Activity activity1, Class activity2) {
         Intent intent = new Intent(activity1, activity2);
         activity1.startActivity(intent);
         activity1.finish();
     }
+
     public void etSearchEvent(SearchView svDebtor) {
         svDebtor.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -182,6 +194,7 @@ public class DebtorController {
             }
         });
     }
+
     public void etSearchEventListDebtor(SearchView svDebtor) {
         svDebtor.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
