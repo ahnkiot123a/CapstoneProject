@@ -245,8 +245,7 @@ public class InvoiceDetail implements Serializable {
                 }
 
 
-                iInvoiceDetail.getListProductInWarehouse(productInWarehouse);
-                iInvoiceDetail.getListProductInOrder(productInOrder);
+                iInvoiceDetail.getListProductInOrderWWarehouse(productInOrder,productInWarehouse);
                 if (productInOrder != null)
                     Log.d("ListProductInOrder", productInOrder.toString());
                 else Log.d("ListProductInOrder", "null");

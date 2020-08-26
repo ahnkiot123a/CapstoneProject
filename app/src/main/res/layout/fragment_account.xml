@@ -258,7 +258,7 @@
                     android:onClick="transferToReveneuActivity"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Báo cáo"
+                    android:text="Báo cáo doanh thu"
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />

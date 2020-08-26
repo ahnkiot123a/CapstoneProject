@@ -47,7 +47,7 @@ public class RegisterVerifyPhoneActivity extends AppCompatActivity {
                 String confirmPass = etConfirmPassword.getText().toString().trim();
                 String otpCode = etOTP.getText().toString().trim();
 
-                registerController.checkRegister(storeName, pass, confirmPass, otpCode);
+                registerController.checkRegister(storeName, pass, confirmPass, otpCode, phoneNumber);
                 //  registerController.checkStoreName(storeName);
                 // if (!validateStoreName(storeName)) return;
                 //   if (!checkPassword(number)) return;

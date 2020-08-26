@@ -56,7 +56,18 @@ public class Product implements Serializable {
         this.active = active;
         this.units = units;
     }
-
+    public Product(String userId, String productId, String barcode, String categoryName, String productDescription,
+                   String productImageUrl, String productName, boolean active) {
+        this.userId = userId;
+        this.productId = productId;
+        this.barcode = barcode;
+        this.categoryName = categoryName;
+        this.productDescription = productDescription;
+        this.productImageUrl = productImageUrl;
+        this.productName = productName;
+        this.active = active;
+        this.units = new ArrayList<>();
+    }
     public Product() {
     }
 

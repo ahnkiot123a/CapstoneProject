@@ -249,7 +249,7 @@ public class User implements Serializable {
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             registerVerifyPhoneActivity.startActivity(intent);
                             CustomToast.makeText(registerVerifyPhoneActivity, "Đăng kí thành công!", Toast.LENGTH_LONG
-                                    , CustomToast.SUCCESS ,true, Gravity.BOTTOM).show();
+                                    , CustomToast.SUCCESS ,true, Gravity.CENTER).show();
                         } else {
                             registerVerifyPhoneActivity.showTextError("Mã OTP không chính xác.", registerVerifyPhoneActivity.getEtOTP());
                             // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();

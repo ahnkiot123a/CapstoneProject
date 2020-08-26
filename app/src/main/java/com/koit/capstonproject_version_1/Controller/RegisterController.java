@@ -81,10 +81,8 @@ public class RegisterController {
     }
 
 
-
-
     //check Store name, password, confirmPassword, OTP
-    public void checkRegister(String storeName, String pass, String confirmPass, String otpCode) {
+    public void checkRegister(String storeName, String pass, String confirmPass, String otpCode, String phoneNumber) {
         if (!checkStoreName(storeName)) return;
         if (!checkPass(pass)) return;
         if (!checkConfirmPass(pass, confirmPass)) return;
@@ -96,6 +94,8 @@ public class RegisterController {
         //ma hoa mat khau
         pass = validateController.getMd5(pass);
         User user = new User("", "", "", storeName, "", pass, "", false, false);
+        user.setPhoneNumber(phoneNumber);
+        Log.d("shdienthoai", "aha" + phoneNumber);
         SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, user);
         databaseReference.child(phoneNumber).setValue(user);
     }
@@ -177,8 +177,8 @@ public class RegisterController {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
             token = forceResendingToken;
-            CustomToast.makeText(registerVerifyPhoneActivity,"Mã xác nhận OTP đã được gửi tới máy bạn!",
-                    Toast.LENGTH_LONG,CustomToast.SUCCESS,true, Gravity.CENTER).show();
+            CustomToast.makeText(registerVerifyPhoneActivity, "Mã xác nhận OTP đã được gửi tới máy bạn!",
+                    Toast.LENGTH_LONG, CustomToast.SUCCESS, true, Gravity.CENTER).show();
         }
 
         @Override
@@ -194,14 +194,14 @@ public class RegisterController {
         // such as a request that specifies an invalid phone number or verification code.
         public void onVerificationFailed(@NonNull FirebaseException e) {
             CustomToast.makeText(registerVerifyPhoneActivity, e.getMessage(),
-                    Toast.LENGTH_LONG,CustomToast.ERROR,true, Gravity.BOTTOM).show();
+                    Toast.LENGTH_LONG, CustomToast.ERROR, true, Gravity.BOTTOM).show();
         }
 
         @Override
         public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
             super.onCodeAutoRetrievalTimeOut(s);
-            CustomToast.makeText(registerVerifyPhoneActivity,"Mã OTP của bạn đã hết hạn. Vui lòng nhấn vào 'Gửi lại mã'",
-                    Toast.LENGTH_LONG,CustomToast.WARNING,true, Gravity.CENTER).show();
+//            CustomToast.makeText(registerVerifyPhoneActivity, "Mã OTP của bạn đã hết hạn. Vui lòng nhấn vào 'Gửi lại mã'",
+//                    Toast.LENGTH_LONG, CustomToast.WARNING, true, Gravity.CENTER).show();
         }
     };
 

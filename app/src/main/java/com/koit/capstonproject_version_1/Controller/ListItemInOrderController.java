@@ -102,7 +102,7 @@ public class ListItemInOrderController extends AppCompatActivity {
                 Log.d("listSelectedProducLI2", listSelectedProductInWareHouse.toString());
                 Log.d("listSelectedProducLI1", listSelectedProductInOrder.toString());
 
-                recyclerViewListProduct.scrollToPosition(position);
+                recyclerViewListProduct.scrollToPosition(hightLightPosition);
 
                 itemAdapter.notifyDataSetChanged();
             }
@@ -113,19 +113,41 @@ public class ListItemInOrderController extends AppCompatActivity {
 
     public void getListProductInDraftOrder(String invoiceId) {
         IInvoiceDetail iInvoiceDetail = new IInvoiceDetail() {
+            int count =0;
             @Override
             public void getListProductInOrder(Product product) {
-                if (product != null) {
-                    listSelectedProductInOrder.add(product);
-                }
+//                if (product != null) {
+//                    for (Unit u : product.getUnits()) {
+//                        Product pro = new Product(product.getUserId(), product.getProductId(), product.getBarcode(), product.getCategoryName(),
+//                                product.getProductDescription(), product.getProductImageUrl(), product.getProductName(), product.isActive());
+//                        pro.getUnits().add(u);
+//                        listSelectedProductInOrder.add(pro);
+//                        count++;
+//                    }
+//                }
+//                listSelectedProductInOrder.add(product);
             }
 
             @Override
             public void getListProductInWarehouse(Product product) {
-                if (product != null) {
-                    listSelectedProductInWareHouse.add(product);
+//                if (product != null) {
+//                    for(int i=0;i<count;i++){
+//
+//                    }
+//                }
+//                  listSelectedProductInOrder.add(product);
+            }
 
+            @Override
+            public void getListProductInOrderWWarehouse(Product productInOrder, Product productWarehouse) {
+                for (Unit u : productInOrder.getUnits()) {
+                    Product pro = new Product(productInOrder.getUserId(), productInOrder.getProductId(), productInOrder.getBarcode(), productInOrder.getCategoryName(),
+                            productInOrder.getProductDescription(), productInOrder.getProductImageUrl(), productInOrder.getProductName(), productInOrder.isActive());
+                    pro.getUnits().add(u);
+                    listSelectedProductInOrder.add(pro);
+                    listSelectedProductInWareHouse.add(productWarehouse);
                 }
+
             }
         };
         invoiceDetail.getListProductInDraftOrder(iInvoiceDetail, invoiceId);
@@ -157,5 +179,7 @@ public class ListItemInOrderController extends AppCompatActivity {
             }
         });
     }
+
+
 }
 

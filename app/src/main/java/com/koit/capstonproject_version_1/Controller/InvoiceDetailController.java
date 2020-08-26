@@ -59,6 +59,11 @@ public class InvoiceDetailController {
                 if (product != null)
                     listProductInWarehouse.add(product);
             }
+
+            @Override
+            public void getListProductInOrderWWarehouse(Product productInOrder, Product productWarehouse) {
+
+            }
         };
         invoiceDetail.getListProductInOrder(iInvoiceDetail, invoiceId);
     }
@@ -78,6 +83,11 @@ public class InvoiceDetailController {
                     listProductInWarehouse.add(product);
 
                 }
+            }
+
+            @Override
+            public void getListProductInOrderWWarehouse(Product productInOrder, Product productWarehouse) {
+
             }
         };
         invoiceDetail.getListProductInDraftOrder(iInvoiceDetail, invoiceId);

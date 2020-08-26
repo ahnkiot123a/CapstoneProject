@@ -7,9 +7,11 @@ import android.widget.TextView;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -113,5 +115,34 @@ public class Helper {
         return list;
     }
 
+    //Tách list selected product và duplicate phần tử ở inventory
+    public List<Product> toListOfEachUnit(List<Product> selectedProducts, List<Product> inventory) {
+        List<Product> returnProducts = new ArrayList();
+        List<Product> newInvent = new ArrayList();
+        for (int i = 0; i < selectedProducts.size(); i++) {
+            returnProducts.addAll(getProductOfEachUnit(selectedProducts.get(i), newInvent));
+        }
+        inventory.clear();
+        inventory.addAll(newInvent);
+        return returnProducts;
+    }
 
+    //Tách mỗi product ra làm nhiều product nhỏ với unit khác nhau
+    private List<Product> getProductOfEachUnit(Product p, List<Product> newInvent) {
+        List<Product> products = new ArrayList();
+        for (Unit u : p.getUnits()) {
+            Product pro = new Product(p.getUserId(), p.getProductId(), p.getBarcode(), p.getCategoryName(),
+                    p.getProductDescription(), p.getProductImageUrl(), p.getProductName(), p.isActive());
+            pro.getUnits().add(u);
+            products.add(pro);
+            newInvent.add(p);
+        }
+        return products;
+    }
+
+    public String deAccent(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
 }

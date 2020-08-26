@@ -47,6 +47,7 @@ import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
+import com.koit.capstonproject_version_1.helper.Helper;
 
 import java.io.File;
 import java.io.Serializable;
@@ -136,10 +137,16 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
             }
 
             String invoiceId = (String) args.get("invoiceId");
+            //chuyen tu trang don tam sang
             if (invoiceId != null) {
+
+                Log.d("LIOlistSelected", listSelectedProductInOrder.toString());
+                Log.d("LIOWarehouse", listSelectedProductWarehouse.toString());
+
                 listItemInOrderController = new ListItemInOrderController(this, listSelectedProductInOrder,
                         listSelectedProductWarehouse);
                 listItemInOrderController.getListProductInDraftOrder(invoiceId);
+                //delete don tam
                 OrderHistoryDAO invoiceHistoryDAO = new OrderHistoryDAO();
                 invoiceHistoryDAO.deleteDraftOrder(invoiceId);
             } else {
