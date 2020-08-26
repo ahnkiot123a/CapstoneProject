@@ -85,7 +85,7 @@ public class ConvertRateActivity extends AppCompatActivity {
 
     private void addProductToFirebase() {
 
-//        try {
+        try {
 //            Dialog dialog = new Dialog(this);
 //            dialog.showLoadingDialog(R.raw.loading_animation);
             createProductController.addProductInFirebase(currentProduct);
@@ -98,10 +98,10 @@ public class ConvertRateActivity extends AppCompatActivity {
             intent.putExtra(CreateProductActivity.NEW_PRODUCT, currentProduct);
             startActivity(intent);
             this.finish();
-//        } catch (Exception e) {
-//            Log.d("createProduct", e.toString());
-//            Toast.makeText(this, "Thêm sản phẩm thất bại! Vui lòng thử lại...", Toast.LENGTH_SHORT).show();
-//        }
+        } catch (Exception e) {
+            Log.d("createProduct", e.toString());
+            Toast.makeText(this, "Thêm sản phẩm thất bại! Vui lòng thử lại...", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

@@ -18,28 +18,38 @@ import java.util.List;
 
 public class DebtPayment implements Serializable {
     private String debitPaymentId, debtorId;
-    private long payAmount;
+    private long payAmount, debtBeforePay;
     private String payDate, payTime;
     private List<Invoice> invoices;
 
     public DebtPayment() {
     }
 
-    public DebtPayment(String debitPaymentId, String debtorId, long payAmount, String payDate, String payTime) {
+    public DebtPayment(String debitPaymentId, String debtorId, long payAmount, String payDate, String payTime, long debtBeforePay) {
         this.debitPaymentId = debitPaymentId;
         this.debtorId = debtorId;
         this.payAmount = payAmount;
         this.payDate = payDate;
         this.payTime = payTime;
+        this.debtBeforePay = debtBeforePay;
     }
 
-    public DebtPayment(String debitPaymentId, String debtorId, long payAmount, String payDate, String payTime, List<Invoice> invoices) {
+    public DebtPayment(String debitPaymentId, String debtorId, long payAmount, long debtBeforePay, String payDate, String payTime, List<Invoice> invoices) {
         this.debitPaymentId = debitPaymentId;
         this.debtorId = debtorId;
         this.payAmount = payAmount;
+        this.debtBeforePay = debtBeforePay;
         this.payDate = payDate;
         this.payTime = payTime;
         this.invoices = invoices;
+    }
+
+    public long getDebtBeforePay() {
+        return debtBeforePay;
+    }
+
+    public void setDebtBeforePay(long debtBeforePay) {
+        this.debtBeforePay = debtBeforePay;
     }
 
     public List<Invoice> getInvoices() {
@@ -96,9 +106,10 @@ public class DebtPayment implements Serializable {
                 "debitPaymentId='" + debitPaymentId + '\'' +
                 ", debtorId='" + debtorId + '\'' +
                 ", payAmount=" + payAmount +
+                ", debtBeforePay=" + debtBeforePay +
                 ", payDate='" + payDate + '\'' +
                 ", payTime='" + payTime + '\'' +
-                ", invoiceDebtPayments=" + invoices +
+                ", invoices=" + invoices +
                 '}';
     }
 
@@ -164,6 +175,7 @@ public class DebtPayment implements Serializable {
         databaseReference.child("payAmount").setValue(debtPayment.getPayAmount());
         databaseReference.child("payDate").setValue(debtPayment.getPayDate());
         databaseReference.child("payTime").setValue(debtPayment.getPayTime());
+        databaseReference.child("debtBeforePay").setValue(debtPayment.getDebtBeforePay());
 //        databaseReference.keepSynced(true);
     }
 

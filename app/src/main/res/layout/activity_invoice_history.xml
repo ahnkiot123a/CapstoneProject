@@ -138,8 +138,8 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationView"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -147,7 +147,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/not_found_animation" />
+                app:lottie_rawRes="@raw/search_empty" />
 
             <TextView
                 android:id="@+id/text"
@@ -156,8 +156,8 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:textAlignment="center"
-                android:text="Bạn chưa có hoá đơn nào được tạo!"
-                android:textSize="20sp"
+                android:text="Bạn chưa có hoá đơn nào!"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -180,7 +180,7 @@
                 android:text="Tạo hoá đơn mới"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"

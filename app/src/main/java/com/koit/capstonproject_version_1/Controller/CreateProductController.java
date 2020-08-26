@@ -48,8 +48,9 @@ public class CreateProductController {
     }
 
     public void checkExistedBarcode(final String barcode, final TextInputEditText tetProductName
-            , final TextView tvCategory, final TextInputEditText etBarcode) {
-        createProductDAO.checkExistBarcode(barcode, tetProductName, tvCategory, activity, etBarcode);
+            , final TextView tvCategory, final TextInputEditText etBarcode, final TextInputEditText etUnitName
+            , final TextInputEditText etUnitPrice) {
+        createProductDAO.checkExistBarcode(barcode, tetProductName, tvCategory, activity, etBarcode, etUnitName, etUnitPrice);
     }
 
 

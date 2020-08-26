@@ -2,6 +2,8 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -60,16 +62,16 @@ public class DebtPaymentController {
             IDebtPayment iDebtPayment = new IDebtPayment() {
                 @Override
                 public void getDebtPayment(DebtPayment debtPayment) {
-                        list.add(debtPayment);
-                        debtPaymentAdapter.notifyDataSetChanged();
-                        long debtTotal = Money.getInstance().reFormatVND(tvDebtAmountTotal.getText().toString());
-                        long payAmountToTal = getTotalPayAmountByDebtor(list);
-                        long debtAmountTotal = debtTotal + payAmountToTal;
-                        pbDebt.setMax((int) debtAmountTotal);
-                        pbDebt.setProgress((int) payAmountToTal);
-                        tvPayAmountTotal.setText(Money.getInstance().formatVN(payAmountToTal) + " đ");
-                        tvDebtTotal.setText(Money.getInstance().formatVN(debtAmountTotal) + " đ");
-                        Log.d("TotalPayAmountByDebtor", Money.getInstance().formatVN(getTotalPayAmountByDebtor(list)));
+                    list.add(debtPayment);
+                    debtPaymentAdapter.notifyDataSetChanged();
+                    long debtTotal = Money.getInstance().reFormatVND(tvDebtAmountTotal.getText().toString());
+                    long payAmountToTal = getTotalPayAmountByDebtor(list);
+                    long debtAmountTotal = debtTotal + payAmountToTal;
+                    pbDebt.setMax((int) debtAmountTotal);
+                    pbDebt.setProgress((int) payAmountToTal);
+                    tvPayAmountTotal.setText(Money.getInstance().formatVN(payAmountToTal) + " đ");
+                    tvDebtTotal.setText(Money.getInstance().formatVN(debtAmountTotal) + " đ");
+                    Log.d("TotalPayAmountByDebtor", Money.getInstance().formatVN(getTotalPayAmountByDebtor(list)));
                 }
             };
             Log.d("qlandbac", list.toString());
@@ -79,5 +81,11 @@ public class DebtPaymentController {
     }
 
 
-
+    public void checkDebtMoneyAndButtonView(Debtor currentDebtor, Button btnPayment) {
+        if (currentDebtor.getRemainingDebit() > 0) {
+            btnPayment.setVisibility(View.VISIBLE);
+        } else {
+            btnPayment.setVisibility(View.GONE);
+        }
+    }
 }

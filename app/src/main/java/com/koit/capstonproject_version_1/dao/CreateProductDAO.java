@@ -30,10 +30,13 @@ import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
 import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DetailProductActivity;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateProductDAO {
     private static CreateProductDAO mInstance;
@@ -77,11 +80,12 @@ public class CreateProductDAO {
     }
 
     public void checkExistBarcode(final String barcode, final TextInputEditText tetProductName
-            , final TextView tvCategory, final Activity activity, final TextInputEditText etBarcode) {
+            , final TextView tvCategory, final Activity activity, final TextInputEditText etBarcode
+            , final TextInputEditText etUnitName, final TextInputEditText etUnitPrice) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                checkExistBarcode(snapshot, barcode, tetProductName, tvCategory, activity, etBarcode);
+                checkExistBarcode(snapshot, barcode, tetProductName, tvCategory, activity, etBarcode, etUnitName, etUnitPrice);
             }
 
             @Override
@@ -93,50 +97,66 @@ public class CreateProductDAO {
     }
 
     private void checkExistBarcode(DataSnapshot snapshot, final String barcode
-            , final TextInputEditText tetProductName, final TextView tvCategory, final Activity activity, final TextInputEditText etBarcode) {
+            , final TextInputEditText tetProductName, final TextView tvCategory, final Activity activity
+            , final TextInputEditText etBarcode, final TextInputEditText etUnitName, final TextInputEditText etUnitPrice) {
 
         DataSnapshot dataSnapshot = snapshot.child("Products").child(UserDAO.getInstance().getUserID());
+        DataSnapshot dataSnapshotUnits = snapshot.child("Units").child(UserDAO.getInstance().getUserID());
+
         boolean isExisted = false;
         for (DataSnapshot value : dataSnapshot.getChildren()) {
             final Product product = value.getValue(Product.class);
+            product.setProductId(value.getKey());
+
+            DataSnapshot dataSnapshotUnit = dataSnapshotUnits.child(product.getProductId());
+
+            Log.d("kiemtraProductID", product.getProductId() + "");
+            //lay unit theo ma san pham
+            List<Unit> unitList = new ArrayList<>();
+            for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                Log.d("kiemtraUnit", valueUnit + "");
+                Unit unit = valueUnit.getValue(Unit.class);
+                unit.setUnitId(valueUnit.getKey());
+                unitList.add(unit);
+            }
+            product.setUnits(unitList);
             if (product.getBarcode().toLowerCase().equals(barcode.toLowerCase())) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setMessage("Sản phẩm với mã barcode này đã được tạo, bạn có muốn xem chi tiết sản phẩm này không?")
+                        .setCancelable(true)
+                        .setPositiveButton("Xem chi tiết", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(activity, DetailProductActivity.class);
+                                intent.putExtra("product", product);
+                                activity.startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(activity.getResources().getColor(R.color.theme));
+                        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                    }
+                });
+                alert.show();
                 isExisted = true;
                 break;
-            } else {
-                isExisted = false;
             }
         }
-        if (isExisted) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setMessage("Sản phẩm với mã barcode này đã được tạo, bạn có muốn xem chi tiết sản phẩm này không?")
-                    .setCancelable(true)
-                    .setPositiveButton("Xem chi tiết", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent(activity, DetailProductActivity.class);
-                            activity.startActivity(intent);
-                        }
-                    })
-                    .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            final AlertDialog alert = builder.create();
-            alert.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) {
-                    alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(activity.getResources().getColor(R.color.theme));
-                    alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
-                }
-            });
-            alert.show();
-        } else {
+        if (!isExisted) {
             etBarcode.setText(barcode);
-            fillProduct(barcode, tetProductName, tvCategory);
+            fillProduct(barcode, tetProductName, tvCategory, etUnitName, etUnitPrice);
         }
     }
 
-    public void fillProduct(String barcode, final TextInputEditText tetProductName, final TextView tvCategory) {
+    public void fillProduct(String barcode, final TextInputEditText tetProductName, final TextView tvCategory
+            , final TextInputEditText etUnitName, final TextInputEditText etUnitPrice) {
         final IProduct iProduct = new IProduct() {
             @Override
             public void getSuggestedProduct(SuggestedProduct product) {
@@ -144,6 +164,8 @@ public class CreateProductDAO {
                     Log.i("product", product.toString());
                     tetProductName.setText(product.getName().trim());
                     tvCategory.setText(product.getCategoryName().trim());
+                    etUnitName.setText(product.getUnit().trim());
+                    etUnitPrice.setText(product.getPrice().trim());
                 }
             }
 
@@ -230,19 +252,19 @@ public class CreateProductDAO {
         storageReference = FirebaseStorage.getInstance().getReference();
         final StorageReference image = storageReference.child("ProductPictures/" + imgName);
         if (uri != null) {
-            final File file = new File(SiliCompressor.with(activity).compress(FileUtils.getPath(activity, uri)
-                    , new File(activity.getCacheDir(), "temp")));
-            final Uri compressUri = Uri.fromFile(file);
+//            final File file = new File(SiliCompressor.with(activity).compress(FileUtils.getPath(activity, uri)
+//                    , new File(activity.getCacheDir(), "temp")));
+//            final Uri compressUri = Uri.fromFile(file);
             image.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()) {
-                        Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + compressUri.toString());
+                        Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + uri.toString());
                     } else {
                         Log.i("saveImageProduct", "save failed");
 
                     }
-                    file.delete();
+//                    file.delete();
                 }
             });
 

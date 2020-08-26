@@ -54,6 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Tổng nợ trước trả:"
                 android:textSize="18sp"
@@ -83,6 +84,7 @@
                 android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Số tiền trả:"
+                android:textColor="@color/green_chrome"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -109,6 +111,7 @@
                 android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Tổng nợ còn lại:"
+                android:textColor="@color/yellow_chrome"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

@@ -19,10 +19,10 @@ import com.koit.capstonproject_version_1.R;
 public class DebtPaymentDetailActivity extends AppCompatActivity {
 
     public static final String DEBT_PAYMENT_DETAIL = "DEBT_PAYMENT_DETAIL";
-    
+
     private TextView tvDateTime, tvDebtTotal, tvChangeMoney, tvRemainingDebt;
     private RecyclerView rvInvoicePayment;
-    
+
     private DebtPayment debtPayment;
 
     @Override
@@ -30,22 +30,24 @@ public class DebtPaymentDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_debt_payment_detail);
-        
+
         initView();
-        
+
         debtPayment = getDebtPayment();
-        
+
         setInfoDebtPayDetail();
-        
+
     }
 
     private void setInfoDebtPayDetail() {
         tvDateTime.setText(debtPayment.getPayTime() + "   " + debtPayment.getPayDate());
         long changeMoney = debtPayment.getPayAmount();
-        
-        
-        tvChangeMoney.setText(Money.getInstance().formatVN(changeMoney) + " đ");
+        long debtBeforePay = debtPayment.getDebtBeforePay();
+        long debtAfterPay = debtBeforePay - changeMoney;
 
+        tvDebtTotal.setText(Money.getInstance().formatVN(debtBeforePay) + " đ");
+        tvChangeMoney.setText(Money.getInstance().formatVN(changeMoney) + " đ");
+        tvRemainingDebt.setText(Money.getInstance().formatVN(debtAfterPay) + " đ");
         setRvInvoicePay();
     }
 
@@ -62,7 +64,7 @@ public class DebtPaymentDetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        
+
         tvDateTime = findViewById(R.id.tvDateTime);
         tvDebtTotal = findViewById(R.id.tvDebtTotal);
         tvChangeMoney = findViewById(R.id.tvChangeMoney);
@@ -75,7 +77,7 @@ public class DebtPaymentDetailActivity extends AppCompatActivity {
         tvToolbarTitle.setText("Chi tiết trả nợ");
     }
 
-    public void back(View view){
+    public void back(View view) {
         onBackPressed();
     }
 }

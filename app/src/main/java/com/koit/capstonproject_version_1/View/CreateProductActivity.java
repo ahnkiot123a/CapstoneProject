@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
@@ -32,17 +30,14 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.iceteck.silicompressorr.FileUtils;
 import com.iceteck.silicompressorr.SiliCompressor;
-import com.koit.capstonproject_version_1.Adapter.CreateUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
-import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -64,15 +59,11 @@ public class CreateProductActivity extends AppCompatActivity {
     private TextView tvCategory;
     private BottomSheetDialog bottomSheetDialog;
     private ImageView ivProduct;
-    private static RecyclerView recyclerCreateUnit;
+    private TextInputEditText etUnitName, etUnitPrice;
     private Switch switchActive;
 
     private LinearLayout layoutUnitList;
-
-    private ArrayList<Unit> listUnit = new ArrayList<>();
-
     private CameraController cameraController;
-    private static CreateUnitAdapter createUnitAdapter;
 
     private ListView lvCategory;
     private ListCategoryController listCategoryController;
@@ -91,37 +82,10 @@ public class CreateProductActivity extends AppCompatActivity {
 
         cameraController = new CameraController(this);
 
-
-//        //create list in recyclerview
-//        createListRecyclerview();
-
         addOneUnitView();
 
-        //build recyclerview unit
-//        buildRvUnit();
     }
 
-
-
-//    private void buildRvUnit() {
-//        recyclerCreateUnit.setHasFixedSize(true);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
-//        recyclerCreateUnit.setLayoutManager(linearLayoutManager);
-//        createUnitAdapter = new CreateUnitAdapter(this, listUnit);
-//        recyclerCreateUnit.setAdapter(createUnitAdapter);
-//
-//        createUnitAdapter.setOnItemClickLister(new CreateUnitAdapter.OnItemClickLister() {
-//            @Override
-//            public void onDeleteClick(int position) {
-//                removeItem(position);
-//            }
-//        });
-//    }
-
-//    private void createListRecyclerview() {
-//        listUnit = new ArrayList<>();
-//        listUnit.add(1);
-//    }
 
     private void initView() {
         //find view by id
@@ -157,15 +121,13 @@ public class CreateProductActivity extends AppCompatActivity {
 
     //event click thêm đơn vị button
     public void addUnitRv(View view) {
-//        int position = listUnit.size() + 1;
-//        insertItem(position);
         addOneUnitView();
     }
 
     private void addOneUnitView() {
         final View unitItem = getLayoutInflater().inflate(R.layout.row_add_unit, null, false);
-        EditText etUnitName = unitItem.findViewById(R.id.etUnitName);
-        EditText etUnitPrice = unitItem.findViewById(R.id.etUnitPrice);
+        etUnitName = unitItem.findViewById(R.id.etUnitName);
+        etUnitPrice = unitItem.findViewById(R.id.etUnitPrice);
         ImageButton btnRemove = unitItem.findViewById(R.id.btnRemove);
 
         btnRemove.setOnClickListener(new View.OnClickListener() {
@@ -183,20 +145,6 @@ public class CreateProductActivity extends AppCompatActivity {
         layoutUnitList.removeView(view);
     }
 
-
-
-    //insert one unit item in recycler view
-    private void insertItem(int position) {
-//        listUnit.add(position);
-        createUnitAdapter.notifyDataSetChanged();
-    }
-
-    //remove one unit item in recycler view
-    private void removeItem(int position) {
-        listUnit.remove(position);
-        createUnitAdapter.notifyDataSetChanged();
-    }
-
     //create product
     public void addProduct(View view) {
         try {
@@ -205,25 +153,6 @@ public class CreateProductActivity extends AppCompatActivity {
             Toast.makeText(this, "Thêm sản phẩm thất bại! Vui lòng thử lại...", Toast.LENGTH_SHORT).show();
         }
 
-    }
-
-    public static ArrayList<Unit> getUnitFromRv() {
-        ArrayList<Unit> list = new ArrayList<>();
-        for (int i = 0; i < createUnitAdapter.getItemCount(); i++) {
-            CreateUnitAdapter.ViewHolder viewHolder = (CreateUnitAdapter.ViewHolder) recyclerCreateUnit.findViewHolderForAdapterPosition(i);
-            String unitName = viewHolder.getEtUnitName().getText().toString().trim();
-            String unitPrice = viewHolder.getEtUnitPrice().getText().toString().trim();
-            Log.i("price", unitPrice);
-            if (!unitName.isEmpty() && !unitPrice.isEmpty()) {
-                Unit unit = new Unit();
-                unit.setUnitName(unitName);
-                unit.setUnitPrice(Long.parseLong(unitPrice));
-                unit.setConvertRate(1);
-                list.add(unit);
-            }
-        }
-        Log.i("listUnit", list.toString());
-        return list;
     }
 
     public void showPhotoDialog(View view) {
@@ -285,7 +214,7 @@ public class CreateProductActivity extends AppCompatActivity {
                 etBarcode.setText("");
             } else {
                 String barcode = intentResult.getContents();
-                controller.checkExistedBarcode(barcode, tetProductName, tvCategory, etBarcode);
+                controller.checkExistedBarcode(barcode, tetProductName, tvCategory, etBarcode, etUnitName, etUnitPrice);
             }
         }
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {

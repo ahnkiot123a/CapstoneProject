@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,7 +16,6 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.View.ui.debit.DebitFragment;
 import com.koit.capstonproject_version_1.helper.Helper;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -27,6 +27,7 @@ public class DebitPaymentActivity extends AppCompatActivity {
     private TextView tvDebtTotal, tvPayAmountTotal, tvDebtAmountTotal, tvDebtorName, tvDebtorPhone, tvDebtorAddress, tvFirstName;
     private CircleImageView ivAvatar;
     private ProgressBar pbDebit;
+    private Button btnPayment;
 
     private Debtor currentDebtor;
     private DebtPaymentController debtPaymentController;
@@ -38,7 +39,10 @@ public class DebitPaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_debit_payment);
 
         initView();
+        debtPaymentController = new DebtPaymentController(this);
         currentDebtor = getCurrentDebtor();
+
+        debtPaymentController.checkDebtMoneyAndButtonView(currentDebtor, btnPayment);
 
         Helper.getInstance().setImage(ivAvatar, tvFirstName, currentDebtor.getFullName().charAt(0));
         setInformationDebtor();
@@ -62,7 +66,6 @@ public class DebitPaymentActivity extends AppCompatActivity {
     }
 
     private void setDebtPaymentList() {
-        debtPaymentController = new DebtPaymentController(this);
         debtPaymentController.setDebtPaymentList(currentDebtor, rvDebtPaymentHistory, tvPayAmountTotal, tvDebtTotal, tvDebtAmountTotal, pbDebit);
     }
 
@@ -84,6 +87,7 @@ public class DebitPaymentActivity extends AppCompatActivity {
         ivAvatar = findViewById(R.id.imgAvatar);
         pbDebit = findViewById(R.id.pbDebit);
         tvFirstName = findViewById(R.id.tvFirstName);
+        btnPayment = findViewById(R.id.btnPayment);
 
         //set title in toolbar
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);

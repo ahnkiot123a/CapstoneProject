@@ -54,7 +54,8 @@ public class PayDebtController {
         String debitPaymentId = RandomStringController.getInstance().randomDebtPaymentId();
         String payDate = TimeController.getInstance().getCurrentDate();
         String payTime = TimeController.getInstance().getCurrentTime();
-        final DebtPayment debtPayment = new DebtPayment(debitPaymentId, debtor.getDebtorId(), payAmount, payDate, payTime);
+        long debtBeforePay = debtor.getRemainingDebit();
+        final DebtPayment debtPayment = new DebtPayment(debitPaymentId, debtor.getDebtorId(), payAmount, payDate, payTime, debtBeforePay);
         debtPayment.addDebtPaymentToFirebase(debtPayment);
         IInvoice iInvoice = new IInvoice() {
             @Override
