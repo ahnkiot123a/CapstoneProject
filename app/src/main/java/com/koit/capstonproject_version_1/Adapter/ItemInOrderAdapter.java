@@ -37,11 +37,11 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
     private TextView tvTotalPrice;
     private List<Product> listSelectedProductInOrder;
 
-    public ItemInOrderAdapter(Context context, int resourse, List<Product> listSelectedProduct,
+    public ItemInOrderAdapter(Context context, int resourse, List<Product> listSelectedProductInWareHouse,
                               TextView tvTotalQuantity, TextView tvTotalPrice, List<Product> listSelectedProductInOrder) {
         this.resourse = resourse;
         this.context = context;
-        this.listSelectedProductInWareHouse = listSelectedProduct;
+        this.listSelectedProductInWareHouse = listSelectedProductInWareHouse;
         this.tvTotalQuantity = tvTotalQuantity;
         this.tvTotalPrice = tvTotalPrice;
         this.listSelectedProductInOrder = listSelectedProductInOrder;
@@ -79,7 +79,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         Product product = listSelectedProductInWareHouse.get(position);
         final Product productInOrder = listSelectedProductInOrder.get(position);
         //set Value for Holder
@@ -108,7 +108,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         holder.imageButtonDecrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int quantity = 1;
+                int quantity;
                 try {
                     quantity = Integer.parseInt(String.valueOf(holder.editTextQuantity.getText()));
                 } catch (Exception e) {
@@ -121,7 +121,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         holder.imageButtonIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int quantity = 1;
+                int quantity;
                 try {
                     quantity = Integer.parseInt(String.valueOf(holder.editTextQuantity.getText()));
                 } catch (Exception e) {
@@ -145,17 +145,18 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                 if (text.length() > 4) {
                     holder.editTextQuantity.setText(text.substring(0, text.length() - 1));
                 }
-                Unit unitInOrder = productInOrder.getUnits().get(0);
                 try {
-                    Long.parseLong(holder.editTextQuantity.getText().toString());
+                    Integer.parseInt(holder.editTextQuantity.getText().toString());
                 } catch (Exception e) {
                     holder.editTextQuantity.setText("1");
                 }
-                unitInOrder.setUnitQuantity(Long.parseLong(holder.editTextQuantity.getText().toString()));
+
+                Unit unitInOrder = listSelectedProductInOrder.get(position).getUnits().get(0);
+                unitInOrder.setUnitQuantity(Integer.parseInt(holder.editTextQuantity.getText().toString()));
                 List<Unit> unitList = new ArrayList<>();
                 unitList.add(unitInOrder);
                 //update unit's quantity
-                productInOrder.setUnits(unitList);
+                listSelectedProductInOrder.get(position).setUnits(unitList);
 
                 //get total quantity
                 int totalQuantity = getTotalQuantity(listSelectedProductInOrder);

@@ -34,6 +34,7 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.helper.Helper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -169,7 +170,7 @@ public class SelectProductActivity extends AppCompatActivity {
     }
 
     private void setOrderDraftQuantity() {
-        orderDraftQuantity.setText("11");
+        orderDraftQuantity.setText("0");
     }
 
     //icon back
@@ -273,13 +274,12 @@ public class SelectProductActivity extends AppCompatActivity {
         if (listSelectedProductCurrent != null)
             for (Product product : listSelectedProductCurrent
             ) {
-                Product productInOrder = new Product();
-                productInOrder.setProductId(product.getProductId());
-                productInOrder.setProductName(product.getProductName());
-                productInOrder.setUnits(getMinUnit(product.getUnits()));
-                //add to 2 lists
-                listSelectedProductInOrder.add(productInOrder);
-                listSelectedProductWarehouse.add(product);
+                if (!Helper.getInstance().addProductToListInOrder(listSelectedProductInOrder, product)) {
+                } else {
+                    //add new product
+                    listSelectedProductWarehouse.add(product);
+                }
+//                listSelectedProductInOrder.add(productInOrder);
             }
         Intent intent2 = new Intent(SelectProductActivity.this, ListItemInOrderActivity.class);
         Bundle args2 = new Bundle();
@@ -304,23 +304,6 @@ public class SelectProductActivity extends AppCompatActivity {
         transferToListItemInOrder(selectProductController.getListSelectedProduct());
     }
 
-    public static List<Unit> getMinUnit(List<Unit> unitList) {
-        List<Unit> list = new ArrayList<>();
-        if (unitList != null)
-            for (Unit unit : unitList) {
-                if (unit.getConvertRate() == 1) {
-                    Unit unitInOrder = new Unit();
-                    unitInOrder.setUnitId(unit.getUnitId());
-                    unitInOrder.setUnitName(unit.getUnitName());
-                    unitInOrder.setUnitPrice(unit.getUnitPrice());
-                    unitInOrder.setUnitQuantity(1);
-                    list.add(unitInOrder);
-                    break;
-                }
-            }
-        // list contain max 1 item
-        return list;
-    }
 
     @Override
     public void onBackPressed() {

@@ -4,6 +4,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.widget.TextView;
 
+import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.Unit;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -19,15 +24,94 @@ public class Helper {
         return mInstance;
     }
 
-    public int getColor(){
+    public int getColor() {
         Random rnd = new Random();
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
     }
 
-    public void setImage(CircleImageView ivAvatar, TextView tvFirstName, char firstName){
+    public void setImage(CircleImageView ivAvatar, TextView tvFirstName, char firstName) {
         //set color background of image
         ivAvatar.setImageDrawable(new ColorDrawable(Helper.getInstance().getColor()));
         tvFirstName.setText(String.valueOf(firstName).toUpperCase());
     }
+
+    //check product has only 1 unit or not
+    public boolean hasOnly1Unit(Product product) {
+        int count = 0;
+        List<Unit> unitList = product.getUnits();
+        for (Unit unit : unitList
+        ) {
+            count++;
+            if (count >= 2) break;
+        }
+        if (count <= 1)
+            // product has only 1 unit
+            return true;
+        else {
+            // product has more than 1 unit
+            return false;
+        }
+    }
+
+    //get position of product in list, if list doesn't contain product, return -1
+    public int getPositionOfProduct(List<Product> productList, Product product) {
+        int position = -1;
+        for (Product pInList : productList
+        ) {
+            if (pInList.getProductId().equals(product.getProductId())) {
+                position = productList.indexOf(pInList);
+            }
+        }
+        return position;
+    }
+
+    //return true if add new product, false if change quantity
+    public boolean addProductToListInOrder(List<Product> productList, Product product) {
+        boolean isAddnew = true;
+        if (hasOnly1Unit(product)) {
+            int position = getPositionOfProduct(productList, product);
+            if (position != -1) {
+                //add quantity to Unit of Product in productList
+                Unit unitOfProduct = productList.get(position).getUnits().get(0);
+                productList.get(position).getUnits().get(0).setUnitQuantity(unitOfProduct.getUnitQuantity() + 1);
+                isAddnew = false;
+            } else {
+                Product productInOrder = new Product();
+                productInOrder.setProductId(product.getProductId());
+                productInOrder.setProductName(product.getProductName());
+                productInOrder.setUnits(getMinUnit(product.getUnits()));
+
+                productList.add(productInOrder);
+
+            }
+        } else {
+            Product productInOrder = new Product();
+            productInOrder.setProductId(product.getProductId());
+            productInOrder.setProductName(product.getProductName());
+            productInOrder.setUnits(getMinUnit(product.getUnits()));
+
+            productList.add(productInOrder);
+        }
+        return isAddnew;
+    }
+
+    public static List<Unit> getMinUnit(List<Unit> unitList) {
+        List<Unit> list = new ArrayList<>();
+        if (unitList != null)
+            for (Unit unit : unitList) {
+                if (unit.getConvertRate() == 1) {
+                    Unit unitInOrder = new Unit();
+                    unitInOrder.setUnitId(unit.getUnitId());
+                    unitInOrder.setUnitName(unit.getUnitName());
+                    unitInOrder.setUnitPrice(unit.getUnitPrice());
+                    unitInOrder.setUnitQuantity(1);
+                    list.add(unitInOrder);
+                    break;
+                }
+            }
+        // list contain max 1 item
+        return list;
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -23,6 +24,7 @@ import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.Controller.OrderSwipeController;
+import com.koit.capstonproject_version_1.helper.Helper;
 
 
 import org.w3c.dom.Text;
@@ -38,17 +40,18 @@ public class ListItemInOrderController extends AppCompatActivity {
     private List<Product> listSelectedProductInOrder;
     private List<Product> listSelectedProductInWareHouse;
     private InvoiceDetail invoiceDetail;
+
     public ListItemInOrderController(Activity context, List<Product> listSelectedProductInOrder,
                                      List<Product> listSelectedProductInWareHouse) {
         this.context = context;
         product = new Product();
-        this.listSelectedProductInWareHouse = listSelectedProductInWareHouse;
         this.listSelectedProductInOrder = listSelectedProductInOrder;
+        this.listSelectedProductInWareHouse = listSelectedProductInWareHouse;
         invoiceDetail = new InvoiceDetail();
     }
 
-    public void getListProduct(String searchText, final RecyclerView recyclerViewListProduct, TextView tvTotalQuantity,
-                               TextView tvTotalPrice) {
+    public void getListProduct(String searchText, final RecyclerView recyclerViewListProduct, final TextView tvTotalQuantity,
+                               final TextView tvTotalPrice) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
         itemAdapter = new ItemInOrderAdapter(context, R.layout.item_layout_in_order, listSelectedProductInWareHouse,
@@ -58,24 +61,49 @@ public class ListItemInOrderController extends AppCompatActivity {
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
             public void getListProductModel(Product product) {
-                //add product to list in ware house
-                listSelectedProductInWareHouse.add(product);
+                int position = Helper.getInstance().getPositionOfProduct(listSelectedProductInOrder, product);
 
-                //add prodcut to list in order
-                Product productInOrder = new Product();
-                productInOrder.setProductId(product.getProductId());
-                productInOrder.setProductName(product.getProductName());
-                productInOrder.setUnits(getMinUnit(product.getUnits()));
-                listSelectedProductInOrder.add(productInOrder);
+                if (Helper.getInstance().hasOnly1Unit(product)) {
+                    if (position != -1) {
+                        Unit unitOfProduct = listSelectedProductInOrder.get(position).getUnits().get(0);
+                        listSelectedProductInOrder.get(position).getUnits().get(0).setUnitQuantity(unitOfProduct.getUnitQuantity() + 1);
+                    } else {
+                        //san pham co 1 unit nhung chua co trong danh sach
+                        Product productInOrder = new Product();
+                        productInOrder.setProductId(product.getProductId());
+                        productInOrder.setProductName(product.getProductName());
+                        productInOrder.setUnits(Helper.getInstance().getMinUnit(product.getUnits()));
 
-                recyclerViewListProduct.scrollToPosition(listSelectedProductInOrder.size()-1);
+                        listSelectedProductInWareHouse.add(product);
+                        listSelectedProductInOrder.add(productInOrder);
+
+                    }
+                } else {
+                    //san pham co 2 units tro leen
+                    Product productInOrder = new Product();
+                    productInOrder.setProductId(product.getProductId());
+                    productInOrder.setProductName(product.getProductName());
+                    productInOrder.setUnits(Helper.getInstance().getMinUnit(product.getUnits()));
+
+                    listSelectedProductInWareHouse.add(product);
+                    listSelectedProductInOrder.add(productInOrder);
+                }
+
+                getListProduct("", recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
+
+                Log.d("listSelectedProducLI2", listSelectedProductInWareHouse.toString());
+                Log.d("listSelectedProducLI1", listSelectedProductInOrder.toString());
+
+                recyclerViewListProduct.scrollToPosition(position);
+
                 itemAdapter.notifyDataSetChanged();
             }
         };
         product.getListProduct(searchText, listProductInterface);
-        recyclerViewListProduct.scrollToPosition(listSelectedProductInOrder.size()-1);
+        recyclerViewListProduct.scrollToPosition(listSelectedProductInOrder.size() - 1);
 
     }
+
     public void getListProductInDraftOrder(String invoiceId) {
         IInvoiceDetail iInvoiceDetail = new IInvoiceDetail() {
             @Override
@@ -94,24 +122,6 @@ public class ListItemInOrderController extends AppCompatActivity {
             }
         };
         invoiceDetail.getListProductInDraftOrder(iInvoiceDetail, invoiceId);
-    }
-    //return 1 unit that contain convert rate = 1;
-    private List<Unit> getMinUnit(List<Unit> unitList) {
-        List<Unit> list = new ArrayList<>();
-        if (unitList != null)
-            for (Unit unit : unitList) {
-                if (unit.getConvertRate() == 1) {
-                    Unit unitInOrder = new Unit();
-                    unitInOrder.setUnitId(unit.getUnitId());
-                    unitInOrder.setUnitName(unit.getUnitName());
-                    unitInOrder.setUnitPrice(unit.getUnitPrice());
-                    unitInOrder.setUnitQuantity(1);
-                    list.add(unitInOrder);
-                    break;
-                }
-            }
-        // list contain max 1 item
-        return list;
     }
 
     public void setupRecyclerView(RecyclerView recyclerView, final TextView tvTotalQuantity, final TextView tvTotalPrice) {

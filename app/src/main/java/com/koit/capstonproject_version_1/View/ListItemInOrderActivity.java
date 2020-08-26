@@ -47,7 +47,6 @@ import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
-import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
 import java.io.File;
 import java.io.Serializable;
@@ -225,7 +224,7 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
         }// Stop camera on pause
     }
 
-    //scan result
+    //scan resulta
     @Override
     public void handleResult(Result rawResult) {
         try {

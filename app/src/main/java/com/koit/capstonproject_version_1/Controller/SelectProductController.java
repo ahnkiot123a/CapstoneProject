@@ -14,8 +14,10 @@ import android.widget.Toast;
 import com.koit.capstonproject_version_1.Adapter.ItemBeforeOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.ListProductInterface;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.SelectProductActivity;
+import com.koit.capstonproject_version_1.helper.Helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +52,10 @@ public class SelectProductController extends AppCompatActivity {
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
             public void getListProductModel(Product product) {
-                if (product.isActive()){
+                if (product.isActive()) {
                     listProduct.add(product);
-                itemAdapter.notifyDataSetChanged();}
+                    itemAdapter.notifyDataSetChanged();
+                }
             }
 
         };
@@ -60,7 +63,7 @@ public class SelectProductController extends AppCompatActivity {
                 layoutSearch, layoutNotFoundItem, category_Spinner, pBarList, layoutButton);
     }
 
-    public void getListProduct( RecyclerView recyclerViewListProduct, String categoryName, LinearLayout linearLayoutEmpty, LinearLayout
+    public void getListProduct(RecyclerView recyclerViewListProduct, String categoryName, LinearLayout linearLayoutEmpty, LinearLayout
             layoutSearch, LinearLayout layoutNotFoundItem, Spinner category_Spinner, ProgressBar pBarList, CheckBox checkBoxSelectMultiProduct, LinearLayout layoutButton) {
         listProduct = new ArrayList<>();
 
@@ -72,9 +75,10 @@ public class SelectProductController extends AppCompatActivity {
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
             public void getListProductModel(Product product) {
-                if (product.isActive()){
+                if (product.isActive()) {
                     listProduct.add(product);
-                itemAdapter.notifyDataSetChanged();}
+                    itemAdapter.notifyDataSetChanged();
+                }
             }
         };
         product.getListProduct(listProductInterface, categoryName, linearLayoutEmpty, layoutSearch,
@@ -91,10 +95,6 @@ public class SelectProductController extends AppCompatActivity {
     public List<Product> getListSelectedProduct() {
         return listSelectedProduct;
     }
-//    public void deleteListItemSelected() {
-//        for (int i = 0; i < itemAdapter.getItemCount(); i++) {
-//            ItemBeforeOrderAdapter.MyViewHolder viewHolder = (ItemBeforeOrderAdapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-//            viewHolder.getItemCount().setText("0");
-//        }
-//    }
+
+
 }
