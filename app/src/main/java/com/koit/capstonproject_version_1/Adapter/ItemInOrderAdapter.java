@@ -2,8 +2,6 @@ package com.koit.capstonproject_version_1.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,7 +19,6 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.View.ListItemInOrderActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +28,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.MyViewHolder> {
@@ -98,12 +94,14 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
             new CountDownTimer(2000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
-                    holder.constraintLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_box_border_hightlight));
-
+                    holder.constraintLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_box_border_hightlight_green));
+                    holder.editTextQuantity.setTextColor(context.getResources().getColor(R.color.green_chrome));
                 }
 
                 public void onFinish() {
                     holder.constraintLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_box_border));
+                    holder.editTextQuantity.setTextColor(context.getResources().getColor(R.color.black));
+
                 }
             }.start();
 
