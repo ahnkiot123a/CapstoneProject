@@ -2,10 +2,12 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,12 +58,16 @@ public class ListCategoryController {
 
 
 
-    public void getListCategory(final Context context, final ListView listView) {
+    public void getListCategory(final Context context, final ListView listView, final ConstraintLayout layout_not_found_item) {
         categoryList = new ArrayList<>();
+        layout_not_found_item.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
         ICategory iCategory = new ICategory() {
             @Override
             public void getCategory(Category category) {
                 Log.d("kiemtra", category.getCategoryName() + "");
+                layout_not_found_item.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
                 categoryList.add(category);
                 ArrayAdapter<Category> adapter =
                         new ArrayAdapter<>(context,

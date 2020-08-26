@@ -59,10 +59,10 @@ public class DebitFragment extends Fragment {
 //                textView.setText(s);
             }
         });
-        setUpPieChart(0);
         recyclerViewDebitors = root.findViewById(R.id.recyclerViewDebitors);
         debtorController = new DebtorController(this.getContext());
         debtorController.getListDebtor(recyclerViewDebitors, tvRemaining, tvTotalDebt, linearLayoutEmptyDebit, linearLayoutDebitInfo);
+        setUpPieChart(0);
         debtorController.etSearchEventListDebtor(svDebtor);
 
         debtPaymentDetailController = new DebtPaymentDetailController(this.getActivity());
@@ -116,9 +116,9 @@ public class DebitFragment extends Fragment {
 
             chart.setCenterTextSize(2f);
             chart.setDragDecelerationFrictionCoef(0.95f);
-
-            chart.setCenterText("Đã trả "+ String.format("%.1f",percentPaid) +"%");
-
+            if (percentPaid > 0)
+                chart.setCenterText("Đã trả " + String.format("%.1f", percentPaid) + "%");
+            else chart.setCenterText("Đã trả 0%");
 
             chart.setDrawHoleEnabled(true);
             chart.setHoleColor(Color.WHITE);
@@ -154,11 +154,12 @@ public class DebitFragment extends Fragment {
             // entry label styling
             chart.setEntryLabelColor(Color.BLACK);
             chart.setEntryLabelTextSize(20);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
     }
+
     private void setUpPieChart() {
         //Color
         final int[] MY_COLORS = {getResources().getColor(R.color.yellow_chrome), getResources().getColor(R.color.green_chrome)};

@@ -2,12 +2,14 @@ package com.koit.capstonproject_version_1.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import com.koit.capstonproject_version_1.Controller.CreateOrderController;
@@ -25,6 +27,8 @@ import java.util.List;
 
 public class SelectDebtorActivity extends AppCompatActivity {
     private RecyclerView recyclerViewDebitors;
+    private LinearLayout layoutDebtors;
+    private ConstraintLayout layout_not_found_item;
     private SearchView svDebtor;
     private DebtorController debtorController;
     private Invoice invoice;
@@ -81,16 +85,23 @@ public class SelectDebtorActivity extends AppCompatActivity {
     private void initView() {
         recyclerViewDebitors = findViewById(R.id.recyclerViewDebitors);
         svDebtor = findViewById(R.id.svDebtor);
+        layoutDebtors = findViewById(R.id.layoutDebtors);
+        layout_not_found_item = findViewById(R.id.layout_not_found_item);
     }
 
     private void buildRecyclerviewDebtors() {
         debtorController = new DebtorController(this.getApplicationContext(), invoice, invoiceDetail,listSelectedProductWarehouse);
-        debtorController.getListDebtor(recyclerViewDebitors, invoice, invoiceDetail);
+        debtorController.getListDebtor(recyclerViewDebitors, invoice, invoiceDetail, layoutDebtors,layout_not_found_item);
     }
 
     public void addNewCustomer(View view) {
         Intent intent = new Intent(SelectDebtorActivity.this, AddNewDebtorActivity.class);
         startActivityForResult(intent,REQUEST_ADD_DEBTOR_CODE);
+    }
+
+    public void callCreateDebtor(View view) {
+        Intent intent = new Intent(this, AddNewDebtorActivity.class);
+        startActivityForResult(intent,REQUEST_ADD_DEBTOR_CODE );
     }
 
 
@@ -102,6 +113,7 @@ public class SelectDebtorActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ADD_DEBTOR_CODE && resultCode == Activity.RESULT_OK) {
+
             buildRecyclerviewDebtors();
         }
     }

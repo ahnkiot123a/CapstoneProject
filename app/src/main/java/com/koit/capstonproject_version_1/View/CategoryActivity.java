@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
@@ -32,6 +33,7 @@ public class CategoryActivity extends AppCompatActivity {
     private List<Category> categoryList;
     private ListCategoryController listCategoryController;
     private UserDAO userDAO;
+    private ConstraintLayout layout_not_found_item;
 
 
     @Override
@@ -54,11 +56,12 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void buildCategoryListView() {
-        listCategoryController.getListCategory(this, lvCategory);
+        listCategoryController.getListCategory(this, lvCategory, layout_not_found_item);
     }
 
     private void initView() {
         lvCategory = findViewById(R.id.lvCategory);
+        layout_not_found_item = findViewById(R.id.layout_not_found_item);
     }
 
     //lấy category mà người dùng chọn rồi chuyền sang CreateProduct
@@ -136,5 +139,6 @@ public class CategoryActivity extends AppCompatActivity {
     public void back(View v) {
         onBackPressed();
     }
+
 
 }

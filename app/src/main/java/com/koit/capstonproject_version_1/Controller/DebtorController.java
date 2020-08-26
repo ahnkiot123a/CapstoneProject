@@ -10,6 +10,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,8 +55,11 @@ public class DebtorController {
 
     }
 
-    public void getListDebtor(RecyclerView recyclerViewDebtor, Invoice invoice, InvoiceDetail invoiceDetail) {
+    public void getListDebtor(RecyclerView recyclerViewDebtor, Invoice invoice, InvoiceDetail invoiceDetail,
+                              final  LinearLayout layoutDebtors, final ConstraintLayout layout_not_found_item) {
         debtorList = new ArrayList<>();
+        layout_not_found_item.setVisibility(View.VISIBLE);
+        layoutDebtors.setVisibility(View.GONE);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
         selectDebtorAdapter = new SelectDebtorAdapter(debtorList, context, invoice, invoiceDetail, listSelectedProductWarehouse);
@@ -63,6 +67,8 @@ public class DebtorController {
         IDebtor iDebtor = new IDebtor() {
             @Override
             public void getDebtor(Debtor debtor) {
+                layoutDebtors.setVisibility(View.VISIBLE);
+                layout_not_found_item.setVisibility(View.GONE);
                 debtorList.add(debtor);
                 selectDebtorAdapter.notifyDataSetChanged();
             }
