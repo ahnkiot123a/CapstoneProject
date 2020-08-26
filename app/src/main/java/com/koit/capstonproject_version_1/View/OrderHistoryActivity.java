@@ -79,7 +79,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, statusList);
         invoiceStatusSpinner.setAdapter(statusAdapter);
 
-        String[] timeList = {"Hôm nay", "7 ngày trước", "30 ngày trước", "Tuỳ chỉnh"};
+        String[] timeList = {"Tất cả", "Hôm nay", "7 ngày trước", "30 ngày trước", "Tuỳ chỉnh"};
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeList);
         timeSpinner.setAdapter(timeAdapter);
     }
@@ -91,6 +91,10 @@ public class OrderHistoryActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     public void callCreateOrder(View view) {
         Intent intent = new Intent(this, SelectProductActivity.class);

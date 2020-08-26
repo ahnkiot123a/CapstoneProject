@@ -1,6 +1,7 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,9 @@ import com.koit.capstonproject_version_1.Controller.SortController;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.InvoiceDetailActivity;
+import com.koit.capstonproject_version_1.View.OrderHistoryActivity;
+import com.koit.capstonproject_version_1.helper.Helper;
 
 import java.util.ArrayList;
 
@@ -30,25 +34,15 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private final ArrayList<Invoice> list;
     private ArrayList<Invoice> listFiltered;
     private TextView tvCount;
-    private Activity context;
-    private OnItemClickListener mListener;
-
+    private Activity activity;
     public boolean showShimmer = true;
 
     private final int SHIMMER_ITEM_NUMBER = 1;
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
-    }
-
     public OrderHistoryAdapter(ArrayList<Invoice> list, Activity context, TextView tvCount) {
         this.list = list;
         this.listFiltered = list;
-        this.context = context;
+        this.activity = context;
         this.tvCount = tvCount;
     }
 
@@ -57,11 +51,11 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_history, parent, false);
-        return new ViewHolder(view, mListener);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         if (showShimmer) {
             holder.shimmerFrameLayout.startShimmer();
         } else {
@@ -70,16 +64,16 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             if (!listFiltered.isEmpty()) {
                 SortController.getInstance().sortInvoiceListByDate(this.listFiltered);
                 if (listFiltered.size() != 1) {
-                    holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+                    holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(activity, R.anim.fade_transition_animation));
                 }
 
                 tvCount.setText(listFiltered.size() + " đơn hàng");
-                Invoice invoice = listFiltered.get(position);
+                final Invoice invoice = listFiltered.get(position);
 
                 holder.tvOrderId.setBackground(null);
                 holder.tvOrderId.setText(invoice.getInvoiceId());
 
-                OrderHistoryController controller = new OrderHistoryController(context);
+                OrderHistoryController controller = new OrderHistoryController(activity);
 
                 holder.tvCustomer.setBackground(null);
                 if (invoice.getDebtorId().isEmpty() || invoice.getDebtorId() == null) {
@@ -104,7 +98,15 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     holder.tvOrderStatus.setText("Đã trả hết");
                 }
                 holder.imageView.setBackground(null);
-                holder.imageView.setImageDrawable(context.getDrawable(R.drawable.icons8_money));
+                holder.imageView.setImageDrawable(activity.getDrawable(R.drawable.icons8_money));
+                holder.invoiceItemContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, InvoiceDetailActivity.class);
+                        intent.putExtra(OrderHistoryActivity.INVOICE, invoice);
+                        activity.startActivity(intent);
+                    }
+                });
             }
 
         }
@@ -128,7 +130,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     ArrayList<Invoice> lstFiltered = new ArrayList<>();
                     for (Invoice iv : list) {
                         if (iv.getInvoiceId().trim().toLowerCase().contains(key.trim().toLowerCase())
-                                || iv.getDebtorName().trim().toLowerCase().contains(key.trim().toLowerCase())) {
+                                || Helper.getInstance().deAccent(iv.getDebtorName().trim().toLowerCase())
+                                .contains(Helper.getInstance().deAccent(key.trim().toLowerCase()))) {
                             lstFiltered.add(iv);
                         }
                     }
@@ -156,7 +159,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         ImageView imageView;
         RelativeLayout invoiceItemContainer;
 
-        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             shimmerFrameLayout = itemView.findViewById(R.id.shimmer_layout);
@@ -168,18 +171,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
             imageView = itemView.findViewById(R.id.imageView);
             invoiceItemContainer = itemView.findViewById(R.id.invoiceItemContainer);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
 
         }
     }

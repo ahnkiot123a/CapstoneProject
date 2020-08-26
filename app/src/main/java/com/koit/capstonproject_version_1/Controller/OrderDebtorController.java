@@ -1,7 +1,6 @@
 package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,8 +11,6 @@ import com.koit.capstonproject_version_1.Adapter.OrderHistoryAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
-import com.koit.capstonproject_version_1.View.InvoiceDetailActivity;
-import com.koit.capstonproject_version_1.View.OrderHistoryActivity;
 import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
 import java.util.ArrayList;
@@ -24,6 +21,8 @@ public class OrderDebtorController {
     private OrderHistoryDAO orderHistoryDAO;
     private OrderHistoryAdapter orderHistoryAdapter;
     private ArrayList<Invoice> invoiceList;
+    private boolean hasInvoice = false;
+
 
     public OrderDebtorController(Activity activity) {
         this.activity = activity;
@@ -43,8 +42,10 @@ public class OrderDebtorController {
                 if (invoice != null) {
                     if (!invoice.isDrafted()) {
                         orderHistoryAdapter.showShimmer = false;
-                        if (invoice.getDebtorId().equals(debtor.getDebtorId()))
+                        if (invoice.getDebtorId().equals(debtor.getDebtorId()) && invoice.getDebitAmount() > 0) {
                             invoiceList.add(invoice);
+                            hasInvoice = true;
+                        }
                     }
                     tvOrderTotal.setText(invoiceList.size() + " đơn hàng");
                     orderHistoryAdapter.notifyDataSetChanged();
@@ -53,23 +54,14 @@ public class OrderDebtorController {
             }
 
         };
+//        if(!hasInvoice){
+//            recyclerViewListProduct.setVisibility(View.GONE);
+//            layoutNotFound.setVisibility(View.VISIBLE);
+//        }else{
+//            recyclerViewListProduct.setVisibility(View.VISIBLE);
+//            layoutNotFound.setVisibility(View.GONE);
+//        }
+
         orderHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound);
-        orderHistoryAdapter.setOnItemClickListener(new OrderHistoryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                sendInvoiceToDetail(position);
-            }
-        });
     }
-
-    private void sendInvoiceToDetail(int position) {
-        if (!invoiceList.isEmpty()) {
-            Invoice invoice = invoiceList.get(position);
-            Intent intent = new Intent(activity, InvoiceDetailActivity.class);
-            intent.putExtra(OrderHistoryActivity.INVOICE, invoice);
-            activity.startActivity(intent);
-        }
-    }
-
-
 }

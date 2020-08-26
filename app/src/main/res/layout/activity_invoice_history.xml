@@ -30,7 +30,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:iconifiedByDefault="false"
-                android:queryHint="Nhập mã, tên khách hàng"/>
+                android:queryHint="Nhập mã, tên khách hàng" />
 
             <ImageButton
                 android:id="@+id/btnVoice"
@@ -50,42 +50,44 @@
             android:layout_height="60dp"
             android:background="@color/white">
 
-            <TextView
-                android:id="@+id/textView7"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Lọc theo"
-                android:textColor="@color/gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.512" />
-
-            <Spinner
-                android:id="@+id/timeSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/radius_linearlayout"
-                android:spinnerMode="dropdown"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView7"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Spinner
-                android:id="@+id/invoiceStatusSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textAlignment="viewEnd"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/radius_linearlayout"
-                android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/radius_linearlayout">
+
+                    <Spinner
+                        android:id="@+id/timeSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radius_linearlayout">
+
+                    <Spinner
+                        android:id="@+id/invoiceStatusSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:spinnerMode="dropdown"
+                        android:textAlignment="viewEnd" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -113,9 +115,9 @@
                 android:id="@+id/tvTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Hôm nay, 04/08/2020"
-                android:layout_marginEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -125,16 +127,16 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvInvoiceHistory"
-            android:visibility="visible"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_not_found_item"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationView"
@@ -146,7 +148,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="true"
+                app:lottie_loop="false"
                 app:lottie_rawRes="@raw/search_empty" />
 
             <TextView
@@ -155,8 +157,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-medium"
+                android:text="Không tìm thấy hoá đơn nào!"
                 android:textAlignment="center"
-                android:text="Bạn chưa có hoá đơn nào!"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -174,9 +176,9 @@
                 android:background="@drawable/background_btn_login"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
+                android:onClick="callCreateOrder"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:onClick="callCreateOrder"
                 android:text="Tạo hoá đơn mới"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

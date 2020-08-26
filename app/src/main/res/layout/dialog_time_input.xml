@@ -83,24 +83,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDateStart">
 
-        <Button
-            android:id="@+id/btnConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/background_btn_login"
-            android:fontFamily="sans-serif-medium"
-            android:text="Xác nhận"
-            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/shape_bg_search"
             android:fontFamily="sans-serif-medium"
             android:text="Huỷ"
             android:textColor="@color/red" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/background_btn_login"
+            android:fontFamily="sans-serif-medium"
+            android:text="Xác nhận"
+            android:textColor="@color/white" />
 
 
     </LinearLayout>

@@ -163,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
                     android:orientation="vertical">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -282,7 +283,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Khách trả"
+                            android:text="Khách trả lần đầu"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -317,19 +318,56 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Còn nợ lại"
+                            android:text="Số nợ lần đầu"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tvDebtMoney"
+                            android:id="@+id/tvFirstDebt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:fontFamily="sans-serif-medium"
                             android:text="40.000"
-                            android:textColor="@color/red"
+                            android:textColor="@color/gray"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/gray" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Số nợ hiện tại"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvRemainingDebt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="40.000"
+                            android:textColor="@color/yellow_chrome"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -344,6 +382,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:paddingBottom="10dp"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="15dp">
@@ -374,6 +413,7 @@
                         android:layout_marginTop="10dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="ThắngVQ"
+                        android:onClick="callDebtor"
                         android:textColor="@color/blue"
                         android:textSize="16sp"
                         android:textStyle="bold"

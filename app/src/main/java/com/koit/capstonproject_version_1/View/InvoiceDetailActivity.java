@@ -19,7 +19,7 @@ import com.koit.capstonproject_version_1.R;
 
 public class InvoiceDetailActivity extends AppCompatActivity {
 
-    private TextView tvInvoiceTime, tvProductTotal, tvTotalPrice, tvDiscount, tvMustPayMoney, tvPaidMoney, tvDebtMoney;
+    private TextView tvInvoiceTime, tvProductTotal, tvTotalPrice, tvDiscount, tvMustPayMoney, tvPaidMoney, tvFirstDebt, tvRemainingDebt;
     private TextView tvDebtorName, tvDebtorPhone;
     private RecyclerView rvProduct;
     private LinearLayout layoutDebit;
@@ -55,9 +55,10 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         tvDiscount = findViewById(R.id.tvDiscount);
         tvMustPayMoney = findViewById(R.id.tvMustPayMoney);
         tvPaidMoney = findViewById(R.id.tvPaidMoney);
-        tvDebtMoney = findViewById(R.id.tvDebtMoney);
+        tvFirstDebt = findViewById(R.id.tvFirstDebt);
         tvDebtorName = findViewById(R.id.tvDebtorName);
         tvDebtorPhone = findViewById(R.id.tvDebtorPhone);
+        tvRemainingDebt = findViewById(R.id.tvRemainingDebt);
         rvProduct = findViewById(R.id.rvProduct);
         layoutDebit = findViewById(R.id.layoutDebit);
         layoutLoading = findViewById(R.id.layoutLoading);
@@ -74,18 +75,23 @@ public class InvoiceDetailActivity extends AppCompatActivity {
 
     private void setInvoiceValue() {
         tvInvoiceTime.setText(String.format("%s   %s", invoice.getInvoiceTime(), invoice.getInvoiceDate()));
-        tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()));
-        tvDiscount.setText(Money.getInstance().formatVN(invoice.getDiscount()));
+        tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()) + " đ");
+        tvDiscount.setText(Money.getInstance().formatVN(invoice.getDiscount()) + " đ");
         long mustPayMoney = invoice.getTotal() - invoice.getDiscount();
-        tvMustPayMoney.setText(Money.getInstance().formatVN(mustPayMoney));
-        tvPaidMoney.setText(Money.getInstance().formatVN(invoice.getFirstPaid()));
-        long debtMoney = mustPayMoney > invoice.getFirstPaid() ? mustPayMoney - invoice.getFirstPaid() : 0;
-        tvDebtMoney.setText(Money.getInstance().formatVN(debtMoney));
+        tvMustPayMoney.setText(Money.getInstance().formatVN(mustPayMoney) + " đ");
+        tvPaidMoney.setText(Money.getInstance().formatVN(invoice.getFirstPaid()) + " đ");
+        long firstDebt = mustPayMoney > invoice.getFirstPaid() ? mustPayMoney - invoice.getFirstPaid() : 0;
+        tvFirstDebt.setText(Money.getInstance().formatVN(firstDebt) + " đ");
+        tvRemainingDebt.setText(Money.getInstance().formatVN(invoice.getDebitAmount()) + " đ");
 
     }
 
 
     public void back(View view) {
         onBackPressed();
+    }
+
+    public void callDebtor(View view) {
+        invoiceDetailController.getDebtorAndSendToDebtPayment(invoice.getDebtorId());
     }
 }

@@ -19,10 +19,10 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.View.DebitPaymentActivity;
 import com.koit.capstonproject_version_1.View.ListItemInOrderActivity;
 import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,5 +148,19 @@ public class InvoiceDetailController {
         productInvDetailAdapter = new ItemProductInvDetailAdapter(listProductInOrder, activity, tvProductTotal);
         rvProduct.setAdapter(productInvDetailAdapter);
 
+    }
+
+    public void getDebtorAndSendToDebtPayment(String debtorId) {
+        IDebtor iDebtor = new IDebtor() {
+            @Override
+            public void getDebtor(Debtor debtor) {
+                if(debtor != null){
+                    Intent intent = new Intent(activity, DebitPaymentActivity.class);
+                    intent.putExtra(DebitPaymentActivity.ITEM_DEBTOR, debtor);
+                    activity.startActivity(intent);
+                }
+            }
+        };
+        orderHistoryDAO.getDebtorById(debtorId, iDebtor);
     }
 }
