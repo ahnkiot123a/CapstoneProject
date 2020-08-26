@@ -40,6 +40,7 @@ public class ListItemInOrderController extends AppCompatActivity {
     private List<Product> listSelectedProductInOrder;
     private List<Product> listSelectedProductInWareHouse;
     private InvoiceDetail invoiceDetail;
+    private int hightLightPosition;
 
     public ListItemInOrderController(Activity context, List<Product> listSelectedProductInOrder,
                                      List<Product> listSelectedProductInWareHouse) {
@@ -48,6 +49,8 @@ public class ListItemInOrderController extends AppCompatActivity {
         this.listSelectedProductInOrder = listSelectedProductInOrder;
         this.listSelectedProductInWareHouse = listSelectedProductInWareHouse;
         invoiceDetail = new InvoiceDetail();
+        hightLightPosition = -1;
+
     }
 
     public void getListProduct(String searchText, final RecyclerView recyclerViewListProduct, final TextView tvTotalQuantity,
@@ -55,18 +58,18 @@ public class ListItemInOrderController extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
         itemAdapter = new ItemInOrderAdapter(context, R.layout.item_layout_in_order, listSelectedProductInWareHouse,
-                tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder);
+                tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder, hightLightPosition);
         recyclerViewListProduct.setAdapter(itemAdapter);
 
         ListProductInterface listProductInterface = new ListProductInterface() {
             @Override
             public void getListProductModel(Product product) {
                 int position = Helper.getInstance().getPositionOfProduct(listSelectedProductInOrder, product);
-
                 if (Helper.getInstance().hasOnly1Unit(product)) {
                     if (position != -1) {
                         Unit unitOfProduct = listSelectedProductInOrder.get(position).getUnits().get(0);
                         listSelectedProductInOrder.get(position).getUnits().get(0).setUnitQuantity(unitOfProduct.getUnitQuantity() + 1);
+                        hightLightPosition = position;
                     } else {
                         //san pham co 1 unit nhung chua co trong danh sach
                         Product productInOrder = new Product();
@@ -77,6 +80,7 @@ public class ListItemInOrderController extends AppCompatActivity {
                         listSelectedProductInWareHouse.add(product);
                         listSelectedProductInOrder.add(productInOrder);
 
+                        hightLightPosition = listSelectedProductInOrder.size() - 1;
                     }
                 } else {
                     //san pham co 2 units tro leen
@@ -87,6 +91,9 @@ public class ListItemInOrderController extends AppCompatActivity {
 
                     listSelectedProductInWareHouse.add(product);
                     listSelectedProductInOrder.add(productInOrder);
+
+                    hightLightPosition = listSelectedProductInOrder.size() - 1;
+
                 }
 
                 getListProduct("", recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
@@ -100,7 +107,6 @@ public class ListItemInOrderController extends AppCompatActivity {
             }
         };
         product.getListProduct(searchText, listProductInterface);
-        recyclerViewListProduct.scrollToPosition(listSelectedProductInOrder.size() - 1);
 
     }
 

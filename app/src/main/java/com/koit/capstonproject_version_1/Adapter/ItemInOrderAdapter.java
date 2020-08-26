@@ -2,6 +2,9 @@ package com.koit.capstonproject_version_1.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.View.ListItemInOrderActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +30,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.MyViewHolder> {
@@ -36,15 +42,17 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
     private TextView tvTotalQuantity;
     private TextView tvTotalPrice;
     private List<Product> listSelectedProductInOrder;
+    private int postitionHightlight;
 
     public ItemInOrderAdapter(Context context, int resourse, List<Product> listSelectedProductInWareHouse,
-                              TextView tvTotalQuantity, TextView tvTotalPrice, List<Product> listSelectedProductInOrder) {
+                              TextView tvTotalQuantity, TextView tvTotalPrice, List<Product> listSelectedProductInOrder, int positionHightlight) {
         this.resourse = resourse;
         this.context = context;
         this.listSelectedProductInWareHouse = listSelectedProductInWareHouse;
         this.tvTotalQuantity = tvTotalQuantity;
         this.tvTotalPrice = tvTotalPrice;
         this.listSelectedProductInOrder = listSelectedProductInOrder;
+        this.postitionHightlight = positionHightlight;
     }
 
     //View Holder class
@@ -56,6 +64,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         ImageButton imageButtonDecrease;
         ImageButton imageButtonIncrease;
         EditText editTextQuantity;
+        ConstraintLayout constraintLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +75,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
             imageButtonDecrease = itemView.findViewById(R.id.imageButtonDecrease);
             imageButtonIncrease = itemView.findViewById(R.id.imageButtonIncrease);
             editTextQuantity = itemView.findViewById(R.id.editTextQuantity);
+            constraintLayout = itemView.findViewById(R.id.itemProduct);
         }
     }
 
@@ -83,10 +93,27 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         Product product = listSelectedProductInWareHouse.get(position);
         final Product productInOrder = listSelectedProductInOrder.get(position);
         //set Value for Holder
+        if (position == postitionHightlight) {
+            //set color for background
+            new CountDownTimer(2000, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+                    holder.constraintLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_box_border_hightlight));
+
+                }
+
+                public void onFinish() {
+                    holder.constraintLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_box_border));
+                }
+            }.start();
+
+        }
         holder.itemName.setText(product.getProductName());
+        //load tam thoi
+        holder.itemPrice.setText(Money.getInstance().formatVN(productInOrder.getUnits().get(0).getUnitPrice()));
+
         if ((!product.getUnits().get(0).getUnitName().equals(""))) {
-            List<Unit> unitListIncrease = new ArrayList<>();
-            unitListIncrease = product.getUnits();
+            List<Unit> unitListIncrease = product.getUnits();
             sortUnitIncreaseByPrice(unitListIncrease);
             setSpinnerUnit((ArrayList<Unit>) unitListIncrease, holder.spinnerUnit, holder.itemPrice, position, holder.editTextQuantity, productInOrder);
 
@@ -206,6 +233,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 tvUnitPrice.setText(Money.getInstance().formatVN(listUnit.get(position).getUnitPrice()));
                 //set Unit to listInOrder(name, price, quantity)
                 List<Unit> unitList = new ArrayList<>();
