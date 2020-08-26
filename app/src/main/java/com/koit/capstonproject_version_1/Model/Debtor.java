@@ -1,7 +1,11 @@
 package com.koit.capstonproject_version_1.Model;
 
+import android.view.View;
+import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -133,6 +137,22 @@ public class Debtor implements Serializable {
         nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
+    public void getListDebtor(final IDebtor iDebtor, final LinearLayout linearLayoutEmptyDebit,
+                              final LinearLayout linearLayoutDebitInfo, final LottieAnimationView animationView) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getListDebtor(dataSnapshot, iDebtor, linearLayoutEmptyDebit, linearLayoutDebitInfo, animationView);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+    }
 
     private void getListDebtor(DataSnapshot dataSnapshot, IDebtor iDebtor) {
         DataSnapshot dataSnapshotDebtor = dataSnapshot.child("Debtors").child(UserDAO.getInstance().getUserID());
@@ -142,6 +162,25 @@ public class Debtor implements Serializable {
                 debtor.setDebtorId(valueCustomer.getKey());
                 iDebtor.getDebtor(debtor);
             }
+        }
+    }
+    private void getListDebtor(DataSnapshot dataSnapshot, IDebtor iDebtor, final LinearLayout linearLayoutEmptyDebit,
+                               final LinearLayout linearLayoutDebitInfo, LottieAnimationView animationView) {
+        DataSnapshot dataSnapshotDebtor = dataSnapshot.child("Debtors").child(UserDAO.getInstance().getUserID());
+        if (dataSnapshotDebtor.getValue() != null) {
+            animationView.setVisibility(View.GONE);
+            linearLayoutEmptyDebit.setVisibility(View.GONE);
+            linearLayoutDebitInfo.setVisibility(View.VISIBLE);
+            for (DataSnapshot valueCustomer : dataSnapshotDebtor.getChildren()) {
+                Debtor debtor = valueCustomer.getValue(Debtor.class);
+                debtor.setDebtorId(valueCustomer.getKey());
+                iDebtor.getDebtor(debtor);
+            }
+        } else {
+            linearLayoutEmptyDebit.setVisibility(View.VISIBLE);
+            linearLayoutDebitInfo.setVisibility(View.GONE);
+            animationView.setVisibility(View.GONE);
+
         }
     }
 

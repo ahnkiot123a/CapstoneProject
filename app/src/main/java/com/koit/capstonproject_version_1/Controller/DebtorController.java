@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Adapter.ListDebtorAdapter;
 import com.koit.capstonproject_version_1.Adapter.SelectDebtorAdapter;
@@ -81,10 +82,9 @@ public class DebtorController {
 
     public void getListDebtor(RecyclerView recyclerViewDebtor, final TextView tvRemaining,
                               final TextView tvTotalDebt, final LinearLayout linearLayoutEmptyDebit,
-                              final LinearLayout linearLayoutDebitInfo) {
+                              final LinearLayout linearLayoutDebitInfo, LottieAnimationView animationView) {
         debtorList = new ArrayList<>();
-        linearLayoutEmptyDebit.setVisibility(View.VISIBLE);
-        linearLayoutDebitInfo.setVisibility(View.GONE);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
         listDebtorAdapter = new ListDebtorAdapter(debtorList, context);
@@ -92,8 +92,6 @@ public class DebtorController {
         IDebtor iDebtor = new IDebtor() {
             @Override
             public void getDebtor(Debtor debtor) {
-                linearLayoutEmptyDebit.setVisibility(View.GONE);
-                linearLayoutDebitInfo.setVisibility(View.VISIBLE);
                 debtorList.add(debtor);
                 tvRemaining.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
                 tvTotalDebt.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
@@ -102,7 +100,7 @@ public class DebtorController {
 
 
         };
-        debtor.getListDebtor(iDebtor);
+        debtor.getListDebtor(iDebtor, linearLayoutEmptyDebit, linearLayoutDebitInfo, animationView);
 
     }
 

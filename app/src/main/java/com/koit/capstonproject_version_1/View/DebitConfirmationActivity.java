@@ -17,6 +17,7 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.helper.Helper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
                 Intent intent = new Intent(DebitConfirmationActivity.this, ListItemInOrderActivity.class);
 
                 Bundle args2 = new Bundle();
+                listSelectedProductInOrder = Helper.getInstance().toListOfEachUnit(listSelectedProductInOrder,listSelectedProductWarehouse);
                 args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
                 args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
                 intent.putExtra("BUNDLE", args2);

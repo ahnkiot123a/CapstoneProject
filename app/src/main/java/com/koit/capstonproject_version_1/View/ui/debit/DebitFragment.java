@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -40,6 +41,7 @@ public class DebitFragment extends Fragment {
     private DebtorController debtorController;
     private DebtPaymentDetailController debtPaymentDetailController;
     private LinearLayout linearLayoutEmptyDebit, linearLayoutDebitInfo;
+    private LottieAnimationView animationView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class DebitFragment extends Fragment {
         tvPaid = root.findViewById(R.id.tvPaid);
         linearLayoutDebitInfo = root.findViewById(R.id.linearLayoutDebitInfo);
         linearLayoutEmptyDebit = root.findViewById(R.id.linearLayoutEmptyDebit);
+        animationView = root.findViewById(R.id.animationView);
         debitViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -61,7 +64,7 @@ public class DebitFragment extends Fragment {
         });
         recyclerViewDebitors = root.findViewById(R.id.recyclerViewDebitors);
         debtorController = new DebtorController(this.getContext());
-        debtorController.getListDebtor(recyclerViewDebitors, tvRemaining, tvTotalDebt, linearLayoutEmptyDebit, linearLayoutDebitInfo);
+        debtorController.getListDebtor(recyclerViewDebitors, tvRemaining, tvTotalDebt, linearLayoutEmptyDebit, linearLayoutDebitInfo, animationView);
         setUpPieChart(0);
         debtorController.etSearchEventListDebtor(svDebtor);
 
