@@ -1,16 +1,17 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -109,7 +110,6 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
     }
 
     public void paydebtMoney(View view) {
-        Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show();
         long payAmount = 0;
         try {
             payAmount = Long.parseLong(etPayAmount.getText().toString());
@@ -117,8 +117,51 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
             payAmount = 0;
         }
         if (payAmount > debtor.getRemainingDebit()) payAmount = debtor.getRemainingDebit();
-        payDebtController = new PayDebtController(this, debtor, payAmount);
-        payDebtController.payDebt();
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        if (payAmount > 0) {
+            final long finalPayAmount = payAmount;
+            builder.setMessage("Bạn có chắc chắn trừ " + Money.getInstance().formatVN(payAmount)
+                    + " đ vào nợ của " + debtor.getFullName() + " không?")
+                    .setCancelable(true)
+                    .setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            payDebtController = new PayDebtController(InputPayDebtMoneyActivity.this, debtor, finalPayAmount);
+                            payDebtController.payDebt();
+                        }
+                    })
+                    .setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            final androidx.appcompat.app.AlertDialog alert = builder.create();
+            alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.theme));
+                    alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                }
+            });
+            alert.show();
+        } else {
+            builder.setMessage("Mời bạn nhập số tiền khách trả!")
+                    .setCancelable(true)
+                    .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+            final androidx.appcompat.app.AlertDialog alert = builder.create();
+            alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.theme));
+                }
+            });
+            alert.show();
+        }
+
+
     }
 
     public void back(View view) {

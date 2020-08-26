@@ -47,20 +47,21 @@ public class AccountFragment extends Fragment {
 //        User user = (User)getActivity().getIntent().getSerializableExtra("currentUser");
         userDAO = new UserDAO();
         User user = userDAO.getUser();
-        currentUserFacebook = FirebaseAuth.getInstance().getCurrentUser();
         btnAccountInfo = root.findViewById(R.id.accountInfo);
         btnChangePassword = root.findViewById(R.id.changePassword);
         // tvNameProfile.setText(currentUser.getDisplayName());
-        if (user != null && currentUserFacebook == null) {
-            tvNameProfile.setText(user.getFullName());
-            if (user.getFullName().length() > 0)
+        if (!user.getPhoneNumber().isEmpty()) {
+            if (user.getFullName().length() > 0) {
+                tvNameProfile.setText(user.getFullName());
                 tvFirstName.setText(user.getFullName().charAt(0) + "");
-            else {
+            } else {
                 tvFirstName.setText("");
-                profile_img.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                tvNameProfile.setText(user.getStoreName());
+                profile_img.setImageResource(R.drawable.default_avatar);
                 profile_img.setBackground(null);
             }
-        } else if (currentUserFacebook != null) {
+        } else {
+            currentUserFacebook = FirebaseAuth.getInstance().getCurrentUser();
             tvNameProfile.setText(currentUserFacebook.getDisplayName());
             tvFirstName.setText("");
             Glide.with(this).load(currentUserFacebook.getPhotoUrl()).into(profile_img);
@@ -70,7 +71,6 @@ public class AccountFragment extends Fragment {
             btnAccountInfo.setEnabled(false);
             btnChangePassword.setEnabled(false);
         }
-
         return root;
     }
 

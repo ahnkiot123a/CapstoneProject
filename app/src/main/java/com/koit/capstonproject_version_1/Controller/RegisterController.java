@@ -21,12 +21,13 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
+import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.View.ForgotPasswordActivity;
+import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.RegisterActivity;
 import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
 import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
-import com.koit.capstonproject_version_1.View.SelectProductActivity;
 import com.koit.capstonproject_version_1.helper.CustomToast;
 
 import java.util.concurrent.TimeUnit;
@@ -95,6 +96,7 @@ public class RegisterController {
         //ma hoa mat khau
         pass = validateController.getMd5(pass);
         User user = new User("", "", "", storeName, "", pass, "", false, false);
+        SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, user);
         databaseReference.child(phoneNumber).setValue(user);
     }
 

@@ -30,16 +30,6 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Lọc theo mốc thời gian:"
-                    android:textColor="@color/gray" />
-
-                <TextView
                     android:id="@+id/tvViewFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

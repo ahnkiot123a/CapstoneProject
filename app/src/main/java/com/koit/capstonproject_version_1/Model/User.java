@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.Model;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
 import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
+import com.koit.capstonproject_version_1.helper.CustomToast;
 
 import java.io.Serializable;
 
@@ -246,7 +248,8 @@ public class User implements Serializable {
                             Intent intent = new Intent(registerVerifyPhoneActivity, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             registerVerifyPhoneActivity.startActivity(intent);
-                            Toast.makeText(registerVerifyPhoneActivity.getApplicationContext(), "Đăng kí thành công!", Toast.LENGTH_LONG).show();
+                            CustomToast.makeText(registerVerifyPhoneActivity, "Đăng kí thành công!", Toast.LENGTH_LONG
+                                    , CustomToast.SUCCESS ,true, Gravity.BOTTOM).show();
                         } else {
                             registerVerifyPhoneActivity.showTextError("Mã OTP không chính xác.", registerVerifyPhoneActivity.getEtOTP());
                             // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
