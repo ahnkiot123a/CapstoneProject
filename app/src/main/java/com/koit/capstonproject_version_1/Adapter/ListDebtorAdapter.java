@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,12 +26,14 @@ public class ListDebtorAdapter extends RecyclerView.Adapter<ListDebtorAdapter.Vi
     List<Debtor> listFiltered;
     Context context;
     List<Debtor> debtorList;
+    LinearLayout layout_not_found_item;
     TextView tvRemaining;
 
-    public ListDebtorAdapter(List<Debtor> debtorList, Context context ) {
+    public ListDebtorAdapter(List<Debtor> debtorList, Context context, LinearLayout layout_not_found_item ) {
         this.debtorList = debtorList;
         this.listFiltered = debtorList;
         this.context = context;
+        this.layout_not_found_item = layout_not_found_item;
     }
 
     public ListDebtorAdapter() {
@@ -112,6 +115,10 @@ public class ListDebtorAdapter extends RecyclerView.Adapter<ListDebtorAdapter.Vi
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 listFiltered = (ArrayList<Debtor>) results.values;
+                if (listFiltered != null){
+                    if (listFiltered.size() == 0)  layout_not_found_item.setVisibility(View.VISIBLE);
+                    else layout_not_found_item.setVisibility(View.GONE);
+                }
                 notifyDataSetChanged();
             }
         };

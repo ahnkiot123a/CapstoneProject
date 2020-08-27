@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,14 +34,17 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
     Invoice invoice;
     InvoiceDetail invoiceDetail;
     List<Product> listSelectedProductWarehouse;
+    LinearLayout layout_not_found_Search;
 
-    public SelectDebtorAdapter(List<Debtor> debtorList, Context context, Invoice invoice, InvoiceDetail invoiceDetail, List<Product> listSelectedProductWarehouse) {
+    public SelectDebtorAdapter(List<Debtor> debtorList, Context context, Invoice invoice,
+                               InvoiceDetail invoiceDetail, List<Product> listSelectedProductWarehouse, LinearLayout layout_not_found_Search) {
         this.debtorList = debtorList;
         this.context = context;
         this.listFiltered = debtorList;
         this.invoice = invoice;
         this.invoiceDetail = invoiceDetail;
         this.listSelectedProductWarehouse = listSelectedProductWarehouse;
+        this.layout_not_found_Search = layout_not_found_Search;
     }
 
     public SelectDebtorAdapter(List<Debtor> debtorList, Context context) {
@@ -51,6 +55,7 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
 
     public SelectDebtorAdapter() {
     }
+
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
@@ -60,6 +65,7 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
     public int getItemViewType(int position) {
         return position;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -74,7 +80,7 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
         holder.tvDebitorName.setText(debtor.getFullName());
         holder.tvDebitorPhone.setText(debtor.getPhoneNumber());
         holder.tvDebtTotalAmount.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
-        holder.tvFirstDebtorName.setText(debtor.getFullName().charAt(0)+"");
+        holder.tvFirstDebtorName.setText(debtor.getFullName().charAt(0) + "");
         holder.itemDebtor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,8 +118,8 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
                     List<Debtor> lstFiltered = new ArrayList<>();
                     for (Debtor iv : debtorList) {
                         if (
-                                 iv.getFullName().toLowerCase().contains(key.toLowerCase())
-                                || iv.getPhoneNumber().toLowerCase().contains(key.toLowerCase())
+                                iv.getFullName().toLowerCase().contains(key.toLowerCase())
+                                        || iv.getPhoneNumber().toLowerCase().contains(key.toLowerCase())
                         ) {
                             lstFiltered.add(iv);
                         }
@@ -129,6 +135,10 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 listFiltered = (ArrayList<Debtor>) results.values;
+                if (listFiltered != null){
+                    if (listFiltered.size() == 0) layout_not_found_Search.setVisibility(View.VISIBLE);
+                    else  layout_not_found_Search.setVisibility(View.GONE);
+                }
                 notifyDataSetChanged();
             }
         };
@@ -136,7 +146,7 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvDebitorName, tvDebitorPhone, tvDebtTotalAmount,tvFirstDebtorName;
+        private TextView tvDebitorName, tvDebitorPhone, tvDebtTotalAmount, tvFirstDebtorName;
         private ConstraintLayout itemDebtor;
 
         public ViewHolder(@NonNull View itemView) {

@@ -29,6 +29,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.iceteck.silicompressorr.FileUtils;
+import com.iceteck.silicompressorr.SiliCompressor;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.DetailProductController;
@@ -274,12 +276,18 @@ public class UpdateProductInformationActivity extends AppCompatActivity {
             }
         }
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            File file = new File(cameraController.getCurrentPhotoPath());
-            ivProduct.setImageURI(Uri.fromFile(file));
+            Log.i("image", cameraController.getCurrentPhotoPath());
+            String photoPath = cameraController.getCurrentPhotoPath();
+            File file = new File(photoPath);
+            photoUri = Uri.fromFile(file);
+            File compressFile = new File(SiliCompressor.with(this).compress(FileUtils.getPath(this, photoUri)
+                    , new File(this.getCacheDir(), "temp")));
+            photoUri = Uri.fromFile(compressFile);
+            ivProduct.setImageURI(photoUri);
             ivProduct.setRotation(ivProduct.getRotation() + 90);
-            Uri uri = Uri.fromFile(file);
             photoName = file.getName();
-            photoUri = uri;
+            Log.i("photoName", photoName);
+
         }
 
         if (requestCode == GALLERY_REQ_CODE && resultCode == Activity.RESULT_OK) {

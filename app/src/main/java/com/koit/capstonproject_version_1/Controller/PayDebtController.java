@@ -73,13 +73,16 @@ public class PayDebtController {
                                     remainingDebit = remainingDebit - invoice.getDebitAmount();
                                     invoice.setDebitAmount(0);
                                     invoice.setPayMoney(payMoney);
+                                    if (remainingDebit < 0)remainingDebit = 0;
                                     debtor.setRemainingDebit(remainingDebit);
                                 } else {
+                                    if (debitAmount - payAmount < 0) invoice.setDebitAmount(0);
                                     invoice.setDebitAmount(debitAmount - payAmount);
                                     remainingDebit = remainingDebit - payAmount;
                                     long payMoney = payAmount;
                                     payAmount = 0;
                                     invoice.setPayMoney(payMoney);
+                                    if (remainingDebit < 0)remainingDebit = 0;
                                     debtor.setRemainingDebit(remainingDebit);
                                 }
                                 debtPayment.addInvoiceToDebtPaymentFirebase(debtPayment, invoice);

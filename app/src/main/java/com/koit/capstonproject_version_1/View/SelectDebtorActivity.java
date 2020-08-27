@@ -27,7 +27,7 @@ import java.util.List;
 
 public class SelectDebtorActivity extends AppCompatActivity {
     private RecyclerView recyclerViewDebitors;
-    private LinearLayout layoutDebtors;
+    private LinearLayout layoutDebtors, layout_not_found_Search;
     private ConstraintLayout layout_not_found_item;
     private SearchView svDebtor;
     private DebtorController debtorController;
@@ -87,11 +87,12 @@ public class SelectDebtorActivity extends AppCompatActivity {
         svDebtor = findViewById(R.id.svDebtor);
         layoutDebtors = findViewById(R.id.layoutDebtors);
         layout_not_found_item = findViewById(R.id.layout_not_found_item);
+        layout_not_found_Search = findViewById(R.id.layout_not_found_Search);
     }
 
     private void buildRecyclerviewDebtors() {
         debtorController = new DebtorController(this.getApplicationContext(), invoice, invoiceDetail,listSelectedProductWarehouse);
-        debtorController.getListDebtor(recyclerViewDebitors, invoice, invoiceDetail, layoutDebtors,layout_not_found_item);
+        debtorController.getListDebtor(recyclerViewDebitors, invoice, invoiceDetail, layoutDebtors,layout_not_found_item, layout_not_found_Search);
     }
 
     public void addNewCustomer(View view) {

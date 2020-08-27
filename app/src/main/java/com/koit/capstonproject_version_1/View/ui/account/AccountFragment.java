@@ -47,6 +47,7 @@ public class AccountFragment extends Fragment {
 //        User user = (User)getActivity().getIntent().getSerializableExtra("currentUser");
         userDAO = new UserDAO();
         User user = userDAO.getUser();
+        Log.d("ktUser",user.toString());
         btnAccountInfo = root.findViewById(R.id.accountInfo);
         btnChangePassword = root.findViewById(R.id.changePassword);
         // tvNameProfile.setText(currentUser.getDisplayName());

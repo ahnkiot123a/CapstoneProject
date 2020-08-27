@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,6 +23,7 @@ import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.View.DetailProductActivity;
+import com.koit.capstonproject_version_1.View.ListProductActivity;
 import com.koit.capstonproject_version_1.View.UpdateProductInformationActivity;
 import com.koit.capstonproject_version_1.dao.CreateProductDAO;
 import com.koit.capstonproject_version_1.dao.UserDAO;
@@ -83,6 +85,7 @@ public class UpdateProductController {
             productDAO.updateProductToFirebase(UserDAO.getInstance().getUserID(), currentProduct);
             Intent intent = new Intent(activity, DetailProductActivity.class);
             intent.putExtra("product", currentProduct);
+            Log.d("productAfterUpdate", currentProduct.toString());
             activity.startActivity(intent);
             activity.finish();
             Toast.makeText(activity, "Chỉnh sửa thành công", Toast.LENGTH_SHORT).show();

@@ -42,7 +42,7 @@ public class DebitFragment extends Fragment {
     private DebtorPaymentController debtorPaymentController;
     private LinearLayout linearLayoutEmptyDebit, linearLayoutDebitInfo;
     private LottieAnimationView animationView;
-    private LinearLayout layoutPieChart;
+    private LinearLayout layoutPieChart, layout_not_found_item;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class DebitFragment extends Fragment {
         tvPaid = root.findViewById(R.id.tvPaid);
         linearLayoutDebitInfo = root.findViewById(R.id.linearLayoutDebitInfo);
         linearLayoutEmptyDebit = root.findViewById(R.id.linearLayoutEmptyDebit);
+        layout_not_found_item = root.findViewById(R.id.layout_not_found_item);
         animationView = root.findViewById(R.id.animationView);
 
         debitViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -67,7 +68,8 @@ public class DebitFragment extends Fragment {
         });
         recyclerViewDebitors = root.findViewById(R.id.recyclerViewDebitors);
         debtorController = new DebtorController(this.getContext());
-        debtorController.getListDebtor(recyclerViewDebitors, tvRemaining, tvTotalDebt, linearLayoutEmptyDebit, linearLayoutDebitInfo, animationView);
+        debtorController.getListDebtor(recyclerViewDebitors, tvRemaining, tvTotalDebt,
+                linearLayoutEmptyDebit, linearLayoutDebitInfo, animationView, layout_not_found_item);
         setUpPieChart(0);
         debtorController.etSearchEventListDebtor(svDebtor);
 

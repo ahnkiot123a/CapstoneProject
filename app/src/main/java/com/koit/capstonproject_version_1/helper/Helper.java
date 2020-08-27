@@ -116,15 +116,24 @@ public class Helper {
     }
 
     //Tách list selected product và duplicate phần tử ở inventory
-    public List<Product> toListOfEachUnit(List<Product> selectedProducts, List<Product> inventory) {
-        List<Product> returnProducts = new ArrayList();
+    public void toListOfEachUnit(List<Product> selectedProducts, List<Product> inventory) {
+        List<Product> newSelectedPros = new ArrayList();
         List<Product> newInvent = new ArrayList();
         for (int i = 0; i < selectedProducts.size(); i++) {
-            returnProducts.addAll(getProductOfEachUnit(selectedProducts.get(i), newInvent));
+            Product p = selectedProducts.get(i);
+            for (Unit u : p.getUnits()) {
+                Product pro = new Product(p.getUserId(), p.getProductId(), p.getBarcode(), p.getCategoryName(),
+                        p.getProductDescription(), p.getProductImageUrl(), p.getProductName(), p.isActive());
+                pro.getUnits().add(u);
+                newSelectedPros.add(pro);
+                Product pInvent = inventory.get(i);
+                newInvent.add(pInvent);
+            }
         }
+        selectedProducts.clear();
+        selectedProducts.addAll(newSelectedPros);
         inventory.clear();
         inventory.addAll(newInvent);
-        return returnProducts;
     }
 
     //Tách mỗi product ra làm nhiều product nhỏ với unit khác nhau

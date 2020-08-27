@@ -52,6 +52,42 @@
                 android:layout_below="@+id/searchView">
 
             </androidx.recyclerview.widget.RecyclerView>
+            <LinearLayout
+                android:id="@+id/layout_not_found_Search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:paddingTop="40dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/not_found_product">
+
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:shadowColor="#FFFFFF"
+                    android:text="Không có kết quả phù hợp"
+                    android:textColor="#E4000000"
+                    android:textSize="18dp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Vui lòng nhập từ khóa khác để tìm kiếm"
+                    android:textSize="13dp">
+
+                </TextView>
+            </LinearLayout>
+
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

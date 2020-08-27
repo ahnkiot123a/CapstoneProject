@@ -57,37 +57,37 @@ public class DebtorController {
     }
 
     public void getListDebtor(RecyclerView recyclerViewDebtor, Invoice invoice, InvoiceDetail invoiceDetail,
-                              final  LinearLayout layoutDebtors, final ConstraintLayout layout_not_found_item) {
+                              final  LinearLayout layoutDebtors, final ConstraintLayout layout_not_found_item,
+                              LinearLayout layout_not_found_Search) {
         debtorList = new ArrayList<>();
-        layout_not_found_item.setVisibility(View.VISIBLE);
-        layoutDebtors.setVisibility(View.GONE);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
-        selectDebtorAdapter = new SelectDebtorAdapter(debtorList, context, invoice, invoiceDetail, listSelectedProductWarehouse);
+        selectDebtorAdapter = new SelectDebtorAdapter(debtorList, context, invoice, invoiceDetail, listSelectedProductWarehouse, layout_not_found_Search);
         recyclerViewDebtor.setAdapter(selectDebtorAdapter);
         IDebtor iDebtor = new IDebtor() {
             @Override
             public void getDebtor(Debtor debtor) {
-                layoutDebtors.setVisibility(View.VISIBLE);
-                layout_not_found_item.setVisibility(View.GONE);
+
                 debtorList.add(debtor);
                 selectDebtorAdapter.notifyDataSetChanged();
             }
 
 
         };
-        debtor.getListDebtor(iDebtor);
+        debtor.getListDebtor(iDebtor, layoutDebtors, layout_not_found_item);
 
     }
 
     public void getListDebtor(RecyclerView recyclerViewDebtor, final TextView tvRemaining,
                               final TextView tvTotalDebt, final LinearLayout linearLayoutEmptyDebit,
-                              final LinearLayout linearLayoutDebitInfo, LottieAnimationView animationView) {
+                              final LinearLayout linearLayoutDebitInfo, LottieAnimationView animationView,
+                              LinearLayout layout_not_found_item) {
         debtorList = new ArrayList<>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewDebtor.setLayoutManager(layoutManager);
-        listDebtorAdapter = new ListDebtorAdapter(debtorList, context);
+        listDebtorAdapter = new ListDebtorAdapter(debtorList, context, layout_not_found_item);
         recyclerViewDebtor.setAdapter(listDebtorAdapter);
         IDebtor iDebtor = new IDebtor() {
             @Override

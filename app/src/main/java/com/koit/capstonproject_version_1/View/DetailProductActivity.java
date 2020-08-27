@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -119,6 +120,7 @@ public class DetailProductActivity extends AppCompatActivity {
     }
 
     private void setProductInformation() {
+        Log.d("productUpdate", product.toString());
 
         detailProductController.setProductImageView(productImage, product);
         edBarcode.setText(product.getBarcode());

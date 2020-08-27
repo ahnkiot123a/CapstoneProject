@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
@@ -137,6 +138,21 @@ public class Debtor implements Serializable {
         nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
+    public void getListDebtor(final IDebtor iDebtor,  final  LinearLayout layoutDebtors, final ConstraintLayout layout_not_found_item) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getListDebtor(dataSnapshot, iDebtor,layoutDebtors,layout_not_found_item);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+    }
     public void getListDebtor(final IDebtor iDebtor, final LinearLayout linearLayoutEmptyDebit,
                               final LinearLayout linearLayoutDebitInfo, final LottieAnimationView animationView) {
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -162,6 +178,22 @@ public class Debtor implements Serializable {
                 debtor.setDebtorId(valueCustomer.getKey());
                 iDebtor.getDebtor(debtor);
             }
+        }
+    }
+    private void getListDebtor(DataSnapshot dataSnapshot, IDebtor iDebtor,
+                               final  LinearLayout layoutDebtors, final ConstraintLayout layout_not_found_item) {
+        DataSnapshot dataSnapshotDebtor = dataSnapshot.child("Debtors").child(UserDAO.getInstance().getUserID());
+        if (dataSnapshotDebtor.getValue() != null) {
+            layoutDebtors.setVisibility(View.VISIBLE);
+            layout_not_found_item.setVisibility(View.GONE);
+            for (DataSnapshot valueCustomer : dataSnapshotDebtor.getChildren()) {
+                Debtor debtor = valueCustomer.getValue(Debtor.class);
+                debtor.setDebtorId(valueCustomer.getKey());
+                iDebtor.getDebtor(debtor);
+            }
+        } else {
+            layout_not_found_item.setVisibility(View.VISIBLE);
+            layoutDebtors.setVisibility(View.GONE);
         }
     }
     private void getListDebtor(DataSnapshot dataSnapshot, IDebtor iDebtor, final LinearLayout linearLayoutEmptyDebit,

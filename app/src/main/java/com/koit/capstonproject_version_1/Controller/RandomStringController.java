@@ -39,13 +39,16 @@ public class RandomStringController {
 
     public String randomInvoiceId() {
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String result = "HD" + "" + timeStamp + "";
+        int random_int = (int)(Math.random() * (999 - 100 + 1) + 100);
 
+        String result = "HD" + "" + timeStamp + ""+random_int;
         return result;
     }
     public String randomDebtPaymentId() {
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String result = "TN" + "" + timeStamp + "";
+        int random_int = (int)(Math.random() * (999 - 100 + 1) + 100);
+
+        String result = "TN" + "" + timeStamp + ""+random_int;
 
         return result;
     }
