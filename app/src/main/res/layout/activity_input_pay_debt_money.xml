@@ -55,22 +55,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDebtTotal" />
 
-    <EditText
+    <com.koit.capstonproject_version_1.helper.MoneyEditText
         android:id="@+id/etPayAmount"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:hint="Nhập số tiền"
-        android:padding="5dp"
-        android:inputType="number"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="100dp"
         android:background="@drawable/backgroud_date_time"
         android:fontFamily="sans-serif-medium"
+        android:hint="Nhập số tiền"
+        android:inputType="number"
+        android:padding="5dp"
+        android:paddingLeft="50dp"
         android:textColor="@color/green_chrome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvstt" />
+    <!--    <EditText-->
+    <!--        android:id="@+id/etPayAmount"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:hint="Nhập số tiền"-->
+    <!--        android:padding="5dp"-->
+    <!--        android:inputType="number"-->
+    <!--        android:layout_marginEnd="20dp"-->
+    <!--        android:background="@drawable/backgroud_date_time"-->
+    <!--        android:fontFamily="sans-serif-medium"-->
+    <!--        android:textColor="@color/green_chrome"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/tvstt" />-->
 
     <TextView
         android:id="@+id/tvSncl"
@@ -111,17 +128,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRemainingDebt"
-        android:orientation="vertical">
+        app:layout_constraintTop_toBottomOf="@+id/tvRemainingDebt">
+
         <TextView
             android:id="@+id/tvTt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="Tiền thừa trả khách:"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tvChangeMoney"
@@ -142,13 +159,13 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnConfirm"
-        android:onClick="paydebtMoney"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        app:fabSize="normal"
         android:elevation="6dp"
+        android:onClick="paydebtMoney"
         android:src="@drawable/ic_baseline_check_24"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

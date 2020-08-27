@@ -2,20 +2,17 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -208,67 +205,72 @@ public class UserController {
     }
 
     public void logout(final Activity activity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
-        View view = LayoutInflater.from(activity).inflate(R.layout.layout_warning_dialog,
-                (ConstraintLayout) activity.findViewById(R.id.layoutDialog));
-        builder.setView(view);
-        TextView tvMessage = view.findViewById(R.id.tvMessage);
-        TextView tvTitle = view.findViewById(R.id.tvTitle);
-        Button btnCancel = view.findViewById(R.id.btnCancel);
-        Button btnConfirm = view.findViewById(R.id.btnConfirm);
-        tvTitle.setText("Đăng xuất");
-        tvMessage.setText("Bạn có muốn đăng xuất không?");
-        btnConfirm.setText("đăng xuất");
-
-        final AlertDialog dialog = builder.create();
-
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPrefs.getInstance().clear();
-                LoginManager.getInstance().logOut();
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(activity, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(activity, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                activity.startActivity(intent);
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        }
-        dialog.show();
-
-//        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity);
-//        builder.setMessage("Bạn có muốn đăng xuất không?")
-//                .setCancelable(true)
-//                .setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
+//        View view = LayoutInflater.from(activity).inflate(R.layout.layout_warning_dialog,
+//                (ConstraintLayout) activity.findViewById(R.id.layoutDialog));
+//        builder.setView(view);
+//        TextView tvMessage = view.findViewById(R.id.tvMessage);
+//        TextView tvTitle = view.findViewById(R.id.tvTitle);
+//        Button btnCancel = view.findViewById(R.id.btnCancel);
+//        Button btnConfirm = view.findViewById(R.id.btnConfirm);
+//        tvTitle.setText("Đăng xuất");
+//        tvMessage.setText("Bạn có muốn đăng xuất không?");
+//        btnConfirm.setText("Đăng xuất");
 //
-//                    }
-//                })
-//                .setNegativeButton("Không", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        final androidx.appcompat.app.AlertDialog alert = builder.create();
-//        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+//        final AlertDialog dialog = builder.create();
+//        btnConfirm.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onShow(DialogInterface dialog) {
-//                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(activity.getResources().getColor(R.color.theme));
-//                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+//            public void onClick(View v) {
+//                SharedPrefs.getInstance().clear();
+//                LoginManager.getInstance().logOut();
+//                FirebaseAuth.getInstance().signOut();
+//                Toast.makeText(activity, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(activity, LoginActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                activity.startActivity(intent);
 //            }
 //        });
-//        alert.show();
+//
+//        btnCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        if (dialog.getWindow() != null) {
+//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+//        }
+//        dialog.show();
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity);
+        builder.setMessage("Bạn có muốn đăng xuất không?")
+                .setCancelable(true)
+                .setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SharedPrefs.getInstance().clear();
+                        LoginManager.getInstance().logOut();
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(activity, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(activity, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        activity.startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        final androidx.appcompat.app.AlertDialog alert = builder.create();
+        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(activity.getResources().getColor(R.color.theme));
+                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(activity.getResources().getColor(R.color.red_chrome));
+            }
+        });
+        alert.show();
     }
 
 

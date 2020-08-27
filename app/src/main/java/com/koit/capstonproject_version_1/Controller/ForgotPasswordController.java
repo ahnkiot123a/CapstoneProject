@@ -218,7 +218,6 @@ public class ForgotPasswordController {
                     .setNegativeButton("Thoát", dialogClickListener).show();
         }
         User user = new User(resetPasswordActivity);
-        Log.d("beforesignIn", "1");
         user.signInTheUserByCredentialsFromResetPassword(credential);
     }
 

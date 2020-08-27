@@ -24,9 +24,9 @@
                 android:gravity="center"
                 android:text="1"
                 android:textColor="@color/gray"
-                android:visibility="gone"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="wrap_content"
@@ -52,31 +52,26 @@
                 android:layout_gravity="center"
                 android:background="@color/light_gray" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.koit.capstonproject_version_1.helper.MoneyEditText
+                android:id="@+id/etUnitPrice"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etUnitPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:hint="Giá"
-                    android:inputType="number"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:textColor="@color/gray"
-                    android:textSize="18sp"
-                    android:windowSoftInputMode="stateUnchanged" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:hint="Giá"
+                android:inputType="number"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/gray"
+                android:textSize="18sp"
+                android:windowSoftInputMode="stateUnchanged" />
 
             <ImageButton
                 android:id="@+id/ibtnDeleteUnit"
                 android:layout_width="wrap_content"
-                android:layout_weight="0.2"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_weight="0.2"
                 android:background="@null"
                 android:src="@drawable/icons8_trash_can_24px" />
 

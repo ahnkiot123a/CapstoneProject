@@ -19,12 +19,12 @@ public class Money {
 
     public String formatVN(long money) {
         Locale localeVN = new Locale("vi", "VN");
-        NumberFormat vn = NumberFormat.getInstance(localeVN);
+        NumberFormat vn = NumberFormat.getInstance(Locale.US);
         return vn.format(money);
     }
 
     public long reFormatVN(String money) {
-        String[] array = money.split("[.]");
+        String[] array = money.split("[,]");
         String formatMoney = "";
         for (int i = 0; i < array.length; i++) {
             formatMoney = formatMoney.concat(array[i]);
@@ -36,7 +36,7 @@ public class Money {
 
     public long reFormatVND(String money) {
         String[] a = money.split("\\s");
-        String[] array = a[0].split("[.]");
+        String[] array = a[0].split("[,]");
         String formatMoney = "";
         for (int i = 0; i < array.length; i++) {
             formatMoney = formatMoney.concat(array[i]);

@@ -116,7 +116,11 @@ public class CustomScreenScanActivity extends Activity implements DecoratedBarco
             barcodeView.resume();
             btnContinuousFlashlight.setText("Tạm dừng");
             isPause = false;
-            btnSwitchFlashlight.setVisibility(View.VISIBLE);
+            if(hasFlash()){
+                btnSwitchFlashlight.setVisibility(View.VISIBLE);
+            }else{
+                btnSwitchFlashlight.setVisibility(View.GONE);
+            }
             tvPaused.setVisibility(View.INVISIBLE);
             tvMessagePause.setVisibility(View.INVISIBLE);
             if (isFlashlightOn) {

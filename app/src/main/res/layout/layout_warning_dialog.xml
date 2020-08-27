@@ -58,7 +58,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/button_neutral_background"
-        android:textColor="@color/white"
+        android:textColor="@color/gray"
         android:textSize="14sp"
         android:text="Huỷ"
         android:textAllCaps="false"

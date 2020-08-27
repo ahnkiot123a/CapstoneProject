@@ -15,16 +15,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.Interface.ICategory;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.ConvertRateActivity;
 import com.koit.capstonproject_version_1.View.CreateProductActivity;
 import com.koit.capstonproject_version_1.dao.CreateProductDAO;
-import com.koit.capstonproject_version_1.dao.UserDAO;
 import com.koit.capstonproject_version_1.helper.CustomToast;
+import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CreateProductController {
 
@@ -49,7 +49,7 @@ public class CreateProductController {
 
     public void checkExistedBarcode(final String barcode, final TextInputEditText tetProductName
             , final TextView tvCategory, final TextInputEditText etBarcode, final TextInputEditText etUnitName
-            , final TextInputEditText etUnitPrice) {
+            , final MoneyEditText etUnitPrice) {
         createProductDAO.checkExistBarcode(barcode, tetProductName, tvCategory, activity, etBarcode, etUnitName, etUnitPrice);
     }
 
@@ -63,7 +63,7 @@ public class CreateProductController {
             tetProductName.requestFocus();
         } else {
             String category = tvCategory.getText().toString().trim();
-            if (checkValidAndRead(layoutUnitList)) {
+            if (checkValidAndReadUnit(layoutUnitList)) {
 //                ArrayList<Unit> listUnit = CreateProductActivity.getUnitFromRv();
                 String photoName = CreateProductActivity.photoName;
                 String productID = RandomStringController.getInstance().randomString();
@@ -86,19 +86,19 @@ public class CreateProductController {
 
     }
 
-    private boolean checkValidAndRead(LinearLayout layoutUnitList) {
+    private boolean checkValidAndReadUnit(LinearLayout layoutUnitList) {
         listUnit.clear();
         boolean result = true;
         for (int i = 0; i < layoutUnitList.getChildCount(); i++) {
             View unitItem = layoutUnitList.getChildAt(i);
             EditText etUnitName = unitItem.findViewById(R.id.etUnitName);
-            EditText etUnitPrice = unitItem.findViewById(R.id.etUnitPrice);
+            MoneyEditText etUnitPrice = unitItem.findViewById(R.id.etUnitPrice);
             Unit unit = new Unit();
             if (listUnit.size() == 0) {
                 if (!etUnitName.getText().toString().isEmpty()) {
                     unit.setUnitName(etUnitName.getText().toString().trim());
                     if (!etUnitPrice.getText().toString().isEmpty()) {
-                        unit.setUnitPrice(Long.parseLong(etUnitPrice.getText().toString().trim()));
+                        unit.setUnitPrice(Money.getInstance().reFormatVN(etUnitPrice.getText().toString().trim()));
                         listUnit.add(unit);
                     } else {
                         etUnitPrice.requestFocus();
@@ -117,7 +117,7 @@ public class CreateProductController {
             } else if (!etUnitName.getText().toString().isEmpty()) {
                 unit.setUnitName(etUnitName.getText().toString().trim());
                 if (!etUnitPrice.getText().toString().isEmpty()) {
-                    unit.setUnitPrice(Long.parseLong(etUnitPrice.getText().toString().trim()));
+                    unit.setUnitPrice(Money.getInstance().reFormatVN(etUnitPrice.getText().toString().trim()));
                     listUnit.add(unit);
                 } else {
                     etUnitPrice.requestFocus();

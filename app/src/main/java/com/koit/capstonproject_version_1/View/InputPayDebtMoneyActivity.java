@@ -6,8 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,11 +21,14 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
 public class InputPayDebtMoneyActivity extends AppCompatActivity {
 
+    private static final int MAX_LENGTH = 11;
+
     private TextView tvDebtTotal, tvRemainingDebt, tvChangeMoney;
-    private EditText etPayAmount;
+    private MoneyEditText etPayAmount;
     private LinearLayout layoutChangeMoney;
     private long inputMoney;
     private long remainingDebt;
@@ -45,7 +48,6 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
         initView();
 
         setDebtMoneyView();
-
         setEtPayAmountEvent();
 
     }
@@ -64,6 +66,7 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -71,7 +74,7 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
 
     private void setTextView(CharSequence s) {
         if (!s.toString().isEmpty()) {
-            inputMoney = Long.parseLong(s.toString());
+            inputMoney = Money.getInstance().reFormatVN(s.toString());
             long debtMoney = debtor.getRemainingDebit() - inputMoney;
             remainingDebt = debtMoney > 0 ? debtMoney : 0;
             changeMoney = debtMoney < 0 ? -debtMoney : 0;
@@ -112,9 +115,10 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
     public void paydebtMoney(View view) {
         long payAmount = 0;
         try {
-            payAmount = Long.parseLong(etPayAmount.getText().toString());
+            payAmount = Money.getInstance().reFormatVN(etPayAmount.getText().toString());
         } catch (Exception e) {
             payAmount = 0;
+            Log.d("payAmount", e.toString());
         }
         if (payAmount > debtor.getRemainingDebit()) payAmount = debtor.getRemainingDebit();
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);

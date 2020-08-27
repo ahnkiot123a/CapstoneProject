@@ -33,6 +33,7 @@ import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DetailProductActivity;
+import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class CreateProductDAO {
 
     public void checkExistBarcode(final String barcode, final TextInputEditText tetProductName
             , final TextView tvCategory, final Activity activity, final TextInputEditText etBarcode
-            , final TextInputEditText etUnitName, final TextInputEditText etUnitPrice) {
+            , final TextInputEditText etUnitName, final MoneyEditText etUnitPrice) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -98,7 +99,7 @@ public class CreateProductDAO {
 
     private void checkExistBarcode(DataSnapshot snapshot, final String barcode
             , final TextInputEditText tetProductName, final TextView tvCategory, final Activity activity
-            , final TextInputEditText etBarcode, final TextInputEditText etUnitName, final TextInputEditText etUnitPrice) {
+            , final TextInputEditText etBarcode, final TextInputEditText etUnitName, final MoneyEditText etUnitPrice) {
 
         DataSnapshot dataSnapshot = snapshot.child("Products").child(UserDAO.getInstance().getUserID());
         DataSnapshot dataSnapshotUnits = snapshot.child("Units").child(UserDAO.getInstance().getUserID());
@@ -156,7 +157,7 @@ public class CreateProductDAO {
     }
 
     public void fillProduct(String barcode, final TextInputEditText tetProductName, final TextView tvCategory
-            , final TextInputEditText etUnitName, final TextInputEditText etUnitPrice) {
+            , final TextInputEditText etUnitName, final MoneyEditText etUnitPrice) {
         final IProduct iProduct = new IProduct() {
             @Override
             public void getSuggestedProduct(SuggestedProduct product) {
@@ -186,66 +187,6 @@ public class CreateProductDAO {
         dr = dr.child("Products").child(userId).child(product.getProductId());
         dr.setValue(product);
         databaseReference.keepSynced(true);
-    }
-
-    public void addImageProduct(final Uri uri, String imgName, final Activity activity, final Dialog dialog) {
-        storageReference = FirebaseStorage.getInstance().getReference();
-        final StorageReference image = storageReference.child("ProductPictures/" + imgName);
-        if (uri != null) {
-            final File file = new File(SiliCompressor.with(activity).compress(FileUtils.getPath(activity, uri)
-                    , new File(activity.getCacheDir(), "temp")));
-            final Uri compressUri = Uri.fromFile(file);
-            image.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    if (task.isSuccessful()) {
-//                        if (!activity.isFinishing() && dialog != null) {
-//                            dialog.dismissLoadingDialog();
-//                        }
-                        Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + compressUri.toString());
-                    } else {
-                        Log.i("saveImageProduct", "save failed");
-
-                    }
-                    file.delete();
-                }
-            });
-
-//            ProgressBar mProgressBar = null;
-//            mProgressBar.setVisibility(ProgressBar.VISIBLE);
-//            Bitmap bmp = null;
-//            try {
-//                bmp = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            //here you can choose quality factor in third parameter(ex. i choosen 25)
-//            bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
-//            byte[] fileInBytes = baos.toByteArray();
-//
-//            StorageReference photoref = storageReference.child(uri.getLastPathSegment());
-//
-//            //here i am uploading
-//            photoref.putBytes(fileInBytes).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    // When the image has successfully uploaded, we get its download URL
-//                    mProgressBar.setVisibility(ProgressBar.INVISIBLE);
-//
-//                }
-//            }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                    if (task.isSuccessful()) {
-//                        Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + compressUri.toString());
-//                    } else {
-//                        Log.i("saveImageProduct", "save failed");
-//
-//                    }
-//                }
-//            });
-        }
-
     }
 
     public void addImageProduct(final Uri uri, String imgName, Activity activity) {

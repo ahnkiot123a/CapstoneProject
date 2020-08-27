@@ -35,6 +35,7 @@ import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -59,7 +60,8 @@ public class CreateProductActivity extends AppCompatActivity {
     private TextView tvCategory;
     private BottomSheetDialog bottomSheetDialog;
     private ImageView ivProduct;
-    private TextInputEditText etUnitName, etUnitPrice;
+    private TextInputEditText etUnitName;
+    private MoneyEditText etUnitPrice;
     private Switch switchActive;
 
     private LinearLayout layoutUnitList;
@@ -94,7 +96,6 @@ public class CreateProductActivity extends AppCompatActivity {
         tetDescription = findViewById(R.id.etDescription);
         tvCategory = findViewById(R.id.tvCategory);
         ivProduct = findViewById(R.id.ivProduct);
-//        recyclerCreateUnit = findViewById(R.id.recyclerCreateUnit);
         switchActive = findViewById(R.id.switchActive);
         lvCategory = findViewById(R.id.lvCategory);
         layoutUnitList = findViewById(R.id.layoutUnitList);
