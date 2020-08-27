@@ -39,9 +39,10 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
     private TextView tvTotalPrice;
     private List<Product> listSelectedProductInOrder;
     private int postitionHightlight;
-
+    private RecyclerView recyclerView;
     public ItemInOrderAdapter(Context context, int resourse, List<Product> listSelectedProductInWareHouse,
-                              TextView tvTotalQuantity, TextView tvTotalPrice, List<Product> listSelectedProductInOrder, int positionHightlight) {
+                              TextView tvTotalQuantity, TextView tvTotalPrice, List<Product> listSelectedProductInOrder,
+                              int positionHightlight, RecyclerView recyclerView) {
         this.resourse = resourse;
         this.context = context;
         this.listSelectedProductInWareHouse = listSelectedProductInWareHouse;
@@ -49,6 +50,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         this.tvTotalPrice = tvTotalPrice;
         this.listSelectedProductInOrder = listSelectedProductInOrder;
         this.postitionHightlight = positionHightlight;
+        this.recyclerView = recyclerView;
     }
 
     //View Holder class
@@ -130,6 +132,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
             holder.itemPrice.setText(Money.getInstance().formatVN(productInOrder.getUnits().get(0).getUnitPrice()) + "");
         }
         //
+
         holder.editTextQuantity.setText(productInOrder.getUnits().get(0).getUnitQuantity() + "");
         //set total price
         long totalPrice = getTotalPrice(listSelectedProductInOrder);
@@ -164,6 +167,12 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                     holder.editTextQuantity.setText("1");
                 }
                 holder.editTextQuantity.setText(quantity + 1 + "");
+            }
+        });
+        holder.editTextQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                 recyclerView.scrollToPosition(position);
             }
         });
         holder.editTextQuantity.addTextChangedListener(new TextWatcher() {
@@ -205,6 +214,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
 
             }
         });
+
     }
 
     @Override

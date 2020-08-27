@@ -178,7 +178,7 @@ public class Invoice implements Serializable {
                 child(invoice.getInvoiceId());
         invoice.setInvoiceId(null);
         databaseReference.setValue(invoice);
-//        databaseReference.keepSynced(true);
+        databaseReference.keepSynced(true);
     }
     public void updateDebitAmount(Invoice invoice) {
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -186,6 +186,6 @@ public class Invoice implements Serializable {
         databaseReference = databaseReference.child("Invoices").child(UserDAO.getInstance().getUserID()).
                 child(invoice.getInvoiceId()).child("debitAmount");
         databaseReference.setValue(invoice.getDebitAmount());
-//        databaseReference.keepSynced(true);
+        databaseReference.keepSynced(true);
     }
 }

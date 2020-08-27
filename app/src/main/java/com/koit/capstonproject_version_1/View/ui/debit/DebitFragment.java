@@ -42,6 +42,7 @@ public class DebitFragment extends Fragment {
     private DebtorPaymentController debtorPaymentController;
     private LinearLayout linearLayoutEmptyDebit, linearLayoutDebitInfo;
     private LottieAnimationView animationView;
+    private LinearLayout layoutPieChart;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class DebitFragment extends Fragment {
                 ViewModelProviders.of(this).get(DebitViewModel.class);
         View root = inflater.inflate(R.layout.fragment_debit, container, false);
         chart = root.findViewById(R.id.pieChart);
+        layoutPieChart = root.findViewById(R.id.layoutPieChart);
         svDebtor = root.findViewById(R.id.svDebtor);
         tvRemaining = root.findViewById(R.id.tvRemaining);
         tvTotalDebt = root.findViewById(R.id.tvTotalDebt);
@@ -56,6 +58,7 @@ public class DebitFragment extends Fragment {
         linearLayoutDebitInfo = root.findViewById(R.id.linearLayoutDebitInfo);
         linearLayoutEmptyDebit = root.findViewById(R.id.linearLayoutEmptyDebit);
         animationView = root.findViewById(R.id.animationView);
+
         debitViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -70,6 +73,16 @@ public class DebitFragment extends Fragment {
 
         debtorPaymentController = new DebtorPaymentController(this.getActivity());
         debtorPaymentController.getListDebtPayments(tvPaid, tvRemaining, tvTotalDebt, chart);
+
+        svDebtor.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus)
+                    layoutPieChart.setVisibility(View.GONE);
+                else
+                    layoutPieChart.setVisibility(View.VISIBLE);
+            }
+        });
 
         /*new Handler().postDelayed(new Runnable() {
             @Override

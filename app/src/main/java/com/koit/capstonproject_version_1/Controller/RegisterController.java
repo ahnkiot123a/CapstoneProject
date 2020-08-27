@@ -193,8 +193,8 @@ public class RegisterController {
         //This method is called in response to an invalid verification request,
         // such as a request that specifies an invalid phone number or verification code.
         public void onVerificationFailed(@NonNull FirebaseException e) {
-            CustomToast.makeText(registerVerifyPhoneActivity, e.getMessage(),
-                    Toast.LENGTH_LONG, CustomToast.ERROR, true, Gravity.BOTTOM).show();
+//            CustomToast.makeText(registerVerifyPhoneActivity, e.getMessage(),
+//                    Toast.LENGTH_LONG, CustomToast.ERROR, true, Gravity.BOTTOM).show();
         }
 
         @Override

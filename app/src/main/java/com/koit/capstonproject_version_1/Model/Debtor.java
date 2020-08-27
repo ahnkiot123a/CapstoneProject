@@ -191,7 +191,7 @@ public class Debtor implements Serializable {
                 .child(debtor.getDebtorId());
         debtor.setDebtorId(null);
         databaseReference.setValue(debtor);
-//        databaseReference.keepSynced(true);
+        databaseReference.keepSynced(true);
     }
 
     public void updateDebtorToFirebase(Debtor debtor) {
@@ -205,7 +205,7 @@ public class Debtor implements Serializable {
         databaseReference.child("fullName").setValue(debtor.getFullName());
         databaseReference.child("gender").setValue(debtor.isGender());
         databaseReference.child("phoneNumber").setValue(debtor.getPhoneNumber());
-//        databaseReference.keepSynced(true);
+        databaseReference.keepSynced(true);
     }
 
     public void updateRemainingDebit(Debtor debtor) {

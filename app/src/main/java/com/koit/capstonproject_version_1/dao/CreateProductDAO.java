@@ -185,7 +185,7 @@ public class CreateProductDAO {
         DatabaseReference dr = FirebaseDatabase.getInstance().getReference();
         dr = dr.child("Products").child(userId).child(product.getProductId());
         dr.setValue(product);
-//        databaseReference.keepSynced(true);
+        databaseReference.keepSynced(true);
     }
 
     public void addImageProduct(final Uri uri, String imgName, final Activity activity, final Dialog dialog) {

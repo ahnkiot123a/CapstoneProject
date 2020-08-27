@@ -89,6 +89,7 @@
             android:visibility="gone">
 
             <LinearLayout
+                android:id="@+id/layoutPieChart"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 android:layout_marginLeft="5dp"

@@ -58,7 +58,7 @@ public class ListItemInOrderController extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerViewListProduct.setLayoutManager(layoutManager);
         itemAdapter = new ItemInOrderAdapter(context, R.layout.item_layout_in_order, listSelectedProductInWareHouse,
-                tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder, hightLightPosition);
+                tvTotalQuantity, tvTotalPrice, listSelectedProductInOrder, hightLightPosition, recyclerViewListProduct);
         recyclerViewListProduct.setAdapter(itemAdapter);
 
         ListProductInterface listProductInterface = new ListProductInterface() {
@@ -149,6 +149,7 @@ public class ListItemInOrderController extends AppCompatActivity {
                     pro.getUnits().add(u);
                     listSelectedProductInOrder.add(pro);
                     listSelectedProductInWareHouse.add(productWarehouse);
+
                     itemAdapter.notifyDataSetChanged();
                 }
 

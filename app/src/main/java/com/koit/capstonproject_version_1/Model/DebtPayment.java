@@ -176,7 +176,7 @@ public class DebtPayment implements Serializable {
         databaseReference.child("payDate").setValue(debtPayment.getPayDate());
         databaseReference.child("payTime").setValue(debtPayment.getPayTime());
         databaseReference.child("debtBeforePay").setValue(debtPayment.getDebtBeforePay());
-//        databaseReference.keepSynced(true);
+        databaseReference.keepSynced(true);
     }
 
     public void addInvoiceToDebtPaymentFirebase(DebtPayment debtPayment, Invoice invoice) {
@@ -192,7 +192,7 @@ public class DebtPayment implements Serializable {
 //        databaseReference.child("payAmount").setValue(debtPayment.getPayAmount());
 //        databaseReference.child("payDate").setValue(debtPayment.getPayDate());
 //        databaseReference.child("payTime").setValue(debtPayment.getPayTime());
-//        databaseReference.keepSynced(true);
+        databaseReference.keepSynced(true);
     }
 
 
