@@ -50,7 +50,15 @@ public class DraftOrderAdapter extends RecyclerView.Adapter<DraftOrderAdapter.Vi
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_draft_order, parent, false);
         return new DraftOrderAdapter.ViewHolder(view, mListener);
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public void onBindViewHolder(@NonNull DraftOrderAdapter.ViewHolder holder, int position) {
         if (showShimmer) {

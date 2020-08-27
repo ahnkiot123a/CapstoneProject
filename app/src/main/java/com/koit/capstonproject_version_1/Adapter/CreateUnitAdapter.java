@@ -48,7 +48,15 @@ public class  CreateUnitAdapter extends RecyclerView.Adapter<CreateUnitAdapter.V
     public void setOnItemClickLister(OnItemClickLister lister){
         mLister = lister;
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

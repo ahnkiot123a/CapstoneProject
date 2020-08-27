@@ -664,6 +664,7 @@ public class Product implements Serializable {
                 product.setUnits(unitList);
 
                 // search in list product in order
+                if (searchText!=null)
                 if (searchText.contains("CO!@#")) {
 //                    Toast.makeText(SelectProductActivity.getInstance(), "Found " + product.getBarcode(), Toast.LENGTH_SHORT).show();
 

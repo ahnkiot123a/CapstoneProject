@@ -43,7 +43,15 @@ public class ListDebtorAdapter extends RecyclerView.Adapter<ListDebtorAdapter.Vi
         View itemView = layoutInflater.inflate(R.layout.item_in_list_debtor_layout, parent, false);
         return new ListDebtorAdapter.ViewHolder(itemView);
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public void onBindViewHolder(@NonNull ListDebtorAdapter.ViewHolder holder, int position) {
 

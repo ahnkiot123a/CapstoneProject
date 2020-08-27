@@ -31,12 +31,12 @@
         app:layout_constraintTop_toTopOf="parent">
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_layout"
-            android:layout_width="65dp"
-            android:layout_height="65dp">
+            android:layout_width="55dp"
+            android:layout_height="55dp">
         <ImageView
             android:id="@+id/imgViewProductPicture"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:background="@drawable/image_background"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/icon_item_picture_empty" />
@@ -44,12 +44,12 @@
         <ImageView
             android:id="@+id/widget_title_icon"
             android:layout_width="20dp"
-            android:visibility="gone"
             android:layout_height="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="-15dp"
+            android:layout_marginStart="-16dp"
+            android:layout_marginTop="40dp"
+            android:visibility="gone"
             android:layout_toEndOf="@+id/shimmer_layout"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:src="@drawable/icons8_ok_48px" />
     </RelativeLayout>
     <TextView

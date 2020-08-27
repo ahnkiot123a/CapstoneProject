@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.module.AppGlideModule;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,6 +31,7 @@ import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.SelectProductActivity;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,6 +45,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrderAdapter.MyViewHolder> {
 
@@ -107,12 +111,19 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+    public void onViewRecycled(@NonNull MyViewHolder holder) {
+        super.onViewRecycled(holder);
+        Glide.with(context).clear(holder.imageView);
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final Product product = listProduct.get(position);
         for (Product product1 : listSelectedProduct) {
             //set tick for selected product
             if (product1.getProductId().equals(product.getProductId())) {
-                holder.imageViewCheckIcon.setVisibility(View.VISIBLE);
+                holder.itemProduct.findViewById(R.id.widget_title_icon).setVisibility(View.VISIBLE);
             }
         }
         //set Value for Holder
@@ -133,6 +144,12 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
                                 .load(uri)
                                 .centerCrop()
                                 .into(holder.imageView);
+//                        if (isImagePosition(position)) {
+//
+//                        } else {
+//                            Glide.with(context).clear(holder.imageView);
+//                            holder.imageView.setImageDrawable(context.getDrawable(R.drawable.icon_item_picture_empty));
+//                        }
                         holder.shimmerFrameLayout.stopShimmer();
                         holder.shimmerFrameLayout.setShimmer(null);
                     }
@@ -160,7 +177,6 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
 //                    .into(holder.imageView);
 //            Log.d("ImageLink", storagePicture.toString());
 //        }
-
 
         //https://firebase.google.com/docs/storage/android/download-files
         //save iamge offline
@@ -201,17 +217,14 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
                         if (product1.getProductId().equals(product.getProductId())) {
                             isProductExist = true;
                             listSelectedProduct.remove(product1);
-                            break;
                         }
                     }
                     //contain
                     if (isProductExist) {
-                        holder.imageViewCheckIcon.setVisibility(View.GONE);
+                        holder.itemProduct.findViewById(R.id.widget_title_icon).setVisibility(View.GONE);
                         Log.d("ListSelectedProductRe", listSelectedProduct.size() + "");
-                    } else
-                    //not contain
-                    {
-                        holder.imageViewCheckIcon.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.itemProduct.findViewById(R.id.widget_title_icon).setVisibility(View.VISIBLE);
                         listSelectedProduct.add(product);
                         Log.d("ListSelectedProductAd", listSelectedProduct.size() + "");
                     }
@@ -222,6 +235,17 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
                 }
             }
         });
+
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public long getMinProductPrice(List<Unit> unitList) {

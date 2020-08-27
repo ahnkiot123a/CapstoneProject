@@ -34,7 +34,15 @@ public class EditUnitAdapter extends RecyclerView.Adapter<EditUnitAdapter.ViewHo
         View itemView = layoutInflater.inflate(R.layout.custom_edit_unit_recyclerview,parent,false);
         return new EditUnitAdapter.ViewHolder(itemView);
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public void onBindViewHolder(@NonNull EditUnitAdapter.ViewHolder holder, int position) {
         holder.etUnitName.setText(unitArrayList.get(position).getUnitName());

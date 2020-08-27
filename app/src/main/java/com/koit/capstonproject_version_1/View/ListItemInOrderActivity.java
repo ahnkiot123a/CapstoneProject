@@ -336,7 +336,7 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
                     listSelectedProductWarehouse.add(product);
                     Log.d("checkListWareHouse", listSelectedProductWarehouse.toString());
 
-                    itemAdapter.notifyDataSetChanged();
+                    listItemInOrderController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
                     alertDialog.cancel();
                 }
             }

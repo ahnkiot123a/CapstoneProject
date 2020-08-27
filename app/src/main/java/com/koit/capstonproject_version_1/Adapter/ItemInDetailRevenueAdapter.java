@@ -44,7 +44,15 @@ public class ItemInDetailRevenueAdapter extends RecyclerView.Adapter<ItemInDetai
             holder.tvTotalInTime.setText(Money.getInstance().formatVN(entry.getValue()));
         }
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     //View Holder class
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvDate;

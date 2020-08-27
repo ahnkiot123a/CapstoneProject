@@ -33,7 +33,15 @@ public class UnitRecyclerAdapter  extends RecyclerView.Adapter<UnitRecyclerAdapt
         View itemView = layoutInflater.inflate(R.layout.custom_product_unit_layout,parent,false);
         return new ViewHolder(itemView);
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvUnitName.setText("1 " + unitArrayList.get(position).getUnitName());

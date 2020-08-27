@@ -29,7 +29,15 @@ public class AddQuantityAdapter extends RecyclerView.Adapter<AddQuantityAdapter.
 
     public AddQuantityAdapter() {
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @NonNull
     @Override
     public AddQuantityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

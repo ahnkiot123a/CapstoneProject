@@ -33,7 +33,15 @@ public class EditConvertRateAdapter extends RecyclerView.Adapter<EditConvertRate
         View itemView = layoutInflater.inflate(R.layout.custom_edit_convert_rate_recyclerview,parent,false);
         return new EditConvertRateAdapter.ViewHolder(itemView);
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
 
     @Override

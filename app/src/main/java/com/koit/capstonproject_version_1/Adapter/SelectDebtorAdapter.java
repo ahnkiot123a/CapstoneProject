@@ -51,7 +51,15 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
 
     public SelectDebtorAdapter() {
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

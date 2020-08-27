@@ -53,7 +53,15 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_history, parent, false);
         return new ViewHolder(view);
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         if (showShimmer) {

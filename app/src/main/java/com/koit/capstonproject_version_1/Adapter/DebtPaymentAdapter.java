@@ -28,7 +28,15 @@ public class DebtPaymentAdapter extends RecyclerView.Adapter<DebtPaymentAdapter.
         this.list = list;
         this.activity = activity;
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

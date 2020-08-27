@@ -41,7 +41,15 @@ public class ItemUnitInProductAdapter extends RecyclerView.Adapter<ItemUnitInPro
             holder.tvTotalPrice.setText(Money.getInstance().formatVN(quantity*price));
         }
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public int getItemCount() {
         return list.size();

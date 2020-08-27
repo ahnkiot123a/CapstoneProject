@@ -38,7 +38,15 @@ public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProduct
         View itemView = layoutInflater.inflate(R.layout.item_add_quantity_rv, parent, false);
         return new EditProductQuantityAdapter.ViewHolder(itemView);
     }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public void onBindViewHolder(@NonNull final EditProductQuantityAdapter.ViewHolder holder, final int position) {
         holder.tvUnitName.setText(unitArrayList.get(position).getUnitName());

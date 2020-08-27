@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.koit.capstonproject_version_1.Adapter.ItemAdapter;
 import com.koit.capstonproject_version_1.Adapter.ItemBeforeOrderAdapter;
 import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoiceDetail;
@@ -50,7 +51,6 @@ public class ListItemInOrderController extends AppCompatActivity {
         this.listSelectedProductInWareHouse = listSelectedProductInWareHouse;
         invoiceDetail = new InvoiceDetail();
         hightLightPosition = -1;
-
     }
 
     public void getListProduct(String searchText, final RecyclerView recyclerViewListProduct, final TextView tvTotalQuantity,
@@ -113,7 +113,8 @@ public class ListItemInOrderController extends AppCompatActivity {
 
     public void getListProductInDraftOrder(String invoiceId) {
         IInvoiceDetail iInvoiceDetail = new IInvoiceDetail() {
-            int count =0;
+            int count = 0;
+
             @Override
             public void getListProductInOrder(Product product) {
 //                if (product != null) {
@@ -141,11 +142,14 @@ public class ListItemInOrderController extends AppCompatActivity {
             @Override
             public void getListProductInOrderWWarehouse(Product productInOrder, Product productWarehouse) {
                 for (Unit u : productInOrder.getUnits()) {
-                    Product pro = new Product(productInOrder.getUserId(), productInOrder.getProductId(), productInOrder.getBarcode(), productInOrder.getCategoryName(),
-                            productInOrder.getProductDescription(), productInOrder.getProductImageUrl(), productInOrder.getProductName(), productInOrder.isActive());
+                    Product pro = new Product(productInOrder.getUserId(), productInOrder.getProductId(),
+                            productInOrder.getBarcode(), productInOrder.getCategoryName(),
+                            productInOrder.getProductDescription(), productInOrder.getProductImageUrl(),
+                            productInOrder.getProductName(), productInOrder.isActive());
                     pro.getUnits().add(u);
                     listSelectedProductInOrder.add(pro);
                     listSelectedProductInWareHouse.add(productWarehouse);
+                    itemAdapter.notifyDataSetChanged();
                 }
 
             }
