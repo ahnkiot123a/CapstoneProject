@@ -2,17 +2,20 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -30,6 +33,7 @@ import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
 import com.koit.capstonproject_version_1.View.UserInformationActivity;
+import com.koit.capstonproject_version_1.helper.CustomDialog;
 
 public class UserController {
 
@@ -87,7 +91,8 @@ public class UserController {
 
     }
 
-    public void loginWithPhoneAndPassword(final TextInputEditText etPhoneNumber, final TextInputEditText etPassword, final Activity activity, View view, Button btnFbLogin, TextView tvForgotPassword, TextView tvAccount, TextView tvRegister) {
+    public void loginWithPhoneAndPassword(final TextInputEditText etPhoneNumber, final TextInputEditText etPassword, final Activity activity, View view, final Button btnFbLogin, final TextView tvForgotPassword, final TextView tvAccount, final TextView tvRegister) {
+        final CustomDialog dialog = new CustomDialog(activity);
         final ProgressButton progressButton = new ProgressButton(activity, view);
         final IUser iUser = new IUser() {
             @Override
@@ -114,11 +119,20 @@ public class UserController {
                         }, 500); // afterDelay will be executed after 500 milliseconds.
 
                     } else {
-                        Toast.makeText(activity.getApplicationContext(), "Mật khẩu không đúng", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(activity.getApplicationContext(), "Mật khẩu không đúng", Toast.LENGTH_LONG).show();
+//                        dialog.showErrorDialog("Mật khẩu không đúng. Quý khách vui lòng nhập lại.");
+                        etPassword.requestFocus();
+                        Drawable customErrorDrawable = activity.getResources().getDrawable(R.drawable.ic_baseline_error_24);
+                        customErrorDrawable.setBounds(0, 0, customErrorDrawable.getIntrinsicWidth(), customErrorDrawable.getIntrinsicHeight());
+                        etPassword.setError("Mật khẩu không đúng!", customErrorDrawable);
+                        setClickableView(etPhoneNumber, etPassword, btnFbLogin, tvForgotPassword, tvAccount, tvRegister, true);
                         progressButton.progressInitiation();
+
                     }
                 } else {
-                    Toast.makeText(activity.getApplicationContext(), "Tài khoản không tồn tại", Toast.LENGTH_LONG).show();
+                    etPhoneNumber.requestFocus();
+                    etPhoneNumber.setError("Tài khoản không tồn tại!");
+                    setClickableView(etPhoneNumber, etPassword, btnFbLogin, tvForgotPassword, tvAccount, tvRegister, true);
                     progressButton.progressInitiation();
                 }
 
@@ -127,16 +141,28 @@ public class UserController {
 
 
         if (inputController.isPhoneNumber(etPhoneNumber)) {
-            if (inputController.isPassword(etPassword)) {
+            if (inputController.isPassword(etPassword, activity)) {
                 phoneNumber = etPhoneNumber.getText().toString().trim();
                 phoneNumber = inputController.formatPhoneNumber(phoneNumber);
                 user.getUserWithPhoneAndPasswordInterface(phoneNumber, iUser);
             } else {
+                setClickableView(etPhoneNumber, etPassword, btnFbLogin, tvForgotPassword, tvAccount, tvRegister, true);
                 progressButton.progressInitiation();
             }
         } else {
+            setClickableView(etPhoneNumber, etPassword, btnFbLogin, tvForgotPassword, tvAccount, tvRegister, true);
             progressButton.progressInitiation();
         }
+    }
+
+    public void setClickableView(TextInputEditText etPhoneNumber, TextInputEditText etPassword, Button btnFbLogin,
+                                 TextView tvForgotPassword, TextView tvAccount, TextView tvRegister, boolean status) {
+        etPhoneNumber.setClickable(status);
+        etPassword.setClickable(status);
+        btnFbLogin.setClickable(status);
+        tvForgotPassword.setClickable(status);
+        tvRegister.setClickable(status);
+        tvAccount.setClickable(status);
     }
 
 
@@ -160,7 +186,7 @@ public class UserController {
         } else if (!inputController.isEmail(email)) {
             userInformationActivity.setErrorEditTxt("Email không hợp lệ, vui lòng nhập lại Email", userInformationActivity.getEdEmail());
             //  Toast.makeText(userInformationActivity.getApplicationContext(),"Email không hợp lệ, vui lòng nhập lại Email",Toast.LENGTH_SHORT).show();
-        }  else if (storeName.trim().equals("")) {
+        } else if (storeName.trim().equals("")) {
             userInformationActivity.setErrorEditTxt("Vui lòng nhập tên cửa hàng", userInformationActivity.getEdStoreName());
             //Toast.makeText(userInformationActivity.getApplicationContext(),"Vui lòng nhập tên cửa hàng",Toast.LENGTH_SHORT).show();
         } else {
@@ -182,35 +208,67 @@ public class UserController {
     }
 
     public void logout(final Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(activity).inflate(R.layout.layout_warning_dialog,
+                (ConstraintLayout) activity.findViewById(R.id.layoutDialog));
+        builder.setView(view);
+        TextView tvMessage = view.findViewById(R.id.tvMessage);
+        TextView tvTitle = view.findViewById(R.id.tvTitle);
+        Button btnCancel = view.findViewById(R.id.btnCancel);
+        Button btnConfirm = view.findViewById(R.id.btnConfirm);
+        tvTitle.setText("Đăng xuất");
+        tvMessage.setText("Bạn có muốn đăng xuất không?");
+        btnConfirm.setText("đăng xuất");
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity);
-        builder.setMessage("Bạn có muốn đăng xuất không?")
-                .setCancelable(true)
-                .setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        SharedPrefs.getInstance().clear();
-                        LoginManager.getInstance().logOut();
-                        FirebaseAuth.getInstance().signOut();
-                        Toast.makeText(activity, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(activity, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        activity.startActivity(intent);
-                    }
-                })
-                .setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        final androidx.appcompat.app.AlertDialog alert = builder.create();
-        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+        final AlertDialog dialog = builder.create();
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onShow(DialogInterface dialog) {
-                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(activity.getResources().getColor(R.color.theme));
-                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+            public void onClick(View v) {
+                SharedPrefs.getInstance().clear();
+                LoginManager.getInstance().logOut();
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(activity, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                activity.startActivity(intent);
             }
         });
-        alert.show();
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        dialog.show();
+
+//        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity);
+//        builder.setMessage("Bạn có muốn đăng xuất không?")
+//                .setCancelable(true)
+//                .setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//
+//                    }
+//                })
+//                .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        final androidx.appcompat.app.AlertDialog alert = builder.create();
+//        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialog) {
+//                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(activity.getResources().getColor(R.color.theme));
+//                alert.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+//            }
+//        });
+//        alert.show();
     }
 
 

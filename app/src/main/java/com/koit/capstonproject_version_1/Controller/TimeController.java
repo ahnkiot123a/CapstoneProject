@@ -367,4 +367,19 @@ public class TimeController {
         return dateChose;
     }
 
+    public String setDate(int year, int month, int day) {
+        month += 1;
+        String date = day + "-" + month + "-" + year;
+        if (month < 10) {
+            date = day + "-0" + month + "-" + year;
+        }
+        if (day < 10) {
+            date = "0" + day + "-" + month + "-" + year;
+        }
+        if (month < 10 && day < 10) {
+            date = "0" + day + "-0" + month + "-" + year;
+        }
+        return date;
+    }
+
 }

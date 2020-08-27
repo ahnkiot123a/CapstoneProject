@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.koit.capstonproject_version_1.Controller.DebtPaymentController;
+import com.koit.capstonproject_version_1.Controller.DebitOfDebtorController;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
@@ -20,7 +20,7 @@ import com.koit.capstonproject_version_1.helper.Helper;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class DebitPaymentActivity extends AppCompatActivity {
+public class DebitOfDebtorActivity extends AppCompatActivity {
 
     public static final String ITEM_DEBTOR = "ITEM_DEBTOR";
     private RecyclerView rvDebtPaymentHistory;
@@ -30,7 +30,7 @@ public class DebitPaymentActivity extends AppCompatActivity {
     private Button btnPayment;
 
     private Debtor currentDebtor;
-    private DebtPaymentController debtPaymentController;
+    private DebitOfDebtorController debitOfDebtorController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +39,10 @@ public class DebitPaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_debit_payment);
 
         initView();
-        debtPaymentController = new DebtPaymentController(this);
+        debitOfDebtorController = new DebitOfDebtorController(this);
         currentDebtor = getCurrentDebtor();
 
-        debtPaymentController.checkDebtMoneyAndButtonView(currentDebtor, btnPayment);
+        debitOfDebtorController.checkDebtMoneyAndButtonView(currentDebtor, btnPayment);
 
         Helper.getInstance().setImage(ivAvatar, tvFirstName, currentDebtor.getFullName().charAt(0));
         setInformationDebtor();
@@ -66,7 +66,7 @@ public class DebitPaymentActivity extends AppCompatActivity {
     }
 
     private void setDebtPaymentList() {
-        debtPaymentController.setDebtPaymentList(currentDebtor, rvDebtPaymentHistory, tvPayAmountTotal, tvDebtTotal, tvDebtAmountTotal, pbDebit);
+        debitOfDebtorController.setDebtPaymentList(currentDebtor, rvDebtPaymentHistory, tvPayAmountTotal, tvDebtTotal, tvDebtAmountTotal, pbDebit);
     }
 
     private Debtor getCurrentDebtor() {
@@ -116,7 +116,7 @@ public class DebitPaymentActivity extends AppCompatActivity {
     }
 
     public void callOrderDebtorActivity(View view) {
-        Intent intent = new Intent(this, OrderDebtorActivity.class);
+        Intent intent = new Intent(this, DebitOrderListActivity.class);
         intent.putExtra(ITEM_DEBTOR, currentDebtor);
         startActivity(intent);
     }

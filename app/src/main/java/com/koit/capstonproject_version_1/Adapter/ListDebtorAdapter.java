@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.View.DebitPaymentActivity;
+import com.koit.capstonproject_version_1.View.DebitOfDebtorActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,8 +63,8 @@ public class ListDebtorAdapter extends RecyclerView.Adapter<ListDebtorAdapter.Vi
         holder.itemDebtor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DebitPaymentActivity.class);
-                intent.putExtra(DebitPaymentActivity.ITEM_DEBTOR, debtor);
+                Intent intent = new Intent(context, DebitOfDebtorActivity.class);
+                intent.putExtra(DebitOfDebtorActivity.ITEM_DEBTOR, debtor);
                 context.startActivity(intent);
             }
         });

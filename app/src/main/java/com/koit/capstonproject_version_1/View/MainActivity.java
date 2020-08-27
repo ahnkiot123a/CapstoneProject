@@ -182,8 +182,9 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (navDrawer.isDrawerOpen(GravityCompat.START)) {
             navDrawer.closeDrawers();
-        } else {
-            userController.logout(this);
         }
+//        else {
+//            userController.logout(this);
+//        }
     }
 }

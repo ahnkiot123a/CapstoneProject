@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/medium_light_gray"
-    tools:context=".View.DebitPaymentActivity">
+    tools:context=".View.DebitOfDebtorActivity">
 
     <include layout="@layout/toolbar_general_activity" />
 

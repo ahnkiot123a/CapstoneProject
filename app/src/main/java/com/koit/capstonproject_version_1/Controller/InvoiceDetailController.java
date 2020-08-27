@@ -19,7 +19,7 @@ import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.View.DebitPaymentActivity;
+import com.koit.capstonproject_version_1.View.DebitOfDebtorActivity;
 import com.koit.capstonproject_version_1.View.ListItemInOrderActivity;
 import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
@@ -155,8 +155,8 @@ public class InvoiceDetailController {
             @Override
             public void getDebtor(Debtor debtor) {
                 if(debtor != null){
-                    Intent intent = new Intent(activity, DebitPaymentActivity.class);
-                    intent.putExtra(DebitPaymentActivity.ITEM_DEBTOR, debtor);
+                    Intent intent = new Intent(activity, DebitOfDebtorActivity.class);
+                    intent.putExtra(DebitOfDebtorActivity.ITEM_DEBTOR, debtor);
                     activity.startActivity(intent);
                 }
             }

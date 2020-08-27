@@ -9,7 +9,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.koit.capstonproject_version_1.Controller.Interface.IDebtPayment;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtPaymentDetail;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
@@ -17,14 +16,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DebtPaymentDetail implements Serializable {
+public class DebtorPayment implements Serializable {
     private String debtorId;
     private List<DebtPayment> debtPaymentList;
 
-    public DebtPaymentDetail() {
+    public DebtorPayment() {
     }
 
-    public DebtPaymentDetail(String debtorId, List<DebtPayment> debtPaymentList) {
+    public DebtorPayment(String debtorId, List<DebtPayment> debtPaymentList) {
         this.debtorId = debtorId;
         this.debtPaymentList = debtPaymentList;
     }
@@ -74,20 +73,20 @@ public class DebtPaymentDetail implements Serializable {
                 .child(UserDAO.getInstance().getUserID());
         if (dataSnapshotAllDebtPayments != null) {
             for (DataSnapshot valueAllDebtPayments : dataSnapshotAllDebtPayments.getChildren()) {
-                DebtPaymentDetail debtPaymentDetail = new DebtPaymentDetail();
-                debtPaymentDetail.setDebtorId(valueAllDebtPayments.getKey());
+                DebtorPayment debtorPayment = new DebtorPayment();
+                debtorPayment.setDebtorId(valueAllDebtPayments.getKey());
                 DataSnapshot dataSnapshotDebtPayment = dataSnapshotAllDebtPayments
-                        .child(debtPaymentDetail.getDebtorId());
+                        .child(debtorPayment.getDebtorId());
                 List<DebtPayment> debtPayments = new ArrayList<>();
                 for (DataSnapshot valueDebtPayment : dataSnapshotDebtPayment.getChildren()) {
                     DebtPayment debtPayment = valueDebtPayment.getValue(DebtPayment.class);
                     debtPayment.setDebitPaymentId(valueDebtPayment.getKey());
-                    debtPayment.setDebtorId(debtPaymentDetail.getDebtorId());
+                    debtPayment.setDebtorId(debtorPayment.getDebtorId());
                     debtPayments.add(debtPayment);
                 }
-                debtPaymentDetail.setDebtPaymentList(debtPayments);
-                iDebtPaymentDetail.getDebtPaymentDetail(debtPaymentDetail);
-                Log.d("debtPaymentDetail", debtPaymentDetail.toString());
+                debtorPayment.setDebtPaymentList(debtPayments);
+                iDebtPaymentDetail.getDebtPaymentDetail(debtorPayment);
+                Log.d("debtPaymentDetail", debtorPayment.toString());
             }
         }
 

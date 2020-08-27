@@ -88,8 +88,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-10dp"
-                        app:passwordToggleEnabled="true"
-                        >
+                        app:passwordToggleEnabled="true">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPassword"
@@ -100,11 +99,10 @@
                             android:fontFamily="sans-serif-medium"
                             android:inputType="numberPassword"
                             android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
                             android:textColor="@color/gray"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"/>
                     </com.google.android.material.textfield.TextInputLayout>
-
-
                 </LinearLayout>
 
                 <LinearLayout

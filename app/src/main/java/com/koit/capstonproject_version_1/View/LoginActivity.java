@@ -65,10 +65,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final ProgressButton progressButton = new ProgressButton(LoginActivity.this, view);
                 progressButton.buttonActivated();
+                etPhoneNumber.setClickable(false);
+                etPassword.setClickable(false);
+                btnFbLogin.setClickable(false);
+                tvForgotPassword.setClickable(false);
+                tvRegister.setClickable(false);
+                tvAccount.setClickable(false);
                 loginWithPhone();
             }
         });
-
 
 
     }
@@ -95,10 +100,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginWithPhone() {
-       userController.loginWithPhoneAndPassword(etPhoneNumber, etPassword, LoginActivity.this, view, btnFbLogin, tvForgotPassword, tvAccount, tvRegister);
+        userController.loginWithPhoneAndPassword(etPhoneNumber, etPassword, LoginActivity.this, view, btnFbLogin, tvForgotPassword, tvAccount, tvRegister);
     }
 
-    public void callForgotPasswordActivity(View view){
+    public void callForgotPasswordActivity(View view) {
         Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
         startActivity(intent);
     }
@@ -110,6 +115,11 @@ public class LoginActivity extends AppCompatActivity {
         //init where start login activity
         initStartLoginActivity();
 
+        if (SharedPrefs.getInstance().getCurrentUser(CURRENT_USER) != null) {
+            Log.i("currentUser", SharedPrefs.getInstance().getCurrentUser(CURRENT_USER).toString());
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Log.i("currentUser", user.toString());
@@ -117,11 +127,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        if (SharedPrefs.getInstance().getCurrentUser(CURRENT_USER) != null) {
-            Log.i("currentUser", SharedPrefs.getInstance().getCurrentUser(CURRENT_USER).toString());
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
+
     }
 
     private void initStartLoginActivity() {
@@ -156,8 +162,8 @@ public class LoginActivity extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager)
                             LoginActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                    if (imm != null){
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                    if (imm != null) {
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                     }
                 }
             });
@@ -178,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //No button clicked
                         break;

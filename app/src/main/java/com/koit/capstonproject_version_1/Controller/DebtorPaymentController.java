@@ -2,7 +2,6 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -12,37 +11,36 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.koit.capstonproject_version_1.Controller.Interface.IDebtPayment;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtPaymentDetail;
 import com.koit.capstonproject_version_1.Model.DebtPayment;
-import com.koit.capstonproject_version_1.Model.DebtPaymentDetail;
+import com.koit.capstonproject_version_1.Model.DebtorPayment;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DebtPaymentDetailController {
+public class DebtorPaymentController {
     private Activity activity;
-    private DebtPaymentDetail debtPaymentDetail;
-    public List<DebtPaymentDetail> debtPaymentDetailList;
+    private DebtorPayment debtorPayment;
+    public List<DebtorPayment> debtorPaymentList;
 
-    public DebtPaymentDetailController() {
+    public DebtorPaymentController() {
     }
 
-    public DebtPaymentDetailController(Activity activity) {
+    public DebtorPaymentController(Activity activity) {
         this.activity = activity;
-        debtPaymentDetail = new DebtPaymentDetail();
-        debtPaymentDetailList = new ArrayList<>();
+        debtorPayment = new DebtorPayment();
+        debtorPaymentList = new ArrayList<>();
     }
 
     public void getListDebtPayments(final TextView tvPaid, final TextView tvRemaining,
                                     final TextView tvTotalDebt, final PieChart chart) {
         IDebtPaymentDetail iDebtPaymentDetail = new IDebtPaymentDetail() {
             @Override
-            public void getDebtPaymentDetail(DebtPaymentDetail debtPaymentDetail) {
+            public void getDebtPaymentDetail(DebtorPayment debtPaymentDetail) {
                 if (debtPaymentDetail != null){
-                    debtPaymentDetailList.add(debtPaymentDetail);
+                    debtorPaymentList.add(debtPaymentDetail);
                     tvPaid.setText(Money.getInstance().formatVN(getTotalPayAmountByAllDebtors()) + " đ");
                     long paidAmount = Money.getInstance().reFormatVND(tvPaid.getText().toString());
                     long remainingAmount = Money.getInstance().reFormatVND(tvRemaining.getText().toString());
@@ -54,13 +52,13 @@ public class DebtPaymentDetailController {
                 }
             }
         };
-        debtPaymentDetail.getListDebtPayments(iDebtPaymentDetail);
+        debtorPayment.getListDebtPayments(iDebtPaymentDetail);
     }
 
     public long getTotalPayAmountByAllDebtors() {
         long total = 0;
-        for (DebtPaymentDetail debtPaymentDetail : debtPaymentDetailList) {
-            for (DebtPayment debtPayment : debtPaymentDetail.getDebtPaymentList())
+        for (DebtorPayment debtorPayment : debtorPaymentList) {
+            for (DebtPayment debtPayment : debtorPayment.getDebtPaymentList())
                 total += debtPayment.getPayAmount();
         }
         return total;

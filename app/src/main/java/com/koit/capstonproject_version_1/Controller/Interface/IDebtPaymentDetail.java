@@ -1,7 +1,7 @@
 package com.koit.capstonproject_version_1.Controller.Interface;
 
-import com.koit.capstonproject_version_1.Model.DebtPaymentDetail;
+import com.koit.capstonproject_version_1.Model.DebtorPayment;
 
 public interface IDebtPaymentDetail {
-    void getDebtPaymentDetail(DebtPaymentDetail debtPaymentDetail);
+    void getDebtPaymentDetail(DebtorPayment debtorPayment);
 }

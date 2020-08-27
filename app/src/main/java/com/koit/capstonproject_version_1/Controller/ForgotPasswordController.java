@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +21,7 @@ import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.View.ForgotPasswordActivity;
 import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
+
 import java.util.concurrent.TimeUnit;
 
 public class ForgotPasswordController {
@@ -39,7 +42,6 @@ public class ForgotPasswordController {
         this.forgotPasswordActivity = forgotPasswordActivity;
         user = new User();
     }
-
 
 
     public ForgotPasswordController(ResetPasswordActivity resetPasswordActivity, String phoneNumber) {
@@ -105,7 +107,7 @@ public class ForgotPasswordController {
         if (pass.equals(confirmPass))
             return true;
         else {
-            resetPasswordActivity.showTextError("Mật khẩu không khớp.", resetPasswordActivity.getEtConfirmPassword());
+            resetPasswordActivity.showTextErrorNoIcon("Mật khẩu không khớp.", resetPasswordActivity.getEtConfirmPassword());
         }
         return false;
     }
@@ -114,19 +116,18 @@ public class ForgotPasswordController {
     private boolean checkPasswordFromForgot(String pass) {
         inputController = new InputController();
         if (pass.isEmpty()) {
-            resetPasswordActivity.showTextError("Vui lòng nhập mật khẩu.", resetPasswordActivity.getEtPassword());
+            resetPasswordActivity.showTextErrorNoIcon("Vui lòng nhập mật khẩu!", resetPasswordActivity.getEtPassword());
         } else {
             //gom it nhat 6 ki tu so
             String regexStr = "^[0-9]{6,}$";
             if (pass.matches(regexStr)) {
                 return true;
             } else {
-                resetPasswordActivity.showTextError("Vui lòng nhập 6 kí tự số trở lên.", resetPasswordActivity.getEtPassword());
+                resetPasswordActivity.showTextErrorNoIcon("Mật khẩu phải có ít nhất 6 ký tự số!", resetPasswordActivity.getEtPassword());
             }
         }
         return false;
     }
-
 
 
     //resend OTP code

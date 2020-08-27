@@ -71,10 +71,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             holder.shimmerFrameLayout.setShimmer(null);
             if (!listFiltered.isEmpty()) {
                 SortController.getInstance().sortInvoiceListByDate(this.listFiltered);
-                if (listFiltered.size() != 1) {
-                    holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(activity, R.anim.fade_transition_animation));
-                }
-
+                holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(activity, R.anim.fade_transition_animation));
                 tvCount.setText(listFiltered.size() + " đơn hàng");
                 final Invoice invoice = listFiltered.get(position);
 
@@ -154,7 +151,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 listFiltered = (ArrayList<Invoice>) filterResults.values;
                 if (listFiltered != null)
-                tvCount.setText(listFiltered.size() + " đơn hàng");
+                    tvCount.setText(listFiltered.size() + " đơn hàng");
                 notifyDataSetChanged();
             }
         };

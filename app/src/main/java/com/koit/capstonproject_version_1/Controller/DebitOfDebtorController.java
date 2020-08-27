@@ -19,16 +19,16 @@ import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DebtPaymentController {
+public class DebitOfDebtorController {
     private Activity activity;
     private DebtPayment debtPayment;
     public List<DebtPayment> debtPaymentList = new ArrayList<>();
     private DebtPaymentAdapter debtPaymentAdapter;
 
-    public DebtPaymentController() {
+    public DebitOfDebtorController() {
     }
 
-    public DebtPaymentController(Activity activity) {
+    public DebitOfDebtorController(Activity activity) {
         this.activity = activity;
         debtPayment = new DebtPayment();
     }

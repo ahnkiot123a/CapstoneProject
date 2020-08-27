@@ -105,7 +105,7 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
     private Debtor getCurrentDebtor() {
         Debtor debtor;
         Intent intent = getIntent();
-        debtor = (Debtor) intent.getSerializableExtra(DebitPaymentActivity.ITEM_DEBTOR);
+        debtor = (Debtor) intent.getSerializableExtra(DebitOfDebtorActivity.ITEM_DEBTOR);
         return debtor;
     }
 

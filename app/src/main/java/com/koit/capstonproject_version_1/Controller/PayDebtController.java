@@ -8,7 +8,7 @@ import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.DebtPayment;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
-import com.koit.capstonproject_version_1.View.DebitPaymentActivity;
+import com.koit.capstonproject_version_1.View.DebitOfDebtorActivity;
 import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
 import java.util.ArrayList;
@@ -85,7 +85,7 @@ public class PayDebtController {
                                 debtPayment.addInvoiceToDebtPaymentFirebase(debtPayment, invoice);
                                 Invoice.getInstance().updateDebitAmount(invoice);
                                 Debtor.getInstance().updateRemainingDebit(debtor);
-                                Intent intent = new Intent(activity, DebitPaymentActivity.class);
+                                Intent intent = new Intent(activity, DebitOfDebtorActivity.class);
                                 intent.putExtra(ITEM_DEBTOR, debtor);
                                 activity.startActivity(intent);
                                 activity.finish();

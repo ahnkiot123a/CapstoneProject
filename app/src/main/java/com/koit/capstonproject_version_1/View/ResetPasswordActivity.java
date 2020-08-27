@@ -1,15 +1,14 @@
 package com.koit.capstonproject_version_1.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.ForgotPasswordController;
-import com.koit.capstonproject_version_1.Controller.RegisterController;
 import com.koit.capstonproject_version_1.R;
 
 public class ResetPasswordActivity extends AppCompatActivity {
@@ -31,7 +30,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         initView();
 
         phoneNumber = getIntent().getStringExtra("phonenumber");
-        Log.d("PhoneNumber",phoneNumber);
+        Log.d("PhoneNumber", phoneNumber);
         etPhoneNumberRVP.setText(phoneNumber);
 
         forgotPasswordController = new ForgotPasswordController(ResetPasswordActivity.this, phoneNumber);
@@ -47,13 +46,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
         btnDone = findViewById(R.id.btnDone);
     }
 
-    public void sendNewPassword(android.view.View view){
+    public void sendNewPassword(android.view.View view) {
         //   String number = etPassword.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
         String otpCode = etOTP.getText().toString().trim();
 
-        forgotPasswordController.checkInputFromResetPasswordActivity(password,confirmPassword,otpCode);
+        forgotPasswordController.checkInputFromResetPasswordActivity(password, confirmPassword, otpCode);
     }
 
     //resend OTP code
@@ -70,7 +69,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
         et.setError(error);
     }
 
+    public void showTextErrorNoIcon(String error, TextInputEditText et) {
+        et.requestFocus();
+        Drawable customErrorDrawable = getResources().getDrawable(R.drawable.ic_baseline_error_24);
+        customErrorDrawable.setBounds(0, 0, customErrorDrawable.getIntrinsicWidth(), customErrorDrawable.getIntrinsicHeight());
 
+        et.setError(error, customErrorDrawable);
+    }
 
 
     public TextInputEditText getEtOTP() {

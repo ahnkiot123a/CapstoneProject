@@ -40,7 +40,7 @@ public class EditDebtorActivity extends AppCompatActivity {
 
     private void getDebtor() {
         Intent intent = getIntent();
-        debtor = (Debtor) intent.getSerializableExtra(DebitPaymentActivity.ITEM_DEBTOR);
+        debtor = (Debtor) intent.getSerializableExtra(DebitOfDebtorActivity.ITEM_DEBTOR);
     }
 
     private void setDebtorInfo() {
@@ -75,7 +75,7 @@ public class EditDebtorActivity extends AppCompatActivity {
     public void updateDebtor(View view){
       boolean success =  debtorController.updateDebtor(edFullname,edEmail,edPhoneNumber,tvDob,edAddress,rbMale,debtor);
       if (success){
-          Intent intent = new Intent(this, DebitPaymentActivity.class);
+          Intent intent = new Intent(this, DebitOfDebtorActivity.class);
           intent.putExtra(ITEM_DEBTOR, debtor);
           startActivity(intent);
           finish();

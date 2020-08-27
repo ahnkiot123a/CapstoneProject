@@ -24,7 +24,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.koit.capstonproject_version_1.Controller.DebtPaymentDetailController;
+import com.koit.capstonproject_version_1.Controller.DebtorPaymentController;
 import com.koit.capstonproject_version_1.Controller.DebtorController;
 import com.koit.capstonproject_version_1.R;
 
@@ -39,7 +39,7 @@ public class DebitFragment extends Fragment {
     private PieChart chart;
     private TextView tvTotalDebt, tvPaid, tvRemaining;
     private DebtorController debtorController;
-    private DebtPaymentDetailController debtPaymentDetailController;
+    private DebtorPaymentController debtorPaymentController;
     private LinearLayout linearLayoutEmptyDebit, linearLayoutDebitInfo;
     private LottieAnimationView animationView;
 
@@ -68,8 +68,8 @@ public class DebitFragment extends Fragment {
         setUpPieChart(0);
         debtorController.etSearchEventListDebtor(svDebtor);
 
-        debtPaymentDetailController = new DebtPaymentDetailController(this.getActivity());
-        debtPaymentDetailController.getListDebtPayments(tvPaid, tvRemaining, tvTotalDebt, chart);
+        debtorPaymentController = new DebtorPaymentController(this.getActivity());
+        debtorPaymentController.getListDebtPayments(tvPaid, tvRemaining, tvTotalDebt, chart);
 
         /*new Handler().postDelayed(new Runnable() {
             @Override

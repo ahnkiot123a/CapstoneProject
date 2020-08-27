@@ -52,7 +52,7 @@ public class OrderHistoryController {
 
     private String time = "Thời gian";
     private String status = "Tất cả đơn hàng";
-    private Date dateInput, start, end;
+    private Date start, end;
     private OrderSwipeController orderSwipeController;
     private String draftOrderTime = "Tất cả";
 
@@ -90,7 +90,7 @@ public class OrderHistoryController {
                 if (invoice != null) {
                     if (!invoice.isDrafted()) {
                         orderHistoryAdapter.showShimmer = false;
-                        if (status.equals("Tất cả đơn hàng") && time.equals("Tất cả")) {
+                        if (status.equals("Tất cả đơn hàng") && time.equals("Thời gian")) {
                             tvTime.setText("");
                             invoiceList.add(invoice);
                         }
@@ -123,7 +123,7 @@ public class OrderHistoryController {
                                 }
                             }
                         }
-                        if (status.equals("Hoá đơn còn nợ") && time.equals("Tất cả")) {
+                        if (status.equals("Hoá đơn còn nợ") && time.equals("Thời gian")) {
                             tvTime.setText("");
                             if (invoice.getDebitAmount() > 0) {
                                 invoiceList.add(invoice);
@@ -160,7 +160,7 @@ public class OrderHistoryController {
                                 }
                             }
                         }
-                        if (status.equals("Hoá đơn trả hết") && time.equals("Tất cả")) {
+                        if (status.equals("Hoá đơn trả hết") && time.equals("Thời gian")) {
                             tvTime.setText("");
                             if (invoice.getDebitAmount() == 0) {
                                 invoiceList.add(invoice);
@@ -396,16 +396,16 @@ public class OrderHistoryController {
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 String dateTwo = tvDateEnd.getText().toString();
                 if (!dateTwo.isEmpty()) {
-                    Date one = TimeController.getInstance().convertStrToDate(setDate(year, month, day));
+                    Date one = TimeController.getInstance().convertStrToDate(TimeController.getInstance().setDate(year, month, day));
                     Date two = TimeController.getInstance().convertStrToDate(dateTwo);
                     if (one.after(two)) {
                         tvDateStart.setText(dateTwo);
-                        tvDateEnd.setText(setDate(year, month, day));
+                        tvDateEnd.setText(TimeController.getInstance().setDate(year, month, day));
                     } else {
-                        tvDateStart.setText(setDate(year, month, day));
+                        tvDateStart.setText(TimeController.getInstance().setDate(year, month, day));
                     }
                 } else {
-                    tvDateStart.setText(setDate(year, month, day));
+                    tvDateStart.setText(TimeController.getInstance().setDate(year, month, day));
                 }
             }
         };
@@ -424,15 +424,15 @@ public class OrderHistoryController {
                 String dateOne = tvDateStart.getText().toString();
                 if (!dateOne.isEmpty()) {
                     Date one = TimeController.getInstance().convertStrToDate(dateOne);
-                    Date two = TimeController.getInstance().convertStrToDate(setDate(year, month, day));
+                    Date two = TimeController.getInstance().convertStrToDate(TimeController.getInstance().setDate(year, month, day));
                     if (one.after(two)) {
-                        tvDateStart.setText(setDate(year, month, day));
+                        tvDateStart.setText(TimeController.getInstance().setDate(year, month, day));
                         tvDateEnd.setText(dateOne);
                     } else {
-                        tvDateEnd.setText(setDate(year, month, day));
+                        tvDateEnd.setText(TimeController.getInstance().setDate(year, month, day));
                     }
                 } else {
-                    tvDateEnd.setText(setDate(year, month, day));
+                    tvDateEnd.setText(TimeController.getInstance().setDate(year, month, day));
                 }
             }
         };
@@ -471,20 +471,7 @@ public class OrderHistoryController {
 
     }
 
-    private String setDate(int year, int month, int day) {
-        month += 1;
-        String date = day + "-" + month + "-" + year;
-        if (month < 10) {
-            date = day + "-0" + month + "-" + year;
-        }
-        if (day < 10) {
-            date = "0" + day + "-" + month + "-" + year;
-        }
-        if (month < 10 && day < 10) {
-            date = "0" + day + "-0" + month + "-" + year;
-        }
-        return date;
-    }
+
 
 
     private void showDatePicker(DatePickerDialog.OnDateSetListener onDateSetListener) {

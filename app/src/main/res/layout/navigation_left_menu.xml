@@ -189,7 +189,7 @@
             android:fontFamily="sans-serif-medium"
             android:onClick="transferToReveneuActivity"
             android:paddingRight="10dp"
-            android:text="Báo cáo"
+            android:text="Báo cáo doanh thu"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/black"
