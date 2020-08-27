@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.Controller;
 import android.util.Log;
 
 import com.koit.capstonproject_version_1.Model.DebtPayment;
+import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 
 import java.text.ParseException;
@@ -43,6 +44,15 @@ public class SortController {
                     if (date1.before(date2)) return 1;
                 }
                 return -1;
+            }
+        });
+    }
+
+    public void sortDebtorListByDebitAmount(List<Debtor> list) {
+        Collections.sort(list, new Comparator<Debtor>() {
+            @Override
+            public int compare(Debtor o1, Debtor o2) {
+             return (int) (o2.getRemainingDebit() - o1.getRemainingDebit());
             }
         });
     }

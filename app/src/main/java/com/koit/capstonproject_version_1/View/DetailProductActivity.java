@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.View;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,7 +77,16 @@ public class DetailProductActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-                AlertDialog alert = builder.create();
+//                AlertDialog alert = builder.create();
+//                alert.show();
+                final androidx.appcompat.app.AlertDialog alert = builder.create();
+                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.theme));
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+                    }
+                });
                 alert.show();
             }
         });

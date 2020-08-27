@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.koit.capstonproject_version_1.Adapter.EditUnitAdapter;
 import com.koit.capstonproject_version_1.Controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
@@ -128,7 +129,7 @@ public class EditProductUnitsActivity extends AppCompatActivity {
             if (unitPrice.isEmpty()) unitPrice = "0";
             //Log.i("price", unitPrice);
             unitList.get(i).setUnitName(unitName);
-            unitList.get(i).setUnitPrice(Long.parseLong(unitPrice));
+            unitList.get(i).setUnitPrice(Money.getInstance().reFormatVN(unitPrice));
 
 //                Unit unit = new Unit();
 //                unit

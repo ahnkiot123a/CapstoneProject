@@ -71,7 +71,7 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
               android:layout_weight="1"  />
-            <com.google.android.material.textfield.TextInputEditText
+            <com.koit.capstonproject_version_1.helper.MoneyEditText
                 android:id="@+id/etSaleMoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                 android:textSize="18sp"
                 android:windowSoftInputMode="stateUnchanged">
 
-            </com.google.android.material.textfield.TextInputEditText>
+            </com.koit.capstonproject_version_1.helper.MoneyEditText>>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -136,7 +136,7 @@
                 android:textSize="20sp"
                 android:layout_weight="1"  />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.koit.capstonproject_version_1.helper.MoneyEditText
                     android:id="@+id/etPaidMoney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -150,8 +150,7 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:windowSoftInputMode="stateUnchanged">
-
-                </com.google.android.material.textfield.TextInputEditText>
+                </com.koit.capstonproject_version_1.helper.MoneyEditText>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

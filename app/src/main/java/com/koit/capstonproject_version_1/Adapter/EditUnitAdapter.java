@@ -10,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class EditUnitAdapter extends RecyclerView.Adapter<EditUnitAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull EditUnitAdapter.ViewHolder holder, int position) {
         holder.etUnitName.setText(unitArrayList.get(position).getUnitName());
-        holder.etUnitPrice.setText(unitArrayList.get(position).getUnitPrice()+"");
+        holder.etUnitPrice.setText(Money.getInstance().formatVN(unitArrayList.get(position).getUnitPrice())+"");
     }
 
     @Override
@@ -55,14 +57,15 @@ public class EditUnitAdapter extends RecyclerView.Adapter<EditUnitAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextInputEditText etUnitName, etUnitPrice;
+        TextInputEditText etUnitName;
+        MoneyEditText etUnitPrice;
 
 
         public TextInputEditText getEtUnitName() {
             return etUnitName;
         }
 
-        public TextInputEditText getEtUnitPrice() {
+        public MoneyEditText getEtUnitPrice() {
             return etUnitPrice;
         }
 

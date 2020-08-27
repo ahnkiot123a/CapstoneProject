@@ -90,13 +90,6 @@
 
 
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow">
 
             <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -116,13 +109,6 @@
 
 
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow">
 
             <TextView
                     android:id="@+id/textView3"
@@ -159,13 +145,6 @@
                         android:layout_marginStart="50dp"
                         android:text="Nữ " />
                 </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow">
 
             <TextView
                     android:layout_width="match_parent"
@@ -192,13 +171,6 @@
                     android:padding="8dp"
                     android:text="30-10-2020"
                     android:textColor="@color/black" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow">
 
             <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -217,13 +189,6 @@
 
 
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow">
 
             <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -243,7 +208,7 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+
                 <Button
                     android:id="@+id/btnUpdateUserInfo"
                     android:layout_width="match_parent"
@@ -255,7 +220,7 @@
                     android:text="Cập nhật thông tin"
 
                     android:textColor="@color/white" />
-
+        </LinearLayout>
             </LinearLayout>
     </ScrollView>
 </RelativeLayout>

@@ -15,6 +15,7 @@ import com.koit.capstonproject_version_1.Controller.UserController;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.helper.Helper;
 
 import java.util.Date;
 
@@ -51,7 +52,9 @@ public class UserInformationActivity extends AppCompatActivity {
 
     private void setCurrentUserInfo() {
         if (currentUser.getFullName().length()>0){
-            tvFirstName.setText(currentUser.getFullName().charAt(0) + "");
+//            tvFirstName.setText(currentUser.getFullName().charAt(0) + "");
+            Helper.getInstance().setImage(profile_img,tvFirstName,currentUser.getFullName().charAt(0));
+
         } else {
             tvFirstName.setText("");
             profile_img.setImageResource(R.drawable.ic_account_circle_black_24dp);

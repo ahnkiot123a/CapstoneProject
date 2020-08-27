@@ -1,6 +1,8 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +47,44 @@ public class EditConvertRateAdapter extends RecyclerView.Adapter<EditConvertRate
 
 
     @Override
-    public void onBindViewHolder(@NonNull EditConvertRateAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final EditConvertRateAdapter.ViewHolder holder, int position) {
         holder.etBigUnitName.setText("1 "+ unitArrayList.get(position).getUnitName() );
         holder.etSmallUnitName.setText(unitArrayList.get(unitArrayList.size()-1).getUnitName());
         holder.etConvertRate.setText(unitArrayList.get(position).getConvertRate()+"");
+        holder.etConvertRate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String convertRateString = s.toString();
+                if (convertRateString.length() > 3) {
+                    holder.etConvertRate.setText(convertRateString.substring(0, convertRateString.length() - 1));
+                }
+                if (convertRateString.startsWith("00")
+                        || convertRateString.equals(""))
+                    holder.etConvertRate.setText(0 + "");
+                for (int i = 0; i <= 9; i++) {
+                    if (convertRateString.equals("0" + i)) holder.etConvertRate.setText(i + "");
+                }
+                int convertRate = 0;
+                try {
+                    convertRate = Integer.parseInt(convertRateString);
+                } catch (Exception e){
+                    convertRate = 0;
+                }
+                if (convertRate == 0 || convertRateString.length() == 1) {
+                    holder.etConvertRate.setSelection(holder.etConvertRate.getText().length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override

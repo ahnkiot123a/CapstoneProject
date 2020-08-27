@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
@@ -45,7 +46,7 @@ public class UnitRecyclerAdapter  extends RecyclerView.Adapter<UnitRecyclerAdapt
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvUnitName.setText("1 " + unitArrayList.get(position).getUnitName());
-        holder.tvUnitPrice.setText(unitArrayList.get(position).getUnitPrice() + " VNĐ");
+        holder.tvUnitPrice.setText(Money.getInstance().formatVN(unitArrayList.get(position).getUnitPrice()) + " đ");
     }
 
     @Override

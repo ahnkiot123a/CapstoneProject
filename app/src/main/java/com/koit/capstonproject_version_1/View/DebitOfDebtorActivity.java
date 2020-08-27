@@ -101,6 +101,13 @@ public class DebitOfDebtorActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this.getApplicationContext(), MainActivity.class);
+        this.startActivity(intent);
+    }
+
     public void callEditDebtorActivity(View view) {
         Intent intent = new Intent(this, EditDebtorActivity.class);
         intent.putExtra(ITEM_DEBTOR, currentDebtor);

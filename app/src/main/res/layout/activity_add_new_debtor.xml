@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.UserInformationActivity">
+    tools:context=".View.AddNewDebtorActivity">
 
     <Toolbar
         android:id="@+id/toolbar_top"
@@ -51,7 +51,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -114,14 +114,6 @@
                         android:drawablePadding="10dp"
                         android:fontFamily="sans-serif-medium" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
-                android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -136,14 +128,6 @@
                         android:drawablePadding="10dp"
                         android:fontFamily="sans-serif-medium" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
-                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView3"
@@ -180,14 +164,7 @@
                         android:layout_marginStart="50dp"
                         android:text="Nữ " />
                 </RadioGroup>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
-                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -213,14 +190,6 @@
                     android:padding="8dp"
                     android:text=""
                     android:textColor="@color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
-                android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"

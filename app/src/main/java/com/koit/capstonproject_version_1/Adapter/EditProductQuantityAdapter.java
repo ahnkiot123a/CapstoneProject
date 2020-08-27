@@ -1,6 +1,8 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,7 @@ public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProduct
                 } catch (Exception e) {
                     quantity = 0;
                 }
-                holder.etProductQuantity.setText(quantity + 1 + "");
+             if (quantity < 9999)   holder.etProductQuantity.setText(quantity + 1 + "");
             }
         });
         holder.ibMinusQuantity.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +76,40 @@ public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProduct
                     quantity = 0;
                 }
                 if (quantity > 0) holder.etProductQuantity.setText(quantity - 1 + "");
+            }
+        });
+        holder.etProductQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String productQuantity = s.toString();
+                if (productQuantity.length() > 4) {
+                    holder.etProductQuantity.setText(productQuantity.substring(0, productQuantity.length() - 1));
+                }
+                if (productQuantity.startsWith("00")
+                        || productQuantity.equals(""))
+                    holder.etProductQuantity.setText(0 + "");
+                for (int i = 0; i <= 9; i++) {
+                    if (productQuantity.equals("0" + i)) holder.etProductQuantity.setText(i + "");
+                }
+                int quantity = 0;
+                try {
+                    quantity = Integer.parseInt(productQuantity);
+                } catch (Exception e){
+                    quantity = 0;
+                }
+                if (quantity == 0 || productQuantity.length() == 1) {
+                    holder.etProductQuantity.setSelection(holder.etProductQuantity.getText().length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }

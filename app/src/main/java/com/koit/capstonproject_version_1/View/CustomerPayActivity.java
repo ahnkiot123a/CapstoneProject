@@ -20,6 +20,7 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class CustomerPayActivity extends AppCompatActivity {
     private TextView tvTotalQuantity, tvTotalPrice, tvCustomerPaid,
             tvMoneyChange, tvCustomerDebit, tvToolbarTitle;
     private List<Product> listSelectedProductWarehouse, listSelectedProductInOrder;
-    private TextInputEditText etSaleMoney, etPaidMoney;
+    private MoneyEditText etSaleMoney, etPaidMoney;
     private Button btnSubmitPaid;
     private InvoiceDetail invoiceDetail;
     private long totalProductQuantity = 0;
@@ -54,6 +55,15 @@ public class CustomerPayActivity extends AppCompatActivity {
         inputCustomerPaid();
         inputSaleMoney();
         actionBtnSubmitPaid();
+//        etPaidMoney.selectAll();
+
+        etPaidMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etPaidMoney.setSelectAllOnFocus(true);
+                etPaidMoney.selectAll();
+            }
+        });
     }
 
     private void setData() {
@@ -62,7 +72,7 @@ public class CustomerPayActivity extends AppCompatActivity {
         totalPrice = createOrderController.calTotalPrice(listSelectedProductInOrder);
         tvTotalPrice.setText(Money.getInstance().formatVN(totalPrice));
         tvCustomerPaid.setText(Money.getInstance().formatVN(totalPrice));
-        etPaidMoney.setText(totalPrice + "");
+        etPaidMoney.setText(Money.getInstance().formatVN(totalPrice));
         tvCustomerDebit.setText("0");
     }
 
@@ -93,8 +103,8 @@ public class CustomerPayActivity extends AppCompatActivity {
             public void onClick(View v) {
                 invoiceId = RandomStringController.getInstance().randomInvoiceId();
                 debitAmount = Money.getInstance().reFormatVN(tvCustomerDebit.getText().toString());
-                discount = Long.parseLong(etSaleMoney.getText().toString());
-                firstPaid = Long.parseLong(etPaidMoney.getText().toString());
+                discount = Money.getInstance().reFormatVN(etSaleMoney.getText().toString());
+                firstPaid = Money.getInstance().reFormatVN(etPaidMoney.getText().toString());
                 customerPaid = Money.getInstance().reFormatVN(tvCustomerPaid.getText().toString());
                 invoiceDate = TimeController.getInstance().getCurrentDate();
                 invoiceTime = TimeController.getInstance().getCurrentTime();

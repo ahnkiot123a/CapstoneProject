@@ -15,6 +15,7 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
+import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -50,8 +51,8 @@ public class CreateOrderController {
         return totalPrice;
     }
 
-    public void inputSaleMoney(final TextInputEditText etSaleMoney, final TextView tvCustomerPaid, final long totalPrice,
-                               final TextInputEditText etPaidMoney) {
+    public void inputSaleMoney(final MoneyEditText etSaleMoney, final TextView tvCustomerPaid, final long totalPrice,
+                               final MoneyEditText etPaidMoney) {
         etSaleMoney.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -64,7 +65,7 @@ public class CreateOrderController {
 //                long totalSum = 100000; totalPrice
                 long salePrice = 0;
                 try {
-                    salePrice = Long.parseLong(salePriceString);
+                    salePrice = Money.getInstance().reFormatVN(etSaleMoney.getText().toString());
                 } catch (Exception e) {
                     salePrice = 0;
                 }
@@ -79,7 +80,7 @@ public class CreateOrderController {
                 }
                 if (totalPrice - salePrice > 0) {
                     tvCustomerPaid.setText(Money.getInstance().formatVN(totalPrice - salePrice));
-                    etPaidMoney.setText(totalPrice - salePrice + "");
+                    etPaidMoney.setText( Money.getInstance().formatVN(totalPrice - salePrice));
                 } else {
                     tvCustomerPaid.setText("0");
                     etPaidMoney.setText("0");
@@ -94,7 +95,7 @@ public class CreateOrderController {
         });
     }
 
-    public void inputPaidMoney(final TextInputEditText etPaidMoney, final TextView tvCustomerPaid,
+    public void inputPaidMoney(final MoneyEditText etPaidMoney, final TextView tvCustomerPaid,
                                final TextView tvMoneyChange, final TextView tvCustomerDebit, final Button btnSubmitPaid) {
         etPaidMoney.addTextChangedListener(new TextWatcher() {
 
@@ -108,7 +109,8 @@ public class CreateOrderController {
                 String paidMoneyString = s.toString();
                 long customerPaid = 0;
                 try {
-                    customerPaid = Long.parseLong(paidMoneyString);
+                    customerPaid = Money.getInstance().reFormatVN( paidMoneyString);
+//                            Long.parseLong(paidMoneyString);
                 } catch (Exception e) {
                     customerPaid = 0;
                 }

@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.koit.capstonproject_version_1.Controller.SortController;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
@@ -22,10 +23,13 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DebitConfirmationActivity;
+import com.koit.capstonproject_version_1.helper.Helper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapter.ViewHolder> implements Filterable {
     List<Debtor> debtorList;
@@ -76,29 +80,34 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final Debtor debtor = listFiltered.get(position);
-        holder.tvDebitorName.setText(debtor.getFullName());
-        holder.tvDebitorPhone.setText(debtor.getPhoneNumber());
-        holder.tvDebtTotalAmount.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
-        holder.tvFirstDebtorName.setText(debtor.getFullName().charAt(0) + "");
-        holder.itemDebtor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentDebtor = new Intent(context, DebitConfirmationActivity.class);
-                intentDebtor.putExtra("debtor", debtor);
-                intentDebtor.putExtra("invoice", invoice);
-                intentDebtor.putExtra("invoiceDetail", invoiceDetail);
-                Bundle args2 = new Bundle();
-                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-                intentDebtor.putExtra("BUNDLE", args2);
+        if (!listFiltered.isEmpty()) {
+            SortController.getInstance().sortDebtorListByDebitAmount(listFiltered);
+            final Debtor debtor = listFiltered.get(position);
+            holder.tvDebitorName.setText(debtor.getFullName());
+            holder.tvDebitorPhone.setText(debtor.getPhoneNumber());
+            holder.tvDebtTotalAmount.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
+//        holder.tvFirstDebtorName.setText(debtor.getFullName().charAt(0) + "");
+            Helper.getInstance().setImage(holder.imgAvatar, holder.tvFirstDebtorName, debtor.getFullName().charAt(0));
 
-                //  invoice = SelectDebtorActivity.getInstance().getInvoice();
-                //Log.d("InvoiceAdapter", invoice.toString());
-                intentDebtor.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            holder.itemDebtor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentDebtor = new Intent(context, DebitConfirmationActivity.class);
+                    intentDebtor.putExtra("debtor", debtor);
+                    intentDebtor.putExtra("invoice", invoice);
+                    intentDebtor.putExtra("invoiceDetail", invoiceDetail);
+                    Bundle args2 = new Bundle();
+                    args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+                    intentDebtor.putExtra("BUNDLE", args2);
 
-                context.startActivity(intentDebtor);
-            }
-        });
+                    //  invoice = SelectDebtorActivity.getInstance().getInvoice();
+                    //Log.d("InvoiceAdapter", invoice.toString());
+                    intentDebtor.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    context.startActivity(intentDebtor);
+                }
+            });
+        }
     }
 
     @Override
@@ -135,9 +144,10 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 listFiltered = (ArrayList<Debtor>) results.values;
-                if (listFiltered != null){
-                    if (listFiltered.size() == 0) layout_not_found_Search.setVisibility(View.VISIBLE);
-                    else  layout_not_found_Search.setVisibility(View.GONE);
+                if (listFiltered != null) {
+                    if (listFiltered.size() == 0)
+                        layout_not_found_Search.setVisibility(View.VISIBLE);
+                    else layout_not_found_Search.setVisibility(View.GONE);
                 }
                 notifyDataSetChanged();
             }
@@ -148,6 +158,8 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvDebitorName, tvDebitorPhone, tvDebtTotalAmount, tvFirstDebtorName;
         private ConstraintLayout itemDebtor;
+        private CircleImageView imgAvatar;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -156,6 +168,7 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
             tvDebtTotalAmount = itemView.findViewById(R.id.tvDebtTotalAmount);
             itemDebtor = itemView.findViewById(R.id.itemDebtor);
             tvFirstDebtorName = itemView.findViewById(R.id.tvFirstName);
+            imgAvatar = itemView.findViewById(R.id.imgAvatar);
         }
     }
 

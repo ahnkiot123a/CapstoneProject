@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <com.google.android.material.textfield.TextInputEditText
+              <com.koit.capstonproject_version_1.helper.MoneyEditText
                     android:id="@+id/etUnitPrice"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
