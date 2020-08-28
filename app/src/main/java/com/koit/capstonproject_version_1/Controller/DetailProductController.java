@@ -11,21 +11,30 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Adapter.ConvertRateRecyclerAdapter;
 import com.koit.capstonproject_version_1.Adapter.UnitRecyclerAdapter;
+import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.SuggestedProduct;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.View.ListProductActivity;
 import com.koit.capstonproject_version_1.dao.CreateProductDAO;
@@ -36,6 +45,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -114,6 +124,39 @@ public class DetailProductController {
         });
     }
 
+    public void sortUnitByPrice(List<Unit> unitList) {
+        Collections.sort(unitList, new Comparator<Unit>() {
+            @Override
+            public int compare(Unit o1, Unit o2) {
+                return (int) (o2.getUnitPrice() - o1.getUnitPrice());
+            }
+        });
+    }
+    public void setImageView(final ImageView productImage, Product product) {
+        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+            StorageReference storagePicture = FirebaseStorage.getInstance().getReference().child("ProductPictures").child(product.getProductImageUrl());
+            try {
+                final File localFile = File.createTempFile(product.getProductImageUrl(), "jpeg");
+                storagePicture.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("SaveFileFSuccess", taskSnapshot.toString());
+                        // Local temp file has been created
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        productImage.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d("SaveFileFailed", exception.getMessage());
+                        // Handle any errors
+                    }
+                });
+            } catch (IOException e) {
+                Log.d("SaveFileFailed", e.getMessage());
+            }
+        }
+    }
     public void setRecyclerViewUnits(RecyclerView recyclerUnits, ArrayList<Unit> listUnit) {
         recyclerUnits.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
@@ -191,5 +234,79 @@ public class DetailProductController {
         Intent intent = new Intent(activity, ListProductActivity.class);
         activity.startActivity(intent);
         Toast.makeText(activity.getApplicationContext(), "Bạn đã xoá thành công sản phẩm", Toast.LENGTH_LONG).show();
+    }
+
+    public void getProductByProductId(final String id, final IProduct iProduct, final ImageView productImage,
+                                      final EditText edBarcode, final EditText edProductName, final EditText edDescription, final TextView categoryName,
+                                      final Switch switchActive, final RecyclerView recyclerUnits, final TextView tvConvertRate,
+                                      final RecyclerView recyclerConvertRate, final Spinner spinnerUnit, final TextView tvUnitQuantity) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+//                .child("Products").child(UserDAO.getInstance().getUserID()).child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                DataSnapshot dataSnapshotProduct = snapshot.child("Products").child(UserDAO.getInstance().getUserID()).child(id);
+                Product product = dataSnapshotProduct.getValue(Product.class);
+                product.setProductId(dataSnapshotProduct.getKey());
+
+                DataSnapshot dataSnapshotUnit = snapshot.child("Units").child(UserDAO.getInstance().getUserID()).child(id);
+                List<Unit> unitList = new ArrayList<>();
+                for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+//                    Log.d("kiemtraUnit", valueUnit + "");
+                    Unit unit = valueUnit.getValue(Unit.class);
+                    unit.setUnitId(valueUnit.getKey());
+                    unitList.add(unit);
+                }
+                product.setUnits(unitList);
+                iProduct.getProductById(product);
+                if (product != null) {
+                    sortUnitByPrice(unitList);
+                    setImageView(productImage, product);
+                    edBarcode.setText(product.getBarcode());
+                    edProductName.setText(product.getProductName());
+                    edDescription.setText(product.getProductDescription());
+                    categoryName.setText("Loại sản phẩm: " + product.getCategoryName());
+                    if (product.isActive()) switchActive.setChecked(true);
+                    switchActive.setEnabled(false);
+                    setRecyclerViewUnits(recyclerUnits, (ArrayList<Unit>) unitList);
+                    setRecyclerConvertRate((ArrayList<Unit>) unitList, tvConvertRate, recyclerConvertRate);
+                    setSpinnerUnit((ArrayList<Unit>) unitList, spinnerUnit, tvUnitQuantity);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+
+            }
+        });
+    }
+
+    public void setProductInformation(final Product currentProduct, final ImageView productImage,
+                                      final EditText edBarcode, final EditText edProductName, final EditText edDescription, final TextView categoryName,
+                                      final Switch switchActive, final RecyclerView recyclerUnits, final TextView tvConvertRate,
+                                      final RecyclerView recyclerConvertRate, final Spinner spinnerUnit, final TextView tvUnitQuantity) {
+        IProduct iProduct = new IProduct() {
+            @Override
+            public void getSuggestedProduct(SuggestedProduct product) {
+
+            }
+
+            @Override
+            public void getProductById(Product product) {
+                if (product != null) {
+                    currentProduct.setProductImageUrl(product.getProductImageUrl());
+                    currentProduct.setProductDescription(product.getProductDescription());
+                    currentProduct.setCategoryName(product.getCategoryName());
+                    currentProduct.setBarcode(product.getBarcode());
+                    currentProduct.setUserId(product.getUserId());
+                    currentProduct.setActive(product.isActive());
+                    currentProduct.setUnits(product.getUnits());
+                    currentProduct.setProductName(product.getProductName());
+                }
+            }
+        };
+        getProductByProductId(currentProduct.getProductId(), iProduct, productImage, edBarcode,
+                edProductName, edDescription, categoryName, switchActive, recyclerUnits, tvConvertRate, recyclerConvertRate, spinnerUnit, tvUnitQuantity);
     }
 }

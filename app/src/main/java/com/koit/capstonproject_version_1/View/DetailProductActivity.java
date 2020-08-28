@@ -132,17 +132,20 @@ public class DetailProductActivity extends AppCompatActivity {
     private void setProductInformation() {
         Log.d("productUpdate", product.toString());
 
-        detailProductController.setProductImageView(productImage, product);
-        edBarcode.setText(product.getBarcode());
-        edProductName.setText(product.getProductName());
-        edDescription.setText(product.getProductDescription());
-        categoryName.setText("Loại sản phẩm: " + product.getCategoryName());
-        if (product.isActive()) switchActive.setChecked(true);
-        switchActive.setEnabled(false);
-
-        setRecyclerUnits();
-        setRecyclerConvertRate();
-        setSpinnerUnit();
+//        detailProductController.setProductImageView(productImage, product);
+//        edBarcode.setText(product.getBarcode());
+//        edProductName.setText(product.getProductName());
+//        edDescription.setText(product.getProductDescription());
+//        categoryName.setText("Loại sản phẩm: " + product.getCategoryName());
+//        if (product.isActive()) switchActive.setChecked(true);
+//        switchActive.setEnabled(false);
+//
+//        setRecyclerUnits();
+//        setRecyclerConvertRate();
+//        setSpinnerUnit();
+        detailProductController.setProductInformation(product, productImage, edBarcode,
+                edProductName, edDescription, categoryName, switchActive, recyclerUnits,
+                tvConvertRate, recyclerConvertRate, spinnerUnit, tvUnitQuantity);
 
     }
 
@@ -159,8 +162,16 @@ public class DetailProductActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
+        onBackPressed();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         Intent intent = new Intent(DetailProductActivity.this, ListProductActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void addProductQuantity(View view) {
