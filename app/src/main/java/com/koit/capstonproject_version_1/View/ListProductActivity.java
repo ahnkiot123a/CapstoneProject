@@ -1,9 +1,13 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,6 +35,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ListProductActivity extends AppCompatActivity {
@@ -48,15 +53,17 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
-    MyDialog dialog;
+    private Dialog dialog;
+    private Disposable networkDisposable;
 
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
-        dialog = new MyDialog(this);
         setContentView(R.layout.activity_list_product);
+        initDDialog();
+
         searchView = findViewById(R.id.searchViewInList);
         category_Spinner = findViewById(R.id.category_Spinner);
         tvTotalQuantity = findViewById(R.id.tvTotalQuantity);
@@ -116,25 +123,65 @@ public class ListProductActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
+    private void initDDialog() {
+        dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.alert_dialog_network_checking);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+    }
+
+    @SuppressLint("CheckResult")
     @Override
     protected void onResume() {
         super.onResume();
-
-        ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
+//        ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(connectivity -> {
+//                    if (connectivity.available()) {
+//                        dialog.setCancelable(false);
+//                        dialog.setContentView(R.layout.alert_dialog_network_checking);
+//                        dialog.setCanceledOnTouchOutside(false);
+//                        dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+//                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                        dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+//                        dialog.show();
+//                    } else {
+//                        dialog.dismiss();
+//                    }
+//                });
+        networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(connectivity -> {
                     if (connectivity.available()) {
-                        if (dialog != null) dialog.dismissDialog();
+                        if (dialog != null)
+                            dialog.dismiss();
                     } else {
-                        dialog.showInternetError();
+                        if (dialog != null) dialog.show();
                     }
                 });
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        safelyDispose(networkDisposable);
+        searchView.setQuery("", false);
+        layoutSearch.requestFocus();
+    }
+
+    private void safelyDispose(Disposable... disposables) {
+        for (Disposable subscription : disposables) {
+            if (subscription != null && !subscription.isDisposed()) {
+                subscription.dispose();
+            }
+        }
     }
 
     public void addNewProduct(View view) {
@@ -157,6 +204,7 @@ public class ListProductActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent intent = new Intent(this.getApplicationContext(), MainActivity.class);
         this.startActivity(intent);
+
     }
 
     @Override
@@ -166,12 +214,6 @@ public class ListProductActivity extends AppCompatActivity {
 //                linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        searchView.setQuery("", false);
-        layoutSearch.requestFocus();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

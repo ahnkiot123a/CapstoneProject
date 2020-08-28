@@ -3,8 +3,10 @@ package com.koit.capstonproject_version_1.Model.UIModel;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,7 +16,7 @@ import com.koit.capstonproject_version_1.R;
 
 public class MyDialog {
 
-//    private AlertDialog dialogConnection;
+    //    private AlertDialog dialogConnection;
     private Activity activity;
     private AlertDialog dialog;
     private LottieAnimationView animationView;
@@ -43,17 +45,19 @@ public class MyDialog {
     }
 
     public void showInternetError() {
-        dialogConnection.setContentView(R.layout.alert_dialog_network_checking);
-        dialogConnection.setCanceledOnTouchOutside(false);
-        dialogConnection.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        dialogConnection.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialogConnection.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
-        dialogConnection.show();
-
+        if (dialogConnection != null) {
+            dialogConnection.setCancelable(false);
+            dialogConnection.setContentView(R.layout.alert_dialog_network_checking);
+            dialogConnection.setCanceledOnTouchOutside(false);
+            dialogConnection.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            dialogConnection.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialogConnection.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+            dialogConnection.show();
+        }
     }
 
-    public void dismissDialog() {
-        dialogConnection.dismiss();
+    public void cancelConnectionDialog() {
+        dialogConnection.cancel();
     }
 
 }

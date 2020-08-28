@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -252,6 +253,7 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
         View popupInputDialogView = layoutInflater.inflate(R.layout.add_nonlistedproduct, null);
         // Create a AlertDialog Builder.
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ListItemInOrderActivity.this);
+
         // Set title, icon, can not cancel properties.
         alertDialogBuilder.setTitle("Nhập sản phẩm bên ngoài");
         alertDialogBuilder.setIcon(R.drawable.icons8_add_48px_3);

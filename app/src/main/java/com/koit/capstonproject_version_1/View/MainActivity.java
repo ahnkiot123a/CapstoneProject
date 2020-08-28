@@ -1,14 +1,17 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -34,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,8 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private User currentUser;
     private CreateProductController createProductController;
     private UserController userController;
-
-    MyDialog dialog;
+    private boolean isConnected = false;
+    private Dialog dialog;
+    private Disposable networkDisposable;
 
     @SuppressLint("CheckResult")
     @Override
@@ -57,36 +62,70 @@ public class MainActivity extends AppCompatActivity {
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-
-        initView();
         currentUser = UserDAO.getInstance().getUser();
         getBottomNavigation();
         getNavigationMenuLeft();
         createProductController = new CreateProductController(this);
         userController = new UserController();
-        dialog = new MyDialog(this);
+        initDDialog();
     }
 
-    private void initView() {
-
+    private void initDDialog() {
+        dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.alert_dialog_network_checking);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
     }
-
-
 
     @SuppressLint("CheckResult")
     @Override
     protected void onResume() {
         super.onResume();
-        ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
+
+//        ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(connectivity -> {
+//                    if (connectivity.available()) {
+//                        isConnected = true;
+//                        if (dialog != null) dialog.cancelConnectionDialog();
+//                    } else {
+//                        dialog.showInternetError();
+//                        isConnected = false;
+//                    }
+//                });
+//https://github.com/pwittchen/ReactiveNetwork/blob/RxJava2.x/app/src/main/java/com/github/pwittchen/
+// reactivenetwork/app/MainActivity.java?fbclid=IwAR3Qr5v3j6-o4mlDIJLYbzyjhL3a2Ikr77M1OpP8m4NJCq3TVVZ1p8UHdRM
+        networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(connectivity -> {
+
                     if (connectivity.available()) {
-                        if (dialog != null) dialog.dismissDialog();
+                        if (dialog != null)
+                            dialog.dismiss();
+
                     } else {
-                        dialog.showInternetError();
+                        if (dialog != null) dialog.show();
                     }
                 });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        safelyDispose(networkDisposable);
+    }
+
+    private void safelyDispose(Disposable... disposables) {
+        for (Disposable subscription : disposables) {
+            if (subscription != null && !subscription.isDisposed()) {
+                subscription.dispose();
+            }
+        }
     }
 
     private void getNavigationMenuLeft() {
@@ -120,12 +159,16 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, UserInformationActivity.class);
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
     }
 
     public void changePassword(android.view.View view) {
         Intent intent = new Intent(this, ChangePasswordActivity.class);
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
     }
 
     public void transferToReveneuActivity(View view) {
@@ -140,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FeedbackActivity.class);
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
     }
 
     public void navigationMenuLeft(View view) {
@@ -150,26 +195,33 @@ public class MainActivity extends AppCompatActivity {
     public void intentToSelectProduct(View view) {
         Intent intent = new Intent(MainActivity.this, SelectProductActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
     }
 
     public void callCreateProductActivity(View view) {
         Intent intent = new Intent(MainActivity.this, CreateProductActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public void callListProductActivity(View view) {
         Intent intent = new Intent(MainActivity.this, ListProductActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public void callDraftOrderActivity(View view) {
         Intent intent = new Intent(MainActivity.this, DraftOrderActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public void callOrderHistory(View view) {
         Intent intent = new Intent(this, OrderHistoryActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
     }
 
     public void logout(View view) {
@@ -211,11 +263,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (navDrawer.isDrawerOpen(GravityCompat.START)) {
-            navDrawer.closeDrawers();
+        if (isConnected) {
+            super.onBackPressed();
+            if (navDrawer.isDrawerOpen(GravityCompat.START)) {
+                navDrawer.closeDrawers();
+            }
         }
-//        else {
-//            userController.logout(this);
-//        }
     }
+    //    @Override
+//    public void onBackPressed() {
+//
+//        if (isConnected) {
+//            if (navDrawer.isDrawerOpen(GravityCompat.START)) {
+//                navDrawer.closeDrawers();
+//            }
+//        }
+////        else {
+////            userController.logout(this);
+////        }
+//    }
 }
