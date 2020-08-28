@@ -32,8 +32,8 @@ public class RandomStringController {
 
     public String randomDebtorId() {
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String result = "KH" + "" + timeStamp + "";
-
+        int random_int = (int)(Math.random() * (999 - 100 + 1) + 100);
+        String result = "KH" + "" + timeStamp + "" + random_int;
         return result;
     }
 

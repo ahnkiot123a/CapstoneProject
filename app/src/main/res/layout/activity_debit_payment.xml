@@ -211,7 +211,7 @@
                             android:autoSizeTextType="uniform"
                             android:fontFamily="sans-serif-medium"
                             android:gravity="center"
-                            android:text="4.000.000 đ"
+                            android:text="0 đ"
                             android:textColor="@color/green_chrome"
                             android:textSize="18sp"
                             tools:targetApi="o" />

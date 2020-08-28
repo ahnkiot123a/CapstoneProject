@@ -1,18 +1,24 @@
 package com.koit.capstonproject_version_1.Model;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
@@ -24,6 +30,7 @@ public class Debtor implements Serializable {
     private DatabaseReference nodeRoot;
     private DataSnapshot dataRoot;
     private static Debtor mInstance;
+
     public static Debtor getInstance() {
         if (mInstance == null) {
             mInstance = new Debtor();
@@ -123,6 +130,104 @@ public class Debtor implements Serializable {
                 '}';
     }
 
+    public void setDebtMoneyView(String id, final Debtor newDebtor, final TextView tvDebtTotal,
+                                 final TextView tvRemainingDebt, final ConstraintLayout constraintPayAllDebt,
+                                final LinearLayout linearInputPayDebt, final FloatingActionButton btnConfirm) {
+        IDebtor iDebtor = new IDebtor() {
+            @Override
+            public void getDebtor(Debtor debtor) {
+                if (debtor != null) {
+                    newDebtor.setRemainingDebit(debtor.getRemainingDebit());
+//                    debtorName = debtor.getFullName();
+                }
+            }
+        };
+        getDebtorById(id, iDebtor, tvDebtTotal, tvRemainingDebt,constraintPayAllDebt,
+                linearInputPayDebt, btnConfirm);
+    }
+
+    private void getDebtorById(String id, final IDebtor iDebtor, final TextView tvDebtTotal,
+                               final TextView tvRemainingDebt, final ConstraintLayout constraintPayAllDebt,
+                              final LinearLayout linearInputPayDebt, final FloatingActionButton btnConfirm) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Debtors").child(UserDAO.getInstance().getUserID()).child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Debtor debtor = snapshot.getValue(Debtor.class);
+                debtor.setDebtorId(snapshot.getKey());
+                iDebtor.getDebtor(debtor);
+                if (debtor != null) {
+                    Log.d("debtorDebtMoneyView", debtor.toString());
+                    if (debtor.getRemainingDebit() > 0){
+                        btnConfirm.setVisibility(View.VISIBLE);
+                        constraintPayAllDebt.setVisibility(View.GONE);
+                        linearInputPayDebt.setVisibility(View.VISIBLE);
+                        tvDebtTotal.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
+                        tvRemainingDebt.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
+                    } else {
+                        btnConfirm.setVisibility(View.GONE);
+                        constraintPayAllDebt.setVisibility(View.VISIBLE);
+                        linearInputPayDebt.setVisibility(View.GONE);
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+
+            }
+        });
+    }
+
+    public void setDebtorInformation(String id, final Debtor newDebtor,
+                                 final TextView tvDebtTotal, final TextView tvDebtAmountTotal,
+                                    final TextView tvPayAmountTotal) {
+        IDebtor iDebtor = new IDebtor() {
+            @Override
+            public void getDebtor(Debtor debtor) {
+                if (debtor != null) {
+                    newDebtor.setRemainingDebit(debtor.getRemainingDebit());
+//                    debtorName = debtor.getFullName();
+                }
+            }
+        };
+        getDebtorById(id, iDebtor, tvDebtTotal, tvDebtAmountTotal, tvPayAmountTotal);
+    }
+
+    private void getDebtorById(String id, final IDebtor iDebtor,
+                               final TextView tvDebtTotal, final TextView tvDebtAmountTotal,
+                               final TextView tvPayAmountTotal) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Debtors").child(UserDAO.getInstance().getUserID()).child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Debtor debtor = snapshot.getValue(Debtor.class);
+                debtor.setDebtorId(snapshot.getKey());
+                iDebtor.getDebtor(debtor);
+                if (debtor != null) {
+                    Log.d("debtorDebtMoneyView", debtor.toString());
+                    tvDebtAmountTotal.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
+                    long payAmountTotal = Money.getInstance().reFormatVND(tvPayAmountTotal.getText().toString());
+                    long debtTotal = payAmountTotal + debtor.getRemainingDebit();
+                    tvDebtTotal.setText(Money.getInstance().formatVN(debtTotal) + " đ");
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+
+            }
+        });
+    }
+
     public void getListDebtor(final IDebtor iDebtor) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -138,11 +243,12 @@ public class Debtor implements Serializable {
         nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
-    public void getListDebtor(final IDebtor iDebtor,  final  LinearLayout layoutDebtors, final ConstraintLayout layout_not_found_item) {
+
+    public void getListDebtor(final IDebtor iDebtor, final LinearLayout layoutDebtors, final ConstraintLayout layout_not_found_item) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getListDebtor(dataSnapshot, iDebtor,layoutDebtors,layout_not_found_item);
+                getListDebtor(dataSnapshot, iDebtor, layoutDebtors, layout_not_found_item);
             }
 
             @Override
@@ -153,6 +259,7 @@ public class Debtor implements Serializable {
         nodeRoot.keepSynced(true);
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
+
     public void getListDebtor(final IDebtor iDebtor, final LinearLayout linearLayoutEmptyDebit,
                               final LinearLayout linearLayoutDebitInfo, final LottieAnimationView animationView) {
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -180,8 +287,9 @@ public class Debtor implements Serializable {
             }
         }
     }
+
     private void getListDebtor(DataSnapshot dataSnapshot, IDebtor iDebtor,
-                               final  LinearLayout layoutDebtors, final ConstraintLayout layout_not_found_item) {
+                               final LinearLayout layoutDebtors, final ConstraintLayout layout_not_found_item) {
         DataSnapshot dataSnapshotDebtor = dataSnapshot.child("Debtors").child(UserDAO.getInstance().getUserID());
         if (dataSnapshotDebtor.getValue() != null) {
             layoutDebtors.setVisibility(View.VISIBLE);
@@ -196,6 +304,7 @@ public class Debtor implements Serializable {
             layoutDebtors.setVisibility(View.GONE);
         }
     }
+
     private void getListDebtor(DataSnapshot dataSnapshot, IDebtor iDebtor, final LinearLayout linearLayoutEmptyDebit,
                                final LinearLayout linearLayoutDebitInfo, LottieAnimationView animationView) {
         DataSnapshot dataSnapshotDebtor = dataSnapshot.child("Debtors").child(UserDAO.getInstance().getUserID());

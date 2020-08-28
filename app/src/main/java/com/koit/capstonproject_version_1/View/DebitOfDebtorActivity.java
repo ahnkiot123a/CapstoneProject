@@ -62,11 +62,17 @@ public class DebitOfDebtorActivity extends AppCompatActivity {
             tvDebtTotal.setText(Money.getInstance().formatVN(debtAmountTotal) + " đ");
             pbDebit.setMax((int) debtAmountTotal);
             pbDebit.setProgress(0);
+//            Debtor.getInstance().setDebtorInformation(currentDebtor.getDebtorId(),currentDebtor,tvDebtTotal,
+//                    tvDebtAmountTotal,tvPayAmountTotal);
+//            Debtor.getInstance().setDebtMoneyView(currentDebtor.getDebtorId(),
+//                    currentDebtor,tvDebtTotal,tvDebtAmountTotal);
+
         }
     }
 
     private void setDebtPaymentList() {
-        debitOfDebtorController.setDebtPaymentList(currentDebtor, rvDebtPaymentHistory, tvPayAmountTotal, tvDebtTotal, tvDebtAmountTotal, pbDebit);
+        debitOfDebtorController.setDebtPaymentList(currentDebtor, rvDebtPaymentHistory,
+                tvPayAmountTotal, tvDebtTotal, tvDebtAmountTotal, pbDebit);
     }
 
     private Debtor getCurrentDebtor() {
@@ -119,7 +125,7 @@ public class DebitOfDebtorActivity extends AppCompatActivity {
         Intent intent = new Intent(this, InputPayDebtMoneyActivity.class);
         intent.putExtra(ITEM_DEBTOR, currentDebtor);
         startActivity(intent);
-        finish();
+//        finish();
     }
 
     public void callOrderDebtorActivity(View view) {

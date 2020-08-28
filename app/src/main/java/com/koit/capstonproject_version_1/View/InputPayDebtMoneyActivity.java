@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.koit.capstonproject_version_1.Controller.PayDebtController;
@@ -37,6 +38,8 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
     private PayDebtController payDebtController;
     public static final String ITEM_DEBTOR = "ITEM_DEBTOR";
     private Debtor debtor;
+    private LinearLayout linearInputPayDebt;
+    private ConstraintLayout constraintPayAllDebt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +95,10 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
     }
 
     private void setDebtMoneyView() {
-        tvDebtTotal.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
-        tvRemainingDebt.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
+//        tvDebtTotal.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
+//        tvRemainingDebt.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
+        Debtor.getInstance().setDebtMoneyView(debtor.getDebtorId(),debtor,tvDebtTotal,tvRemainingDebt,
+                constraintPayAllDebt, linearInputPayDebt, btnConfirm);
     }
 
     private void initView() {
@@ -103,6 +108,8 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
         etPayAmount = findViewById(R.id.etPayAmount);
         layoutChangeMoney = findViewById(R.id.layoutChangeMoney);
         btnConfirm = findViewById(R.id.btnConfirm);
+        linearInputPayDebt = findViewById(R.id.linearInputPayDebt);
+        constraintPayAllDebt = findViewById(R.id.constraintPayAllDebt);
 
         //set title in toolbar
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);
@@ -177,5 +184,12 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, DebitOfDebtorActivity.class);
+        intent.putExtra(ITEM_DEBTOR, debtor);
+        startActivity(intent);
+        finish();
+    }
 }
