@@ -53,8 +53,9 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
-    private Dialog dialog;
     private Disposable networkDisposable;
+    MyDialog dialog;
+    private Disposable internetDisposable;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -62,7 +63,6 @@ public class ListProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_list_product);
-        initDDialog();
 
         searchView = findViewById(R.id.searchViewInList);
         category_Spinner = findViewById(R.id.category_Spinner);
@@ -123,57 +123,34 @@ public class ListProductActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void initDDialog() {
-        dialog = new Dialog(this);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.alert_dialog_network_checking);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+        dialog = new MyDialog(this);
     }
 
     @SuppressLint("CheckResult")
     @Override
     protected void onResume() {
         super.onResume();
-//        ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(connectivity -> {
-//                    if (connectivity.available()) {
-//                        dialog.setCancelable(false);
-//                        dialog.setContentView(R.layout.alert_dialog_network_checking);
-//                        dialog.setCanceledOnTouchOutside(false);
-//                        dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-//                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                        dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
-//                        dialog.show();
-//                    } else {
-//                        dialog.dismiss();
-//                    }
-//                });
-        networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
+        internetDisposable = ReactiveNetwork.observeInternetConnectivity()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(connectivity -> {
-                    if (connectivity.available()) {
-                        if (dialog != null)
-                            dialog.dismiss();
-                    } else {
-                        if (dialog != null) dialog.show();
-                    }
-                });
+                .subscribe(isConnected -> {
+                            if (isConnected) {
+                                if (dialog != null)
+                                    dialog.cancelConnectionDialog();
+                            } else {
+                                dialog.showInternetError();
+                            }
+                        }
+
+                );
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        safelyDispose(networkDisposable);
         searchView.setQuery("", false);
         layoutSearch.requestFocus();
+        safelyDispose(networkDisposable, internetDisposable);
     }
 
     private void safelyDispose(Disposable... disposables) {

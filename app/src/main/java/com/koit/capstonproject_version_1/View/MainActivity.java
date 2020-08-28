@@ -52,8 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private CreateProductController createProductController;
     private UserController userController;
     private boolean isConnected = false;
-    private Dialog dialog;
+    private MyDialog dialog;
     private Disposable networkDisposable;
+    private Disposable internetDisposable;
 
     @SuppressLint("CheckResult")
     @Override
@@ -67,17 +68,7 @@ public class MainActivity extends AppCompatActivity {
         getNavigationMenuLeft();
         createProductController = new CreateProductController(this);
         userController = new UserController();
-        initDDialog();
-    }
-
-    private void initDDialog() {
-        dialog = new Dialog(this);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.alert_dialog_network_checking);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+        dialog = new MyDialog(this);
     }
 
     @SuppressLint("CheckResult")
@@ -99,19 +90,19 @@ public class MainActivity extends AppCompatActivity {
 //                });
 //https://github.com/pwittchen/ReactiveNetwork/blob/RxJava2.x/app/src/main/java/com/github/pwittchen/
 // reactivenetwork/app/MainActivity.java?fbclid=IwAR3Qr5v3j6-o4mlDIJLYbzyjhL3a2Ikr77M1OpP8m4NJCq3TVVZ1p8UHdRM
-        networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
+        internetDisposable = ReactiveNetwork.observeInternetConnectivity()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(connectivity -> {
+                .subscribe(isConnected -> {
+                            if (isConnected) {
+                                if (dialog != null)
+                                    dialog.cancelConnectionDialog();
+                            } else {
+                                dialog.showInternetError();
+                            }
+                        }
 
-                    if (connectivity.available()) {
-                        if (dialog != null)
-                            dialog.dismiss();
-
-                    } else {
-                        if (dialog != null) dialog.show();
-                    }
-                });
+                );
     }
 
     @Override
