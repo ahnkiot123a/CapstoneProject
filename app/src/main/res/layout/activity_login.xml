@@ -115,11 +115,11 @@
                         android:id="@+id/tvForgotPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/forgotPasswordTextView"
                         android:onClick="callForgotPasswordActivity"
-                        android:textAlignment="viewEnd"
+                        android:textAlignment="viewStart"
+                        android:layout_marginStart="10dp"
                         android:textColor="@color/blue"
                         android:textSize="15sp" />
                 </LinearLayout>

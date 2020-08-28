@@ -99,6 +99,7 @@ public class CreateProductController {
                     unit.setUnitName(etUnitName.getText().toString().trim());
                     if (!etUnitPrice.getText().toString().isEmpty()) {
                         unit.setUnitPrice(Money.getInstance().reFormatVN(etUnitPrice.getText().toString().trim()));
+
                         listUnit.add(unit);
                     } else {
                         etUnitPrice.requestFocus();
@@ -115,8 +116,9 @@ public class CreateProductController {
                     break;
                 }
             } else if (!etUnitName.getText().toString().isEmpty()) {
-                unit.setUnitName(etUnitName.getText().toString().trim());
+
                 if (!etUnitPrice.getText().toString().isEmpty()) {
+                    unit.setUnitName(etUnitName.getText().toString().trim());
                     unit.setUnitPrice(Money.getInstance().reFormatVN(etUnitPrice.getText().toString().trim()));
                     listUnit.add(unit);
                 } else {
@@ -126,13 +128,22 @@ public class CreateProductController {
                     result = false;
                     break;
                 }
+            }else
+            if (!etUnitPrice.getText().toString().isEmpty()) {
+                if (!etUnitName.getText().toString().isEmpty()) {
+                    unit.setUnitName(etUnitName.getText().toString().trim());
+                    unit.setUnitPrice(Money.getInstance().reFormatVN(etUnitPrice.getText().toString().trim()));
+                    listUnit.add(unit);
+                } else {
+                    etUnitName.requestFocus();
+                    CustomToast.makeText(activity, "Tên đơn vị không được để trống", Toast.LENGTH_LONG
+                            , CustomToast.ERROR, true, Gravity.BOTTOM).show();
+                    result = false;
+                    break;
+                }
             }
         }
-//
-//        if (listUnit.size() == 0) {
-//            result = false;
-//            Toast.makeText(activity, "Bạn chưa thêm đơn vị cho sản phẩm này", Toast.LENGTH_LONG).show();
-//        }
+
 
         return result;
     }

@@ -21,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.koit.capstonproject_version_1.Adapter.DraftOrderAdapter;
 import com.koit.capstonproject_version_1.Adapter.OrderHistoryAdapter;
@@ -77,7 +78,9 @@ public class OrderHistoryController {
 
 
     //get invoice list by time and status
-    public void invoiceList(final RecyclerView recyclerViewListProduct, final TextView textView, final TextView tvTime, final ConstraintLayout layoutNotFound, final SearchView searchView) {
+    public void invoiceList(final RecyclerView recyclerViewListProduct, final TextView textView,
+                            final TextView tvTime, final ConstraintLayout layoutNotFound,
+                            final SearchView searchView, SwipeRefreshLayout refreshLayout) {
         invoiceList = new ArrayList<>();
         final boolean hasInvoice = false;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
@@ -197,8 +200,14 @@ public class OrderHistoryController {
                         }
                         orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                         textView.setText(invoiceList.size() + " đơn hàng");
-                        orderHistoryAdapter.notifyDataSetChanged();
 
+                        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                orderHistoryAdapter.notifyDataSetChanged();
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
                     }
 
                     if (invoiceList.isEmpty()) {
@@ -312,17 +321,18 @@ public class OrderHistoryController {
 
     //event when click time spinner or invoice status spinner
     public void invoiceSpinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner,
-                                    final Spinner statusSpinner, final SearchView searchView, final TextView tvTime, final ConstraintLayout layoutNotFound) {
+                                    final Spinner statusSpinner, final SearchView searchView, final TextView tvTime,
+                                    final ConstraintLayout layoutNotFound, SwipeRefreshLayout refreshLayout) {
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 time = timeSpinner.getSelectedItem().toString();
                 status = statusSpinner.getSelectedItem().toString();
                 if (time.equals("Tuỳ chỉnh")) {
-                    buildTimeDialog(recyclerView, textView, timeSpinner, searchView, tvTime, layoutNotFound);
+                    buildTimeDialog(recyclerView, textView, timeSpinner, searchView, tvTime, layoutNotFound, refreshLayout);
                 } else {
                     if (!OrderHistoryActivity.isFirstTimeRun) {
-                        invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView);
+                        invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, refreshLayout);
                         orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
 
                     }
@@ -342,7 +352,7 @@ public class OrderHistoryController {
                 time = timeSpinner.getSelectedItem().toString();
                 status = statusSpinner.getSelectedItem().toString();
                 if (!OrderHistoryActivity.isFirstTimeRun) {
-                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView);
+                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, refreshLayout);
                     orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                 }
                 OrderHistoryActivity.isFirstTimeRun = false;
@@ -373,7 +383,8 @@ public class OrderHistoryController {
 
     //build timer dialog when search by custom time
     private void buildTimeDialog(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner,
-                                 final SearchView searchView, final TextView tvTime, final ConstraintLayout layoutNotFound) {
+                                 final SearchView searchView, final TextView tvTime,
+                                 final ConstraintLayout layoutNotFound, SwipeRefreshLayout refreshLayout) {
         final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_time_input, null);
         final TextView tvDateStart, tvDateEnd;
@@ -449,7 +460,7 @@ public class OrderHistoryController {
                         tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
                     }
                     alertDialog.cancel();
-                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView);
+                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, refreshLayout);
                     etSearchEvent(searchView);
                 }else{
 

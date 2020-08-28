@@ -2,6 +2,7 @@ package com.koit.capstonproject_version_1.Controller;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
@@ -45,6 +46,7 @@ public class TimeController {
     //Calculate number of days between 2 date
     public long dayDiff(Date start, Date end) {
         Date startStart = new Date(start.getYear(), start.getMonth(), start.getDate());
+        Log.d("startDate", startStart.toString());
         Date endStart = new Date(end.getYear(), end.getMonth(), end.getDate());
         return (endStart.getTime() - startStart.getTime()) / (1000 * 60 * 60 * 24);
     }

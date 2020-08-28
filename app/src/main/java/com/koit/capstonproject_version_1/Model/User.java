@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -239,7 +240,7 @@ public class User implements Serializable {
         databaseReference.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    public void signInTheUserByCredentials(PhoneAuthCredential credential, String storeName, String pass, String phoneNumber) {
+    public void signInTheUserByCredentials(PhoneAuthCredential credential, final String storeName, final String pass, final String phoneNumber) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(registerVerifyPhoneActivity, new OnCompleteListener<AuthResult>() {
@@ -270,7 +271,7 @@ public class User implements Serializable {
                 });
     }
 
-    public void signInTheUserByCredentialsFromResetPassword(PhoneAuthCredential credential, String password, String phoneNumber) {
+    public void signInTheUserByCredentialsFromResetPassword(PhoneAuthCredential credential, final String password, final String phoneNumber) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(resetPasswordActivity, new OnCompleteListener<AuthResult>() {
@@ -284,6 +285,9 @@ public class User implements Serializable {
                             //ma hoa mat khau
                             String hashpassword = validateController.getMd5(password);
                             databaseReference.child(phoneNumber).child("password").setValue(hashpassword);
+                            SharedPrefs.getInstance().clear();
+                            LoginManager.getInstance().logOut();
+                            FirebaseAuth.getInstance().signOut();
                             Intent intent = new Intent(resetPasswordActivity, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             resetPasswordActivity.startActivity(intent);

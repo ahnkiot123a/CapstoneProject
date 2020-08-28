@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
 import com.koit.capstonproject_version_1.Controller.TimeController;
@@ -27,6 +28,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
     private TextView tvInvoiceCount, tvTime;
     private Spinner invoiceStatusSpinner, timeSpinner;
     private SearchView svInvoice;
+    private SwipeRefreshLayout refreshLayout;
+
     private ConstraintLayout layoutNotFound;
     private OrderHistoryController orderHistoryController;
 
@@ -41,7 +44,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
 //        buildRvInvoiceHistory();
         buildSpinner();
 
-        orderHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner, invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound);
+        orderHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner,
+                invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound, refreshLayout);
 
         orderHistoryController.etSearchEvent(svInvoice);
 
@@ -60,6 +64,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         svInvoice = findViewById(R.id.svInvoice);
         layoutNotFound = findViewById(R.id.layout_not_found_item);
         tvTime = findViewById(R.id.tvTime);
+        refreshLayout = findViewById(R.id.refreshLayout);
 
         //set title in toolbar
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);
@@ -83,7 +88,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeList);
         timeSpinner.setAdapter(timeAdapter);
     }
-
 
 
 

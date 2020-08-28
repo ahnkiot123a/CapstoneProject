@@ -1,23 +1,14 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -38,13 +29,11 @@ import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.UserDAO;
-import com.koit.capstonproject_version_1.helper.CustomToast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private User currentUser;
     private CreateProductController createProductController;
     private UserController userController;
+
     MyDialog dialog;
 
     @SuppressLint("CheckResult")
@@ -67,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+
+        initView();
         currentUser = UserDAO.getInstance().getUser();
         getBottomNavigation();
         getNavigationMenuLeft();
@@ -74,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
         userController = new UserController();
         dialog = new MyDialog(this);
     }
+
+    private void initView() {
+
+    }
+
+
 
     @SuppressLint("CheckResult")
     @Override
