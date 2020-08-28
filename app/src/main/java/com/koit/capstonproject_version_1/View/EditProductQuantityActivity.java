@@ -40,7 +40,7 @@ public class EditProductQuantityActivity extends AppCompatActivity {
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_add_quantity);
         initView();
-        tvToolbarTitle.setText("Chỉnh sửa số lượng sản phẩm");
+        tvToolbarTitle.setText("Chỉnh sửa số lượng");
         setProductInformation();
         buildRyclerUnitQuantity();
         actionBtnAddProductQuantiy();

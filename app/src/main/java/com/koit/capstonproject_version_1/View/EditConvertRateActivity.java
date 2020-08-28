@@ -81,8 +81,11 @@ public class EditConvertRateActivity extends AppCompatActivity {
 
             long newConvertRate = Long.parseLong(convertRate);
             unitList.get(i).setConvertRate(Long.parseLong(convertRate));
-            long quantity = (int) unitSmallestQuantity / newConvertRate;
-            unitList.get(i).setUnitQuantity(quantity);
+            if (newConvertRate != 0){
+                long quantity = (int) unitSmallestQuantity / newConvertRate;
+                unitList.get(i).setUnitQuantity(quantity);
+            }
+
 
         }
         //Log.i("listUnit", list.get(0).getUnitPrice() +"");

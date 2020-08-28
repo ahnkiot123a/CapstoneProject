@@ -61,8 +61,8 @@ public class EditProductUnitsActivity extends AppCompatActivity {
                 if (flagUnitName && flagUnitPrice) {
                     for (int i = 0; i < unitList.size() - 1; i++) {
                         if (unitList.get(i).getUnitPrice() < baseUnitPrice) {
-                            Toast.makeText(EditProductUnitsActivity.this, "Giá của đơn vị " + baseUnitName + " không được lớn hơn giá của đơn vị " +
-                                    unitList.get(i).getUnitName(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(EditProductUnitsActivity.this, "Giá của đơn vị " + baseUnitName + " không được lớn hơn giá của đơn vị " +
+//                                    unitList.get(i).getUnitName(), Toast.LENGTH_SHORT).show();
                             flagCompareUnit = false;
                         }
 
@@ -70,7 +70,7 @@ public class EditProductUnitsActivity extends AppCompatActivity {
                 }
                 boolean flagDuplicateUnitName = true;
                 for (int i = 0; i < unitList.size(); i++) {
-                    for (int j = i+1; j < unitList.size(); j++) {
+                    for (int j = i + 1; j < unitList.size(); j++) {
                         if (unitList.get(i).getUnitName().equals(unitList.get(j).getUnitName())) {
                             flagDuplicateUnitName = false;
                             break;
@@ -78,14 +78,24 @@ public class EditProductUnitsActivity extends AppCompatActivity {
                     }
 
                 }
+                if (!flagCompareUnit) {
+                    if (flagUnitName && flagUnitPrice) {
+                        for (int i = 0; i < unitList.size() - 1; i++) {
+                            if (unitList.get(i).getUnitPrice() < baseUnitPrice) {
+//                            Toast.makeText(EditProductUnitsActivity.this, "Giá của đơn vị " + baseUnitName + " không được lớn hơn giá của đơn vị " +
+//                                    unitList.get(i).getUnitName(), Toast.LENGTH_SHORT).show();
+                                flagCompareUnit = false;
+                            }
 
-                if (!flagUnitName)
+                        }
+                    }
+                } else if (!flagUnitName)
                     Toast.makeText(EditProductUnitsActivity.this, "Tên đơn vị không được để trống", Toast.LENGTH_SHORT).show();
                 else if (!flagUnitPrice)
                     Toast.makeText(EditProductUnitsActivity.this, "Giá của sản phẩm ở từng đơn vị phải lớn hơn 0", Toast.LENGTH_SHORT).show();
                 else if (!flagDuplicateUnitName)
                     Toast.makeText(EditProductUnitsActivity.this, "Tên đơn vị không được trùng nhau", Toast.LENGTH_SHORT).show();
-                else if (flagCompareUnit) {
+                else {
                     currentProduct.setUnits(unitList);
                     editProductQuantityController.addUnitsToFireBase(currentProduct, unitList);
                     Intent intent = new Intent();

@@ -664,18 +664,18 @@ public class Product implements Serializable {
                 product.setUnits(unitList);
 
                 // search in list product in order
-                if (searchText!=null)
-                if (searchText.contains("CO!@#")) {
+                if (searchText != null)
+                    if (searchText.contains("CO!@#")) {
 //                    Toast.makeText(SelectProductActivity.getInstance(), "Found " + product.getBarcode(), Toast.LENGTH_SHORT).show();
 
-                    isSearchByBarcode = true;
-                    String searchTextTemp = searchText.substring(0, searchText.length() - 5).trim();
-                    if (product.getBarcode().equals(searchTextTemp) && (product.isActive())) {
-                        isBarcodeFound = true;
-                        // transferToListItemInOrder
-                        listProductInterface.getListProductModel(product);
+                        isSearchByBarcode = true;
+                        String searchTextTemp = searchText.substring(0, searchText.length() - 5).trim();
+                        if (product.getBarcode().equals(searchTextTemp) && (product.isActive())) {
+                            isBarcodeFound = true;
+                            // transferToListItemInOrder
+                            listProductInterface.getListProductModel(product);
+                        }
                     }
-                }
 
             }
             if (isSearchByBarcode)
