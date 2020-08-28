@@ -154,19 +154,19 @@ public class LoginActivity extends AppCompatActivity {
             dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
-            Button btnOk = dialog.findViewById(R.id.btnOk);
-            btnOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    recreate();
-                    InputMethodManager imm = (InputMethodManager)
-                            LoginActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                    if (imm != null) {
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                    }
-                }
-            });
+//            Button btnOk = dialog.findViewById(R.id.btnOk);
+//            btnOk.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    recreate();
+//                    InputMethodManager imm = (InputMethodManager)
+//                            LoginActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+//
+//                    if (imm != null) {
+//                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+//                    }
+//                }
+//            });
             dialog.show();
         }
 

@@ -81,13 +81,8 @@ public class ForgotPasswordController {
         if (!checkPasswordFromForgot(password)) return;
         if (!checkConfirmPasswordFromForgot(password, confirmPassword)) return;
         if (!checkOTPCodeForgotPassword(otpCode)) return;
-        verifyCodeFromResetPassword(otpCode);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("User");
-        HashController validateController = new HashController();
-        //ma hoa mat khau
-        password = validateController.getMd5(password);
-        databaseReference.child(phoneNumber).child("password").setValue(password);
+        verifyCodeFromResetPassword(otpCode, phoneNumber, password);
+
     }
 
 
@@ -191,7 +186,7 @@ public class ForgotPasswordController {
     }
 
     //check OTP code is valid or not
-    private void verifyCodeFromResetPassword(String code) {
+    private void verifyCodeFromResetPassword(String code, String phoneNumber, String password) {
         //OTP code must be check <=3 times
         Log.d("verifyCodeafter", "1");
         otpCounter++;
@@ -216,9 +211,10 @@ public class ForgotPasswordController {
             AlertDialog.Builder builder = new AlertDialog.Builder(resetPasswordActivity);
             builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
                     .setNegativeButton("Thoát", dialogClickListener).show();
+        } else {
+            User user = new User(resetPasswordActivity);
+            user.signInTheUserByCredentialsFromResetPassword(credential, phoneNumber, password);
         }
-        User user = new User(resetPasswordActivity);
-        user.signInTheUserByCredentialsFromResetPassword(credential);
     }
 
 

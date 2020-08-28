@@ -141,17 +141,18 @@ public class ListItemInOrderController extends AppCompatActivity {
 
             @Override
             public void getListProductInOrderWWarehouse(Product productInOrder, Product productWarehouse) {
-                for (Unit u : productInOrder.getUnits()) {
-                    Product pro = new Product(productInOrder.getUserId(), productInOrder.getProductId(),
-                            productInOrder.getBarcode(), productInOrder.getCategoryName(),
-                            productInOrder.getProductDescription(), productInOrder.getProductImageUrl(),
-                            productInOrder.getProductName(), productInOrder.isActive());
-                    pro.getUnits().add(u);
-                    listSelectedProductInOrder.add(pro);
-                    listSelectedProductInWareHouse.add(productWarehouse);
+                if (productInOrder != null && productWarehouse != null)
+                    for (Unit u : productInOrder.getUnits()) {
+                        Product pro = new Product(productInOrder.getUserId(), productInOrder.getProductId(),
+                                productInOrder.getBarcode(), productInOrder.getCategoryName(),
+                                productInOrder.getProductDescription(), productInOrder.getProductImageUrl(),
+                                productInOrder.getProductName(), productInOrder.isActive());
+                        pro.getUnits().add(u);
+                        listSelectedProductInOrder.add(pro);
+                        listSelectedProductInWareHouse.add(productWarehouse);
 
-                    itemAdapter.notifyDataSetChanged();
-                }
+                        itemAdapter.notifyDataSetChanged();
+                    }
 
             }
         };

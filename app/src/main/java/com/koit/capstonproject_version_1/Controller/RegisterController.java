@@ -87,17 +87,8 @@ public class RegisterController {
         if (!checkPass(pass)) return;
         if (!checkConfirmPass(pass, confirmPass)) return;
         if (!checkOTPCode(otpCode)) return;
-        verifyCode(otpCode);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("User");
-        HashController validateController = new HashController();
-        //ma hoa mat khau
-        pass = validateController.getMd5(pass);
-        User user = new User("", "", "", storeName, "", pass, "", false, false);
-        user.setPhoneNumber(phoneNumber);
-        Log.d("shdienthoai", "aha" + phoneNumber);
-        SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, user);
-        databaseReference.child(phoneNumber).setValue(user);
+        verifyCode(otpCode,storeName,pass);
+
     }
 
     //otp code is 6 number degits or not
@@ -211,7 +202,7 @@ public class RegisterController {
     }
 
     //check OTP code is valid or not
-    private void verifyCode(String code) {
+    private void verifyCode(String code, String storeName, String pass) {
         //OTP code must be check <=3 times
         Log.d("verifyCodeafter", "1");
         otpCounter++;
@@ -236,10 +227,11 @@ public class RegisterController {
             AlertDialog.Builder builder = new AlertDialog.Builder(registerVerifyPhoneActivity);
             builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
                     .setNegativeButton("Thoát", dialogClickListener).show();
+        } else {
+            User user = new User(registerVerifyPhoneActivity);
+            Log.d("beforesignIn", "1");
+            user.signInTheUserByCredentials(credential, storeName,pass, phoneNumber);
         }
-        User user = new User(registerVerifyPhoneActivity);
-        Log.d("beforesignIn", "1");
-        user.signInTheUserByCredentials(credential);
     }
 
     //Chuyen sang man hinh verify OTP code va mat khau

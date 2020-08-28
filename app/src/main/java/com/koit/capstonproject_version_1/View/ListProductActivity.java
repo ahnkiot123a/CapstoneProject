@@ -13,12 +13,14 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.ListProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
+import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
@@ -27,6 +29,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class ListProductActivity extends AppCompatActivity {
     private ImageView imageView;
@@ -43,11 +48,14 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
+    MyDialog dialog;
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
+        dialog = new MyDialog(this);
         setContentView(R.layout.activity_list_product);
         searchView = findViewById(R.id.searchViewInList);
         category_Spinner = findViewById(R.id.category_Spinner);
@@ -98,7 +106,7 @@ public class ListProductActivity extends AppCompatActivity {
                     listProductController.getListProduct(null, recyclerViewListProduct, tvTotalQuantity,
                             linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
                 } else {
-                    listProductController.getListProduct( recyclerViewListProduct,
+                    listProductController.getListProduct(recyclerViewListProduct,
                             categoryName, tvTotalQuantity, linearLayoutEmpty, layoutSearch, layoutNotFoundItem, category_Spinner, pBarList);
                 }
             }
@@ -112,6 +120,23 @@ public class ListProductActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(connectivity -> {
+                    if (connectivity.available()) {
+                        if (dialog != null) dialog.dismissDialog();
+                    } else {
+                        dialog.showInternetError();
+                    }
+                });
+
+    }
+
     public void addNewProduct(View view) {
         Intent intent = new Intent(this, CreateProductActivity.class);
         startActivity(intent);
@@ -119,7 +144,7 @@ public class ListProductActivity extends AppCompatActivity {
 
 
     public void back(View view) {
-      onBackPressed();
+        onBackPressed();
     }
 
     public void searchByBarcode(View view) {
@@ -147,6 +172,7 @@ public class ListProductActivity extends AppCompatActivity {
         searchView.setQuery("", false);
         layoutSearch.requestFocus();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

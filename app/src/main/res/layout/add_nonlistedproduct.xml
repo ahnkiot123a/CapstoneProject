@@ -63,8 +63,8 @@
             <EditText
                 android:id="@+id/productQuantity"
                 android:hint="Nhập số lượng"
-                android:text="1"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:text="1" />
 
         </TableRow>
 

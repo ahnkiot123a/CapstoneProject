@@ -24,18 +24,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.iceteck.silicompressorr.FileUtils;
-import com.iceteck.silicompressorr.SiliCompressor;
 import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
-import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DetailProductActivity;
 import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

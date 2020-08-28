@@ -1,9 +1,20 @@
 package com.koit.capstonproject_version_1.View;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +25,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
@@ -21,13 +33,19 @@ import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.UserController;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.UserDAO;
+import com.koit.capstonproject_version_1.helper.CustomToast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,24 +58,37 @@ public class MainActivity extends AppCompatActivity {
     private User currentUser;
     private CreateProductController createProductController;
     private UserController userController;
+    MyDialog dialog;
 
-
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-
         currentUser = UserDAO.getInstance().getUser();
         getBottomNavigation();
         getNavigationMenuLeft();
-
-
         createProductController = new CreateProductController(this);
         userController = new UserController();
+        dialog = new MyDialog(this);
+    }
 
-
+    @SuppressLint("CheckResult")
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(connectivity -> {
+                    if (connectivity.available()) {
+                        if (dialog != null) dialog.dismissDialog();
+                    } else {
+                        dialog.showInternetError();
+                    }
+                });
     }
 
     private void getNavigationMenuLeft() {
@@ -103,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RevenueActivity.class);
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
     }
 
     public void sendFeedBack(android.view.View view) {

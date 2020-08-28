@@ -259,8 +259,14 @@ public class RevenueActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(RevenueActivity.this, MainActivity.class);
-        startActivity(intent);
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
+
+    //    @Override
+//    public void onBackPressed() {
+//        Intent intent = new Intent(RevenueActivity.this, MainActivity.class);
+//        startActivity(intent);
+//    }
 }
 

@@ -23,9 +23,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.koit.capstonproject_version_1.Controller.HashController;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
 import com.koit.capstonproject_version_1.Controller.RegisterController;
-import com.koit.capstonproject_version_1.Model.UIModel.Dialog;
+import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
+import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
@@ -190,7 +192,7 @@ public class User implements Serializable {
     public void handleFacebookAccessToken(AccessToken token, LoginResult loginResult, FirebaseAuth firebaseAuth, final Activity LoginActivity, final String TAG_FB) {
         Log.d(TAG_FB, "handleFacebookAccessToken:" + token);
         // [START_EXCLUDE silent]
-        final Dialog dialog = new Dialog(LoginActivity);
+        final MyDialog dialog = new MyDialog(LoginActivity);
         dialog.showLoadingDialog(R.raw.triangle_loading);
         // [END_EXCLUDE]
         token.getPermissions();
@@ -237,19 +239,29 @@ public class User implements Serializable {
         databaseReference.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    public void signInTheUserByCredentials(PhoneAuthCredential credential) {
+    public void signInTheUserByCredentials(PhoneAuthCredential credential, String storeName, String pass, String phoneNumber) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(registerVerifyPhoneActivity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            firebaseDatabase = FirebaseDatabase.getInstance();
+                            databaseReference = firebaseDatabase.getReference().child("User");
+                            HashController validateController = new HashController();
+                            //ma hoa mat khau
+                            String passmd = validateController.getMd5(pass);
+                            User user = new User("", "", "", storeName, "", passmd, "", false, false);
+                            user.setPhoneNumber(phoneNumber);
+                            Log.d("shdienthoai", "aha" + phoneNumber);
+                            SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, user);
+                            databaseReference.child(phoneNumber).setValue(user);
                             // Sign in success, update UI with the signed-in user's information
                             Intent intent = new Intent(registerVerifyPhoneActivity, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             registerVerifyPhoneActivity.startActivity(intent);
                             CustomToast.makeText(registerVerifyPhoneActivity, "Đăng kí thành công!", Toast.LENGTH_LONG
-                                    , CustomToast.SUCCESS ,true, Gravity.CENTER).show();
+                                    , CustomToast.SUCCESS, true, Gravity.CENTER).show();
                         } else {
                             registerVerifyPhoneActivity.showTextError("Mã OTP không chính xác.", registerVerifyPhoneActivity.getEtOTP());
                             // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -258,7 +270,7 @@ public class User implements Serializable {
                 });
     }
 
-    public void signInTheUserByCredentialsFromResetPassword(PhoneAuthCredential credential) {
+    public void signInTheUserByCredentialsFromResetPassword(PhoneAuthCredential credential, String password, String phoneNumber) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(resetPasswordActivity, new OnCompleteListener<AuthResult>() {
@@ -266,6 +278,12 @@ public class User implements Serializable {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            firebaseDatabase = FirebaseDatabase.getInstance();
+                            databaseReference = firebaseDatabase.getReference().child("User");
+                            HashController validateController = new HashController();
+                            //ma hoa mat khau
+                            String hashpassword = validateController.getMd5(password);
+                            databaseReference.child(phoneNumber).child("password").setValue(hashpassword);
                             Intent intent = new Intent(resetPasswordActivity, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             resetPasswordActivity.startActivity(intent);
@@ -279,9 +297,10 @@ public class User implements Serializable {
                     }
                 });
     }
-    public void updateUserToFirebase( User currentUser,
+
+    public void updateUserToFirebase(User currentUser,
                                      String fullName, String email, boolean gender, String dob,
-                                     String address, String storeName ){
+                                     String address, String storeName) {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         databaseReference.child(currentUser.getPhoneNumber()).child("fullName").setValue(fullName);
         databaseReference.child(currentUser.getPhoneNumber()).child("email").setValue(email);
@@ -296,7 +315,8 @@ public class User implements Serializable {
         currentUser.setAddress(address);
         currentUser.setStoreName(storeName);
     }
-    public void changePasswordToFirebase(User currentUser, String confirmNewPassword){
+
+    public void changePasswordToFirebase(User currentUser, String confirmNewPassword) {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         databaseReference.child(currentUser.getPhoneNumber()).child("password").setValue(confirmNewPassword);
     }
