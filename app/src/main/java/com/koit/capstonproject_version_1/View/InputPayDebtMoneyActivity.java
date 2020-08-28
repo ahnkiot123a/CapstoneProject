@@ -60,13 +60,18 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                setTextView(s);
+                String sMoney = s.toString();
+                CharSequence sq = ".";
+                Log.d("sMoney", sMoney);
+                if (sMoney.equals(sq)) {
+                    etPayAmount.setText(sMoney.substring(0, sMoney.length() - 1));
+                }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                setTextView(s);
             }
         });
     }

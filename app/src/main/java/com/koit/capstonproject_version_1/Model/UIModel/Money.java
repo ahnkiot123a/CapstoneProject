@@ -24,6 +24,9 @@ public class Money {
     }
 
     public long reFormatVN(String money) {
+        if (money.contains(".")) {
+            money = money.replaceAll("[.]", "");
+        }
         String[] array = money.split("[,]");
         String formatMoney = "";
         for (int i = 0; i < array.length; i++) {

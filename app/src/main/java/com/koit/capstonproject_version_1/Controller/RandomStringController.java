@@ -42,7 +42,7 @@ public class RandomStringController {
         int random_int = (int)(Math.random() * (999 - 100 + 1) + 100);
 
         String result = "HD" + "" + timeStamp + ""+random_int;
-        return result;
+        return result.substring(4);
     }
     public String randomDebtPaymentId() {
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());

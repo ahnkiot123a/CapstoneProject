@@ -74,7 +74,7 @@ public class InputControllerUnitTest {
         // Test date format by "dd/MM/yyyy"
         assertFalse( inputController.isDate("11/06/2020"));
         // Test email formated by "yyyy-MM-dd"
-        assertTrue( inputController.isDate("2020-06-11"));
+        assertTrue( inputController.isDate("11-06-2020"));
     }
 
 

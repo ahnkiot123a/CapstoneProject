@@ -1,9 +1,6 @@
 package com.koit.capstonproject_version_1.Adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -14,16 +11,14 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Registry;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.module.AppGlideModule;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.koit.capstonproject_version_1.Model.Product;
@@ -31,22 +26,8 @@ import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.SelectProductActivity;
-import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrderAdapter.MyViewHolder> {
 
@@ -123,7 +104,7 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
         for (Product product1 : listSelectedProduct) {
             //set tick for selected product
             if (product1.getProductId().equals(product.getProductId())) {
-                holder.itemProduct.findViewById(R.id.widget_title_icon).setVisibility(View.VISIBLE);
+                holder.imageViewCheckIcon.setVisibility(View.VISIBLE);
             }
         }
         //set Value for Holder
@@ -217,14 +198,15 @@ public class ItemBeforeOrderAdapter extends RecyclerView.Adapter<ItemBeforeOrder
                         if (product1.getProductId().equals(product.getProductId())) {
                             isProductExist = true;
                             listSelectedProduct.remove(product1);
+                            break;
                         }
                     }
                     //contain
                     if (isProductExist) {
-                        holder.itemProduct.findViewById(R.id.widget_title_icon).setVisibility(View.GONE);
+                        holder.imageViewCheckIcon.setVisibility(View.GONE);
                         Log.d("ListSelectedProductRe", listSelectedProduct.size() + "");
                     } else {
-                        holder.itemProduct.findViewById(R.id.widget_title_icon).setVisibility(View.VISIBLE);
+                        holder.imageViewCheckIcon.setVisibility(View.VISIBLE);
                         listSelectedProduct.add(product);
                         Log.d("ListSelectedProductAd", listSelectedProduct.size() + "");
                     }

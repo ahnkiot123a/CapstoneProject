@@ -89,11 +89,20 @@ public class MoneyEditText extends AppCompatEditText {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             // do nothing
+//            String sMoney = s.toString();
+//            Log.d("sMoney", sMoney);
+//            if (sMoney.equals(".")) {
+//                editText.setText(sMoney.substring(0, sMoney.length()-1));
+//            }
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
             String str = editable.toString();
+//            Log.d("sMoney", str);
+//            if(str.contains(".")){
+//                 str = str.replaceAll("[.]", "");
+//            }
             if (str.length() < prefix.length()) {
                 editText.setText(prefix);
                 editText.setSelection(prefix.length());
@@ -103,7 +112,8 @@ public class MoneyEditText extends AppCompatEditText {
                 return;
             }
             // cleanString this the string which not contain prefix and ,
-            String cleanString = str.replace(prefix, "").replaceAll("[,]", "");
+            String cleanString = str.replace(prefix, "").replaceAll("[,]", "")
+                    .replaceAll("[.]", "");
             // for prevent afterTextChanged recursive call
             if (cleanString.equals(previousCleanString) || cleanString.isEmpty()) {
                 return;
@@ -118,6 +128,12 @@ public class MoneyEditText extends AppCompatEditText {
             }
             editText.removeTextChangedListener(this); // Remove listener
             if (editText.getText().length() <= MAX_LENGTH) {
+//                for (int i = 0; i < formattedString.length(); i++) {
+//                    if (formattedString.charAt(i) == '.') {
+//                        formattedString.replace(".", "");
+//                    }
+//                }
+
                 editText.setText(formattedString);
             }
             handleSelection();
@@ -147,6 +163,7 @@ public class MoneyEditText extends AppCompatEditText {
          * It will return suitable pattern for format decimal
          * For example: 10.2 -> return 0 | 10.23 -> return 00, | 10.235 -> return 000
          */
+
         private String getDecimalPattern(String str) {
             int decimalCount = str.length() - str.indexOf(".") - 1;
             StringBuilder decimalPattern = new StringBuilder();
