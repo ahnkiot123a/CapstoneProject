@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        safelyDispose(networkDisposable);
+        safelyDispose(networkDisposable, internetDisposable);
     }
 
     private void safelyDispose(Disposable... disposables) {
