@@ -28,33 +28,6 @@
             android:src="@drawable/ic_menu_left_nav" />
     </LinearLayout>
 
-    <!--    <Toolbar-->
-    <!--        android:id="@+id/toolbar_top"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@id/main_activityStatusBarScrim"-->
-    <!--        android:background="@null"-->
-    <!--        android:minHeight="?attr/actionBarSize"-->
-    <!--        app:theme="@style/AppTheme">-->
-
-    <!--        <ImageButton-->
-    <!--            android:id="@+id/backToLogin"-->
-    <!--            android:layout_width="50dp"-->
-    <!--            android:layout_height="50dp"-->
-    <!--            android:background="@null"-->
-    <!--            android:onClick="navigationMenuLeft"-->
-    <!--            android:src="@drawable/ic_menu_left_nav" />-->
-    <!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:id="@+id/toolbar_title"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:text="Cá nhân"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:textColor="@color/white"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:textSize="28sp"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:textStyle="bold" />&ndash;&gt;-->
-    <!--    </Toolbar>-->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
