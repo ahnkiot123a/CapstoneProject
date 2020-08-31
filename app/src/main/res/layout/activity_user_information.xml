@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,8 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbarGeneral">
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,9 +19,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
+                android:paddingLeft="10dp"
                 android:background="@drawable/background_border_and_shadow"
-                android:padding="10dp">
+                android:paddingTop="20dp"
+                android:paddingRight="10dp">
 
                 <RelativeLayout
                     android:id="@+id/layoutImage"
@@ -50,6 +48,7 @@
                         android:textStyle="bold" />
                 </RelativeLayout>
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -60,7 +59,8 @@
                         android:id="@+id/edFullname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gray"
                         android:fontFamily="sans-serif-medium" />
 
 
@@ -72,26 +72,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_margin="3dp"
+                android:layout_margin="5dp"
+                android:padding="10dp"
                 android:background="@drawable/background_border_and_shadow">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:hint="Email">
+                    android:hint="Nhập email">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edEmail"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
+                        android:layout_height="50dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gray"
                         android:fontFamily="sans-serif-medium" />
 
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -100,11 +104,11 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edPhoneNumber"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
+                        android:layout_height="50dp"
+                        android:paddingLeft="10dp"
                         android:editable="false"
+                        android:textColor="@color/gray"
                         android:fontFamily="sans-serif-medium"
-
                         android:text="0399271212" />
 
 
@@ -155,24 +159,26 @@
                     android:layout_marginBottom="10dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Ngày sinh"
-
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvDob"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/backgroud_date_time"
                     android:drawableRight="@drawable/icons8_edit_calendar_96"
-                    android:gravity="left"
+                    android:gravity="center_vertical"
                     android:inputType="date"
+                    android:paddingRight="10dp"
                     android:onClick="getNewDate"
-                    android:padding="8dp"
+                    android:textSize="16sp"
+                    android:paddingLeft="10dp"
                     android:text="30-10-2020"
                     android:textColor="@color/black" />
 
-            <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -182,27 +188,28 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edAddress"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:drawablePadding="10dp"
+                        android:layout_height="50dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gray"
                         android:fontFamily="sans-serif-medium" />
 
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="sans-serif-medium"
-
                     android:hint="Tên cửa hàng (*)">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edStoreName"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
+                        android:layout_height="50dp"
+                        android:textColor="@color/gray"
+                        android:paddingLeft="10dp"
                         android:fontFamily="sans-serif-medium" />
 
 
@@ -212,13 +219,14 @@
                 <Button
                     android:id="@+id/btnUpdateUserInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:background="@drawable/background_btn_login"
-                    android:layout_margin="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="50dp"
                     android:fontFamily="sans-serif-medium"
                     android:onClick="updateUserInfo"
                     android:text="Cập nhật thông tin"
-
                     android:textColor="@color/white" />
         </LinearLayout>
             </LinearLayout>

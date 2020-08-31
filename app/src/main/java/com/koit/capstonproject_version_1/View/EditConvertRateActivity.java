@@ -1,9 +1,5 @@
 package com.koit.capstonproject_version_1.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +8,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.koit.capstonproject_version_1.Adapter.EditConvertRateAdapter;
 import com.koit.capstonproject_version_1.Controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
@@ -34,7 +33,7 @@ public class EditConvertRateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_edit_convert_rate);
         initView();
         tvToolbarTitle.setText("Chỉnh sửa chuyển đổi đơn vị");

@@ -1,6 +1,7 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -51,7 +52,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
     }
 
-
     private void findViewById(){
         edOldPassword = findViewById(R.id.edOldPassword);
         edNewPassword = findViewById(R.id.edNewPassword);
@@ -61,9 +61,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public void back(View v){
         onBackPressed();
     }
+
+
     public void setErrorEditTxt(String mess, EditText textInputEditText){
         textInputEditText.requestFocus();
-        textInputEditText.setError(mess);
+        Drawable customErrorDrawable = this.getResources().getDrawable(R.drawable.ic_baseline_error_24);
+        customErrorDrawable.setBounds(0, 0, customErrorDrawable.getIntrinsicWidth(), customErrorDrawable.getIntrinsicHeight());
+        textInputEditText.setError(mess, customErrorDrawable);
     }
 
     public EditText getEdOldPassword() {

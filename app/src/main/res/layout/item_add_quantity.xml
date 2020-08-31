@@ -23,8 +23,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="Thùng"
             android:textColor="@color/gray"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +38,7 @@ public class ConvertRateActivity extends AppCompatActivity {
     private RecyclerView rvConvertRate;
     private RecyclerView rvUnitQuantity;
     private Button btnSuccess;
-    private LinearLayout layoutConvertRate;
+    private ConstraintLayout layoutConvertRate;
     private ArrayList<Unit> unitList;
     private EditConvertRateAdapter editConvertRateAdapter;
     private AddQuantityAdapter addQuantityAdapter;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -11,10 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.koit.capstonproject_version_1.Controller.DebitOrderController;
 import com.koit.capstonproject_version_1.Model.Debtor;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 public class DebitOrderListActivity extends AppCompatActivity {
@@ -23,6 +24,9 @@ public class DebitOrderListActivity extends AppCompatActivity {
     private TextView tvTime;
     private RecyclerView rvOrderDebtor;
     private ConstraintLayout layout_not_found_item;
+    private SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout refreshLayoutNotFound;
+    private LinearLayout layoutDebitOrder;
     private Spinner timeSpinner;
 
     private DebitOrderController debitOrderController;
@@ -32,7 +36,7 @@ public class DebitOrderListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_order_debtor);
 
         initView();
@@ -50,7 +54,8 @@ public class DebitOrderListActivity extends AppCompatActivity {
     }
 
     private void debitOrderListByDate() {
-        debitOrderController.orderSpinnerEvent(rvOrderDebtor, tvInvoiceCount, timeSpinner, tvTime, layout_not_found_item, debtor);
+        debitOrderController.orderSpinnerEvent(rvOrderDebtor, tvInvoiceCount, timeSpinner, tvTime, layout_not_found_item,
+                debtor, layoutDebitOrder, refreshLayout, refreshLayoutNotFound);
     }
 
     private void buildSpinner() {
@@ -67,7 +72,8 @@ public class DebitOrderListActivity extends AppCompatActivity {
     }
 
     private void setRvOrderDebtor() {
-        debitOrderController.debitOrderList(debtor, rvOrderDebtor, tvInvoiceCount, layout_not_found_item, tvTime);
+        debitOrderController.debitOrderList(debtor, rvOrderDebtor, tvInvoiceCount, layout_not_found_item, tvTime
+                , layoutDebitOrder);
     }
 
     private void initView() {
@@ -76,6 +82,9 @@ public class DebitOrderListActivity extends AppCompatActivity {
         rvOrderDebtor = findViewById(R.id.rvOrderDebtor);
         layout_not_found_item = findViewById(R.id.layout_not_found_item);
         timeSpinner = findViewById(R.id.timeSpinner);
+        refreshLayout = findViewById(R.id.refreshLayout);
+        refreshLayoutNotFound = findViewById(R.id.refreshLayoutNotFound);
+        layoutDebitOrder = findViewById(R.id.layoutDebitOrder);
 
         //set title in toolbar
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);

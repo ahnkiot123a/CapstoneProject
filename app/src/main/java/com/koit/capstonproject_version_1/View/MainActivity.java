@@ -15,15 +15,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
+import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
 import com.koit.capstonproject_version_1.Controller.UserController;
 import com.koit.capstonproject_version_1.Model.Category;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.R;
@@ -31,10 +30,6 @@ import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private User currentUser;
     private CreateProductController createProductController;
     private UserController userController;
+    private OrderHistoryController orderHistoryController;
     private boolean isConnected = false;
 
     @SuppressLint("CheckResult")
@@ -61,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         getNavigationMenuLeft();
         createProductController = new CreateProductController(this);
         userController = new UserController();
+
+        orderHistoryController = new OrderHistoryController(this);
+        orderHistoryController.deleteDraftOrderBefore3Days();
     }
 
     private void getNavigationMenuLeft() {

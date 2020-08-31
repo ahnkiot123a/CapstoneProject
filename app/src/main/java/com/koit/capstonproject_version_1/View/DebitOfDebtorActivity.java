@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.Controller.DebitOfDebtorController;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.Helper;
 
@@ -35,7 +34,7 @@ public class DebitOfDebtorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_debit_payment);
 
         initView();

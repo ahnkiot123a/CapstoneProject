@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.koit.capstonproject_version_1.Adapter.OrderHistoryAdapter;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
@@ -45,7 +47,7 @@ public class DebitOrderController {
     }
 
     public void debitOrderList(final Debtor debtor, final RecyclerView recyclerViewListProduct, final TextView tvOrderTotal,
-                                final ConstraintLayout layoutNotFound, final TextView tvTime) {
+                               final ConstraintLayout layoutNotFound, final TextView tvTime, LinearLayout layoutDebitOrder) {
         invoiceList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewListProduct.setLayoutManager(layoutManager);
@@ -89,21 +91,36 @@ public class DebitOrderController {
 //            layoutNotFound.setVisibility(View.GONE);
 //        }
 
-//        orderHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound);
+        orderHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound, layoutDebitOrder);
     }
 
     public void orderSpinnerEvent(final RecyclerView rvOrderDebtor, final TextView tvInvoiceCount, final Spinner timeSpinner,
                                   final TextView tvTime, final ConstraintLayout layout_not_found_item,
-                                  final Debtor debtor) {
+                                  final Debtor debtor, LinearLayout layoutDebitOrder, SwipeRefreshLayout refreshLayout,
+                                  SwipeRefreshLayout refreshLayoutNotFound) {
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 orderTime = timeSpinner.getSelectedItem().toString();
                 if (orderTime.equals("Tuỳ chỉnh")) {
-                    buildTimeDialog(rvOrderDebtor, tvInvoiceCount, timeSpinner, tvTime, layout_not_found_item, debtor);
+                    buildTimeDialog(rvOrderDebtor, tvInvoiceCount, timeSpinner, tvTime, layout_not_found_item, debtor, layoutDebitOrder);
                 } else {
 //                    if (!OrderHistoryActivity.isFirstTimeRun) {
-                    debitOrderList(debtor, rvOrderDebtor, tvInvoiceCount, layout_not_found_item, tvTime);
+                    refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            debitOrderList(debtor, rvOrderDebtor, tvInvoiceCount, layout_not_found_item, tvTime, layoutDebitOrder);
+                            refreshLayout.setRefreshing(false);
+                        }
+                    });
+                    refreshLayoutNotFound.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            debitOrderList(debtor, rvOrderDebtor, tvInvoiceCount, layout_not_found_item, tvTime, layoutDebitOrder);
+                            refreshLayoutNotFound.setRefreshing(false);
+                        }
+                    });
+                    debitOrderList(debtor, rvOrderDebtor, tvInvoiceCount, layout_not_found_item, tvTime, layoutDebitOrder);
 
 //                    }
 //                    OrderHistoryActivity.isFirstTimeRun = false;
@@ -121,7 +138,7 @@ public class DebitOrderController {
 
     private void buildTimeDialog(final RecyclerView rvOrderDebtor, final TextView tvInvoiceCount, final Spinner timeSpinner,
                                  final TextView tvTime, final ConstraintLayout layout_not_found_item,
-                                 final Debtor debtor) {
+                                 final Debtor debtor, LinearLayout layoutDebitOrder) {
         final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_time_input, null);
         final TextView tvDateStart, tvDateEnd;
@@ -197,7 +214,7 @@ public class DebitOrderController {
                         tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
                     }
                     alertDialog.cancel();
-                    debitOrderList(debtor, rvOrderDebtor,tvInvoiceCount, layout_not_found_item, tvTime);
+                    debitOrderList(debtor, rvOrderDebtor, tvInvoiceCount, layout_not_found_item, tvTime, layoutDebitOrder);
                 } else {
 
                 }

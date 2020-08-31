@@ -30,9 +30,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-
         initView();
-
         forgotPasswordController = new ForgotPasswordController(ForgotPasswordActivity.this);
         dialog = new MyDialog(this);
     }

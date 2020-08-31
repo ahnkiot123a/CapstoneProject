@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.Adapter.DebtPaymentDetailAdapter;
 import com.koit.capstonproject_version_1.Model.DebtPayment;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 public class DebtPaymentDetailActivity extends AppCompatActivity {
@@ -28,7 +27,7 @@ public class DebtPaymentDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_debt_payment_detail);
 
         initView();

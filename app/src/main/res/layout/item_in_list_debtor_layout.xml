@@ -8,8 +8,8 @@
 
     <RelativeLayout
         android:id="@+id/layoutImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,10 +37,11 @@
         android:id="@+id/tvDebtorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
+        android:fontFamily="sans-serif-medium"
         android:text="Vũ Quyết Thắng"
-        android:textColor="@color/black"
-        android:textSize="18dp"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/layoutImage"
         app:layout_constraintTop_toTopOf="@id/layoutImage" />
 
@@ -51,6 +52,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:text="200.000 đ"
+        android:fontFamily="sans-serif-medium"
         android:textColor="@color/yellow_chrome"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,13 +69,13 @@
         android:id="@+id/tvDebtorPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif-medium"
         android:text="0989123456"
-        android:textColor="@color/black"
+        android:textColor="@color/gray"
         android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="@id/layoutImage"
-        app:layout_constraintStart_toEndOf="@+id/layoutImage" />
+        app:layout_constraintTop_toBottomOf="@id/tvDebtorName"
+        app:layout_constraintStart_toStartOf="@+id/tvDebtorName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

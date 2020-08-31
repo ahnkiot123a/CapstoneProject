@@ -4,6 +4,7 @@
     android:layout_height="80dp"
     android:elevation="4dp"
     android:id="@+id/toolbarCustomer"
+    android:layout_below="@+id/main_activityStatusBarScrim"
     android:background="@drawable/green_linear_color">
 
     <ImageView

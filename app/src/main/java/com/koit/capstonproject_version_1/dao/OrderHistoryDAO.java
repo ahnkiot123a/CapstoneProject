@@ -16,8 +16,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
+import com.koit.capstonproject_version_1.Controller.TimeController;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
+
+import java.util.Date;
 
 public class OrderHistoryDAO {
 
@@ -202,10 +205,8 @@ public class OrderHistoryDAO {
         DatabaseReference invoiceDetailRef = FirebaseDatabase.getInstance().getReference();
         invoiceDetailRef = invoiceDetailRef.child("InvoiceDetail").child(UserDAO.getInstance().getUserID()).child(oid);
         invoiceDetailRef.removeValue();
-
-
-
     }
+
 
 
     public void getDraftOrderList(final IInvoice iInvoice) {
@@ -251,6 +252,40 @@ public class OrderHistoryDAO {
 
         }
     }
+
+    public void deleteDraftOrderBefore3Days() {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                deleteDraftOrderBefore3Days(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+
+    }
+
+    private void deleteDraftOrderBefore3Days(DataSnapshot dataSnapshot) {
+        DataSnapshot data = dataSnapshot.child("Invoices").child(UserDAO.getInstance().getUserID());
+        for (DataSnapshot value : data.getChildren()) {
+            final Invoice invoice = value.getValue(Invoice.class);
+            if (invoice != null && invoice.isDrafted()) {
+                Date invoiceDate = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
+                Date threeDate = TimeController.getInstance().convertStrToDate(TimeController.getInstance().plusDate(-3));
+                if (invoiceDate.before(threeDate)) {
+                    FirebaseDatabase.getInstance().getReference().child("Invoices").child(UserDAO.getInstance()
+                            .getUserID()).child(value.getKey()).removeValue();
+                }
+            }
+
+        }
+    }
+
 
     public void getDebitInvoiceList(final IInvoice iInvoice) {
         ValueEventListener valueEventListener = new ValueEventListener() {

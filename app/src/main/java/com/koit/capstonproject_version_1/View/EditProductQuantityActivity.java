@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.Adapter.EditProductQuantityAdapter;
 import com.koit.capstonproject_version_1.Controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.UserDAO;
@@ -37,7 +36,7 @@ public class EditProductQuantityActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_add_quantity);
         initView();
         tvToolbarTitle.setText("Chỉnh sửa số lượng");

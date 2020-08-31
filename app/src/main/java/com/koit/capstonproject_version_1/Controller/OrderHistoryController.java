@@ -314,6 +314,10 @@ public class OrderHistoryController {
         });
     }
 
+    public void deleteDraftOrderBefore3Days(){
+        orderHistoryDAO.deleteDraftOrderBefore3Days();
+    }
+
     //event when click time spinner or invoice status spinner
     public void invoiceSpinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner,
                                     final Spinner statusSpinner, final SearchView searchView, final TextView tvTime,

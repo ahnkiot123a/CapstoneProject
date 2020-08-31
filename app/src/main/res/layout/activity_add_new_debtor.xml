@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,7 +10,7 @@
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/green_linear_color"
+        android:background="@color/theme"
         android:minHeight="?attr/actionBarSize"
         android:padding="10dp"
         app:theme="@style/AppTheme">
@@ -27,20 +26,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
             android:text="Thêm khách hàng"
             android:textColor="#FFF"
             android:textSize="24sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            android:drawableLeft="@drawable/ic_baseline_save_24"
-            android:onClick="saveNewCustomer"
-            android:text="Lưu"
-            android:textColor="#FFF"
-            android:textSize="24sp" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end"-->
+<!--            android:fontFamily="sans-serif-medium"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:drawableLeft="@drawable/ic_baseline_save_24"-->
+<!--            android:onClick="saveNewCustomer"-->
+<!--            android:text="Lưu"-->
+<!--            android:textColor="#FFF"-->
+<!--            android:textSize="24sp" />-->
 
     </Toolbar>
 
@@ -58,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
+                android:background="@drawable/custom_page_account"
                 android:padding="10dp">
 
                 <RelativeLayout
@@ -72,14 +73,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/user_icon" />
-
-
                 </RelativeLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:paddingLeft="10dp"
                     android:layout_marginBottom="20dp"
                     android:hint="Tên khách hàng(*)">
 
@@ -98,10 +98,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:background="@drawable/background_border_and_shadow"
+                android:background="@drawable/custom_page_account"
+                android:padding="10dp"
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -111,11 +113,12 @@
                         android:id="@+id/edEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
+                        android:paddingLeft="10dp"
                         android:fontFamily="sans-serif-medium" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -126,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:drawablePadding="10dp"
+                        android:paddingLeft="10dp"
                         android:fontFamily="sans-serif-medium" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,6 +152,7 @@
                     android:layout_below="@+id/textView3"
                     android:layout_alignParentStart="true"
                     android:fontFamily="sans-serif-medium"
+                    android:layout_marginLeft="10dp"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -173,6 +177,7 @@
                     android:layout_below="@id/edPhoneNumber"
                     android:layout_alignParentStart="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Ngày sinh"
@@ -181,18 +186,18 @@
                 <TextView
                     android:id="@+id/tvDob"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/backgroud_date_time"
                     android:drawableRight="@drawable/icons8_edit_calendar_96"
-                    android:gravity="left"
                     android:inputType="date"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:onClick="getNewDate"
-                    android:padding="8dp"
-                    android:text=""
+                    android:paddingRight="10dp"
                     android:textColor="@color/black" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -203,12 +208,23 @@
                         android:id="@+id/edAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
-                        android:drawablePadding="10dp"
+                        android:paddingLeft="10dp"
                         android:fontFamily="sans-serif-medium" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </LinearLayout>
-
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:elevation="6dp"
+        android:onClick="saveNewCustomer"
+        app:fabSize="normal"
+        android:src="@drawable/ic_baseline_check_24"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>
