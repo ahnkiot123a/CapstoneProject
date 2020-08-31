@@ -5,11 +5,14 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.helper.Helper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class InputController {
 
@@ -46,6 +49,17 @@ public class InputController {
             }
         }
         return true;
+    }
+
+    public static boolean isDuplicateUnit(List<Unit> units) {
+        for (int i = 0; i < units.size() - 1; i++) {
+            for (int j = i + 1; j < units.size(); j++) {
+                if (Helper.getInstance().deAccent(units.get(i).getUnitName().toLowerCase().trim())
+                        .equals(Helper.getInstance().deAccent(units.get(j).getUnitName().toLowerCase().trim())))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public static boolean checkValidNumber(String numStr, int maxNumOfDigits) {

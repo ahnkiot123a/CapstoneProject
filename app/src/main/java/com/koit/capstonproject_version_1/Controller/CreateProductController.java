@@ -99,7 +99,6 @@ public class CreateProductController {
                     unit.setUnitName(etUnitName.getText().toString().trim());
                     if (!etUnitPrice.getText().toString().isEmpty()) {
                         unit.setUnitPrice(Money.getInstance().reFormatVN(etUnitPrice.getText().toString().trim()));
-
                         listUnit.add(unit);
                     } else {
                         etUnitPrice.requestFocus();
@@ -116,11 +115,17 @@ public class CreateProductController {
                     break;
                 }
             } else if (!etUnitName.getText().toString().isEmpty()) {
-
                 if (!etUnitPrice.getText().toString().isEmpty()) {
                     unit.setUnitName(etUnitName.getText().toString().trim());
                     unit.setUnitPrice(Money.getInstance().reFormatVN(etUnitPrice.getText().toString().trim()));
                     listUnit.add(unit);
+//                    if (InputController.isDuplicateUnit(listUnit)) {
+//                        CustomToast.makeText(activity, "Tên đơn vị không được trùng nhau", Toast.LENGTH_LONG
+//                                , CustomToast.ERROR, true, Gravity.BOTTOM).show();
+//                        listUnit.remove(unit);
+//                        result = false;
+//                        break;
+//                    }
                 } else {
                     etUnitPrice.requestFocus();
                     CustomToast.makeText(activity, "Giá của đơn vị không được để trống", Toast.LENGTH_LONG
@@ -128,12 +133,12 @@ public class CreateProductController {
                     result = false;
                     break;
                 }
-            }else
-            if (!etUnitPrice.getText().toString().isEmpty()) {
+            } else if (!etUnitPrice.getText().toString().isEmpty()) {
                 if (!etUnitName.getText().toString().isEmpty()) {
                     unit.setUnitName(etUnitName.getText().toString().trim());
                     unit.setUnitPrice(Money.getInstance().reFormatVN(etUnitPrice.getText().toString().trim()));
                     listUnit.add(unit);
+
                 } else {
                     etUnitName.requestFocus();
                     CustomToast.makeText(activity, "Tên đơn vị không được để trống", Toast.LENGTH_LONG
@@ -141,6 +146,14 @@ public class CreateProductController {
                     result = false;
                     break;
                 }
+            }
+            if (InputController.isDuplicateUnit(listUnit)) {
+                etUnitName.requestFocus();
+                CustomToast.makeText(activity, "Tên đơn vị không được trùng nhau", Toast.LENGTH_LONG
+                        , CustomToast.ERROR, true, Gravity.BOTTOM).show();
+                result = false;
+                listUnit.remove(unit);
+                break;
             }
         }
 
@@ -160,7 +173,7 @@ public class CreateProductController {
                 if (category == null) {
                     Category category2 = new Category(currentProduct.getCategoryName());
                     if (!currentProduct.getCategoryName().trim().equals(""))
-                    category2.addCategoryToFireBase(category2);
+                        category2.addCategoryToFireBase(category2);
                 }
             }
         };

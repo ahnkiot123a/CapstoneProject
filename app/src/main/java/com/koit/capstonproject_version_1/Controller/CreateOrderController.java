@@ -5,18 +5,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -218,7 +210,6 @@ public class CreateOrderController {
     }
 
     public void updateUnitQuantity(List<Product> listSelectedProductInOrder, List<Product> listProductWarehouse) {
-
         for (int i = 0; i < listProductWarehouse.size(); i++) {
             if (!listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
 //                int finalI = i;
