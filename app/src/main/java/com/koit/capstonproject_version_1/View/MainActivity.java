@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private CreateProductController createProductController;
     private UserController userController;
     private boolean isConnected = false;
-    private MyDialog dialog;
-    private Disposable networkDisposable;
-    private Disposable internetDisposable;
 
     @SuppressLint("CheckResult")
     @Override
@@ -68,55 +65,6 @@ public class MainActivity extends AppCompatActivity {
         getNavigationMenuLeft();
         createProductController = new CreateProductController(this);
         userController = new UserController();
-        dialog = new MyDialog(this);
-    }
-
-    @SuppressLint("CheckResult")
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-//        ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(connectivity -> {
-//                    if (connectivity.available()) {
-//                        isConnected = true;
-//                        if (dialog != null) dialog.cancelConnectionDialog();
-//                    } else {
-//                        dialog.showInternetError();
-//                        isConnected = false;
-//                    }
-//                });
-//https://github.com/pwittchen/ReactiveNetwork/blob/RxJava2.x/app/src/main/java/com/github/pwittchen/
-// reactivenetwork/app/MainActivity.java?fbclid=IwAR3Qr5v3j6-o4mlDIJLYbzyjhL3a2Ikr77M1OpP8m4NJCq3TVVZ1p8UHdRM
-        internetDisposable = ReactiveNetwork.observeInternetConnectivity()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(isConnected -> {
-                            if (isConnected) {
-                                if (dialog != null)
-                                    dialog.cancelConnectionDialog();
-                            } else {
-                                dialog.showInternetError();
-                            }
-                        }
-
-                );
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        safelyDispose(networkDisposable, internetDisposable);
-    }
-
-    private void safelyDispose(Disposable... disposables) {
-        for (Disposable subscription : disposables) {
-            if (subscription != null && !subscription.isDisposed()) {
-                subscription.dispose();
-            }
-        }
     }
 
     private void getNavigationMenuLeft() {

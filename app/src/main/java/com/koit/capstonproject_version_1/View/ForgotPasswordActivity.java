@@ -6,9 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.ForgotPasswordController;
+import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.R;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
@@ -16,6 +22,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private LottieAnimationView lottieAnimationView;
 
     private ForgotPasswordController forgotPasswordController;
+    private Disposable internetDisposable;
+    private MyDialog dialog;
 
 
     @Override
@@ -26,6 +34,39 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         initView();
 
         forgotPasswordController = new ForgotPasswordController(ForgotPasswordActivity.this);
+        dialog = new MyDialog(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        internetDisposable = ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isConnected -> {
+                            if (isConnected) {
+                                if (dialog != null)
+                                    dialog.cancelConnectionDialog();
+                            } else {
+                                dialog.showInternetError();
+                            }
+                        }
+
+                );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        safelyDispose(internetDisposable);
+    }
+
+    private void safelyDispose(Disposable... disposables) {
+        for (Disposable subscription : disposables) {
+            if (subscription != null && !subscription.isDisposed()) {
+                subscription.dispose();
+            }
+        }
     }
 
     private void initView() {
@@ -33,7 +74,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         lottieAnimationView = findViewById(R.id.animationView);
     }
 
-    public void sendPhoneNumberToResetPasswordActivity(android.view.View view){
+    public void sendPhoneNumberToResetPasswordActivity(android.view.View view) {
         String number = etPhoneNumber.getText().toString().trim();
         forgotPasswordController.checkPhoneNumber(number);
     }

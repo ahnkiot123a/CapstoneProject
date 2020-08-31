@@ -22,13 +22,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Controller.UserController;
+import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.Model.UIModel.ProgressButton;
 import com.koit.capstonproject_version_1.R;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,14 +49,15 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvForgotPassword, tvAccount, tvRegister;
 
     private View view;
-
+    private Disposable internetDisposable;
+    private MyDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
-        // [START initialize_auth]
+        // [START initialize_auth]f
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
@@ -75,7 +82,39 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        dialog = new MyDialog(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        internetDisposable = ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isConnected -> {
+                            if (isConnected) {
+                                if (dialog != null)
+                                    dialog.cancelConnectionDialog();
+                            } else {
+                                dialog.showInternetError();
+                            }
+                        }
+
+                );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        safelyDispose(internetDisposable);
+    }
+
+    private void safelyDispose(Disposable... disposables) {
+        for (Disposable subscription : disposables) {
+            if (subscription != null && !subscription.isDisposed()) {
+                subscription.dispose();
+            }
+        }
     }
 
     private void initView() {

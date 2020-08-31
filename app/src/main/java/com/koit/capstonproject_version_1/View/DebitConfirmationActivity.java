@@ -9,12 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
+import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.Helper;
@@ -22,6 +24,10 @@ import com.koit.capstonproject_version_1.helper.Helper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class DebitConfirmationActivity extends AppCompatActivity {
     private TextView tvDebtorName, tvDebtorPhone, tvOldDebtAmount,
@@ -33,6 +39,8 @@ public class DebitConfirmationActivity extends AppCompatActivity {
     private List<Product> listSelectedProductWarehouse;
     private List<Product> listSelectedProductInOrder;
     private CreateOrderController createOrderController;
+    private Disposable internetDisposable;
+    private MyDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,39 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         setInformation();
         actionBtnConfirmDebit();
         actionBtnCancleDebit();
+        dialog = new MyDialog(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        internetDisposable = ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isConnected -> {
+                            if (isConnected) {
+                                if (dialog != null)
+                                    dialog.cancelConnectionDialog();
+                            } else {
+                                dialog.showInternetError();
+                            }
+                        }
+
+                );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        safelyDispose(internetDisposable);
+    }
+
+    private void safelyDispose(Disposable... disposables) {
+        for (Disposable subscription : disposables) {
+            if (subscription != null && !subscription.isDisposed()) {
+                subscription.dispose();
+            }
+        }
     }
 
     private void actionBtnCancleDebit() {
@@ -56,7 +97,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
                 Intent intent = new Intent(DebitConfirmationActivity.this, ListItemInOrderActivity.class);
 
                 Bundle args2 = new Bundle();
-                Helper.getInstance().toListOfEachUnit(listSelectedProductInOrder,listSelectedProductWarehouse);
+                Helper.getInstance().toListOfEachUnit(listSelectedProductInOrder, listSelectedProductWarehouse);
 
                 args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
                 args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);

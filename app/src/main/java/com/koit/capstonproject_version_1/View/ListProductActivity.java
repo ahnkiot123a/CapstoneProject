@@ -53,9 +53,6 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
-    private Disposable networkDisposable;
-    MyDialog dialog;
-    private Disposable internetDisposable;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -123,26 +120,6 @@ public class ListProductActivity extends AppCompatActivity {
 
             }
         });
-        dialog = new MyDialog(this);
-    }
-
-    @SuppressLint("CheckResult")
-    @Override
-    protected void onResume() {
-        super.onResume();
-        internetDisposable = ReactiveNetwork.observeInternetConnectivity()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(isConnected -> {
-                            if (isConnected) {
-                                if (dialog != null)
-                                    dialog.cancelConnectionDialog();
-                            } else {
-                                dialog.showInternetError();
-                            }
-                        }
-
-                );
     }
 
     @Override
@@ -150,7 +127,6 @@ public class ListProductActivity extends AppCompatActivity {
         super.onPause();
         searchView.setQuery("", false);
         layoutSearch.requestFocus();
-        safelyDispose(networkDisposable, internetDisposable);
     }
 
     private void safelyDispose(Disposable... disposables) {

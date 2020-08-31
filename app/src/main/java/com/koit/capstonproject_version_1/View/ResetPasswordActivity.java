@@ -7,9 +7,15 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.textfield.TextInputEditText;
 import com.koit.capstonproject_version_1.Controller.ForgotPasswordController;
+import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.R;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -21,6 +27,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private TextInputEditText etConfirmPassword;
     private ForgotPasswordController forgotPasswordController;
     private String phoneNumber;
+    private Disposable internetDisposable;
+    private MyDialog dialog;
 
 
     @Override
@@ -36,6 +44,39 @@ public class ResetPasswordActivity extends AppCompatActivity {
         forgotPasswordController = new ForgotPasswordController(ResetPasswordActivity.this, phoneNumber);
         //send OTP
         forgotPasswordController.sendVerificationCode(phoneNumber);
+        dialog = new MyDialog(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        internetDisposable = ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isConnected -> {
+                            if (isConnected) {
+                                if (dialog != null)
+                                    dialog.cancelConnectionDialog();
+                            } else {
+                                dialog.showInternetError();
+                            }
+                        }
+
+                );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        safelyDispose(internetDisposable);
+    }
+
+    private void safelyDispose(Disposable... disposables) {
+        for (Disposable subscription : disposables) {
+            if (subscription != null && !subscription.isDisposed()) {
+                subscription.dispose();
+            }
+        }
     }
 
     private void initView() {
