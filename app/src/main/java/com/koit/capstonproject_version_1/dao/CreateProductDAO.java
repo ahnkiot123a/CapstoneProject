@@ -162,7 +162,9 @@ public class CreateProductDAO {
                     Log.i("product", product.toString());
                     tetProductName.setText(product.getName().trim());
                     tvCategory.setText(product.getCategoryName().trim());
-                    etUnitName.setText(product.getUnit().trim());
+                    String unitName = product.getUnit().trim().toUpperCase();
+                    String format = unitName.charAt(0) + unitName.substring(1).toLowerCase();
+                    etUnitName.setText(format);
                     etUnitPrice.setText(Money.getInstance().formatVN(Long.parseLong(product.getPrice().trim())));
                 }
             }

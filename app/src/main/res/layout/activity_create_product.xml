@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/light_gray">
+    android:background="@color/medium_light_gray">
 
 
     <include layout="@layout/toolbar_general_activity" />
@@ -262,7 +262,8 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/background_btn_login"
                 android:fontFamily="sans-serif-medium"
-                android:padding="10dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
                 android:onClick="addProduct"
                 android:text="Thêm sản phẩm"
                 android:textAllCaps="true"

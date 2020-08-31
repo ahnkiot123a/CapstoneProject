@@ -370,8 +370,8 @@ public class OrderHistoryController {
                 time = timeSpinner.getSelectedItem().toString();
                 status = statusSpinner.getSelectedItem().toString();
                 if (!OrderHistoryActivity.isFirstTimeRun) {
-                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                     orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                     refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {

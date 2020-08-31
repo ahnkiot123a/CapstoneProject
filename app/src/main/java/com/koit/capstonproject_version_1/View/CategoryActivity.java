@@ -17,7 +17,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Model.Category;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
@@ -39,7 +38,7 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_category_activy);
 
         initView();
