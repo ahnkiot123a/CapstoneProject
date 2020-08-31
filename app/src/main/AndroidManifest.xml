@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -20,18 +20,18 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/CustomAppTheme">
-        <activity android:name=".View.DebtPaymentDetailActivity"/>
+        android:theme="@style/CustomAppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".View.IntroActivity"></activity>
+        <activity android:name=".View.DebtPaymentDetailActivity" />
         <activity android:name=".View.InputPayDebtMoneyActivity" />
         <activity android:name=".View.DebitOfDebtorActivity" />
         <activity android:name=".View.DebitOrderListActivity" />
         <activity
             android:name=".View.OrderHistoryActivity"
             android:windowSoftInputMode="stateHidden" />
-
         <activity android:name=".View.RevenueActivity" />
         <activity android:name=".View.DetailReveneuActivity" />
         <activity android:name=".View.ListItemInOrderActivity" />
@@ -91,7 +91,8 @@
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
-            <intent-filter><action android:name="android.intent.action.VIEW" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -99,7 +100,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
 
         <provider
             android:name="androidx.core.content.FileProvider"

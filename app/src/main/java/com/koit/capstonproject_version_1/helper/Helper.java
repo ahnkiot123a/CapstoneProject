@@ -41,15 +41,17 @@ public class Helper {
     public boolean hasOnly1Unit(Product product) {
         int count = 0;
         List<Unit> unitList = product.getUnits();
-        for (Unit unit : unitList
-        ) {
-            count++;
-            if (count >= 2) break;
-        }
-        if (count <= 1)
+        if (unitList != null)
+            for (Unit unit : unitList) {
+                count++;
+                if (count >= 2) break;
+            }
+        if (count == 1)
             // product has only 1 unit
             return true;
-        else {
+        else if (count == 0) {
+            return false;
+        } else {
             // product has more than 1 unit
             return false;
         }

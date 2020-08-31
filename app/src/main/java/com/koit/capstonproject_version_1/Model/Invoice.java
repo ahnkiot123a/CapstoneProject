@@ -12,6 +12,7 @@ public class Invoice implements Serializable {
     private boolean isDrafted;
     private long payMoney;
     private static Invoice mInstance;
+
     public static Invoice getInstance() {
         if (mInstance == null) {
             mInstance = new Invoice();
@@ -173,13 +174,17 @@ public class Invoice implements Serializable {
 
     public void addInvoiceToFirebase(Invoice invoice) {
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference = databaseReference.child("Invoices").child(UserDAO.getInstance().getUserID()).
-                child(invoice.getInvoiceId());
-        invoice.setInvoiceId(null);
-        databaseReference.setValue(invoice);
-        databaseReference.keepSynced(true);
+        if (invoice.getInvoiceId() != null) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference = databaseReference.child("Invoices").child(UserDAO.getInstance().getUserID()).
+                    child(invoice.getInvoiceId());
+            invoice.setInvoiceId(null);
+            databaseReference.setValue(invoice);
+            databaseReference.keepSynced(true);
+        }
+
     }
+
     public void updateDebitAmount(Invoice invoice) {
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();

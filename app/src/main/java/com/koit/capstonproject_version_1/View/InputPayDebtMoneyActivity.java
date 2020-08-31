@@ -16,12 +16,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.koit.capstonproject_version_1.Controller.PayDebtController;
 import com.koit.capstonproject_version_1.Model.Debtor;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
+import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
+import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.MoneyEditText;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class InputPayDebtMoneyActivity extends AppCompatActivity {
 
@@ -39,11 +46,13 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
     private Debtor debtor;
     private LinearLayout linearInputPayDebt;
     private ConstraintLayout constraintPayAllDebt;
+    private Disposable internetDisposable;
+    private MyDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        StatusBar.setStatusBar(this);
+        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_input_pay_debt_money);
 
         debtor = getCurrentDebtor();
@@ -51,7 +60,39 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
 
         setDebtMoneyView();
         setEtPayAmountEvent();
+        dialog = new MyDialog(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        internetDisposable = ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isConnected -> {
+                            if (isConnected) {
+                                if (dialog != null)
+                                    dialog.cancelConnectionDialog();
+                            } else {
+                                dialog.showInternetError();
+                            }
+                        }
+
+                );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        safelyDispose(internetDisposable);
+    }
+
+    private void safelyDispose(Disposable... disposables) {
+        for (Disposable subscription : disposables) {
+            if (subscription != null && !subscription.isDisposed()) {
+                subscription.dispose();
+            }
+        }
     }
 
     private void setEtPayAmountEvent() {
@@ -96,7 +137,7 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
     private void setDebtMoneyView() {
 //        tvDebtTotal.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
 //        tvRemainingDebt.setText(Money.getInstance().formatVN(debtor.getRemainingDebit()) + " đ");
-        Debtor.getInstance().setDebtMoneyView(debtor.getDebtorId(),debtor,tvDebtTotal,tvRemainingDebt,
+        Debtor.getInstance().setDebtMoneyView(debtor.getDebtorId(), debtor, tvDebtTotal, tvRemainingDebt,
                 constraintPayAllDebt, linearInputPayDebt, btnConfirm);
     }
 

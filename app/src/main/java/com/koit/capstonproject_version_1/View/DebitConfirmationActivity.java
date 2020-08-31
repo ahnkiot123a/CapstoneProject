@@ -135,12 +135,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
                 createOrderController.addInvoiceToFirebase(invoice);
                 createOrderController.addInvoiceDetailToFirebase(invoiceDetail);
                 createOrderController.updateUnitQuantity(listSelectedProductInOrder, listSelectedProductWarehouse);
-                debtor.updateRemainingDebit(debtor);
-                Intent intent = new Intent(DebitConfirmationActivity.this, SelectProductActivity.class);
-                startActivity(intent);
-                finish();
-                Toast.makeText(DebitConfirmationActivity.this, "Cho nợ thành công", Toast.LENGTH_SHORT).show();
-
+                debtor.updateRemainingDebit(debtor, DebitConfirmationActivity.this);
             }
         });
     }

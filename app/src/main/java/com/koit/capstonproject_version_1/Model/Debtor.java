@@ -1,16 +1,20 @@
 package com.koit.capstonproject_version_1.Model;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
+import com.koit.capstonproject_version_1.View.DebitConfirmationActivity;
+import com.koit.capstonproject_version_1.View.SelectProductActivity;
 import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import java.io.Serializable;
@@ -132,7 +138,7 @@ public class Debtor implements Serializable {
 
     public void setDebtMoneyView(String id, final Debtor newDebtor, final TextView tvDebtTotal,
                                  final TextView tvRemainingDebt, final ConstraintLayout constraintPayAllDebt,
-                                final LinearLayout linearInputPayDebt, final FloatingActionButton btnConfirm) {
+                                 final LinearLayout linearInputPayDebt, final FloatingActionButton btnConfirm) {
         IDebtor iDebtor = new IDebtor() {
             @Override
             public void getDebtor(Debtor debtor) {
@@ -142,13 +148,13 @@ public class Debtor implements Serializable {
                 }
             }
         };
-        getDebtorById(id, iDebtor, tvDebtTotal, tvRemainingDebt,constraintPayAllDebt,
+        getDebtorById(id, iDebtor, tvDebtTotal, tvRemainingDebt, constraintPayAllDebt,
                 linearInputPayDebt, btnConfirm);
     }
 
     private void getDebtorById(String id, final IDebtor iDebtor, final TextView tvDebtTotal,
                                final TextView tvRemainingDebt, final ConstraintLayout constraintPayAllDebt,
-                              final LinearLayout linearInputPayDebt, final FloatingActionButton btnConfirm) {
+                               final LinearLayout linearInputPayDebt, final FloatingActionButton btnConfirm) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child("Debtors").child(UserDAO.getInstance().getUserID()).child(id);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -160,7 +166,7 @@ public class Debtor implements Serializable {
                 iDebtor.getDebtor(debtor);
                 if (debtor != null) {
                     Log.d("debtorDebtMoneyView", debtor.toString());
-                    if (debtor.getRemainingDebit() > 0){
+                    if (debtor.getRemainingDebit() > 0) {
                         btnConfirm.setVisibility(View.VISIBLE);
                         constraintPayAllDebt.setVisibility(View.GONE);
                         linearInputPayDebt.setVisibility(View.VISIBLE);
@@ -242,8 +248,8 @@ public class Debtor implements Serializable {
     }
 
     public void setDebtorInformation(String id, final Debtor newDebtor,
-                                 final TextView tvDebtTotal, final TextView tvDebtAmountTotal,
-                                    final TextView tvPayAmountTotal) {
+                                     final TextView tvDebtTotal, final TextView tvDebtAmountTotal,
+                                     final TextView tvPayAmountTotal) {
         IDebtor iDebtor = new IDebtor() {
             @Override
             public void getDebtor(Debtor debtor) {
@@ -406,8 +412,22 @@ public class Debtor implements Serializable {
         databaseReference.keepSynced(true);
     }
 
-    public void updateRemainingDebit(Debtor debtor) {
+    public void updateRemainingDebit(Debtor debtor, DebitConfirmationActivity debitConfirmationActivity) {
 
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Debtors")
+                .child(UserDAO.getInstance().getUserID()).child(debtor.getDebtorId()).child("remainingDebit");
+        databaseReference.setValue(debtor.getRemainingDebit()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Intent intent = new Intent(debitConfirmationActivity, SelectProductActivity.class);
+                debitConfirmationActivity.startActivity(intent);
+                debitConfirmationActivity.finish();
+                Toast.makeText(debitConfirmationActivity, "Cho nợ thành công", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updateRemainingDebit(Debtor debtor) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Debtors")
                 .child(UserDAO.getInstance().getUserID()).child(debtor.getDebtorId()).child("remainingDebit");
         databaseReference.setValue(debtor.getRemainingDebit());

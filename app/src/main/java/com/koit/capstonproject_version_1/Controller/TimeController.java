@@ -199,7 +199,7 @@ public class TimeController {
         return dateInYear;
     }
 
-    //return month from 2020, if 01/2021, month must be 13
+    //return month from 2020, if 01/2021, month must be 12
     public int getMonthFrom2020(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
