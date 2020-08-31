@@ -33,6 +33,9 @@ public class CreateOrderController {
     private Activity activity;
     private EditProductQuantityController editProductQuantityController;
 
+    public CreateOrderController() {
+    }
+
     public CreateOrderController(Activity activity) {
         this.activity = activity;
         editProductQuantityController = new EditProductQuantityController();
