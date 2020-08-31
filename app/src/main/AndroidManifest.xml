@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/CustomAppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".View.IntroActivity"></activity>
+
+
         <activity android:name=".View.DebtPaymentDetailActivity" />
         <activity android:name=".View.InputPayDebtMoneyActivity" />
         <activity android:name=".View.DebitOfDebtorActivity" />
@@ -49,12 +50,24 @@
         <activity
             android:name=".View.SplashActivity"
             android:noHistory="true">
+
+        </activity>
+        <activity android:name=".View.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--        <activity-->
+        <!--            android:name=".View.SplashActivity"-->
+        <!--            android:noHistory="true">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.MAIN" />-->
+
+        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
         <activity android:name=".View.SelectDebtorActivity" />
         <activity android:name=".View.EditDebtorActivity" />
         <activity android:name=".View.ListProductActivity" />
