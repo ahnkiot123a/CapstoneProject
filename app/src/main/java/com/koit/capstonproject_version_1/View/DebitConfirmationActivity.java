@@ -94,20 +94,20 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         btnCancelDebit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DebitConfirmationActivity.this, ListItemInOrderActivity.class);
-
-                Bundle args2 = new Bundle();
-                Helper.getInstance().toListOfEachUnit(listSelectedProductInOrder, listSelectedProductWarehouse);
-
-                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
-                intent.putExtra("BUNDLE", args2);
-
-                //  invoice = SelectDebtorActivity.getInstance().getInvoice();
-                //Log.d("InvoiceAdapter", invoice.toString());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                startActivity(intent);
+//                Intent intent = new Intent(DebitConfirmationActivity.this, ListItemInOrderActivity.class);
+//
+//                Bundle args2 = new Bundle();
+//                Helper.getInstance().toListOfEachUnit(listSelectedProductInOrder, listSelectedProductWarehouse);
+//
+//                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+//                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+//                intent.putExtra("BUNDLE", args2);
+//
+//                //  invoice = SelectDebtorActivity.getInstance().getInvoice();
+//                //Log.d("InvoiceAdapter", invoice.toString());
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                startActivity(intent);
 //                Intent intent = new Intent(DebitConfirmationActivity.this, ListItemInOrderActivity.class);
 //
 //                Bundle args2 = new Bundle();

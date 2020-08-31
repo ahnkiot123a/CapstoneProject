@@ -222,7 +222,7 @@ public class CreateOrderController {
         for (int i = 0; i < listProductWarehouse.size(); i++) {
             if (!listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
 //                int finalI = i;
-           /* final   Product productInOrder = listSelectedProductInOrder.get(i);
+                final Product productInOrder = listSelectedProductInOrder.get(i);
                 IProduct iProduct = new IProduct() {
                     @Override
                     public void getSuggestedProduct(SuggestedProduct product) {
@@ -235,9 +235,11 @@ public class CreateOrderController {
                             Log.d("ktLuong", "check");
                             List<Unit> unitInWareHouse = product.getUnits();
                             sortUnitByPrice(unitInWareHouse);
-
+                            // cal total warehouse product by smallest unit
                             long totalQuantityUnitInWarehouse = unitInWareHouse.get(unitInWareHouse.size() - 1).getUnitQuantity();
                             List<Unit> unitSelectedProductInOrder = productInOrder.getUnits();
+                            // set convert rate to selected product;
+                            // because list select product had convert = 0;
                             for (int j = 0; j < unitSelectedProductInOrder.size(); j++) {
                                 Log.d("unitSelected", unitSelectedProductInOrder.get(j).toString());
                                 for (int k = 0; k < unitInWareHouse.size(); k++) {
@@ -253,9 +255,11 @@ public class CreateOrderController {
                             for (int j = 0; j < unitSelectedProductInOrder.size(); j++) {
                                 Log.d("unitSelected", unitSelectedProductInOrder.get(j).toString());
                             }
+                            // cal total selected product by smallest unit
                             long totalQuantityUnitSelected = calTotalQuantityInUnitList(unitSelectedProductInOrder);
                             Log.d("QuantityUnitInWarehouse", totalQuantityUnitInWarehouse + "");
                             Log.d("QuantityUnitSelected", totalQuantityUnitSelected + "");
+                            // cal remaining  product by smallest unit
                             totalQuantityUnitInWarehouse = (totalQuantityUnitInWarehouse - totalQuantityUnitSelected > 0) ?
                                     totalQuantityUnitInWarehouse - totalQuantityUnitSelected : 0;
                             for (int j = 0; j < unitInWareHouse.size(); j++) {
@@ -264,18 +268,18 @@ public class CreateOrderController {
                             for (int j = 0; j < unitInWareHouse.size(); j++) {
                                 Log.d("unitInWareHouse", unitInWareHouse.get(j).toString());
                             }
-
+                            // set remaining product to product
                             product.setUnits(unitInWareHouse);
-//                editProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
-//                            updateUnitsToFireBase(product);
+
+                            // update unit to firebase
                             Unit.getInstance().updateUnitsToFirebase(product);
                         }
                     }
                 };
-                getProductByProductId(productInOrder.getProductId(), iProduct);*/
+                getProductByProductId(productInOrder.getProductId(), iProduct);
 
 
-                List<Unit> unitInWareHouse = listProductWarehouse.get(i).getUnits();
+                /*List<Unit> unitInWareHouse = listProductWarehouse.get(i).getUnits();
                 sortUnitByPrice(unitInWareHouse);
 
                 long totalQuantityUnitInWarehouse = unitInWareHouse.get(unitInWareHouse.size() - 1).getUnitQuantity();
@@ -309,7 +313,7 @@ public class CreateOrderController {
 
                 listProductWarehouse.get(i).setUnits(unitInWareHouse);
 //                editProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
-                updateUnitsToFireBase(listProductWarehouse.get(i));
+                updateUnitsToFireBase(listProductWarehouse.get(i));*/
 
             }
 
@@ -355,76 +359,38 @@ public class CreateOrderController {
     }
 
     public void getProductByProductId(final String id, final IProduct iProduct) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-//                .child("Products").child(UserDAO.getInstance().getUserID()).child(id);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                DataSnapshot dataSnapshotProduct = snapshot.child("Products").child(UserDAO.getInstance().getUserID()).child(id);
-                Product product = dataSnapshotProduct.getValue(Product.class);
-                product.setProductId(dataSnapshotProduct.getKey());
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getProductByProductId(dataSnapshot, id, iProduct);
+            }
 
-                DataSnapshot dataSnapshotUnit = snapshot.child("Units").child(UserDAO.getInstance().getUserID()).child(id);
-                List<Unit> unitList = new ArrayList<>();
-                for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        DatabaseReference nodeRoot = FirebaseDatabase.getInstance().getReference();
+        nodeRoot.keepSynced(true);
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+
+    }
+
+    private void getProductByProductId(DataSnapshot snapshot, final String id, final IProduct iProduct) {
+        DataSnapshot dataSnapshotProduct = snapshot.child("Products").child(UserDAO.getInstance().getUserID()).child(id);
+        Product product = dataSnapshotProduct.getValue(Product.class);
+        product.setProductId(dataSnapshotProduct.getKey());
+
+        DataSnapshot dataSnapshotUnit = snapshot.child("Units").child(UserDAO.getInstance().getUserID()).child(id);
+        List<Unit> unitList = new ArrayList<>();
+        for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
 //                    Log.d("kiemtraUnit", valueUnit + "");
-                    Unit unit = valueUnit.getValue(Unit.class);
-                    unit.setUnitId(valueUnit.getKey());
-                    unitList.add(unit);
-                }
-                product.setUnits(unitList);
-                iProduct.getProductById(product);
+            Unit unit = valueUnit.getValue(Unit.class);
+            unit.setUnitId(valueUnit.getKey());
+            unitList.add(unit);
+        }
+        product.setUnits(unitList);
+        iProduct.getProductById(product);
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("TAG", "Failed to read value.", error.toException());
-
-            }
-        });
-      /*  databaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                DataSnapshot dataSnapshotProduct = snapshot.child("Products").child(UserDAO.getInstance().getUserID()).child(id);
-                if (dataSnapshotProduct.getValue() != null){
-                    Product product = dataSnapshotProduct.getValue(Product.class);
-                    product.setProductId(dataSnapshotProduct.getKey());
-
-                    DataSnapshot dataSnapshotUnit = snapshot.child("Units").child(UserDAO.getInstance().getUserID()).child(id);
-                    List<Unit> unitList = new ArrayList<>();
-                    for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
-//                    Log.d("kiemtraUnit", valueUnit + "");
-                        Unit unit = valueUnit.getValue(Unit.class);
-                        unit.setUnitId(valueUnit.getKey());
-                        unitList.add(unit);
-                    }
-                    product.setUnits(unitList);
-                    iProduct.getProductById(product);
-                }
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
     }
 
 }
