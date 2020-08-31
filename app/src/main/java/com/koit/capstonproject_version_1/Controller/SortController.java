@@ -31,7 +31,7 @@ public class SortController {
             @Override
             public int compare(Invoice o1, Invoice o2) {
                 String sdate1 = o1.getInvoiceDate() + " " + o1.getInvoiceTime();
-                Log.d("sdate1", sdate1);
+//                Log.d("sdate1", sdate1);
                 String sdate2 = o2.getInvoiceDate() + " " + o2.getInvoiceTime();
                 Date date1 = null, date2 = null;
                 try {
@@ -62,7 +62,7 @@ public class SortController {
             @Override
             public int compare(DebtPayment o1, DebtPayment o2) {
                 String sdate1 = o1.getPayDate() + " " + o1.getPayTime();
-                Log.d("sdate1", sdate1);
+//                Log.d("sdate1", sdate1);
                 String sdate2 = o2.getPayDate() + " " + o2.getPayTime();
                 Date date1 = null, date2 = null;
                 try {

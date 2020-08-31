@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.Controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -38,6 +39,9 @@ public class DebtorController {
     private SelectDebtorAdapter selectDebtorAdapter;
     private ListDebtorAdapter listDebtorAdapter;
     private InputController inputController;
+
+    public DebtorController() {
+    }
 
     public DebtorController(Context context) {
         this.context = context;
@@ -93,6 +97,7 @@ public class DebtorController {
             @Override
             public void getDebtor(Debtor debtor) {
                 debtorList.add(debtor);
+                Log.d("dbtor", debtor.toString());
                 tvRemaining.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
                 tvTotalDebt.setText(Money.getInstance().formatVN(getCurrentDebit(debtorList)) + " đ");
                 listDebtorAdapter.notifyDataSetChanged();

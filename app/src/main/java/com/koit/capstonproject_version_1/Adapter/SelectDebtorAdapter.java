@@ -127,8 +127,9 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
                     List<Debtor> lstFiltered = new ArrayList<>();
                     for (Debtor iv : debtorList) {
                         if (
-                                iv.getFullName().toLowerCase().contains(key.toLowerCase())
-                                        || iv.getPhoneNumber().toLowerCase().contains(key.toLowerCase())
+                                Helper.getInstance().deAccent(iv.getFullName().toLowerCase().trim())
+                                        .contains(Helper.getInstance().deAccent(key.toLowerCase().trim()))
+                                        || iv.getPhoneNumber().toLowerCase().trim().contains(key.toLowerCase().trim())
                         ) {
                             lstFiltered.add(iv);
                         }

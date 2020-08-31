@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class CreateOrderControllerUnitTest {
     List<Product> listSelectedProductInOrder = new ArrayList<>();
@@ -40,7 +41,8 @@ public class CreateOrderControllerUnitTest {
         long totalProductQuantity = createOrderController.calTotalProductQuantity(listSelectedProductInOrder);
         long expectedValue = 3;
         assertEquals(expectedValue, totalProductQuantity);
-
+        assertNotEquals(expectedValue - 1, totalProductQuantity);
+        assertNotEquals(expectedValue + 1, totalProductQuantity);
     }
 
     @Test
@@ -48,6 +50,9 @@ public class CreateOrderControllerUnitTest {
         long totalPrice = createOrderController.calTotalPrice(listSelectedProductInOrder);
         long expectedValue = 218000;
         assertEquals(expectedValue, totalPrice);
+        assertNotEquals(expectedValue + 1, totalPrice);
+        assertNotEquals(expectedValue - 1, totalPrice);
+
     }
 
     @Test
@@ -55,7 +60,62 @@ public class CreateOrderControllerUnitTest {
         long totalProductQuantity = createOrderController.calTotalQuantityInUnitList(listSelectedProductInOrder.get(0).getUnits());
         long expectedValue = 1;
         assertEquals(expectedValue, totalProductQuantity);
+        assertNotEquals(expectedValue + 1, totalProductQuantity);
+        assertNotEquals(expectedValue - 1, totalProductQuantity);
+
     }
 
+    @Test
+    public void formatListProductInOrder_isCorrect() {
+        listSelectedProductInOrder = new ArrayList<>();
+        List<Unit> unitList1 = new ArrayList<>();
+        unitList1.add(new Unit("2", "gói", 1, 196000, 4));
+        Product product1 = new Product("0399271212", "15691528-2632-4c53-9f08-b28741f2b688", null,
+                null, null, null, "omachi sườn", true, unitList1);
+        List<Unit> unitList2 = new ArrayList<>();
+        unitList2.add(new Unit("1", "thùng", 1, 15000, 3));
+        Product product2 = new Product("0399271212", "15691528-2632-4c53-9f08-b28741f2b688", null,
+                null, null, null, "omachi sườn", true, unitList2);
+        List<Unit> unitList3 = new ArrayList<>();
+        unitList3.add(new Unit("0", "túi", 1, 7000, 1));
+        Product product3 = new Product("0399271212", "15691528-2632-4c53-9f08-b28741f2b688", null,
+                null, null, null, "omachi sườn", true, unitList3);
+        listSelectedProductInOrder.add(product1);
+        listSelectedProductInOrder.add(product2);
+        listSelectedProductInOrder.add(product3);
+
+        List<Product> expectedListSelectedProductInOrder = new ArrayList<>();
+        List<Unit> unitList4 = new ArrayList<>();
+        unitList4.add(new Unit("2", "gói", 1, 196000, 4));
+        unitList4.add(new Unit("1", "thùng", 1, 15000, 3));
+        unitList4.add(new Unit("0", "túi", 1, 7000, 1));
+        Product product4 = new Product("0399271212", "15691528-2632-4c53-9f08-b28741f2b688", null,
+                null, null, null, "omachi sườn", true, unitList4);
+        expectedListSelectedProductInOrder.add(product4);
+        createOrderController.formatListProductInOrder(listSelectedProductInOrder);
+
+        assertEquals(listSelectedProductInOrder.get(0).getProductId(),expectedListSelectedProductInOrder.get(0).getProductId());
+        assertEquals(listSelectedProductInOrder.size(),expectedListSelectedProductInOrder.size());
+    }
+    @Test
+    public void formatListProductWarehouse_isCorrect() {
+        List<Product> listProductWarehouse = new ArrayList<>();
+        List<Product> expectedListProductWarehouse = new ArrayList<>();
+        List<Unit> unitList = new ArrayList<>();
+        unitList.add(new Unit("2", "gói", 1, 196000, 4));
+        unitList.add(new Unit("1", "thùng", 1, 15000, 3));
+        unitList.add(new Unit("0", "túi", 1, 7000, 1));
+        Product product = new Product("0399271212", "15691528-2632-4c53-9f08-b28741f2b688", null,
+                null, null, null, "omachi sườn", true, unitList);
+
+        listProductWarehouse.add(product);
+        listProductWarehouse.add(product);
+        listProductWarehouse.add(product);
+
+
+        expectedListProductWarehouse.add(product);
+        createOrderController.formatListProductWarehouse(listProductWarehouse);
+        assertEquals(listProductWarehouse.get(0).getProductId(),expectedListProductWarehouse.get(0).getProductId());
+    }
 
 }

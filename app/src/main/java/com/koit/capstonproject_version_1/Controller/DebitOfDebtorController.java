@@ -71,6 +71,7 @@ public class DebitOfDebtorController {
                     pbDebt.setProgress((int) payAmountToTal);
                     tvPayAmountTotal.setText(Money.getInstance().formatVN(payAmountToTal) + " đ");
                     tvDebtTotal.setText(Money.getInstance().formatVN(debtAmountTotal) + " đ");
+                    Log.d("DebtPayment", debtPayment.toString());
                     Log.d("TotalPayAmountByDebtor", Money.getInstance().formatVN(getTotalPayAmountByDebtor(list)));
                 }
             };
