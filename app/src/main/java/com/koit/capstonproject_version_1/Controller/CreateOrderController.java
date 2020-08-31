@@ -5,9 +5,23 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
@@ -15,8 +29,10 @@ import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -80,7 +96,7 @@ public class CreateOrderController {
                 }
                 if (totalPrice - salePrice > 0) {
                     tvCustomerPaid.setText(Money.getInstance().formatVN(totalPrice - salePrice));
-                    etPaidMoney.setText( Money.getInstance().formatVN(totalPrice - salePrice));
+                    etPaidMoney.setText(Money.getInstance().formatVN(totalPrice - salePrice));
                 } else {
                     tvCustomerPaid.setText("0");
                     etPaidMoney.setText("0");
@@ -109,7 +125,7 @@ public class CreateOrderController {
                 String paidMoneyString = s.toString();
                 long customerPaid = 0;
                 try {
-                    customerPaid = Money.getInstance().reFormatVN( paidMoneyString);
+                    customerPaid = Money.getInstance().reFormatVN(paidMoneyString);
 //                            Long.parseLong(paidMoneyString);
                 } catch (Exception e) {
                     customerPaid = 0;
@@ -205,6 +221,60 @@ public class CreateOrderController {
 
         for (int i = 0; i < listProductWarehouse.size(); i++) {
             if (!listProductWarehouse.get(i).getProductId().startsWith("nonListedProduct")) {
+//                int finalI = i;
+           /* final   Product productInOrder = listSelectedProductInOrder.get(i);
+                IProduct iProduct = new IProduct() {
+                    @Override
+                    public void getSuggestedProduct(SuggestedProduct product) {
+
+                    }
+
+                    @Override
+                    public void getProductById(Product product) {
+                        if (product != null) {
+                            Log.d("ktLuong", "check");
+                            List<Unit> unitInWareHouse = product.getUnits();
+                            sortUnitByPrice(unitInWareHouse);
+
+                            long totalQuantityUnitInWarehouse = unitInWareHouse.get(unitInWareHouse.size() - 1).getUnitQuantity();
+                            List<Unit> unitSelectedProductInOrder = productInOrder.getUnits();
+                            for (int j = 0; j < unitSelectedProductInOrder.size(); j++) {
+                                Log.d("unitSelected", unitSelectedProductInOrder.get(j).toString());
+                                for (int k = 0; k < unitInWareHouse.size(); k++) {
+                                    if (unitSelectedProductInOrder.get(j).getUnitId()
+                                            .equals(unitInWareHouse.get(k).getUnitId())) {
+                                        unitSelectedProductInOrder.get(j).setConvertRate(unitInWareHouse.get(k).getConvertRate());
+                                    }
+                                }
+                            }
+                            for (int j = 0; j < unitInWareHouse.size(); j++) {
+                                Log.d("unitInWareHouse", unitInWareHouse.get(j).toString());
+                            }
+                            for (int j = 0; j < unitSelectedProductInOrder.size(); j++) {
+                                Log.d("unitSelected", unitSelectedProductInOrder.get(j).toString());
+                            }
+                            long totalQuantityUnitSelected = calTotalQuantityInUnitList(unitSelectedProductInOrder);
+                            Log.d("QuantityUnitInWarehouse", totalQuantityUnitInWarehouse + "");
+                            Log.d("QuantityUnitSelected", totalQuantityUnitSelected + "");
+                            totalQuantityUnitInWarehouse = (totalQuantityUnitInWarehouse - totalQuantityUnitSelected > 0) ?
+                                    totalQuantityUnitInWarehouse - totalQuantityUnitSelected : 0;
+                            for (int j = 0; j < unitInWareHouse.size(); j++) {
+                                unitInWareHouse.get(j).setUnitQuantity(totalQuantityUnitInWarehouse / unitInWareHouse.get(j).getConvertRate());
+                            }
+                            for (int j = 0; j < unitInWareHouse.size(); j++) {
+                                Log.d("unitInWareHouse", unitInWareHouse.get(j).toString());
+                            }
+
+                            product.setUnits(unitInWareHouse);
+//                editProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
+//                            updateUnitsToFireBase(product);
+                            Unit.getInstance().updateUnitsToFirebase(product);
+                        }
+                    }
+                };
+                getProductByProductId(productInOrder.getProductId(), iProduct);*/
+
+
                 List<Unit> unitInWareHouse = listProductWarehouse.get(i).getUnits();
                 sortUnitByPrice(unitInWareHouse);
 
@@ -240,13 +310,15 @@ public class CreateOrderController {
                 listProductWarehouse.get(i).setUnits(unitInWareHouse);
 //                editProductQuantityController.addUnitsToFireBase(listProductWarehouse.get(i), listProductWarehouse.get(i).getUnits());
                 updateUnitsToFireBase(listProductWarehouse.get(i));
+
             }
 
         }
 
     }
+
     public void updateUnitsToFireBase(Product product) {
-      final Product productInWarehouse = product;
+        final Product productInWarehouse = product;
         IProduct iProduct = new IProduct() {
             @Override
             public void getSuggestedProduct(SuggestedProduct product) {
@@ -255,15 +327,16 @@ public class CreateOrderController {
 
             @Override
             public void getProductById(Product product) {
-                if (product != null && product.isActive()){
+                if (product != null && product.isActive()) {
                     Unit unit = new Unit();
                     unit.updateUnitsToFirebase(productInWarehouse);
                 }
             }
         };
-        product.getProductById(product.getProductId(),iProduct);
+        product.getProductById(product.getProductId(), iProduct);
 
     }
+
     public long calTotalQuantityInUnitList(List<Unit> units) {
         long quantity = 0;
         for (int i = 0; i < units.size(); i++) {
@@ -279,6 +352,79 @@ public class CreateOrderController {
                 return (int) (o2.getUnitPrice() - o1.getUnitPrice());
             }
         });
+    }
+
+    public void getProductByProductId(final String id, final IProduct iProduct) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+//                .child("Products").child(UserDAO.getInstance().getUserID()).child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                DataSnapshot dataSnapshotProduct = snapshot.child("Products").child(UserDAO.getInstance().getUserID()).child(id);
+                Product product = dataSnapshotProduct.getValue(Product.class);
+                product.setProductId(dataSnapshotProduct.getKey());
+
+                DataSnapshot dataSnapshotUnit = snapshot.child("Units").child(UserDAO.getInstance().getUserID()).child(id);
+                List<Unit> unitList = new ArrayList<>();
+                for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+//                    Log.d("kiemtraUnit", valueUnit + "");
+                    Unit unit = valueUnit.getValue(Unit.class);
+                    unit.setUnitId(valueUnit.getKey());
+                    unitList.add(unit);
+                }
+                product.setUnits(unitList);
+                iProduct.getProductById(product);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+
+            }
+        });
+      /*  databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                DataSnapshot dataSnapshotProduct = snapshot.child("Products").child(UserDAO.getInstance().getUserID()).child(id);
+                if (dataSnapshotProduct.getValue() != null){
+                    Product product = dataSnapshotProduct.getValue(Product.class);
+                    product.setProductId(dataSnapshotProduct.getKey());
+
+                    DataSnapshot dataSnapshotUnit = snapshot.child("Units").child(UserDAO.getInstance().getUserID()).child(id);
+                    List<Unit> unitList = new ArrayList<>();
+                    for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+//                    Log.d("kiemtraUnit", valueUnit + "");
+                        Unit unit = valueUnit.getValue(Unit.class);
+                        unit.setUnitId(valueUnit.getKey());
+                        unitList.add(unit);
+                    }
+                    product.setUnits(unitList);
+                    iProduct.getProductById(product);
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
     }
 
 }

@@ -183,6 +183,63 @@ public class Debtor implements Serializable {
             }
         });
     }
+    public void setDebtorConfirmation(String id, final Debtor newDebtor, final Invoice invoice,final TextView tvDebtorName,
+                                      final TextView tvDebtorPhone, final TextView invoiceName,
+                                      final TextView tvDateTime, final TextView tvDebitMoney,
+                                      final TextView tvOldDebtAmount, final TextView tvNewDebitAmount) {
+        IDebtor iDebtor = new IDebtor() {
+            @Override
+            public void getDebtor(Debtor debtor) {
+                if (debtor != null) {
+//                    newDebtor.setRemainingDebit(debtor.getRemainingDebit());
+                    newDebtor.setAddress(debtor.getAddress());
+                    newDebtor.setDateOfBirth(debtor.getDateOfBirth());
+                    newDebtor.setFullName(debtor.getFullName());
+                    newDebtor.setPhoneNumber(debtor.getPhoneNumber());
+
+//                    debtorName = debtor.getFullName();
+                }
+            }
+        };
+        getDebtorConfirm(id, newDebtor, iDebtor, invoice, tvDebtorName,tvDebtorPhone,
+                invoiceName, tvDateTime,tvDebitMoney,tvOldDebtAmount,tvNewDebitAmount);
+    }
+
+    private void getDebtorConfirm(String id, Debtor newDebtor, final IDebtor iDebtor, final Invoice invoice,final TextView tvDebtorName,
+                               final TextView tvDebtorPhone, final TextView invoiceName,
+                              final TextView tvDateTime, final TextView tvDebitMoney,
+                                  final TextView tvOldDebtAmount, final TextView tvNewDebitAmount ) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Debtors").child(UserDAO.getInstance().getUserID()).child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Debtor debtor = snapshot.getValue(Debtor.class);
+                debtor.setDebtorId(snapshot.getKey());
+                iDebtor.getDebtor(debtor);
+                if (debtor != null) {
+                    tvDebtorName.setText(debtor.getFullName());
+                    tvDebtorPhone.setText(debtor.getPhoneNumber());
+                    invoiceName.setText("Hoá đơn " + invoice.getInvoiceId());
+                    tvDateTime.setText(invoice.getInvoiceDate() + "\n " + invoice.getInvoiceTime());
+                    tvDebitMoney.setText(Money.getInstance().formatVN(invoice.getDebitAmount()));
+                    long oldDebtAmount = debtor.getRemainingDebit();
+                    tvOldDebtAmount.setText(Money.getInstance().formatVN(oldDebtAmount));
+                    long newDebtAmount = oldDebtAmount + invoice.getDebitAmount();
+                    tvNewDebitAmount.setText(Money.getInstance().formatVN(newDebtAmount));
+                    newDebtor.setRemainingDebit(newDebtAmount);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+
+            }
+        });
+    }
 
     public void setDebtorInformation(String id, final Debtor newDebtor,
                                  final TextView tvDebtTotal, final TextView tvDebtAmountTotal,

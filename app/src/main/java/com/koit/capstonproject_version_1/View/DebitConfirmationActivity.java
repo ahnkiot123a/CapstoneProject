@@ -108,6 +108,21 @@ public class DebitConfirmationActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(intent);
+//                Intent intent = new Intent(DebitConfirmationActivity.this, ListItemInOrderActivity.class);
+//
+//                Bundle args2 = new Bundle();
+//                Helper.getInstance().toListOfEachUnit(listSelectedProductInOrder,listSelectedProductWarehouse);
+//
+//                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+//                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+//                intent.putExtra("BUNDLE", args2);
+//
+//                //  invoice = SelectDebtorActivity.getInstance().getInvoice();
+//                //Log.d("InvoiceAdapter", invoice.toString());
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                startActivity(intent);
+                onBackPressed();
                 finish();
             }
         });
@@ -142,6 +157,18 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         long newDebtAmount = oldDebtAmount + invoice.getDebitAmount();
         tvNewDebitAmount.setText(Money.getInstance().formatVN(newDebtAmount));
         debtor.setRemainingDebit(newDebtAmount);
+//        tvDebtorName.setText(debtor.getFullName());
+//        tvDebtorPhone.setText(debtor.getPhoneNumber());
+//        invoiceName.setText("Hoá đơn " + invoice.getInvoiceId());
+//        tvDateTime.setText(invoice.getInvoiceDate() + "\n " + invoice.getInvoiceTime());
+//        tvDebitMoney.setText(Money.getInstance().formatVN(invoice.getDebitAmount()));
+//        long oldDebtAmount = debtor.getRemainingDebit();
+//        tvOldDebtAmount.setText(Money.getInstance().formatVN(oldDebtAmount));
+//        long newDebtAmount = oldDebtAmount + invoice.getDebitAmount();
+//        tvNewDebitAmount.setText(Money.getInstance().formatVN(newDebtAmount));
+//        debtor.setRemainingDebit(newDebtAmount);
+        Debtor.getInstance().setDebtorConfirmation(debtor.getDebtorId(),debtor,invoice,tvDebtorName,
+                tvDebtorPhone,invoiceName,tvDateTime,tvDebitMoney,tvOldDebtAmount,tvNewDebitAmount);
     }
 
     private void getData() {

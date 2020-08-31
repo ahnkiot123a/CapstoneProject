@@ -57,9 +57,9 @@ public class UpdateProductController {
         ICategory iCategory = new ICategory() {
             @Override
             public void getCategory(Category category) {
-                if (category == null) {
-                    Category category2 = new Category(categoryName);
-                    category2.addCategoryToFireBase(category2);
+                if (category == null && !categoryName.isEmpty()) {
+                        Category category2 = new Category(categoryName);
+                        category2.addCategoryToFireBase(category2);
                 }
             }
         };

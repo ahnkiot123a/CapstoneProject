@@ -123,6 +123,8 @@ public class DebtorController {
             edFullname.setError("Tên khách hàng không được để trống");
         } else if (!inputController.isEmail(email)) {
             edEmail.setError("Email không hợp lệ, vui lòng nhập lại Email");
+        } else if (phoneNumber.trim().isEmpty()) {
+            edPhoneNumber.setError("Số điện thoại không được để trống, vui lòng nhập số điện thoại");
         } else if (!inputController.isPhoneNumber(phoneNumber)) {
             edPhoneNumber.setError("Số điện thoại không hợp lệ, vui lòng nhập lại số điện thoại");
         } else {
@@ -159,6 +161,8 @@ public class DebtorController {
             edFullname.setError("Tên khách hàng không được để trống");
         } else if (!inputController.isEmail(email)) {
             edEmail.setError("Email không hợp lệ, vui lòng nhập lại Email");
+        } else if (phoneNumber.trim().isEmpty()) {
+            edPhoneNumber.setError("Số điện thoại không được để trống, vui lòng nhập số điện thoại");
         } else if (!inputController.isPhoneNumber(phoneNumber)) {
             edPhoneNumber.setError("Số điện thoại không hợp lệ, vui lòng nhập lại số điện thoại");
         } else {

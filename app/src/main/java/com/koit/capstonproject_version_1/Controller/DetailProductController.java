@@ -246,32 +246,35 @@ public class DetailProductController {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 DataSnapshot dataSnapshotProduct = snapshot.child("Products").child(UserDAO.getInstance().getUserID()).child(id);
-                Product product = dataSnapshotProduct.getValue(Product.class);
-                product.setProductId(dataSnapshotProduct.getKey());
+                if (dataSnapshotProduct.getValue() != null){
+                    Product product = dataSnapshotProduct.getValue(Product.class);
+                    product.setProductId(dataSnapshotProduct.getKey());
 
-                DataSnapshot dataSnapshotUnit = snapshot.child("Units").child(UserDAO.getInstance().getUserID()).child(id);
-                List<Unit> unitList = new ArrayList<>();
-                for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
+                    DataSnapshot dataSnapshotUnit = snapshot.child("Units").child(UserDAO.getInstance().getUserID()).child(id);
+                    List<Unit> unitList = new ArrayList<>();
+                    for (DataSnapshot valueUnit : dataSnapshotUnit.getChildren()) {
 //                    Log.d("kiemtraUnit", valueUnit + "");
-                    Unit unit = valueUnit.getValue(Unit.class);
-                    unit.setUnitId(valueUnit.getKey());
-                    unitList.add(unit);
+                        Unit unit = valueUnit.getValue(Unit.class);
+                        unit.setUnitId(valueUnit.getKey());
+                        unitList.add(unit);
+                    }
+                    product.setUnits(unitList);
+                    iProduct.getProductById(product);
+                    if (product != null) {
+                        sortUnitByPrice(unitList);
+                        setImageView(productImage, product);
+                        edBarcode.setText(product.getBarcode());
+                        edProductName.setText(product.getProductName());
+                        edDescription.setText(product.getProductDescription());
+                        categoryName.setText("Loại sản phẩm: " + product.getCategoryName());
+                        if (product.isActive()) switchActive.setChecked(true);
+                        switchActive.setEnabled(false);
+                        setRecyclerViewUnits(recyclerUnits, (ArrayList<Unit>) unitList);
+                        setRecyclerConvertRate((ArrayList<Unit>) unitList, tvConvertRate, recyclerConvertRate);
+                        setSpinnerUnit((ArrayList<Unit>) unitList, spinnerUnit, tvUnitQuantity);
+                    }
                 }
-                product.setUnits(unitList);
-                iProduct.getProductById(product);
-                if (product != null) {
-                    sortUnitByPrice(unitList);
-                    setImageView(productImage, product);
-                    edBarcode.setText(product.getBarcode());
-                    edProductName.setText(product.getProductName());
-                    edDescription.setText(product.getProductDescription());
-                    categoryName.setText("Loại sản phẩm: " + product.getCategoryName());
-                    if (product.isActive()) switchActive.setChecked(true);
-                    switchActive.setEnabled(false);
-                    setRecyclerViewUnits(recyclerUnits, (ArrayList<Unit>) unitList);
-                    setRecyclerConvertRate((ArrayList<Unit>) unitList, tvConvertRate, recyclerConvertRate);
-                    setSpinnerUnit((ArrayList<Unit>) unitList, spinnerUnit, tvUnitQuantity);
-                }
+
             }
 
             @Override

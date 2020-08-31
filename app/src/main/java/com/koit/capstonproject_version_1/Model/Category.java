@@ -110,6 +110,7 @@ public class Category implements Serializable {
     private void getListCategory(DataSnapshot dataSnapshot, ICategory iCategory) {
         DataSnapshot dataSnapshotCategory = dataSnapshot.child("Categories").child(userDAO.getUserID());
         //Lấy danh sách san pham
+        if (dataSnapshotCategory.getValue() != null)
         for (DataSnapshot valueCategory : dataSnapshotCategory.getChildren()) {
             Category category = valueCategory.getValue(Category.class);
             iCategory.getCategory(category);

@@ -14,6 +14,14 @@ public class Unit implements Serializable {
     private long convertRate, unitPrice, unitQuantity;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private static Unit mInstance;
+
+    public static Unit getInstance() {
+        if (mInstance == null) {
+            mInstance = new Unit();
+        }
+        return mInstance;
+    }
 
 
 
