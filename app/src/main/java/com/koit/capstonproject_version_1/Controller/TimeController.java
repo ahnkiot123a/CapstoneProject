@@ -46,7 +46,7 @@ public class TimeController {
     //Calculate number of days between 2 date
     public long dayDiff(Date start, Date end) {
         Date startStart = new Date(start.getYear(), start.getMonth(), start.getDate());
-        Log.d("startDate", startStart.toString());
+//        Log.d("startDate", startStart.toString());
         Date endStart = new Date(end.getYear(), end.getMonth(), end.getDate());
         return (endStart.getTime() - startStart.getTime()) / (1000 * 60 * 60 * 24);
     }
