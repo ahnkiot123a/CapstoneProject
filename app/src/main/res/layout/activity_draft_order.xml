@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.OrderHistoryActivity"
-    android:background="@color/light_gray">
+    android:background="@color/light_gray"
+    tools:context=".View.OrderHistoryActivity">
 
     <include layout="@layout/toolbar_general_activity" />
 
@@ -51,8 +51,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/white"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/tvDraftOrderCount"
@@ -79,48 +79,77 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvDraftOrder"
-            android:layout_marginTop="10dp"
-            android:background="@color/medium_light_gray"
+        <LinearLayout
+            android:id="@+id/layoutDraftOrder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDraftOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/medium_light_gray" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_not_found_item"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animationView"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="false"
-                app:lottie_rawRes="@raw/search_empty" />
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refreshLayoutNotFound"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:textAlignment="center"
-                android:text="Bạn chưa có hoá đơn tạm nào!"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/animationView" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/animationView"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/search_empty" />
+
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Bạn chưa có hoá đơn tạm nào!"
+                        android:textAlignment="center"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/animationView" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

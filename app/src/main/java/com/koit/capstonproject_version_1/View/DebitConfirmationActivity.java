@@ -1,13 +1,13 @@
 package com.koit.capstonproject_version_1.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.koit.capstonproject_version_1.Controller.CreateOrderController;
@@ -17,7 +17,6 @@ import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.Helper;
 
@@ -45,7 +44,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_debit_confirmation);
         createOrderController = new CreateOrderController(this);
         initView();

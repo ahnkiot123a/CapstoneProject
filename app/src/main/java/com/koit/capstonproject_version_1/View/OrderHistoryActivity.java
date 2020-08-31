@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,7 +17,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
 import com.koit.capstonproject_version_1.Controller.TimeController;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 public class OrderHistoryActivity extends AppCompatActivity {
@@ -29,6 +29,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
     private Spinner invoiceStatusSpinner, timeSpinner;
     private SearchView svInvoice;
     private SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout refreshLayoutNotFound;
+    private LinearLayout layoutOrderHistory;
+
 
     private ConstraintLayout layoutNotFound;
     private OrderHistoryController orderHistoryController;
@@ -36,7 +39,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_invoice_history);
 
         initView();
@@ -45,7 +47,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         buildSpinner();
 
         orderHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner,
-                invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound, refreshLayout);
+                invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound, refreshLayout,layoutOrderHistory, refreshLayoutNotFound);
 
         orderHistoryController.etSearchEvent(svInvoice);
 
@@ -65,6 +67,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
         layoutNotFound = findViewById(R.id.layout_not_found_item);
         tvTime = findViewById(R.id.tvTime);
         refreshLayout = findViewById(R.id.refreshLayout);
+        refreshLayoutNotFound = findViewById(R.id.refreshLayoutNotFound);
+        layoutOrderHistory = findViewById(R.id.layoutOrderHistory);
 
         //set title in toolbar
         Toolbar toolbar = findViewById(R.id.toolbarGeneral);

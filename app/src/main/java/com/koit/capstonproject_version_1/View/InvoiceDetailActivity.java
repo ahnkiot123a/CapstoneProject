@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.Controller.InvoiceDetailController;
 import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.UIModel.Money;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 public class InvoiceDetailActivity extends AppCompatActivity {
@@ -32,7 +31,7 @@ public class InvoiceDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_invoice_detail);
         Intent intent = getIntent();
         invoice = (Invoice) intent.getSerializableExtra(OrderHistoryActivity.INVOICE);

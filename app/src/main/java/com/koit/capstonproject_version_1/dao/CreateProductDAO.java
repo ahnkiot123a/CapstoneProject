@@ -27,6 +27,7 @@ import com.google.firebase.storage.UploadTask;
 import com.koit.capstonproject_version_1.Controller.Interface.IProduct;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.SuggestedProduct;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.DetailProductActivity;
@@ -162,7 +163,7 @@ public class CreateProductDAO {
                     tetProductName.setText(product.getName().trim());
                     tvCategory.setText(product.getCategoryName().trim());
                     etUnitName.setText(product.getUnit().trim());
-                    etUnitPrice.setText(product.getPrice().trim());
+                    etUnitPrice.setText(Money.getInstance().formatVN(Long.parseLong(product.getPrice().trim())));
                 }
             }
 
@@ -201,10 +202,9 @@ public class CreateProductDAO {
                         Log.i("saveImageProduct", "save failed");
 
                     }
-//                    file.delete();
                 }
-            });
 
+            });
 //            ProgressBar mProgressBar = null;
 //            mProgressBar.setVisibility(ProgressBar.VISIBLE);
 //            Bitmap bmp = null;
@@ -239,7 +239,6 @@ public class CreateProductDAO {
 //                }
 //            });
         }
-
     }
 
     public void deleteImageProduct(String imgName) {

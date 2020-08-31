@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -11,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
 
 public class DraftOrderActivity extends AppCompatActivity {
@@ -23,6 +24,9 @@ public class DraftOrderActivity extends AppCompatActivity {
     private TextView tvDraftOrderCount, tvTime;
     private Spinner timeSpinner;
     private ConstraintLayout layoutNotFound;
+    private SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout refreshLayoutNotFound;
+    private LinearLayout layoutDraftOrder;
 
     private OrderHistoryController controller;
 
@@ -30,13 +34,14 @@ public class DraftOrderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_draft_order);
         initView();
 
         buildSpinner();
         controller.setupRecyclerView(rvDraftOrder, tvDraftOrderCount);
-        controller.draftSpinnerEvent(rvDraftOrder, tvDraftOrderCount, timeSpinner, tvTime, layoutNotFound);
+        controller.draftSpinnerEvent(rvDraftOrder, tvDraftOrderCount, timeSpinner, tvTime, layoutNotFound,
+                refreshLayout, layoutDraftOrder, refreshLayoutNotFound);
     }
 
     private void initView() {
@@ -45,6 +50,9 @@ public class DraftOrderActivity extends AppCompatActivity {
         timeSpinner = findViewById(R.id.timeSpinner);
         tvTime = findViewById(R.id.tvTime);
         layoutNotFound = findViewById(R.id.layout_not_found_item);
+        refreshLayout = findViewById(R.id.refreshLayout);
+        layoutDraftOrder = findViewById(R.id.layoutDraftOrder);
+        refreshLayoutNotFound = findViewById(R.id.refreshLayoutNotFound);
 
         controller = new OrderHistoryController(this);
 

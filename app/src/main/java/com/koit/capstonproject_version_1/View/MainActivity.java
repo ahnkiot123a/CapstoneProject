@@ -1,13 +1,9 @@
 package com.koit.capstonproject_version_1.View;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -76,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (currentUser != null) {
-            tvNameProfileLeft.setText(currentUser.getFullName());
+            String name = !currentUser.getFullName().isEmpty() ? currentUser.getFullName() : currentUser.getStoreName();
+            tvNameProfileLeft.setText(name);
             String text = !currentUser.getPhoneNumber().isEmpty() ? currentUser.getPhoneNumber() : currentUser.getEmail();
             tvEmailProfileLeft.setText(text);
         }

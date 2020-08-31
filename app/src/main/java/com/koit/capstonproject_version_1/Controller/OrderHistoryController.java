@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -80,7 +81,7 @@ public class OrderHistoryController {
     //get invoice list by time and status
     public void invoiceList(final RecyclerView recyclerViewListProduct, final TextView textView,
                             final TextView tvTime, final ConstraintLayout layoutNotFound,
-                            final SearchView searchView, SwipeRefreshLayout refreshLayout) {
+                            final SearchView searchView, LinearLayout layoutOrderHistory) {
         invoiceList = new ArrayList<>();
         final boolean hasInvoice = false;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
@@ -104,14 +105,14 @@ public class OrderHistoryController {
                             }
                         }
                         if (status.equals("Tất cả đơn hàng") && time.equals("7 ngày trước")) {
-                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-7) + " đến " + TimeController.getInstance().getCurrentDate());
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-6) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (TimeController.getInstance().isInNumOfDays(7, date)) {
                                 invoiceList.add(invoice);
                             }
                         }
                         if (status.equals("Tất cả đơn hàng") && time.equals("30 ngày trước")) {
-                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-30) + " đến " + TimeController.getInstance().getCurrentDate());
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-29) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (TimeController.getInstance().isInNumOfDays(30, date)) {
                                 invoiceList.add(invoice);
@@ -140,7 +141,7 @@ public class OrderHistoryController {
                             }
                         }
                         if (status.equals("Hoá đơn còn nợ") && time.equals("7 ngày trước")) {
-                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-7) + " đến " + TimeController.getInstance().getCurrentDate());
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-6) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() > 0 && TimeController.getInstance().isInNumOfDays(7, date)) {
                                 invoiceList.add(invoice);
@@ -148,7 +149,7 @@ public class OrderHistoryController {
                             }
                         }
                         if (status.equals("Hoá đơn còn nợ") && time.equals("30 ngày trước")) {
-                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-30) + " đến " + TimeController.getInstance().getCurrentDate());
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-29) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() > 0 && TimeController.getInstance().isInNumOfDays(30, date)) {
                                 invoiceList.add(invoice);
@@ -178,12 +179,12 @@ public class OrderHistoryController {
                         if (status.equals("Hoá đơn trả hết") && time.equals("7 ngày trước")) {
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() == 0 && TimeController.getInstance().isInNumOfDays(7, date)) {
-                                tvTime.setText("từ " + TimeController.getInstance().plusDate(-7) + " đến " + TimeController.getInstance().getCurrentDate());
+                                tvTime.setText("từ " + TimeController.getInstance().plusDate(-6) + " đến " + TimeController.getInstance().getCurrentDate());
                                 invoiceList.add(invoice);
                             }
                         }
                         if (status.equals("Hoá đơn trả hết") && time.equals("30 ngày trước")) {
-                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-30) + " đến " + TimeController.getInstance().getCurrentDate());
+                            tvTime.setText("từ " + TimeController.getInstance().plusDate(-29) + " đến " + TimeController.getInstance().getCurrentDate());
                             Date date = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
                             if (invoice.getDebitAmount() == 0 && TimeController.getInstance().isInNumOfDays(30, date)) {
                                 invoiceList.add(invoice);
@@ -200,21 +201,14 @@ public class OrderHistoryController {
                         }
                         orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                         textView.setText(invoiceList.size() + " đơn hàng");
-
-                        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                            @Override
-                            public void onRefresh() {
-                                orderHistoryAdapter.notifyDataSetChanged();
-                                refreshLayout.setRefreshing(false);
-                            }
-                        });
+                        orderHistoryAdapter.notifyDataSetChanged();
                     }
 
                     if (invoiceList.isEmpty()) {
-                        recyclerViewListProduct.setVisibility(View.GONE);
+                        layoutOrderHistory.setVisibility(View.GONE);
                         layoutNotFound.setVisibility(View.VISIBLE);
                     } else {
-                        recyclerViewListProduct.setVisibility(View.VISIBLE);
+                        layoutOrderHistory.setVisibility(View.VISIBLE);
                         layoutNotFound.setVisibility(View.GONE);
                     }
                 }
@@ -222,7 +216,7 @@ public class OrderHistoryController {
             }
 
         };
-        orderHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound);
+        orderHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound, layoutOrderHistory);
     }
 
 
@@ -251,7 +245,8 @@ public class OrderHistoryController {
     }
 
 
-    public void draftOrderList(final RecyclerView rvDraftOrder, final TextView tvCount, final TextView tvTime, final ConstraintLayout layoutNotFound) {
+    public void draftOrderList(final RecyclerView rvDraftOrder, final TextView tvCount, final TextView tvTime,
+                               final ConstraintLayout layoutNotFound, LinearLayout layoutDraftOrder) {
         draftOrderList = new ArrayList<>();
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
         rvDraftOrder.setLayoutManager(layoutManager);
@@ -296,17 +291,17 @@ public class OrderHistoryController {
                         draftOrderAdapter.notifyDataSetChanged();
                     }
                     if (draftOrderList.isEmpty()) {
-                        rvDraftOrder.setVisibility(View.GONE);
+                        layoutDraftOrder.setVisibility(View.GONE);
                         layoutNotFound.setVisibility(View.VISIBLE);
                     } else {
-                        rvDraftOrder.setVisibility(View.VISIBLE);
+                        layoutDraftOrder.setVisibility(View.VISIBLE);
                         layoutNotFound.setVisibility(View.GONE);
                     }
                 }
 
             }
         };
-        orderHistoryDAO.getInvoiceList(iInvoice, rvDraftOrder, layoutNotFound);
+        orderHistoryDAO.getInvoiceList(iInvoice, rvDraftOrder, layoutNotFound, layoutDraftOrder);
         draftOrderAdapter.setOnItemClickListener(new DraftOrderAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -322,18 +317,37 @@ public class OrderHistoryController {
     //event when click time spinner or invoice status spinner
     public void invoiceSpinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner,
                                     final Spinner statusSpinner, final SearchView searchView, final TextView tvTime,
-                                    final ConstraintLayout layoutNotFound, SwipeRefreshLayout refreshLayout) {
+                                    final ConstraintLayout layoutNotFound, SwipeRefreshLayout refreshLayout,
+                                    LinearLayout layoutOrderHistory, SwipeRefreshLayout refreshLayoutNotFound) {
+
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 time = timeSpinner.getSelectedItem().toString();
                 status = statusSpinner.getSelectedItem().toString();
                 if (time.equals("Tuỳ chỉnh")) {
-                    buildTimeDialog(recyclerView, textView, timeSpinner, searchView, tvTime, layoutNotFound, refreshLayout);
+                    buildTimeDialog(recyclerView, textView, timeSpinner, searchView, tvTime, layoutNotFound, layoutOrderHistory);
                 } else {
                     if (!OrderHistoryActivity.isFirstTimeRun) {
-                        invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, refreshLayout);
+                        invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                         orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
+                                orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
+                        refreshLayoutNotFound.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
+                                orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                                refreshLayoutNotFound.setRefreshing(false);
+                            }
+                        });
+
 
                     }
                     OrderHistoryActivity.isFirstTimeRun = false;
@@ -352,8 +366,25 @@ public class OrderHistoryController {
                 time = timeSpinner.getSelectedItem().toString();
                 status = statusSpinner.getSelectedItem().toString();
                 if (!OrderHistoryActivity.isFirstTimeRun) {
-                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, refreshLayout);
+                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                     orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                    refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
+                            orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                            refreshLayout.setRefreshing(false);
+                        }
+                    });
+                    refreshLayoutNotFound.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
+                            orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
+                            refreshLayoutNotFound.setRefreshing(false);
+                        }
+                    });
+
                 }
                 OrderHistoryActivity.isFirstTimeRun = false;
             }
@@ -363,15 +394,33 @@ public class OrderHistoryController {
 
             }
         });
+
+
     }
 
     public void draftSpinnerEvent(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner,
-                                  final TextView tvTime, final ConstraintLayout layoutNotFound) {
+                                  final TextView tvTime, final ConstraintLayout layoutNotFound,
+                                  SwipeRefreshLayout refreshLayout, LinearLayout layoutDraftOrder,
+                                  SwipeRefreshLayout refreshLayoutNotFound) {
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 draftOrderTime = timeSpinner.getSelectedItem().toString();
-                draftOrderList(recyclerView, textView, tvTime, layoutNotFound);
+                refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        draftOrderList(recyclerView, textView, tvTime, layoutNotFound, layoutDraftOrder);
+                        refreshLayout.setRefreshing(false);
+                    }
+                });
+                refreshLayoutNotFound.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        draftOrderList(recyclerView, textView, tvTime, layoutNotFound, layoutDraftOrder);
+                        refreshLayoutNotFound.setRefreshing(false);
+                    }
+                });
+                draftOrderList(recyclerView, textView, tvTime, layoutNotFound, layoutDraftOrder);
             }
 
             @Override
@@ -384,7 +433,7 @@ public class OrderHistoryController {
     //build timer dialog when search by custom time
     private void buildTimeDialog(final RecyclerView recyclerView, final TextView textView, final Spinner timeSpinner,
                                  final SearchView searchView, final TextView tvTime,
-                                 final ConstraintLayout layoutNotFound, SwipeRefreshLayout refreshLayout) {
+                                 final ConstraintLayout layoutNotFound, LinearLayout layoutOrderHistory) {
         final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_time_input, null);
         final TextView tvDateStart, tvDateEnd;
@@ -424,7 +473,7 @@ public class OrderHistoryController {
         tvDateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              showDatePicker(onDateSetListenerEnd);
+                showDatePicker(onDateSetListenerEnd);
             }
         });
 
@@ -451,7 +500,7 @@ public class OrderHistoryController {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!tvDateStart.getText().toString().isEmpty() && !tvDateEnd.getText().toString().isEmpty()){
+                if (!tvDateStart.getText().toString().isEmpty() && !tvDateEnd.getText().toString().isEmpty()) {
                     start = TimeController.getInstance().convertStrToDate(tvDateStart.getText().toString());
                     end = TimeController.getInstance().convertStrToDate(tvDateEnd.getText().toString());
                     if (start.equals(end)) {
@@ -460,9 +509,9 @@ public class OrderHistoryController {
                         tvTime.setText("từ " + TimeController.getInstance().convertDateToStr(start) + " đến " + TimeController.getInstance().convertDateToStr(end));
                     }
                     alertDialog.cancel();
-                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, refreshLayout);
+                    invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                     etSearchEvent(searchView);
-                }else{
+                } else {
 
                 }
 
@@ -481,8 +530,6 @@ public class OrderHistoryController {
         alertDialog.show();
 
     }
-
-
 
 
     private void showDatePicker(DatePickerDialog.OnDateSetListener onDateSetListener) {

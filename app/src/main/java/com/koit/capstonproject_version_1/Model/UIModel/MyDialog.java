@@ -3,10 +3,8 @@ package com.koit.capstonproject_version_1.Model.UIModel;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,6 +34,7 @@ public class MyDialog {
         animationView.setAnimation(resId);
         builder.setView(view);
         dialog = builder.create();
+        dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }

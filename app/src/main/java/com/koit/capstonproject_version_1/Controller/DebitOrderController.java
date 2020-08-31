@@ -89,7 +89,7 @@ public class DebitOrderController {
 //            layoutNotFound.setVisibility(View.GONE);
 //        }
 
-        orderHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound);
+//        orderHistoryDAO.getInvoiceList(iInvoice, recyclerViewListProduct, layoutNotFound);
     }
 
     public void orderSpinnerEvent(final RecyclerView rvOrderDebtor, final TextView tvInvoiceCount, final Spinner timeSpinner,

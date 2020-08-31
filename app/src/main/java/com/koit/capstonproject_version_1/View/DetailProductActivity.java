@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,10 +19,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.koit.capstonproject_version_1.Controller.DetailProductController;
 import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 
@@ -48,7 +45,7 @@ public class DetailProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_detail_product);
         initView();
         detailProductController = new DetailProductController(this);

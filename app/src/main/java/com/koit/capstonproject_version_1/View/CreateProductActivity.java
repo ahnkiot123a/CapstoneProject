@@ -86,6 +86,8 @@ public class CreateProductActivity extends AppCompatActivity {
 
         addOneUnitView();
 
+        photoName = "";
+
     }
 
 
@@ -222,12 +224,15 @@ public class CreateProductActivity extends AppCompatActivity {
             Log.i("image", cameraController.getCurrentPhotoPath());
             String photoPath = cameraController.getCurrentPhotoPath();
             File file = new File(photoPath);
+            photoUri = null;
             photoUri = Uri.fromFile(file);
             File compressFile = new File(SiliCompressor.with(this).compress(FileUtils.getPath(this, photoUri)
                     , new File(this.getCacheDir(), "temp")));
             photoUri = Uri.fromFile(compressFile);
             ivProduct.setImageURI(photoUri);
             ivProduct.setRotation(ivProduct.getRotation() + 90);
+            photoName = "";
+            Log.d("photoNameBefore", photoName);
             photoName = file.getName();
             Log.i("photoName", photoName);
 
@@ -239,10 +244,8 @@ public class CreateProductActivity extends AppCompatActivity {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imgFileName = "JPEG" + "_" + timeStamp + "." + getFileExt(photoUri);
             Log.i("gallery", "onActivityResult: Gallery Image Uri " + imgFileName);
+            photoName = "";
             photoName = imgFileName;
-//            File compressFile = new File(SiliCompressor.with(this).compress(FileUtils.getPath(this, photoUri)
-//                    , new File(this.getCacheDir(), "temp")));
-//            photoUri = Uri.fromFile(compressFile);
             ivProduct.setImageURI(photoUri);
             ivProduct.setRotation(ivProduct.getRotation() + 180);
         }

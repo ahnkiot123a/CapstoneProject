@@ -59,8 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnLeftMenu"
-        android:layout_marginTop="-20dp"
-        android:scrollbars="none">
+        android:layout_marginTop="-20dp">
 
         <LinearLayout
             android:layout_width="match_parent"

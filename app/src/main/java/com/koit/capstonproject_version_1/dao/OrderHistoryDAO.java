@@ -29,11 +29,12 @@ public class OrderHistoryDAO {
 
     }
 
-    public void getInvoiceList(final IInvoice iInvoice, final RecyclerView recyclerViewListProduct, final ConstraintLayout layoutNotFound) {
+    public void getInvoiceList(final IInvoice iInvoice, final RecyclerView recyclerViewListProduct,
+                               final ConstraintLayout layoutNotFound, LinearLayout layoutOrder) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getInvoiceList(dataSnapshot, iInvoice, recyclerViewListProduct, layoutNotFound);
+                getInvoiceList(dataSnapshot, iInvoice, recyclerViewListProduct, layoutNotFound, layoutOrder);
             }
 
             @Override
@@ -47,7 +48,8 @@ public class OrderHistoryDAO {
 
 
 
-    private void getInvoiceList(DataSnapshot dataSnapshot, IInvoice iInvoice, RecyclerView recyclerViewListProduct, ConstraintLayout layoutNotFound) {
+    private void getInvoiceList(DataSnapshot dataSnapshot, IInvoice iInvoice, RecyclerView recyclerViewListProduct,
+                                ConstraintLayout layoutNotFound, LinearLayout layoutOrder) {
         DataSnapshot data = dataSnapshot.child("Invoices").child(UserDAO.getInstance().getUserID());
         boolean hasInvoice = false;
         for (DataSnapshot value : data.getChildren()) {
@@ -76,14 +78,15 @@ public class OrderHistoryDAO {
 
         }
         if (!hasInvoice) {
-            recyclerViewListProduct.setVisibility(View.GONE);
+            layoutOrder.setVisibility(View.GONE);
             layoutNotFound.setVisibility(View.VISIBLE);
         }
     }
 
     //For revenue controller
     public void getInvoiceList(final IInvoice iInvoice, final LinearLayout layoutNotFound,
-                               final LottieAnimationView animationView, final LinearLayout layoutChart) {
+                               final LottieAnimationView animationView, final LinearLayout layoutChart
+                              ) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

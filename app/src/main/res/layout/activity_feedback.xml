@@ -10,14 +10,14 @@
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@color/theme"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/AppTheme">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@null"
             android:onClick="back"
             android:src="@drawable/ic_baseline_arrow_white_ios_24" />
 
@@ -27,8 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Phản hồi"
+            android:fontFamily="sans-serif-medium"
             android:textColor="#FFF"
-            android:textSize="28sp" />
+            android:textSize="26sp" />
 
     </Toolbar>
 
