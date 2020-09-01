@@ -46,7 +46,7 @@
             android:drawableLeft="?android:attr/actionModeWebSearchDrawable"
             android:drawablePadding="10dp"
             android:ems="10"
-            android:hint="Nhập tên, mã Barcode"
+            android:hint="Nhập tên, mã sản phẩm"
             android:imeOptions="actionSearch"
             android:inputType="textPersonName"
             android:paddingLeft="20dp"
@@ -56,21 +56,9 @@
             app:layout_constraintHorizontal_bias="0.555"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+           />
 
-        <ImageButton
-            android:id="@+id/imgbtnBarcode"
-            android:layout_width="51dp"
-            android:layout_height="33dp"
-            android:background="@drawable/barcode_icon_layout"
-            android:left="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/etSearchField"
-            app:layout_constraintEnd_toEndOf="@+id/etSearchField"
-            app:layout_constraintHorizontal_bias="0.944"
-            app:layout_constraintStart_toStartOf="@+id/etSearchField"
-            app:layout_constraintTop_toTopOf="@+id/etSearchField"
-            app:srcCompat="@drawable/barcode"
-            tools:ignore="MissingConstraints" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView

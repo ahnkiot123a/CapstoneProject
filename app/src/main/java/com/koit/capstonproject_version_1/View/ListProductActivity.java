@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -27,6 +28,7 @@ import com.koit.capstonproject_version_1.Controller.SwipeController;
 import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.dao.UserDAO;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,7 +55,6 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressBar pBarList;
     private SwipeController swipeController = null;
     private ImageButton imgbtnBarcodeInList;
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +62,9 @@ public class ListProductActivity extends AppCompatActivity {
         StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_list_product);
 
-        searchView = findViewById(R.id.searchViewInList);
-        category_Spinner = findViewById(R.id.category_Spinner);
-        tvTotalQuantity = findViewById(R.id.tvTotalQuantity);
-        recyclerViewListProduct = findViewById(R.id.recyclerViewListProduct);
-        linearLayoutEmpty = findViewById(R.id.linearLayoutEmptyProduct);
-        layoutSearch = findViewById(R.id.layoutSearch);
-        layoutNotFoundItem = findViewById(R.id.layout_not_found_item);
-        btnAddNewProduct = findViewById(R.id.btnAddNewProduct);
-        pBarList = findViewById(R.id.pBarList);
-        imgbtnBarcodeInList = findViewById(R.id.imgbtnBarcodeInList);
+        initView();
+
+
         recyclerViewListProduct.setHasFixedSize(true);
         recyclerViewListProduct.setLayoutManager(new LinearLayoutManager(this));
         btnAddNewProduct.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +73,6 @@ public class ListProductActivity extends AppCompatActivity {
                 listProductController.tranIntent(ListProductActivity.this, CreateProductActivity.class);
             }
         });
-        searchView.clearFocus();
         listProductController = new ListProductController(this);
         //swipe
         listProductController.setupRecyclerView(recyclerViewListProduct, this);
@@ -120,6 +113,35 @@ public class ListProductActivity extends AppCompatActivity {
 
             }
         });
+
+        getIntentFromHome();
+    }
+
+    private void initView() {
+        searchView = findViewById(R.id.searchViewInList);
+        category_Spinner = findViewById(R.id.category_Spinner);
+        tvTotalQuantity = findViewById(R.id.tvTotalQuantity);
+        recyclerViewListProduct = findViewById(R.id.recyclerViewListProduct);
+        linearLayoutEmpty = findViewById(R.id.linearLayoutEmptyProduct);
+        layoutSearch = findViewById(R.id.layoutSearch);
+        layoutNotFoundItem = findViewById(R.id.layout_not_found_item);
+        btnAddNewProduct = findViewById(R.id.btnAddNewProduct);
+        pBarList = findViewById(R.id.pBarList);
+        imgbtnBarcodeInList = findViewById(R.id.imgbtnBarcodeInList);
+    }
+
+    private void getIntentFromHome() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("BUNDLE");
+        if (bundle != null) {
+            if (bundle.getBoolean("isFromHomeFragment")) {
+                searchView.requestFocus();
+                Log.d("isFromhone", 1 + "");
+            } else {
+                searchView.clearFocus();
+
+            }
+        }
     }
 
     @Override
