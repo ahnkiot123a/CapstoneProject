@@ -35,7 +35,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".View.RevenueActivity" />
         <activity android:name=".View.DetailReveneuActivity" />
-        <activity android:name=".View.ListItemInOrderActivity" />
+        <activity android:name=".View.CreateOrderActivity" />
         <activity android:name=".View.ConvertRateActivity" />
         <activity
             android:name=".View.CreateProductActivity"
@@ -71,11 +71,11 @@
         <activity android:name=".View.SelectDebtorActivity" />
         <activity android:name=".View.EditDebtorActivity" />
         <activity android:name=".View.ListProductActivity" />
-        <activity android:name=".View.RegisterActivity" />
+        <activity android:name=".View.RegisterInputPhoneActivity" />
         <activity
             android:name=".View.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".View.RegisterVerifyPhoneActivity" />
+        <activity android:name=".View.RegisterActivity" />
         <activity android:name=".View.FeedbackActivity" />
         <activity android:name=".View.UserInformationActivity" />
         <activity android:name=".View.ChangePasswordActivity" />

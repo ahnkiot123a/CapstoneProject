@@ -21,20 +21,18 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.Controller.Interface.IUser;
-import com.koit.capstonproject_version_1.Controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.Model.User;
 import com.koit.capstonproject_version_1.View.ForgotPasswordActivity;
-import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.RegisterActivity;
-import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
+import com.koit.capstonproject_version_1.View.RegisterInputPhoneActivity;
 import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
 import com.koit.capstonproject_version_1.helper.CustomToast;
 
 import java.util.concurrent.TimeUnit;
 
 public class RegisterController {
+    RegisterInputPhoneActivity registerInputPhoneActivity;
     RegisterActivity registerActivity;
-    RegisterVerifyPhoneActivity registerVerifyPhoneActivity;
     ForgotPasswordActivity forgotPasswordActivity;
     ResetPasswordActivity resetPasswordActivity;
     InputController inputController;
@@ -48,13 +46,13 @@ public class RegisterController {
     private User user;
 
 
-    public RegisterController(RegisterActivity registerActivity) {
-        this.registerActivity = registerActivity;
+    public RegisterController(RegisterInputPhoneActivity registerInputPhoneActivity) {
+        this.registerInputPhoneActivity = registerInputPhoneActivity;
         user = new User();
     }
 
-    public RegisterController(RegisterVerifyPhoneActivity registerVerifyPhoneActivity, String phoneNumber) {
-        this.registerVerifyPhoneActivity = registerVerifyPhoneActivity;
+    public RegisterController(RegisterActivity registerActivity, String phoneNumber) {
+        this.registerActivity = registerActivity;
         this.phoneNumber = phoneNumber;
     }
 
@@ -63,16 +61,16 @@ public class RegisterController {
     public void checkPhone(final String phone) {
         inputController = new InputController();
         if (!inputController.isPhoneNumber(phone)) {
-            registerActivity.showTextError("Số điện thoại không chính xác.", registerActivity.getEtPhoneNumberRA());
+            registerInputPhoneActivity.showTextError("Số điện thoại không chính xác.", registerInputPhoneActivity.getEtPhoneNumberRA());
         } else {
             final IUser iUser = new IUser() {
                 @Override
                 public void getCurrentUser(User user) {
                     if (user != null) {
-                        registerActivity.showTextError("Số điện thoại đã tồn tại.", registerActivity.getEtPhoneNumberRA());
+                        registerInputPhoneActivity.showTextError("Số điện thoại đã tồn tại.", registerInputPhoneActivity.getEtPhoneNumberRA());
                     } else
                         //move to new Activity
-                        tranIntent(registerActivity, phone);
+                        tranIntent(registerInputPhoneActivity, phone);
                 }
             };
             user.getUserWithPhoneAndPasswordInterface(phone, iUser);
@@ -94,10 +92,10 @@ public class RegisterController {
     //otp code is 6 number degits or not
     private boolean checkOTPCode(String otpCode) {
         if (otpCode.isEmpty()) {
-            registerVerifyPhoneActivity.showTextError("Vui lòng nhập OTP", registerVerifyPhoneActivity.getEtOTP());
+            registerActivity.showTextError("Vui lòng nhập OTP", registerActivity.getEtOTP());
             return false;
         } else if (otpCode.length() != 6) {
-            registerVerifyPhoneActivity.showTextError("Mã OTP phải bao gồm 6 kí tự", registerVerifyPhoneActivity.getEtOTP());
+            registerActivity.showTextError("Mã OTP phải bao gồm 6 kí tự", registerActivity.getEtOTP());
             return false;
         }
         return true;
@@ -107,7 +105,7 @@ public class RegisterController {
         if (pass.equals(confirmPass))
             return true;
         else {
-            registerVerifyPhoneActivity.showTextError("Mật khẩu không khớp.", registerVerifyPhoneActivity.getEtConfirmPassword());
+            registerActivity.showTextError("Mật khẩu không khớp.", registerActivity.getEtConfirmPassword());
         }
         return false;
     }
@@ -116,14 +114,14 @@ public class RegisterController {
     private boolean checkPass(String pass) {
         inputController = new InputController();
         if (pass.isEmpty()) {
-            registerVerifyPhoneActivity.showTextError("Vui lòng nhập mật khẩu.", registerVerifyPhoneActivity.getEtPassword());
+            registerActivity.showTextError("Vui lòng nhập mật khẩu.", registerActivity.getEtPassword());
         } else {
             //gom it nhat 6 ki tu so
             String regexStr = "^[0-9]{6,}$";
             if (pass.matches(regexStr)) {
                 return true;
             } else {
-                registerVerifyPhoneActivity.showTextError("Vui lòng nhập 6 kí tự số trở lên.", registerVerifyPhoneActivity.getEtPassword());
+                registerActivity.showTextError("Vui lòng nhập 6 kí tự số trở lên.", registerActivity.getEtPassword());
             }
         }
         return false;
@@ -132,7 +130,7 @@ public class RegisterController {
     //check store name is empty or not
     public boolean checkStoreName(String storeName) {
         if ((storeName.isEmpty())) {
-            registerVerifyPhoneActivity.showTextError("Vui lòng nhập tên cửa hàng.", registerVerifyPhoneActivity.getEtStoreNameRVP());
+            registerActivity.showTextError("Vui lòng nhập tên cửa hàng.", registerActivity.getEtStoreNameRVP());
             return false;
         }
         return true;
@@ -168,7 +166,7 @@ public class RegisterController {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
             token = forceResendingToken;
-            CustomToast.makeText(registerVerifyPhoneActivity, "Mã xác nhận OTP đã được gửi tới máy bạn!",
+            CustomToast.makeText(registerActivity, "Mã xác nhận OTP đã được gửi tới máy bạn!",
                     Toast.LENGTH_LONG, CustomToast.SUCCESS, true, Gravity.CENTER).show();
         }
 
@@ -184,14 +182,14 @@ public class RegisterController {
         //This method is called in response to an invalid verification request,
         // such as a request that specifies an invalid phone number or verification code.
         public void onVerificationFailed(@NonNull FirebaseException e) {
-//            CustomToast.makeText(registerVerifyPhoneActivity, e.getMessage(),
+//            CustomToast.makeText(registerActivity, e.getMessage(),
 //                    Toast.LENGTH_LONG, CustomToast.ERROR, true, Gravity.BOTTOM).show();
         }
 
         @Override
         public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
             super.onCodeAutoRetrievalTimeOut(s);
-//            CustomToast.makeText(registerVerifyPhoneActivity, "Mã OTP của bạn đã hết hạn. Vui lòng nhấn vào 'Gửi lại mã'",
+//            CustomToast.makeText(registerActivity, "Mã OTP của bạn đã hết hạn. Vui lòng nhấn vào 'Gửi lại mã'",
 //                    Toast.LENGTH_LONG, CustomToast.WARNING, true, Gravity.CENTER).show();
         }
     };
@@ -224,11 +222,11 @@ public class RegisterController {
                 }
             };
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(registerVerifyPhoneActivity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(registerActivity);
             builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
                     .setNegativeButton("Thoát", dialogClickListener).show();
         } else {
-            User user = new User(registerVerifyPhoneActivity);
+            User user = new User(registerActivity);
             Log.d("beforesignIn", "1");
             user.signInTheUserByCredentials(credential, storeName,pass, phoneNumber);
         }
@@ -236,13 +234,13 @@ public class RegisterController {
 
     //Chuyen sang man hinh verify OTP code va mat khau
     public void tranIntent(Activity fromActivity, String number) {
-        Intent intent = new Intent(fromActivity, RegisterVerifyPhoneActivity.class);
+        Intent intent = new Intent(fromActivity, RegisterActivity.class);
         intent.putExtra("phonenumber", number);
         Pair[] pairs = new Pair[2];
-        pairs[0] = new Pair<View, String>(registerActivity.getEtPhoneNumberRA(), "phoneTran");
-        pairs[1] = new Pair<View, String>(registerActivity.getBtnContinue(), "btnDoneTran");
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(registerActivity, pairs);
-        registerActivity.startActivity(intent, options.toBundle());
+        pairs[0] = new Pair<View, String>(registerInputPhoneActivity.getEtPhoneNumberRA(), "phoneTran");
+        pairs[1] = new Pair<View, String>(registerInputPhoneActivity.getBtnContinue(), "btnDoneTran");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(registerInputPhoneActivity, pairs);
+        registerInputPhoneActivity.startActivity(intent, options.toBundle());
     }
 
 

@@ -20,7 +20,7 @@ import com.koit.capstonproject_version_1.Model.Invoice;
 import com.koit.capstonproject_version_1.Model.InvoiceDetail;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.View.DebitOfDebtorActivity;
-import com.koit.capstonproject_version_1.View.ListItemInOrderActivity;
+import com.koit.capstonproject_version_1.View.CreateOrderActivity;
 import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
 
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public class InvoiceDetailController {
 //        getListProductInDraftOrder(invoiceId);
         Log.d("listProductInOrderDetai", listProductInOrder.toString());
         Log.d("listProInWarehouseDT", listProductInWarehouse.toString());
-        Intent intent2 = new Intent(activity, ListItemInOrderActivity.class);
+        Intent intent2 = new Intent(activity, CreateOrderActivity.class);
         Bundle args2 = new Bundle();
 //        args2.putSerializable("listSelectedProductInOrder", (Serializable) listProductInOrder);
         args2.putString("invoiceId", invoiceId);

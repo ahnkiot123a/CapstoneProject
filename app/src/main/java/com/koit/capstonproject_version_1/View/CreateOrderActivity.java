@@ -50,7 +50,7 @@ import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class ListItemInOrderActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class CreateOrderActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private RecyclerView recyclerViewListProduct;
     private SearchView searchViewInList;
     private TextView tvTotalQuantity;
@@ -192,7 +192,7 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
                 String barcode = intentResult.getContents().trim() + "CO!@#";
                 listItemInOrderController.getListProduct(barcode, recyclerViewListProduct, tvTotalQuantity, tvTotalPrice);
                 Log.d("ResultBarcode", barcode);
-//                Intent intent2 = new Intent(ListItemInOrderActivity.this, SelectProductActivity.class);
+//                Intent intent2 = new Intent(CreateOrderActivity.this, SelectProductActivity.class);
 //                Bundle args2 = new Bundle();
 //                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
 //                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
@@ -242,10 +242,10 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
     }
 
     public void addNoneListedProduct(View view) {
-        LayoutInflater layoutInflater = LayoutInflater.from(ListItemInOrderActivity.this);
+        LayoutInflater layoutInflater = LayoutInflater.from(CreateOrderActivity.this);
         View popupInputDialogView = layoutInflater.inflate(R.layout.add_nonlistedproduct, null);
         // Create a AlertDialog Builder.
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ListItemInOrderActivity.this);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateOrderActivity.this);
 
         // Set title, icon, can not cancel properties.
         alertDialogBuilder.setTitle("Nhập sản phẩm bên ngoài");
@@ -402,16 +402,16 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
                 .setPositiveButton("Lưu đơn", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //remove item on right click
-                        CreateOrderController createOrderController = new CreateOrderController(ListItemInOrderActivity.this);
+                        CreateOrderController createOrderController = new CreateOrderController(CreateOrderActivity.this);
                         createOrderController.insertDraftOrder(listSelectedProductInOrder);
-                        Intent intent = new Intent(ListItemInOrderActivity.this, SelectProductActivity.class);
+                        Intent intent = new Intent(CreateOrderActivity.this, SelectProductActivity.class);
                         startActivity(intent);
                         dialog.cancel();
                     }
                 })
                 .setNegativeButton("Hủy đơn", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(ListItemInOrderActivity.this, SelectProductActivity.class);
+                        Intent intent = new Intent(CreateOrderActivity.this, SelectProductActivity.class);
                         startActivity(intent);
                         dialog.cancel();
                     }

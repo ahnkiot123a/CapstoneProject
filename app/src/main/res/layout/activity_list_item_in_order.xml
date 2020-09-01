@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".View.ListItemInOrderActivity">
+    tools:context=".View.CreateOrderActivity">
 
     <View
         android:id="@+id/main_activityStatusBarScrim"

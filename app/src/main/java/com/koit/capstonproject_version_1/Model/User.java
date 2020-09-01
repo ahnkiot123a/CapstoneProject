@@ -32,14 +32,14 @@ import com.koit.capstonproject_version_1.Model.UIModel.MyDialog;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.View.LoginActivity;
 import com.koit.capstonproject_version_1.View.MainActivity;
-import com.koit.capstonproject_version_1.View.RegisterVerifyPhoneActivity;
+import com.koit.capstonproject_version_1.View.RegisterActivity;
 import com.koit.capstonproject_version_1.View.ResetPasswordActivity;
 import com.koit.capstonproject_version_1.helper.CustomToast;
 
 import java.io.Serializable;
 
 public class User implements Serializable {
-    RegisterVerifyPhoneActivity registerVerifyPhoneActivity;
+    RegisterActivity registerActivity;
     ResetPasswordActivity resetPasswordActivity;
     RegisterController registerController;
 
@@ -56,8 +56,8 @@ public class User implements Serializable {
 
     }
 
-    public User(RegisterVerifyPhoneActivity registerVerifyPhoneActivity) {
-        this.registerVerifyPhoneActivity = registerVerifyPhoneActivity;
+    public User(RegisterActivity registerActivity) {
+        this.registerActivity = registerActivity;
     }
 
     public User(ResetPasswordActivity resetPasswordActivity) {
@@ -243,7 +243,7 @@ public class User implements Serializable {
     public void signInTheUserByCredentials(PhoneAuthCredential credential, final String storeName, final String pass, final String phoneNumber) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(registerVerifyPhoneActivity, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(registerActivity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -258,13 +258,13 @@ public class User implements Serializable {
                             SharedPrefs.getInstance().putCurrentUser(LoginActivity.CURRENT_USER, user);
                             databaseReference.child(phoneNumber).setValue(user);
                             // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(registerVerifyPhoneActivity, MainActivity.class);
+                            Intent intent = new Intent(registerActivity, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            registerVerifyPhoneActivity.startActivity(intent);
-                            CustomToast.makeText(registerVerifyPhoneActivity, "Đăng kí thành công!", Toast.LENGTH_LONG
+                            registerActivity.startActivity(intent);
+                            CustomToast.makeText(registerActivity, "Đăng kí thành công!", Toast.LENGTH_LONG
                                     , CustomToast.SUCCESS, true, Gravity.CENTER).show();
                         } else {
-                            registerVerifyPhoneActivity.showTextError("Mã OTP không chính xác.", registerVerifyPhoneActivity.getEtOTP());
+                            registerActivity.showTextError("Mã OTP không chính xác.", registerActivity.getEtOTP());
                             // Toast.makeText(RegisterVerifyPhone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }

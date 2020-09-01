@@ -20,8 +20,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.koit.capstonproject_version_1.Controller.CameraController;
@@ -32,7 +30,6 @@ import com.koit.capstonproject_version_1.Controller.SelectProductController;
 import com.koit.capstonproject_version_1.Controller.SwipeController;
 import com.koit.capstonproject_version_1.Model.Product;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
-import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.Helper;
 
@@ -281,7 +278,7 @@ public class SelectProductActivity extends AppCompatActivity {
                 }
 //                listSelectedProductInOrder.add(productInOrder);
             }
-        Intent intent2 = new Intent(SelectProductActivity.this, ListItemInOrderActivity.class);
+        Intent intent2 = new Intent(SelectProductActivity.this, CreateOrderActivity.class);
         Bundle args2 = new Bundle();
         args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
         args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);

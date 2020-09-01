@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -130,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void callRegisterActivity(View view) {
-        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        Intent intent = new Intent(LoginActivity.this, RegisterInputPhoneActivity.class);
         startActivity(intent);
     }
 

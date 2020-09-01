@@ -93,7 +93,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
         btnCancelDebit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(DebitConfirmationActivity.this, ListItemInOrderActivity.class);
+//                Intent intent = new Intent(DebitConfirmationActivity.this, CreateOrderActivity.class);
 //
 //                Bundle args2 = new Bundle();
 //                Helper.getInstance().toListOfEachUnit(listSelectedProductInOrder, listSelectedProductWarehouse);
@@ -107,7 +107,7 @@ public class DebitConfirmationActivity extends AppCompatActivity {
 //                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //
 //                startActivity(intent);
-//                Intent intent = new Intent(DebitConfirmationActivity.this, ListItemInOrderActivity.class);
+//                Intent intent = new Intent(DebitConfirmationActivity.this, CreateOrderActivity.class);
 //
 //                Bundle args2 = new Bundle();
 //                Helper.getInstance().toListOfEachUnit(listSelectedProductInOrder,listSelectedProductWarehouse);
