@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
         orderHistoryController = new OrderHistoryController(this);
         orderHistoryController.deleteDraftOrderBefore3Days();
+
+
     }
 
 
@@ -201,7 +203,16 @@ public class MainActivity extends AppCompatActivity {
             createProductController.addCategory(currentProduct);
         }
     }
-
+    public void sentToListProduct(View view){
+        Intent intent = new Intent(this, ListProductActivity.class);
+        Bundle args2 = new Bundle();
+        args2.putBoolean("isFromHomeFragment", true);
+        intent.putExtra("BUNDLE", args2);
+//                    Pair[] pairs = new Pair[1];
+//                    pairs[0] = new Pair<View, String>(getlayoutSearch(), "layoutSearch");
+//                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
+        startActivity(intent);
+    }
     @Override
     public void onBackPressed() {
         if (isConnected) {

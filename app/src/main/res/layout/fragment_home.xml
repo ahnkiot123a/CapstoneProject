@@ -33,30 +33,34 @@
         android:id="@+id/layoutSearchHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
         android:layout_below="@+id/btnLeftMenu"
         android:layout_margin="10dp">
 
-        <EditText
+        <SearchView
             android:id="@+id/etSearchField"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_margin="5dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/layout_search_no_border"
+            android:clickable="true"
             android:drawableLeft="?android:attr/actionModeWebSearchDrawable"
             android:drawablePadding="10dp"
             android:ems="10"
-            android:hint="Nhập tên, mã sản phẩm"
+            android:focusable="true"
+            android:iconifiedByDefault="false"
             android:imeOptions="actionSearch"
             android:inputType="textPersonName"
+            android:onClick="sentToListProduct"
             android:paddingLeft="20dp"
+            android:queryHint="Tên, mã sản phẩm"
             android:textColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.555"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-           />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

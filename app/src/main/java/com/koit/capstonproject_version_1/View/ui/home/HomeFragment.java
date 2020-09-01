@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,8 +35,9 @@ public class HomeFragment extends Fragment {
     private TextView totalOrderDraftQuantity;
     private OrderHistoryController orderHistoryController;
     private CardView layoutCreateOrder, layoutDraftOrder, layoutCreateProduct, layoutProductList;
-    private EditText etSearchField;
+    private SearchView etSearchField;
     private ConstraintLayout layoutSearchHome;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -44,36 +46,29 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         initView(root);
-
-
-        orderHistoryController = new OrderHistoryController(this.getActivity());
-        orderHistoryController.setTotalDraftOrder(cart_badge, totalOrderDraftQuantity);
-
-        etSearchField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etSearchField.clearFocus();
+        etSearchField.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (b){
-                    Intent intent = new Intent(getActivity(), ListProductActivity.class);
-                    Bundle args2 = new Bundle();
-                    args2.putBoolean("isFromHomeFragment", true);
-                    intent.putExtra("BUNDLE", args2);
-//                    Pair[] pairs = new Pair[1];
-//                    pairs[0] = new Pair<View, String>(getlayoutSearch(), "layoutSearch");
-//                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(getActivity(), ListProductActivity.class);
+                Bundle args2 = new Bundle();
+                args2.putBoolean("isFromHomeFragment", true);
+                intent.putExtra("BUNDLE", args2);
+                startActivity(intent);
             }
-
-
         });
+        orderHistoryController = new OrderHistoryController(this.getActivity());
+        orderHistoryController.setTotalDraftOrder(cart_badge, totalOrderDraftQuantity);
 
         return root;
 
 
     }
+
     private ConstraintLayout getlayoutSearch() {
         return layoutSearchHome;
     }
+
     private void initView(View root) {
         cart_badge = root.findViewById(R.id.cart_badge);
         totalOrderDraftQuantity = root.findViewById(R.id.totalOrderDraftQuantity);
