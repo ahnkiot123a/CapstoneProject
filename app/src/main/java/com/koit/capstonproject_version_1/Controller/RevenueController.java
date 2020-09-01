@@ -44,11 +44,15 @@ public class RevenueController {
     private List<Invoice> listInvoice;
     private OrderHistoryDAO orderHistoryDAO;
     private LineChart lineChart;
+
     public RevenueController(Activity activity, BarChart chart, LineChart lineChart) {
         this.activity = activity;
         orderHistoryDAO = new OrderHistoryDAO();
         this.chart = chart;
         this.lineChart = lineChart;
+    }
+
+    public RevenueController() {
     }
 
     public void getListInvoiceAfter(Date dateFrom, Date dateTo,
@@ -92,7 +96,7 @@ public class RevenueController {
                 }
             }
         };
-        orderHistoryDAO.getInvoiceList(iInvoice, layoutNotFoundItem, animationView,layoutChart);
+        orderHistoryDAO.getInvoiceList(iInvoice, layoutNotFoundItem, animationView, layoutChart);
     }
 
     public void setDataForBarAndLinechart(Date dateFrom, Date dateTo, int searchByType) {
@@ -327,8 +331,8 @@ public class RevenueController {
     }
 
     //get Total Revenue betweeen 2 dates
-    private long getTotalRevenue(List<Invoice> listInvoice, Date dateFrom, Date dateTo, int searchByType) {
-        Log.d("ChekDateFrom", dateFrom.toString());
+    public long getTotalRevenue(List<Invoice> listInvoice, Date dateFrom, Date dateTo, int searchByType) {
+
         long total = 0;
         for (Invoice invoice : listInvoice
         ) {
