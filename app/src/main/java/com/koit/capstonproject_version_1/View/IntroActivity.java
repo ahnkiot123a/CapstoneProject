@@ -1,18 +1,8 @@
 package com.koit.capstonproject_version_1.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
-
-import android.os.Bundle;
-
-import com.google.android.material.tabs.TabLayout;
-import com.koit.capstonproject_version_1.Adapter.IntroViewPageAdapter;
-import com.koit.capstonproject_version_1.Model.ScreenItem;
-import com.koit.capstonproject_version_1.R;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +10,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
+import com.koit.capstonproject_version_1.Adapter.IntroViewPageAdapter;
+import com.koit.capstonproject_version_1.Model.ScreenItem;
+import com.koit.capstonproject_version_1.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,9 +72,9 @@ public class IntroActivity extends AppCompatActivity {
         // fill list screen
 
         final List<ScreenItem> mList = new ArrayList<>();
-        mList.add(new ScreenItem("Ứng dụng quản lý bán hàng \nmiễn phí","Dành cho tất cả các cửa hàng",R.drawable.img1));
-        mList.add(new ScreenItem("Quản lý tồn kho chính xác","Cộng trừ hàng hóa ngay khi có \nthay đổi",R.drawable.img2));
-        mList.add(new ScreenItem("Sổ nợ tiện lợi","Quản lý số nợ của khách hàng \n nhanh chóng, dễ dàng",R.drawable.img3));
+        mList.add(new ScreenItem("Ứng dụng quản lý bán hàng \nmiễn phí","Dành cho tất cả các cửa hàng",R.drawable.android_icon));
+        mList.add(new ScreenItem("Quản lý tồn kho chính xác","Cộng trừ hàng hóa ngay khi có \nthay đổi",R.drawable.android_icon));
+        mList.add(new ScreenItem("Sổ nợ tiện lợi","Quản lý số nợ của khách hàng \n nhanh chóng, dễ dàng",R.drawable.android_icon));
 
         // setup viewpager
         screenPager =findViewById(R.id.screen_viewpager);

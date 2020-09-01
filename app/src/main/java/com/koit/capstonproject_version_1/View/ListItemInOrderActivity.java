@@ -1,15 +1,10 @@
 package com.koit.capstonproject_version_1.View;
 
-import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.media.ToneGenerator;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -38,19 +32,18 @@ import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.koit.capstonproject_version_1.Adapter.ItemInOrderAdapter;
-import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateOrderController;
 import com.koit.capstonproject_version_1.Controller.InputController;
 import com.koit.capstonproject_version_1.Controller.ListItemInOrderController;
 import com.koit.capstonproject_version_1.Controller.RandomStringController;
 import com.koit.capstonproject_version_1.Model.Product;
+import com.koit.capstonproject_version_1.Model.UIModel.Money;
 import com.koit.capstonproject_version_1.Model.UIModel.StatusBar;
 import com.koit.capstonproject_version_1.Model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.dao.OrderHistoryDAO;
-import com.koit.capstonproject_version_1.helper.Helper;
+import com.koit.capstonproject_version_1.helper.MoneyEditText;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +60,7 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
     private ItemInOrderAdapter itemAdapter;
     private EditText productName;
     public static final int BARCODE_PER_CODE = 101;
-    private EditText price;
+    private MoneyEditText price;
     private EditText quantity;
     private Button cancleBtn;
     private Button addBtn;
@@ -298,7 +291,7 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
                     //show error
                     productName.setError("Tên sản phẩm không hợp lệ");
                     productName.requestFocus();
-                } else if (!InputController.checkValidNumber(price.getText().toString(), 9)) {
+                } else if (price.getText().toString().trim().isEmpty()) {
                     //show error
                     price.setError("Số tiền không hợp lệ");
                     price.requestFocus();
@@ -313,7 +306,7 @@ public class ListItemInOrderActivity extends AppCompatActivity implements ZXingS
                 } else {
                     try {
                         pName = productName.getText().toString();
-                        pPrice = Long.parseLong(price.getText().toString());
+                        pPrice =Money.getInstance().reFormatVN(price.getText().toString());
                         pQuantity = Integer.parseInt(quantity.getText().toString());
                         pUnitName = unitName.getText().toString();
                     } catch (Exception e) {

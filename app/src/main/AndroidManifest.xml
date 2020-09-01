@@ -48,16 +48,16 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".View.SplashActivity"
+            android:name=".View.IntroActivity"
             android:noHistory="true">
-
-        </activity>
-        <activity android:name=".View.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".View.SplashActivity">
+
         </activity>
         <!--        <activity-->
         <!--            android:name=".View.SplashActivity"-->

@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -18,9 +18,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import com.koit.capstonproject_version_1.Controller.CameraController;
 import com.koit.capstonproject_version_1.Controller.CreateProductController;
 import com.koit.capstonproject_version_1.Controller.ListCategoryController;
 import com.koit.capstonproject_version_1.Controller.OrderHistoryController;
@@ -221,6 +218,14 @@ public class MainActivity extends AppCompatActivity {
                 navDrawer.closeDrawers();
             }
         }
+    }
+
+    public void ScanBarcodeFromHome(View view) {
+        Toast.makeText(this, "scan barcode click", Toast.LENGTH_LONG).show();
+    }
+
+    public void SearchFromHome(View view) {
+        Toast.makeText(this, "search click", Toast.LENGTH_LONG).show();
     }
     //    @Override
 //    public void onBackPressed() {

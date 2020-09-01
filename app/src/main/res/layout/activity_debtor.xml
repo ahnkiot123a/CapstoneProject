@@ -10,15 +10,45 @@
         android:id="@+id/main_activityStatusBarScrim"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:background="@drawable/green_linear_color" />
+        android:background="@drawable/green_linear_color"/>
+    <Toolbar
+        android:id="@+id/toolbar_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/green_linear_color"
+        android:layout_below="@+id/main_activityStatusBarScrim"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:theme="@style/AppTheme">
 
-    <include layout="@layout/toolbar_customer_screen"
-        />
+        <ImageButton
+            android:id="@+id/backToLogin"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:onClick="back"
+            android:src="@drawable/ic_baseline_arrow_white_ios_24" />
+
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:text="Khách hàng"
+            android:textColor="@color/white"
+            android:textSize="28sp" />
+
+
+    </Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbarCustomer"
+        android:layout_below="@+id/toolbar_top"
         android:orientation="vertical"
         android:visibility="visible">
 

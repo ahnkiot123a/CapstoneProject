@@ -86,7 +86,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edEmail"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:textColor="@color/gray"
                         android:fontFamily="sans-serif-medium" />
@@ -104,7 +104,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edPhoneNumber"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:inputType="number"
                         android:textColor="@color/gray"
@@ -165,13 +165,12 @@
                 <TextView
                     android:id="@+id/tvDob"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/backgroud_date_time"
                     android:drawableRight="@drawable/icons8_edit_calendar_96"
                     android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:padding="10dp"
                     android:inputType="date"
                     android:onClick="getNewDate"
                     android:text="30-10-2020"
@@ -188,7 +187,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edAddress"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:textColor="@color/gray"
                         android:fontFamily="sans-serif-medium" />

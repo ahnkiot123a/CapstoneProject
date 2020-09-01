@@ -18,11 +18,13 @@
             <TextView
                 android:gravity="end"
                 android:text="Tên sản phẩm : "
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/productName"
+                android:fontFamily="sans-serif-medium"
                 android:hint="Nhập tên sản phẩm"
                 android:inputType="text" />
 
@@ -38,12 +40,13 @@
                 android:gravity="end"
                 android:text="Giá tiền : "
                 android:textColor="@color/black"
-
+                android:fontFamily="sans-serif-medium"
                 android:textSize="18dp" />
 
-            <EditText
+            <com.koit.capstonproject_version_1.helper.MoneyEditText
                 android:id="@+id/productPrice"
                 android:hint="Nhập giá tiền"
+                android:fontFamily="sans-serif-medium"
                 android:inputType="numberDecimal" />
 
         </TableRow>
@@ -57,11 +60,13 @@
             <TextView
                 android:gravity="end"
                 android:text="Số lượng : "
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/productQuantity"
+                android:fontFamily="sans-serif-medium"
                 android:hint="Nhập số lượng"
                 android:inputType="numberDecimal"
                 android:text="1" />
@@ -77,11 +82,13 @@
             <TextView
                 android:gravity="end"
                 android:text="Đơn vị : "
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/unitName"
+                android:fontFamily="sans-serif-medium"
                 android:hint="Tên đơn vị"
                 android:inputType="text" />
 
@@ -97,6 +104,7 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/gray"
+                android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:text="Hủy"
                 android:textAllCaps="false"
@@ -107,6 +115,7 @@
                 android:id="@+id/button_add_product"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/green_linear_color"
                 android:gravity="center"

@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbarGeneral"
         android:layout_margin="10dp"
+        android:padding="10dp"
         android:orientation="vertical">
 
         <LinearLayout
