@@ -114,8 +114,8 @@ public class SelectDebtorActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ADD_DEBTOR_CODE && resultCode == Activity.RESULT_OK) {
-
             buildRecyclerviewDebtors();
+            debtorController.etSearchEvent(svDebtor);
         }
     }
 }

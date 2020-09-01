@@ -3,6 +3,7 @@ package com.koit.capstonproject_version_1.Controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.koit.capstonproject_version_1.Controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.Model.DebtPayment;
@@ -90,6 +91,7 @@ public class PayDebtController {
                                 Debtor.getInstance().updateRemainingDebit(debtor);
                                 Intent intent = new Intent(activity, DebitOfDebtorActivity.class);
                                 intent.putExtra(ITEM_DEBTOR, debtor);
+                                Toast.makeText(activity, "Trừ nợ thành công", Toast.LENGTH_SHORT).show();
                                 activity.startActivity(intent);
                                 activity.finish();
                             }

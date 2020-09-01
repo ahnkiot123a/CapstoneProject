@@ -94,9 +94,10 @@ public class CreateOrderControllerUnitTest {
         expectedListSelectedProductInOrder.add(product4);
         createOrderController.formatListProductInOrder(listSelectedProductInOrder);
 
-        assertEquals(listSelectedProductInOrder.get(0).getProductId(),expectedListSelectedProductInOrder.get(0).getProductId());
-        assertEquals(listSelectedProductInOrder.size(),expectedListSelectedProductInOrder.size());
+        assertEquals(listSelectedProductInOrder.get(0).getProductId(), expectedListSelectedProductInOrder.get(0).getProductId());
+        assertEquals(listSelectedProductInOrder.size(), expectedListSelectedProductInOrder.size());
     }
+
     @Test
     public void formatListProductWarehouse_isCorrect() {
         List<Product> listProductWarehouse = new ArrayList<>();
@@ -115,7 +116,22 @@ public class CreateOrderControllerUnitTest {
 
         expectedListProductWarehouse.add(product);
         createOrderController.formatListProductWarehouse(listProductWarehouse);
-        assertEquals(listProductWarehouse.get(0).getProductId(),expectedListProductWarehouse.get(0).getProductId());
+        assertEquals(listProductWarehouse.get(0).getProductId(), expectedListProductWarehouse.get(0).getProductId());
+    }
+
+    @Test
+    public void sortUnitByPrice_isCorrect() {
+        List<Unit> unitList = new ArrayList<>();
+        Unit unit1 = new Unit("2", "gói", 1, 196000, 4);
+        Unit unit2 = new Unit("1", "thùng", 1, 15000, 3);
+        Unit unit3 = new Unit("0", "túi", 1, 7000, 1);
+        unitList.add(unit1);
+        unitList.add(unit2);
+        unitList.add(unit3);
+        createOrderController.sortUnitByPrice(unitList);
+        assertEquals(unitList.get(0),unit1);
+        assertEquals(unitList.get(1),unit2);
+        assertEquals(unitList.get(2),unit3);
     }
 
 }

@@ -63,6 +63,14 @@ public class DebtorPaymentController {
         }
         return total;
     }
+    public long getTotalPayAmountByAllDebtors(List<DebtorPayment> debtorPayments) {
+        long total = 0;
+        for (DebtorPayment debtorPayment : debtorPayments) {
+            for (DebtPayment debtPayment : debtorPayment.getDebtPaymentList())
+                total += debtPayment.getPayAmount();
+        }
+        return total;
+    }
     private void setUpPieChart(float percentPaid, PieChart chart) {
         //Color
         try {
