@@ -53,8 +53,6 @@ public class HomeFragment extends Fragment {
         orderHistoryController.setTotalDraftOrder(cart_badge, totalOrderDraftQuantity);
 
         return root;
-
-
     }
 
     private ConstraintLayout getlayoutSearch() {
