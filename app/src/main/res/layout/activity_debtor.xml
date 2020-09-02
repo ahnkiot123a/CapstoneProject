@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.SelectDebtorActivity">
+    tools:context=".view.SelectDebtorActivity">
 
     <View
         android:id="@+id/main_activityStatusBarScrim"
@@ -18,29 +18,50 @@
         android:background="@drawable/green_linear_color"
         android:layout_below="@+id/main_activityStatusBarScrim"
         android:minHeight="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/AppTheme">
 
-        <ImageButton
-            android:id="@+id/backToLogin"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:onClick="back"
-            android:src="@drawable/ic_baseline_arrow_white_ios_24" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:onClick="back"
+                android:src="@drawable/ic_baseline_arrow_white_ios_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="sans-serif-medium"
-            android:text="Khách hàng"
-            android:textColor="@color/white"
-            android:textSize="28sp" />
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Khách hàng"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toTopOf="@+id/backToLogin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:layout_marginEnd="10dp"
+                android:onClick="addNewCustomer"
+                android:src="@drawable/ic_baseline_person_add_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     </Toolbar>
@@ -109,7 +130,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:shadowColor="#FFFFFF"
+                    android:shadowColor="@color/white"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Không có kết quả phù hợp"
                     android:textColor="#E4000000"
                     android:textSize="18dp">
@@ -119,6 +141,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Vui lòng nhập từ khóa khác để tìm kiếm"
                     android:textSize="13dp">
 
@@ -172,7 +195,7 @@
                 android:background="@drawable/background_btn_login"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:onClick="callCreateDebtor"
+                android:onClick="addNewCustomer"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:text="Tạo khách hàng mới"

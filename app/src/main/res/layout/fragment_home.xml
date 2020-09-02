@@ -53,7 +53,7 @@
             android:imeOptions="actionSearch"
             android:inputType="textPersonName"
             android:onClick="sentToListProduct"
-            android:queryHint="Nhập tên, mã sản phẩm để tìm kiếm"
+            android:queryHint="Nhập tên, mã sản phẩm"
             android:textColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

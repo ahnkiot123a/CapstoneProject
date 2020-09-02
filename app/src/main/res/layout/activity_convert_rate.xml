@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/medium_light_gray"
-    tools:context=".View.ConvertRateActivity">
+    tools:context=".view.ConvertRateActivity">
 
     <include layout="@layout/toolbar_general_activity" />
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/medium_light_gray"
 
-    tools:context=".View.InvoiceDetailActivity">
+    tools:context=".view.InvoiceDetailActivity">
 
     <include layout="@layout/toolbar_general_activity" />
 

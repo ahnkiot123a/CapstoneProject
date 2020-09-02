@@ -1,6 +1,6 @@
 package com.koit.capstonproject_version_1;
 
-import com.koit.capstonproject_version_1.Controller.FeedbackController;
+import com.koit.capstonproject_version_1.controller.FeedbackController;
 
 import org.junit.Test;
 

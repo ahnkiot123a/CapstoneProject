@@ -1,7 +1,7 @@
 package com.koit.capstonproject_version_1;
 
-import com.koit.capstonproject_version_1.Controller.DebtorController;
-import com.koit.capstonproject_version_1.Model.Debtor;
+import com.koit.capstonproject_version_1.controller.DebtorController;
+import com.koit.capstonproject_version_1.model.Debtor;
 
 import org.junit.Test;
 

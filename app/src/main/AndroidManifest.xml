@@ -15,7 +15,7 @@
         android:required="true" />
 
     <application
-        android:name=".Controller.SharedPreferences.App"
+        android:name=".controller.SharedPreferences.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -26,72 +26,64 @@
         android:usesCleartextTraffic="true">
 
 
-        <activity android:name=".View.DebtPaymentDetailActivity" />
-        <activity android:name=".View.InputPayDebtMoneyActivity" />
-        <activity android:name=".View.DebitOfDebtorActivity" />
-        <activity android:name=".View.DebitOrderListActivity" />
+        <activity android:name=".view.DebtPaymentDetailActivity" />
+        <activity android:name=".view.InputPayDebtMoneyActivity" />
+        <activity android:name=".view.DebitOfDebtorActivity" />
+        <activity android:name=".view.DebitOrderListActivity" />
         <activity
-            android:name=".View.OrderHistoryActivity"
+            android:name=".view.OrderHistoryActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".View.RevenueActivity" />
-        <activity android:name=".View.DetailReveneuActivity" />
-        <activity android:name=".View.CreateOrderActivity" />
-        <activity android:name=".View.ConvertRateActivity" />
+        <activity android:name=".view.RevenueActivity" />
+        <activity android:name=".view.DetailReveneuActivity" />
+        <activity android:name=".view.CreateOrderActivity" />
+        <activity android:name=".view.ConvertRateActivity" />
         <activity
-            android:name=".View.CreateProductActivity"
+            android:name=".view.CreateProductActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".View.DetailProductActivity" />
-        <activity android:name=".View.EditProductQuantityActivity" />
+        <activity android:name=".view.DetailProductActivity" />
+        <activity android:name=".view.EditProductQuantityActivity" />
         <activity
-            android:name=".View.MainActivity"
+            android:name=".view.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".View.IntroActivity"
+            android:name=".view.IntroActivity"
             android:noHistory="true">
+
+        </activity>
+        <activity android:name=".view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.SplashActivity">
 
-        </activity>
-        <!--        <activity-->
-        <!--            android:name=".View.SplashActivity"-->
-        <!--            android:noHistory="true">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.intent.action.MAIN" />-->
-
-        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-        <!--            </intent-filter>-->
-        <!--        </activity>-->
-        <activity android:name=".View.SelectDebtorActivity" />
-        <activity android:name=".View.EditDebtorActivity" />
-        <activity android:name=".View.ListProductActivity" />
-        <activity android:name=".View.RegisterInputPhoneActivity" />
+        <activity android:name=".view.SelectDebtorActivity" />
+        <activity android:name=".view.EditDebtorActivity" />
+        <activity android:name=".view.ListProductActivity" />
+        <activity android:name=".view.RegisterInputPhoneActivity" />
         <activity
-            android:name=".View.LoginActivity"
+            android:name=".view.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".View.RegisterActivity" />
-        <activity android:name=".View.FeedbackActivity" />
-        <activity android:name=".View.UserInformationActivity" />
-        <activity android:name=".View.ChangePasswordActivity" />
-        <activity android:name=".View.ForgotPasswordActivity" />
-        <activity android:name=".View.ResetPasswordActivity" />
-        <activity android:name=".View.CustomScreenScanActivity" />
-        <activity android:name=".View.CategoryActivity" />
-        <activity android:name=".View.UpdateProductInformationActivity" />
-        <activity android:name=".View.EditProductUnitsActivity" />
-        <activity android:name=".View.EditConvertRateActivity" />
-        <activity android:name=".View.InvoiceDetailActivity" />
-        <activity android:name=".View.CustomerPayActivity" />
-        <activity android:name=".View.DebitConfirmationActivity" />
-        <activity android:name=".View.AddNewDebtorActivity" />
-        <activity android:name=".View.SelectProductActivity" />
-        <activity android:name=".View.DraftOrderActivity" />
+        <activity android:name=".view.RegisterActivity" />
+        <activity android:name=".view.FeedbackActivity" />
+        <activity android:name=".view.UserInformationActivity" />
+        <activity android:name=".view.ChangePasswordActivity" />
+        <activity android:name=".view.ForgotPasswordActivity" />
+        <activity android:name=".view.ResetPasswordActivity" />
+        <activity android:name=".view.CustomScreenScanActivity" />
+        <activity android:name=".view.CategoryActivity" />
+        <activity android:name=".view.UpdateProductInformationActivity" />
+        <activity android:name=".view.EditProductUnitsActivity" />
+        <activity android:name=".view.EditConvertRateActivity" />
+        <activity android:name=".view.InvoiceDetailActivity" />
+        <activity android:name=".view.CustomerPayActivity" />
+        <activity android:name=".view.DebitConfirmationActivity" />
+        <activity android:name=".view.AddNewDebtorActivity" />
+        <activity android:name=".view.SelectProductActivity" />
+        <activity android:name=".view.DraftOrderActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

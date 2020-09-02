@@ -1,11 +1,9 @@
 package com.koit.capstonproject_version_1;
 
-import android.util.Log;
-
-import com.koit.capstonproject_version_1.Controller.SortController;
-import com.koit.capstonproject_version_1.Model.DebtPayment;
-import com.koit.capstonproject_version_1.Model.Debtor;
-import com.koit.capstonproject_version_1.Model.Invoice;
+import com.koit.capstonproject_version_1.controller.SortController;
+import com.koit.capstonproject_version_1.model.DebtPayment;
+import com.koit.capstonproject_version_1.model.Debtor;
+import com.koit.capstonproject_version_1.model.Invoice;
 
 import org.junit.Before;
 import org.junit.Test;

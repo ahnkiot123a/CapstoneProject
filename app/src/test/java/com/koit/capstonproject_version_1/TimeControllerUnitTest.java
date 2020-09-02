@@ -1,8 +1,7 @@
 package com.koit.capstonproject_version_1;
 
-import com.koit.capstonproject_version_1.Controller.TimeController;
+import com.koit.capstonproject_version_1.controller.TimeController;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".View.UpdateProductActivity">
+        tools:context=".view.UpdateProductActivity">
         <include layout="@layout/toolbar_general_activity" />
         <ScrollView
             android:layout_width="match_parent"

@@ -1,8 +1,7 @@
 package com.koit.capstonproject_version_1;
 
-import com.koit.capstonproject_version_1.Controller.TimeController;
-import com.koit.capstonproject_version_1.Model.Product;
-import com.koit.capstonproject_version_1.Model.Unit;
+import com.koit.capstonproject_version_1.model.Product;
+import com.koit.capstonproject_version_1.model.Unit;
 
 import org.junit.Before;
 import org.junit.Test;

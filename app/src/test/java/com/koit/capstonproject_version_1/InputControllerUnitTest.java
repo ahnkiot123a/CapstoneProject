@@ -1,7 +1,7 @@
 package com.koit.capstonproject_version_1;
 
-import com.koit.capstonproject_version_1.Controller.InputController;
-import com.koit.capstonproject_version_1.Model.User;
+import com.koit.capstonproject_version_1.controller.InputController;
+import com.koit.capstonproject_version_1.model.User;
 
 import org.junit.Test;
 

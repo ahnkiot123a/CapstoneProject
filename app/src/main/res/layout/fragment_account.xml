@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/light_green_linear_color"
-    tools:context=".View.ui.account.AccountFragment">
+    tools:context=".view.ui.account.AccountFragment">
 
     <View
         android:id="@+id/main_activityStatusBarScrim"

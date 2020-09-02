@@ -1,6 +1,6 @@
 package com.koit.capstonproject_version_1;
 
-import com.koit.capstonproject_version_1.Controller.ValidateController;
+import com.koit.capstonproject_version_1.controller.ValidateController;
 
 import org.junit.Test;
 
