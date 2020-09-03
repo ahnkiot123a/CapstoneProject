@@ -136,7 +136,10 @@ public class DebitFragment extends Fragment {
             chart.setDragDecelerationFrictionCoef(0.95f);
             if (percentPaid > 0)
                 chart.setCenterText("Đã trả " + String.format("%.1f", percentPaid) + "%");
-            else chart.setCenterText("Đã trả 0%");
+            else {
+                chart.setCenterText("Đã trả 0%");
+                chart.setCenterTextSize(20f);
+            }
 
             chart.setDrawHoleEnabled(true);
             chart.setHoleColor(Color.WHITE);
