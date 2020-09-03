@@ -121,7 +121,7 @@ public class DebitFragment extends Fragment {
             //set color in array MY_COLORS
             dataSet.setColors(colors);
             dataSet.setValueTextColor(Color.WHITE);
-            data.setValueTextSize(15f);
+            data.setValueTextSize(0);
 
 
             chart.setHoleRadius(300);

@@ -81,14 +81,13 @@ public class DebtorPaymentController {
             List<PieEntry> pieEntires = new ArrayList<>();
             pieEntires.add(new PieEntry(100 - percentPaid, 100 - percentPaid));
             pieEntires.add(new PieEntry(percentPaid, percentPaid));
-
             PieDataSet dataSet = new PieDataSet(pieEntires, "");
             dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
             PieData data = new PieData(dataSet);
             //set color in array MY_COLORS
             dataSet.setColors(colors);
             dataSet.setValueTextColor(Color.WHITE);
-            data.setValueTextSize(15f);
+            data.setValueTextSize(0);
             chart.setData(data);
             //Get the chart
             chart.setUsePercentValues(true);
