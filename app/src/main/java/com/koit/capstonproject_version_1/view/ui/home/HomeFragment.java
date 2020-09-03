@@ -36,7 +36,6 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
         initView(root);
         etSearchField.clearFocus();
         etSearchField.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {

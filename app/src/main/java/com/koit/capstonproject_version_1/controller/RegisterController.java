@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.controller.Interface.IUser;
 import com.koit.capstonproject_version_1.model.User;
 import com.koit.capstonproject_version_1.view.ForgotPasswordActivity;
+import com.koit.capstonproject_version_1.view.LoginActivity;
 import com.koit.capstonproject_version_1.view.RegisterActivity;
 import com.koit.capstonproject_version_1.view.RegisterInputPhoneActivity;
 import com.koit.capstonproject_version_1.view.ResetPasswordActivity;
@@ -85,7 +86,7 @@ public class RegisterController {
         if (!checkPass(pass)) return;
         if (!checkConfirmPass(pass, confirmPass)) return;
         if (!checkOTPCode(otpCode)) return;
-        verifyCode(otpCode,storeName,pass);
+        verifyCode(otpCode, storeName, pass);
 
     }
 
@@ -182,8 +183,10 @@ public class RegisterController {
         //This method is called in response to an invalid verification request,
         // such as a request that specifies an invalid phone number or verification code.
         public void onVerificationFailed(@NonNull FirebaseException e) {
-//            CustomToast.makeText(registerActivity, e.getMessage(),
-//                    Toast.LENGTH_LONG, CustomToast.ERROR, true, Gravity.BOTTOM).show();
+            CustomToast.makeText(registerActivity, "Tạm thời không thể gửi mã OTP",
+                    Toast.LENGTH_LONG, CustomToast.CONFUSING, true, Gravity.CENTER).show();
+            Intent intent = new Intent(registerActivity, LoginActivity.class);
+            registerActivity.startActivity(intent);
         }
 
         @Override
@@ -204,31 +207,42 @@ public class RegisterController {
         //OTP code must be check <=3 times
         Log.d("verifyCodeafter", "1");
         otpCounter++;
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        //OPT expired
-        if (otpCounter >= 3) {
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case DialogInterface.BUTTON_POSITIVE:
-                            //Yes button clicked
-                            resendOTPCode();
-                            break;
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            //No button clicked
-                            break;
+        PhoneAuthCredential credential = null;
+        try {
+            credential = PhoneAuthProvider.getCredential(verificationId, code);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (credential != null) {
+            //OPT expired
+            if (otpCounter >= 3) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                resendOTPCode();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
                     }
-                }
-            };
+                };
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(registerActivity);
-            builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
-                    .setNegativeButton("Thoát", dialogClickListener).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(registerActivity);
+                builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
+                        .setNegativeButton("Thoát", dialogClickListener).show();
+            } else {
+                User user = new User(registerActivity);
+                Log.d("beforesignIn", "1");
+                if (credential != null)
+                    user.signInTheUserByCredentials(credential, storeName, pass, phoneNumber);
+            }
         } else {
-            User user = new User(registerActivity);
-            Log.d("beforesignIn", "1");
-            user.signInTheUserByCredentials(credential, storeName,pass, phoneNumber);
+            CustomToast.makeText(registerActivity, "Tạm thời không thể gửi mã OTP",
+                    Toast.LENGTH_LONG, CustomToast.CONFUSING, true, Gravity.BOTTOM).show();
         }
     }
 
