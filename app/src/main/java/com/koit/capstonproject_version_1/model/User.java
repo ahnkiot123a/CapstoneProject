@@ -281,10 +281,11 @@ public class User implements Serializable {
                             // Sign in success, update UI with the signed-in user's information
                             firebaseDatabase = FirebaseDatabase.getInstance();
                             databaseReference = firebaseDatabase.getReference().child("User");
+                            Log.d("resetPassword", password);
                             HashController validateController = new HashController();
                             //ma hoa mat khau
-                            String hashpassword = validateController.getMd5(password);
-                            databaseReference.child(phoneNumber).child("password").setValue(hashpassword);
+                            String hashPassword = validateController.getMd5(password);
+                            databaseReference.child(phoneNumber).child("password").setValue(hashPassword);
                             SharedPrefs.getInstance().clear();
                             LoginManager.getInstance().logOut();
                             FirebaseAuth.getInstance().signOut();
@@ -296,7 +297,7 @@ public class User implements Serializable {
 
                         } else {
                             resetPasswordActivity.showTextError("Mã OTP không chính xác.", resetPasswordActivity.getEtOTP());
-                            Toast.makeText(resetPasswordActivity, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(resetPasswordActivity, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

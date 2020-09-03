@@ -105,7 +105,7 @@ public class RegisterController {
         if (pass.equals(confirmPass))
             return true;
         else {
-            registerActivity.showTextError("Mật khẩu không khớp.", registerActivity.getEtConfirmPassword());
+            registerActivity.showTextErrorNoIcon("Mật khẩu không khớp.", registerActivity.getEtConfirmPassword());
         }
         return false;
     }
@@ -114,14 +114,14 @@ public class RegisterController {
     private boolean checkPass(String pass) {
         inputController = new InputController();
         if (pass.isEmpty()) {
-            registerActivity.showTextError("Vui lòng nhập mật khẩu.", registerActivity.getEtPassword());
+            registerActivity.showTextErrorNoIcon("Vui lòng nhập mật khẩu.", registerActivity.getEtPassword());
         } else {
             //gom it nhat 6 ki tu so
             String regexStr = "^[0-9]{6,}$";
             if (pass.matches(regexStr)) {
                 return true;
             } else {
-                registerActivity.showTextError("Vui lòng nhập 6 kí tự số trở lên.", registerActivity.getEtPassword());
+                registerActivity.showTextErrorNoIcon("Vui lòng nhập 6 kí tự số trở lên.", registerActivity.getEtPassword());
             }
         }
         return false;

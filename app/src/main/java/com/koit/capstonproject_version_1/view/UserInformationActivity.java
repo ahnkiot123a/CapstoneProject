@@ -1,8 +1,5 @@
 package com.koit.capstonproject_version_1.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,11 +7,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.controller.TimeController;
 import com.koit.capstonproject_version_1.controller.UserController;
-import com.koit.capstonproject_version_1.model.User;
-import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.Helper;
+import com.koit.capstonproject_version_1.model.User;
 
 import java.util.Date;
 
@@ -56,7 +56,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
         } else {
             tvFirstName.setText("");
-            profile_img.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            profile_img.setImageResource(R.drawable.avatardefault_92824);
             profile_img.setBackground(null);
         }
 

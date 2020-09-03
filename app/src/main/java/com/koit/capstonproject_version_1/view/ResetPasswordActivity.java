@@ -114,7 +114,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         et.requestFocus();
         Drawable customErrorDrawable = getResources().getDrawable(R.drawable.ic_baseline_error_24);
         customErrorDrawable.setBounds(0, 0, customErrorDrawable.getIntrinsicWidth(), customErrorDrawable.getIntrinsicHeight());
-
         et.setError(error, customErrorDrawable);
     }
 

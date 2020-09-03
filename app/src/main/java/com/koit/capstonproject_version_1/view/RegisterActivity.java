@@ -1,5 +1,6 @@
 package com.koit.capstonproject_version_1.view;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,8 +9,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.koit.capstonproject_version_1.controller.RegisterController;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.controller.RegisterController;
 
 public class RegisterActivity extends AppCompatActivity {
     //It is the verification id that will be sent to the user
@@ -90,6 +91,13 @@ public class RegisterActivity extends AppCompatActivity {
     public void showTextError(String error, TextInputEditText et) {
         et.requestFocus();
         et.setError(error);
+    }
+
+    public void showTextErrorNoIcon(String error, TextInputEditText et) {
+        et.requestFocus();
+        Drawable customErrorDrawable = getResources().getDrawable(R.drawable.ic_baseline_error_24);
+        customErrorDrawable.setBounds(0, 0, customErrorDrawable.getIntrinsicWidth(), customErrorDrawable.getIntrinsicHeight());
+        et.setError(error, customErrorDrawable);
     }
 
     public TextInputEditText getEtStoreNameRVP() {

@@ -130,7 +130,7 @@ public class ForgotPasswordController {
                                        PhoneAuthProvider.ForceResendingToken token) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+84" + phoneNumber,        // Phone number to verify
-                90,                 // Timeout duration
+                120,                 // Timeout duration
                 TimeUnit.SECONDS,   // Unit of timeout
                 TaskExecutors.MAIN_THREAD,               // Activity (for callback binding)
                 mCallBack,         // OnVerificationStateChangedCallbacks
@@ -141,7 +141,7 @@ public class ForgotPasswordController {
     public void sendVerificationCode(String number) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+84" + number,
-                90,
+                120,
                 TimeUnit.SECONDS,
                 TaskExecutors.MAIN_THREAD,
                 mCallBack
@@ -170,7 +170,7 @@ public class ForgotPasswordController {
         //This method is called in response to an invalid verification request,
         // such as a request that specifies an invalid phone number or verification code.
         public void onVerificationFailed(@NonNull FirebaseException e) {
-            Toast.makeText(resetPasswordActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(resetPasswordActivity, "Tạm thời không thể gửi mã OTP!", Toast.LENGTH_LONG).show();
         }
 
         @Override
