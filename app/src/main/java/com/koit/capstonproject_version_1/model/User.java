@@ -293,8 +293,6 @@ public class User implements Serializable {
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             resetPasswordActivity.startActivity(intent);
                             Toast.makeText(resetPasswordActivity, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-
-
                         } else {
                             resetPasswordActivity.showTextError("Mã OTP không chính xác.", resetPasswordActivity.getEtOTP());
 //                            Toast.makeText(resetPasswordActivity, task.getException().getMessage(), Toast.LENGTH_SHORT).show();

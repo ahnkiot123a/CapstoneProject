@@ -18,14 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.controller.OrderHistoryController;
 import com.koit.capstonproject_version_1.controller.SortController;
-import com.koit.capstonproject_version_1.model.Invoice;
+import com.koit.capstonproject_version_1.helper.Helper;
 import com.koit.capstonproject_version_1.helper.Money;
-import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.model.Invoice;
 import com.koit.capstonproject_version_1.view.InvoiceDetailActivity;
 import com.koit.capstonproject_version_1.view.OrderHistoryActivity;
-import com.koit.capstonproject_version_1.helper.Helper;
 
 import java.util.ArrayList;
 
@@ -73,45 +73,52 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 SortController.getInstance().sortInvoiceListByDate(this.listFiltered);
                 holder.invoiceItemContainer.setAnimation(AnimationUtils.loadAnimation(activity, R.anim.fade_transition_animation));
                 tvCount.setText(listFiltered.size() + " đơn hàng");
-                final Invoice invoice = listFiltered.get(position);
-
-                holder.tvOrderId.setBackground(null);
-                holder.tvOrderId.setText(invoice.getInvoiceId());
-
-                OrderHistoryController controller = new OrderHistoryController(activity);
-
-                holder.tvCustomer.setBackground(null);
-                if (invoice.getDebtorId().isEmpty() || invoice.getDebtorId() == null) {
-                    holder.tvCustomer.setText("Khách lẻ");
-                } else {
-                    controller.fillDebtorName(invoice.getDebtorId(), holder.tvCustomer);
+                Invoice invoice = null;
+                if (listFiltered.size() != 0) {
+                    invoice = listFiltered.get(position);
                 }
-                holder.tvOrderDate.setBackground(null);
-                holder.tvOrderDate.setText(invoice.getInvoiceDate());
-                holder.tvOrderTime.setBackground(null);
-                holder.tvOrderTime.setText(invoice.getInvoiceTime());
+                if (invoice != null) {
 
-                holder.tvTotalPrice.setBackground(null);
-                holder.tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()));
+                    holder.tvOrderId.setBackground(null);
+                    holder.tvOrderId.setText(invoice.getInvoiceId());
 
-                holder.tvOrderStatus.setBackground(null);
-                if (invoice.getDebitAmount() != 0) {
-                    holder.tvOrderStatus.setTextColor(Color.rgb(236, 135, 14));
-                    holder.tvOrderStatus.setText("Còn nợ: " + Money.getInstance().formatVN(invoice.getDebitAmount()) + " đ");
-                } else {
-                    holder.tvOrderStatus.setTextColor(Color.rgb(50, 205, 50));
-                    holder.tvOrderStatus.setText("Đã trả hết");
-                }
-                holder.imageView.setBackground(null);
-                holder.imageView.setImageDrawable(activity.getDrawable(R.drawable.icons8_money));
-                holder.invoiceItemContainer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(activity, InvoiceDetailActivity.class);
-                        intent.putExtra(OrderHistoryActivity.INVOICE, invoice);
-                        activity.startActivity(intent);
+                    OrderHistoryController controller = new OrderHistoryController(activity);
+
+                    holder.tvCustomer.setBackground(null);
+                    if (invoice.getDebtorId().isEmpty() || invoice.getDebtorId() == null) {
+                        holder.tvCustomer.setText("Khách lẻ");
+                    } else {
+                        controller.fillDebtorName(invoice.getDebtorId(), holder.tvCustomer);
                     }
-                });
+                    holder.tvOrderDate.setBackground(null);
+                    holder.tvOrderDate.setText(invoice.getInvoiceDate());
+                    holder.tvOrderTime.setBackground(null);
+                    holder.tvOrderTime.setText(invoice.getInvoiceTime());
+
+                    holder.tvTotalPrice.setBackground(null);
+                    holder.tvTotalPrice.setText(Money.getInstance().formatVN(invoice.getTotal()));
+
+                    holder.tvOrderStatus.setBackground(null);
+                    if (invoice.getDebitAmount() != 0) {
+                        holder.tvOrderStatus.setTextColor(Color.rgb(236, 135, 14));
+                        holder.tvOrderStatus.setText("Còn nợ: " + Money.getInstance().formatVN(invoice.getDebitAmount()) + " đ");
+                    } else {
+                        holder.tvOrderStatus.setTextColor(Color.rgb(50, 205, 50));
+                        holder.tvOrderStatus.setText("Đã trả hết");
+                    }
+                    holder.imageView.setBackground(null);
+                    holder.imageView.setImageDrawable(activity.getDrawable(R.drawable.icons8_money));
+                    Invoice finalInvoice = invoice;
+                    holder.invoiceItemContainer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(activity, InvoiceDetailActivity.class);
+                            intent.putExtra(OrderHistoryActivity.INVOICE, finalInvoice);
+                            activity.startActivity(intent);
+                        }
+                    });
+                }
+
             }
 
         }
