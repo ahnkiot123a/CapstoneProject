@@ -54,14 +54,6 @@ public class CustomerPayActivity extends AppCompatActivity {
         inputSaleMoney();
         actionBtnSubmitPaid();
 //        etPaidMoney.selectAll();
-
-        etPaidMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etPaidMoney.setSelectAllOnFocus(true);
-                etPaidMoney.selectAll();
-            }
-        });
     }
 
     private void setData() {

@@ -52,10 +52,21 @@ public class SortController {
         Collections.sort(list, new Comparator<Debtor>() {
             @Override
             public int compare(Debtor o1, Debtor o2) {
-             return (int) (o2.getRemainingDebit() - o1.getRemainingDebit());
+                return (int) (o2.getRemainingDebit() - o1.getRemainingDebit());
             }
         });
     }
+
+    public void sortDebtorListByName(List<Debtor> list) {
+        Collections.sort(list, new Comparator<Debtor>() {
+            @Override
+            public int compare(Debtor o1, Debtor o2) {
+                return Helper.getInstance().deAccent(o1.getFullName().toLowerCase())
+                        .compareTo(Helper.getInstance().deAccent(o2.getFullName()).toLowerCase());
+            }
+        });
+    }
+
     public void sortCategoryByName(List<Category> categories) {
         Collections.sort(categories, new Comparator<Category>() {
             @Override

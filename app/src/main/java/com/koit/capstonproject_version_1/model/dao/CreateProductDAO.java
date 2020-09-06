@@ -212,6 +212,29 @@ public class CreateProductDAO {
         }
     }
 
+    public void addImageProduct(final Uri uri, String imgName) {
+        storageReference = FirebaseStorage.getInstance().getReference();
+        final StorageReference image = storageReference.child("ProductPictures/" + imgName);
+        if (uri != null) {
+//            final File file = new File(SiliCompressor.with(activity).compress(FileUtils.getPath(activity, uri)
+//                    , new File(activity.getCacheDir(), "temp")));
+//            final Uri compressUri = Uri.fromFile(file);
+            image.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + uri.toString());
+//                        return true;
+                    } else {
+                        Log.i("saveImageProduct", "save failed");
+
+                    }
+                }
+
+            });
+        }
+    }
+
     public void deleteImageProduct(String imgName) {
 //        final StorageReference image = storageReference
         final StorageReference image = storageReference.child("ProductPictures/" + imgName);

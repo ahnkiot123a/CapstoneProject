@@ -136,7 +136,6 @@ public class ConvertRateActivity extends AppCompatActivity {
     private void getProduct() {
         Intent intent = getIntent();
         currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
-//        unitList = new ArrayList<>();
         unitList = currentProduct.getUnits();
         detailProductController.sortUnitByPrice(unitList);
 
@@ -160,8 +159,6 @@ public class ConvertRateActivity extends AppCompatActivity {
         rvUnitQuantity.setLayoutManager(linearLayoutManager);
         addQuantityAdapter = new AddQuantityAdapter(unitList, this);
         rvUnitQuantity.setAdapter(addQuantityAdapter);
-//        editProductQuantityAdapter = new EditProductQuantityAdapter(unitList, this);
-//        rvUnitQuantity.setAdapter(editProductQuantityAdapter);
     }
 
     private void setConvertRateFromRv() {
@@ -187,29 +184,6 @@ public class ConvertRateActivity extends AppCompatActivity {
         }
         Log.i("unitList", unitList.toString());
         editProductQuantityController.calInventoryByUnit(unitList);
-
-     /*   for (int i = 0; i < editProductQuantityAdapter.getItemCount(); i++) {
-            EditProductQuantityAdapter.ViewHolder viewHolder = (EditProductQuantityAdapter.ViewHolder) rvUnitQuantity.findViewHolderForAdapterPosition(i);
-            String unitName = viewHolder.getTvUnitName().getText().toString().trim();
-            String unitQuantity = viewHolder.getEtProductQuantity().getText().toString().trim();
-            String spinnerChooseType = viewHolder.getSpinnerChooseType().getSelectedItem().toString();
-
-            if (unitQuantity.trim().equals("")) unitQuantity = "0";
-            if (!unitName.isEmpty() && !unitQuantity.isEmpty()) {
-                Unit unit = new Unit();
-                unit.setUnitName(unitName);
-                long quantity = 0;
-                if (spinnerChooseType.equals("Thêm")) {
-                    quantity = Long.parseLong(unitQuantity);
-                } else {
-                    quantity = 0 - Long.parseLong(unitQuantity);
-                }
-                unit.setUnitQuantity(quantity);
-                unitList.add(unit);
-            }
-        }
-                editProductQuantityController.calInventoryByUnit(unitList);*/
-
     }
 
     public void back(View view) {

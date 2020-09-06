@@ -153,13 +153,13 @@ public class DebitConfirmationActivity extends AppCompatActivity {
 //        invoiceName.setText("Hoá đơn " + invoice.getInvoiceId());
 //        tvDateTime.setText(invoice.getInvoiceDate() + "\n " + invoice.getInvoiceTime());
 //        tvDebitMoney.setText(Money.getInstance().formatVN(invoice.getDebitAmount()));
-//        long oldDebtAmount = debtor.getRemainingDebit();
+//         oldDebtAmount = debtor.getRemainingDebit();
 //        tvOldDebtAmount.setText(Money.getInstance().formatVN(oldDebtAmount));
-//        long newDebtAmount = oldDebtAmount + invoice.getDebitAmount();
+//         newDebtAmount = oldDebtAmount + invoice.getDebitAmount();
 //        tvNewDebitAmount.setText(Money.getInstance().formatVN(newDebtAmount));
 //        debtor.setRemainingDebit(newDebtAmount);
-        Debtor.getInstance().setDebtorConfirmation(debtor.getDebtorId(),debtor,invoice,tvDebtorName,
-                tvDebtorPhone,invoiceName,tvDateTime,tvDebitMoney,tvOldDebtAmount,tvNewDebitAmount);
+//        Debtor.getInstance().setDebtorConfirmation(debtor.getDebtorId(),debtor,invoice,tvDebtorName,
+//                tvDebtorPhone,invoiceName,tvDateTime,tvDebitMoney,tvOldDebtAmount,tvNewDebitAmount);
     }
 
     private void getData() {

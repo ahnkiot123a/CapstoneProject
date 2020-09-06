@@ -81,8 +81,8 @@ public class EditProductUnitsActivity extends AppCompatActivity {
                     if (flagUnitName && flagUnitPrice) {
                         for (int i = 0; i < unitList.size() - 1; i++) {
                             if (unitList.get(i).getUnitPrice() < baseUnitPrice) {
-//                            Toast.makeText(EditProductUnitsActivity.this, "Giá của đơn vị " + baseUnitName + " không được lớn hơn giá của đơn vị " +
-//                                    unitList.get(i).getUnitName(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProductUnitsActivity.this, "Giá của đơn vị " + baseUnitName + " không được lớn hơn giá của đơn vị " +
+                                    unitList.get(i).getUnitName(), Toast.LENGTH_SHORT).show();
                                 flagCompareUnit = false;
                             }
 

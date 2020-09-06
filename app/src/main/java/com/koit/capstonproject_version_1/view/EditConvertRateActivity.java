@@ -36,7 +36,7 @@ public class EditConvertRateActivity extends AppCompatActivity {
 //        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_edit_convert_rate);
         initView();
-        tvToolbarTitle.setText("Chỉnh sửa chuyển đổi đơn vị");
+        tvToolbarTitle.setText("Sửa chuyển đổi đơn vị");
         getProduct();
         buildRecyclerviewConvertRate();
         actionBtnEditConvertRate();

@@ -81,7 +81,7 @@ public class SelectDebtorAdapter extends RecyclerView.Adapter<SelectDebtorAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         if (!listFiltered.isEmpty()) {
-            SortController.getInstance().sortDebtorListByDebitAmount(listFiltered);
+            SortController.getInstance().sortDebtorListByName(listFiltered);
             final Debtor debtor = listFiltered.get(position);
             holder.tvDebitorName.setText(debtor.getFullName());
             holder.tvDebitorPhone.setText(debtor.getPhoneNumber());
