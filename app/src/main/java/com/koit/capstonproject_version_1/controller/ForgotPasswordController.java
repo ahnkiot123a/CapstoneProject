@@ -213,7 +213,7 @@ public class ForgotPasswordController {
                     .setNegativeButton("Thoát", dialogClickListener).show();
         } else {
             User user = new User(resetPasswordActivity);
-            user.signInTheUserByCredentialsFromResetPassword(credential, phoneNumber, password);
+            user.signInTheUserByCredentialsFromResetPassword(credential, password, phoneNumber);
         }
     }
 
