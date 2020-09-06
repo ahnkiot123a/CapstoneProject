@@ -1,7 +1,9 @@
 package com.koit.capstonproject_version_1.view;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -23,6 +25,8 @@ import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -397,38 +401,46 @@ public class CreateOrderActivity extends AppCompatActivity implements ZXingScann
     }
 
     public void drraftOrder(View view) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Bạn có muốn lưu đơn tạm không?")
-                .setPositiveButton("Lưu đơn", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //remove item on right click
-                        CreateOrderController createOrderController = new CreateOrderController(CreateOrderActivity.this);
-                        createOrderController.insertDraftOrder(listSelectedProductInOrder);
-                        Intent intent = new Intent(CreateOrderActivity.this, SelectProductActivity.class);
-                        startActivity(intent);
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton("Hủy đơn", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(CreateOrderActivity.this, SelectProductActivity.class);
-                        startActivity(intent);
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
-            }
-        });
-        alert.show();
+        if (listSelectedProductInOrder.size() > 0) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Bạn có muốn lưu đơn tạm không?")
+                    .setPositiveButton("Lưu đơn", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //remove item on right click
+                            CreateOrderController createOrderController = new CreateOrderController(CreateOrderActivity.this);
+                            createOrderController.insertDraftOrder(listSelectedProductInOrder);
+                            Intent intent = new Intent(CreateOrderActivity.this, SelectProductActivity.class);
+                            startActivity(intent);
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton("Hủy đơn", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(CreateOrderActivity.this, SelectProductActivity.class);
+                            startActivity(intent);
+                            dialog.cancel();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                }
+            });
+            alert.show();
+        } else {
+            backToPrevious(false);
+        }
+
     }
 
 
     public void showHideBarcode(View view) {
         if (isFirstTime) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 101);
+            }
             mScannerView = new ZXingScannerView(this);
             contentFrame.addView(mScannerView);
             mScannerView.setResultHandler(this);
