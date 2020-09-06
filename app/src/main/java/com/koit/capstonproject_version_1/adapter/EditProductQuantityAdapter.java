@@ -18,10 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.model.Unit;
 import com.koit.capstonproject_version_1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProductQuantityAdapter.ViewHolder> {
-    List<Unit> unitArrayList;
+    List<Unit> unitArrayList = new ArrayList<>();
     Context context;
 
     public EditProductQuantityAdapter(List<Unit> unitArrayList, Context context) {
@@ -40,6 +41,7 @@ public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProduct
         View itemView = layoutInflater.inflate(R.layout.item_add_quantity_rv, parent, false);
         return new EditProductQuantityAdapter.ViewHolder(itemView);
     }
+
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
@@ -49,6 +51,7 @@ public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProduct
     public int getItemViewType(int position) {
         return position;
     }
+
     @Override
     public void onBindViewHolder(@NonNull final EditProductQuantityAdapter.ViewHolder holder, final int position) {
         holder.tvUnitName.setText(unitArrayList.get(position).getUnitName());
@@ -63,7 +66,7 @@ public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProduct
                 } catch (Exception e) {
                     quantity = 0;
                 }
-             if (quantity < 9999)   holder.etProductQuantity.setText(quantity + 1 + "");
+                if (quantity < 9999) holder.etProductQuantity.setText(quantity + 1 + "");
             }
         });
         holder.ibMinusQuantity.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +102,7 @@ public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProduct
                 int quantity = 0;
                 try {
                     quantity = Integer.parseInt(productQuantity);
-                } catch (Exception e){
+                } catch (Exception e) {
                     quantity = 0;
                 }
                 if (quantity == 0 || productQuantity.length() == 1) {
@@ -120,10 +123,10 @@ public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProduct
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        EditText etProductQuantity;
-        TextView tvUnitName;
-        ImageButton ibMinusQuantity, ibAddQuantity;
-        Spinner spinnerChooseType;
+        public EditText etProductQuantity;
+        public TextView tvUnitName;
+        public ImageButton ibMinusQuantity, ibAddQuantity;
+        public Spinner spinnerChooseType;
 
         public TextView getTvUnitName() {
             return tvUnitName;
@@ -145,7 +148,7 @@ public class EditProductQuantityAdapter extends RecyclerView.Adapter<EditProduct
             ibAddQuantity = itemView.findViewById(R.id.ibAddQuantity);
             spinnerChooseType = itemView.findViewById(R.id.spinnerChooseType);
 
-            String [] type = {"Thêm", "Bớt"};
+            String[] type = {"Thêm", "Bớt"};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, type);
             spinnerChooseType.setAdapter(adapter);
 

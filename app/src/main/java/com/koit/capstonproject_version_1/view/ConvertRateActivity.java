@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.koit.capstonproject_version_1.adapter.AddQuantityAdapter;
 import com.koit.capstonproject_version_1.adapter.EditConvertRateAdapter;
+import com.koit.capstonproject_version_1.adapter.EditProductQuantityAdapter;
 import com.koit.capstonproject_version_1.controller.CreateProductController;
 import com.koit.capstonproject_version_1.controller.DetailProductController;
 import com.koit.capstonproject_version_1.controller.EditProductQuantityController;
@@ -39,9 +40,10 @@ public class ConvertRateActivity extends AppCompatActivity {
     private RecyclerView rvUnitQuantity;
     private Button btnSuccess;
     private ConstraintLayout layoutConvertRate;
-    private ArrayList<Unit> unitList;
+    private List<Unit> unitList = new ArrayList<>();
     private EditConvertRateAdapter editConvertRateAdapter;
     private AddQuantityAdapter addQuantityAdapter;
+    private EditProductQuantityAdapter editProductQuantityAdapter;
     private CreateProductController createProductController;
     private EditProductQuantityController editProductQuantityController;
     private DetailProductController detailProductController;
@@ -134,8 +136,8 @@ public class ConvertRateActivity extends AppCompatActivity {
     private void getProduct() {
         Intent intent = getIntent();
         currentProduct = (Product) intent.getSerializableExtra(CreateProductActivity.NEW_PRODUCT);
-        unitList = new ArrayList<>();
-        unitList = (ArrayList<Unit>) currentProduct.getUnits();
+//        unitList = new ArrayList<>();
+        unitList = currentProduct.getUnits();
         detailProductController.sortUnitByPrice(unitList);
 
     }
@@ -158,6 +160,8 @@ public class ConvertRateActivity extends AppCompatActivity {
         rvUnitQuantity.setLayoutManager(linearLayoutManager);
         addQuantityAdapter = new AddQuantityAdapter(unitList, this);
         rvUnitQuantity.setAdapter(addQuantityAdapter);
+//        editProductQuantityAdapter = new EditProductQuantityAdapter(unitList, this);
+//        rvUnitQuantity.setAdapter(editProductQuantityAdapter);
     }
 
     private void setConvertRateFromRv() {
@@ -183,6 +187,29 @@ public class ConvertRateActivity extends AppCompatActivity {
         }
         Log.i("unitList", unitList.toString());
         editProductQuantityController.calInventoryByUnit(unitList);
+
+     /*   for (int i = 0; i < editProductQuantityAdapter.getItemCount(); i++) {
+            EditProductQuantityAdapter.ViewHolder viewHolder = (EditProductQuantityAdapter.ViewHolder) rvUnitQuantity.findViewHolderForAdapterPosition(i);
+            String unitName = viewHolder.getTvUnitName().getText().toString().trim();
+            String unitQuantity = viewHolder.getEtProductQuantity().getText().toString().trim();
+            String spinnerChooseType = viewHolder.getSpinnerChooseType().getSelectedItem().toString();
+
+            if (unitQuantity.trim().equals("")) unitQuantity = "0";
+            if (!unitName.isEmpty() && !unitQuantity.isEmpty()) {
+                Unit unit = new Unit();
+                unit.setUnitName(unitName);
+                long quantity = 0;
+                if (spinnerChooseType.equals("Thêm")) {
+                    quantity = Long.parseLong(unitQuantity);
+                } else {
+                    quantity = 0 - Long.parseLong(unitQuantity);
+                }
+                unit.setUnitQuantity(quantity);
+                unitList.add(unit);
+            }
+        }
+                editProductQuantityController.calInventoryByUnit(unitList);*/
+
     }
 
     public void back(View view) {

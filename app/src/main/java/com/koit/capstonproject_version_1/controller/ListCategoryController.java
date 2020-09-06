@@ -30,12 +30,16 @@ public class ListCategoryController {
     }
     public void getListCategory(final Context context, final Spinner spinnerCategory) {
         categoryList = new ArrayList<>();
-        categoryList.add(new Category("00","Tất cả các loại sản phẩm"));
+        Category categoryAll = new Category("00","Tất cả các loại sản phẩm");
+        categoryList.add(categoryAll);
         ICategory iCategory = new ICategory() {
             @Override
             public void getCategory(Category category) {
                 Log.d("kiemtra", category.getCategoryName() + "");
                 categoryList.add(category);
+                categoryList.remove(categoryAll);
+                SortController.getInstance().sortCategoryByName(categoryList);
+                categoryList.add(0,categoryAll);
                 ArrayAdapter<Category> adapter =
                         new ArrayAdapter<Category>(context,
                                 android.R.layout.simple_spinner_dropdown_item,
@@ -62,6 +66,7 @@ public class ListCategoryController {
                 layout_not_found_item.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
                 categoryList.add(category);
+                SortController.getInstance().sortCategoryByName(categoryList);
                 ArrayAdapter<Category> adapter =
                         new ArrayAdapter<>(context,
                                 android.R.layout.simple_list_item_1,

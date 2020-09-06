@@ -267,7 +267,7 @@ public class DetailProductController {
                         edDescription.setText(product.getProductDescription());
                         categoryName.setText("Loại sản phẩm: " + product.getCategoryName());
                         if (product.isActive()) switchActive.setChecked(true);
-                        switchActive.setEnabled(false);
+                        switchActive.setClickable(false);
                         setRecyclerViewUnits(recyclerUnits, (ArrayList<Unit>) unitList);
                         setRecyclerConvertRate((ArrayList<Unit>) unitList, tvConvertRate, recyclerConvertRate);
                         setSpinnerUnit((ArrayList<Unit>) unitList, spinnerUnit, tvUnitQuantity);

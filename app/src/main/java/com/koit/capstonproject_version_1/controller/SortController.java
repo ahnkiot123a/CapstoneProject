@@ -1,5 +1,7 @@
 package com.koit.capstonproject_version_1.controller;
 
+import com.koit.capstonproject_version_1.helper.Helper;
+import com.koit.capstonproject_version_1.model.Category;
 import com.koit.capstonproject_version_1.model.DebtPayment;
 import com.koit.capstonproject_version_1.model.Debtor;
 import com.koit.capstonproject_version_1.model.Invoice;
@@ -53,6 +55,21 @@ public class SortController {
              return (int) (o2.getRemainingDebit() - o1.getRemainingDebit());
             }
         });
+    }
+    public void sortCategoryByName(List<Category> categories) {
+        Collections.sort(categories, new Comparator<Category>() {
+            @Override
+            public int compare(Category o1, Category o2) {
+                return Helper.getInstance().deAccent(o1.getCategoryName().toLowerCase())
+                        .compareTo(Helper.getInstance().deAccent(o2.getCategoryName()).toLowerCase());
+            }
+        });
+//        Collections.sort(list, new Comparator<Debtor>() {
+//            @Override
+//            public int compare(Debtor o1, Debtor o2) {
+//             return (int) (o2.getRemainingDebit() - o1.getRemainingDebit());
+//            }
+//        });
     }
 
     public void sortDebtPaymentListByDate(List<DebtPayment> list) {

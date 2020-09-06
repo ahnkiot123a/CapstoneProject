@@ -161,7 +161,9 @@ public class CreateProductDAO {
                 if (product != null) {
                     Log.i("product", product.toString());
                     tetProductName.setText(product.getName().trim());
-                    tvCategory.setText(product.getCategoryName().trim());
+                    String categoryName = product.getCategoryName().trim();
+                    String formatCategoryName = categoryName.toUpperCase().charAt(0) + categoryName.substring(1).toLowerCase();
+                    tvCategory.setText(formatCategoryName);
                     String unitName = product.getUnit().trim().toUpperCase();
                     String format = unitName.charAt(0) + unitName.substring(1).toLowerCase();
                     etUnitName.setText(format);

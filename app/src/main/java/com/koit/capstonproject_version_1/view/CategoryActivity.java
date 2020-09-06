@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -117,11 +118,16 @@ public class CategoryActivity extends AppCompatActivity {
                 }, 1000);
                 */
                 String categoryName = edAddNewCategory.getText().toString().trim();
+                if (categoryName.isEmpty()) {
+                    Toast.makeText(CategoryActivity.this, "Loại sản phẩm không được để trống", Toast.LENGTH_SHORT).show();
+                } else {
+                    String formatCategoryName = categoryName.toUpperCase().charAt(0) + categoryName.substring(1).toLowerCase();
+                    Intent intent = new Intent();
+                    intent.putExtra(CATEGORY_DATA, formatCategoryName);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
 
-                Intent intent = new Intent();
-                intent.putExtra(CATEGORY_DATA, categoryName);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
 
             }
         });

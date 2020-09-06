@@ -14,11 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.model.Unit;
 import com.koit.capstonproject_version_1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddQuantityAdapter extends RecyclerView.Adapter<AddQuantityAdapter.ViewHolder> {
 
-    List<Unit> unitArrayList;
+    List<Unit> unitArrayList = new ArrayList<>();
     Context context;
 
     public AddQuantityAdapter(List<Unit> unitArrayList, Context context) {
@@ -79,7 +80,7 @@ public class AddQuantityAdapter extends RecyclerView.Adapter<AddQuantityAdapter.
 
     @Override
     public int getItemCount() {
-        return unitArrayList.size();
+        return unitArrayList == null ? 0 : unitArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
