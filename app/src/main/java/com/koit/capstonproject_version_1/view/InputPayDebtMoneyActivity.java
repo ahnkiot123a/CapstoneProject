@@ -52,7 +52,7 @@ public class InputPayDebtMoneyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         setContentView(R.layout.activity_input_pay_debt_money);
 
         debtor = getCurrentDebtor();

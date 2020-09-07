@@ -212,7 +212,8 @@ public class CreateProductDAO {
         }
     }
 
-    public void addImageProduct(final Uri uri, String imgName) {
+    public boolean addImageProduct(final Uri uri, String imgName) {
+        final boolean[] success = {false};
         storageReference = FirebaseStorage.getInstance().getReference();
         final StorageReference image = storageReference.child("ProductPictures/" + imgName);
         if (uri != null) {
@@ -224,15 +225,17 @@ public class CreateProductDAO {
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()) {
                         Log.i("saveImageProduct", "onSuccess: Upload Image URI is " + uri.toString());
+                        success[0] = true;
 //                        return true;
                     } else {
                         Log.i("saveImageProduct", "save failed");
-
+                        success[0] = false;
                     }
                 }
 
             });
         }
+        return   success[0];
     }
 
     public void deleteImageProduct(String imgName) {

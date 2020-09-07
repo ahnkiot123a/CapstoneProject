@@ -43,13 +43,9 @@ public class ConvertRateActivity extends AppCompatActivity {
     private List<Unit> unitList = new ArrayList<>();
     private EditConvertRateAdapter editConvertRateAdapter;
     private AddQuantityAdapter addQuantityAdapter;
-    private EditProductQuantityAdapter editProductQuantityAdapter;
     private CreateProductController createProductController;
     private EditProductQuantityController editProductQuantityController;
     private DetailProductController detailProductController;
-
-    private ListCategoryController listCategoryController;
-    private List<Category> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +74,6 @@ public class ConvertRateActivity extends AppCompatActivity {
         editProductQuantityController = new EditProductQuantityController();
         detailProductController = new DetailProductController();
 
-        listCategoryController = new ListCategoryController(this);
     }
 
     public void addProduct(View view) {
@@ -152,6 +147,7 @@ public class ConvertRateActivity extends AppCompatActivity {
             layoutConvertRate.setVisibility(View.GONE);
         }
     }
+
 
     private void buildRecyclerUnitQuantity() {
         rvUnitQuantity.setHasFixedSize(true);
