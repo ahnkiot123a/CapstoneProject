@@ -19,14 +19,18 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.koit.capstonproject_version_1.controller.CreateProductController;
+import com.koit.capstonproject_version_1.controller.EditProductQuantityController;
 import com.koit.capstonproject_version_1.controller.ListCategoryController;
 import com.koit.capstonproject_version_1.controller.OrderHistoryController;
+import com.koit.capstonproject_version_1.controller.RandomStringController;
 import com.koit.capstonproject_version_1.controller.UserController;
 import com.koit.capstonproject_version_1.model.Category;
 import com.koit.capstonproject_version_1.model.Product;
 import com.koit.capstonproject_version_1.helper.StatusBar;
+import com.koit.capstonproject_version_1.model.Unit;
 import com.koit.capstonproject_version_1.model.User;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.model.dao.CreateProductDAO;
 import com.koit.capstonproject_version_1.model.dao.UserDAO;
 
 import java.util.ArrayList;
@@ -61,10 +65,26 @@ public class MainActivity extends AppCompatActivity {
 
         orderHistoryController = new OrderHistoryController(this);
         orderHistoryController.deleteDraftOrderBefore3Days();
-
+//        add1000Products();
 
     }
 
+    private void add1000Products() {
+        EditProductQuantityController editProductQuantityController = new EditProductQuantityController();
+        CreateProductDAO createProductDAO = new CreateProductDAO();
+        for (int i = 1; i< 1000;i++){
+            Product product = new Product();
+            String productID = RandomStringController.getInstance().randomString();
+            product.setProductId(productID);
+            product.setProductImageUrl("JPEG_20200904_110102_1764192228597077254.jpg");
+            product.setProductName("sản phẩm " + i);
+            List<Unit> units = new ArrayList<>();
+            units.add(new Unit("1", "đơn vị 1",1, 15000, 15 ));
+            product.setUnits(units);
+            editProductQuantityController.addUnitsToFireBase(product,units);
+            createProductDAO.addProductInFirebase(product);
+        }
+    }
 
 
     private void getNavigationMenuLeft() {

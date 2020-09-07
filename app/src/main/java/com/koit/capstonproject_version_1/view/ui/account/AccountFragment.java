@@ -47,7 +47,7 @@ public class AccountFragment extends Fragment {
 //        User user = (User)getActivity().getIntent().getSerializableExtra("currentUser");
         userDAO = new UserDAO();
         User user = userDAO.getUser();
-        Log.d("ktUser",user.toString());
+//        Log.d("ktUser",user.toString());
         btnAccountInfo = root.findViewById(R.id.accountInfo);
         btnChangePassword = root.findViewById(R.id.changePassword);
         // tvNameProfile.setText(currentUser.getDisplayName());
@@ -66,7 +66,7 @@ public class AccountFragment extends Fragment {
             tvNameProfile.setText(currentUserFacebook.getDisplayName());
             tvFirstName.setText("");
             Glide.with(this).load(currentUserFacebook.getPhotoUrl()).into(profile_img);
-            Log.d("kiemtra", currentUserFacebook.getEmail());
+//            Log.d("kiemtra", currentUserFacebook.getEmail());
             linearAccount.setVisibility(View.GONE);
             linearChangePwd.setVisibility(View.GONE);
             btnAccountInfo.setEnabled(false);
