@@ -53,7 +53,7 @@ public class DebtPaymentDetailActivity extends AppCompatActivity {
     private void setRvInvoicePay() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvInvoicePayment.setLayoutManager(layoutManager);
-        DebtPaymentDetailAdapter adapter = new DebtPaymentDetailAdapter(debtPayment.getInvoices());
+        DebtPaymentDetailAdapter adapter = new DebtPaymentDetailAdapter(debtPayment.getInvoices(), this);
         rvInvoicePayment.setAdapter(adapter);
     }
 

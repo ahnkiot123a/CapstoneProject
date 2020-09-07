@@ -18,13 +18,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.koit.capstonproject_version_1.controller.PayDebtController;
-import com.koit.capstonproject_version_1.model.Debtor;
-import com.koit.capstonproject_version_1.helper.Money;
-import com.koit.capstonproject_version_1.helper.MyDialog;
-import com.koit.capstonproject_version_1.helper.StatusBar;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.controller.PayDebtController;
+import com.koit.capstonproject_version_1.helper.Money;
 import com.koit.capstonproject_version_1.helper.MoneyEditText;
+import com.koit.capstonproject_version_1.helper.MyDialog;
+import com.koit.capstonproject_version_1.model.Debtor;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

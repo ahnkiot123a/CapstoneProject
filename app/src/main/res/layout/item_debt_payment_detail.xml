@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
+    android:id="@+id/layoutDebtPaymentDetail"
     android:background="@drawable/backgroud_date_time">
 
    <androidx.constraintlayout.widget.ConstraintLayout

@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.controller.Interface.IDebtPayment;
+import com.koit.capstonproject_version_1.controller.Interface.IDebtor;
 import com.koit.capstonproject_version_1.model.dao.UserDAO;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class DebtPayment implements Serializable {
     private long payAmount, debtBeforePay;
     private String payDate, payTime;
     private List<Invoice> invoices;
+    private String debtorName = "";
 
     public DebtPayment() {
     }
@@ -144,6 +146,22 @@ public class DebtPayment implements Serializable {
                 for (DataSnapshot valueInvoiceDebtPayment : dataSnapshotInvoiceDebtPayment.getChildren()){
                     Invoice invoice = valueInvoiceDebtPayment.getValue(Invoice.class);
                     invoice.setInvoiceId(valueInvoiceDebtPayment.getKey());
+                    invoice.setDebtorId(debtorId);
+                    if (invoice.getDebtorId().isEmpty()) {
+                        invoice.setDebtorName("Khách lẻ");
+                    } else {
+                        getDebtorName(invoice.getDebtorId());
+                        IDebtor iDebtor = new IDebtor() {
+                            @Override
+                            public void getDebtor(Debtor debtor) {
+                                if (debtor != null) {
+                                    invoice.setDebtorName(debtor.getFullName());
+                                }
+                            }
+                        };
+                        getDebtorById(invoice.getDebtorId(), iDebtor);
+
+                    }
                     invoiceList.add(invoice);
                 }
                 debtPayment.setInvoices(invoiceList);
@@ -155,7 +173,17 @@ public class DebtPayment implements Serializable {
             }
         }
     }
-
+    public void getDebtorName(String id) {
+        IDebtor iDebtor = new IDebtor() {
+            @Override
+            public void getDebtor(Debtor debtor) {
+                if (debtor != null) {
+                    debtorName = debtor.getFullName();
+                }
+            }
+        };
+        getDebtorById(id, iDebtor);
+    }
     private void getListAllDebtPayments(DataSnapshot dataSnapshot, IDebtPayment iDebtPayment) {
         DataSnapshot dataSnapshotAllDebtPayments = dataSnapshot.child("DebtPayments")
                 .child(UserDAO.getInstance().getUserID());
@@ -166,7 +194,27 @@ public class DebtPayment implements Serializable {
         }
 
     }
+    public void getDebtorById(String id, final IDebtor iDebtor) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Debtors").child(UserDAO.getInstance().getUserID()).child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Debtor debtor = snapshot.getValue(Debtor.class);
+                debtor.setDebtorId(snapshot.getKey());
+                iDebtor.getDebtor(debtor);
+                if (debtor != null) {
+                    Log.d("debtor", debtor.toString());
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+
+            }
+        });
+    }
     public void addDebtPaymentToFirebase(DebtPayment debtPayment) {
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
