@@ -176,26 +176,6 @@ public class OrderHistoryDAO {
         });
     }
 
-    public void getInvoiceById(String id, final IInvoice iInvoice) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Invoices").child(UserDAO.getInstance().getUserID()).child(id);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Invoice invoice = snapshot.getValue(Invoice.class);
-                invoice.setInvoiceId(snapshot.getKey());
-                iInvoice.getInvoice(invoice);
-                if (invoice != null) {
-                    Log.d("invoice", invoice.toString());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("TAG", "Failed to read value.", error.toException());
-            }
-        });
-    }
 
     public void deleteDraftOrder(String oid) {
         DatabaseReference invoiceRef = FirebaseDatabase.getInstance().getReference();

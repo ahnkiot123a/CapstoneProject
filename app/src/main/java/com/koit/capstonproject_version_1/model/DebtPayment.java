@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koit.capstonproject_version_1.controller.Interface.IDebtPayment;
 import com.koit.capstonproject_version_1.controller.Interface.IDebtor;
+import com.koit.capstonproject_version_1.controller.Interface.IInvoice;
 import com.koit.capstonproject_version_1.model.dao.UserDAO;
 
 import java.io.Serializable;
@@ -143,10 +144,23 @@ public class DebtPayment implements Serializable {
                 DataSnapshot dataSnapshotInvoiceDebtPayment = dataSnapshotDebtPayment
                         .child(debtPayment.getDebitPaymentId()).child("invoiceDebtPayments");
                 List<Invoice> invoiceList = new ArrayList<>();
-                for (DataSnapshot valueInvoiceDebtPayment : dataSnapshotInvoiceDebtPayment.getChildren()){
+                for (DataSnapshot valueInvoiceDebtPayment : dataSnapshotInvoiceDebtPayment.getChildren()) {
                     Invoice invoice = valueInvoiceDebtPayment.getValue(Invoice.class);
                     invoice.setInvoiceId(valueInvoiceDebtPayment.getKey());
                     invoice.setDebtorId(debtorId);
+                    if (invoice != null) {
+                        IInvoice iInvoice = new IInvoice() {
+                            @Override
+                            public void getInvoice(Invoice invoice1) {
+                                if (invoice1 != null) {
+                                    invoice.setDiscount(invoice1.getDiscount());
+                                    invoice.setFirstPaid(invoice1.getFirstPaid());
+                                    invoice.setTotal(invoice1.getTotal());
+                                }
+                            }
+                        };
+                        getInvoiceById(invoice.getInvoiceId(), iInvoice);
+                    }
                     if (invoice.getDebtorId().isEmpty()) {
                         invoice.setDebtorName("Khách lẻ");
                     } else {
@@ -167,12 +181,32 @@ public class DebtPayment implements Serializable {
                 debtPayment.setInvoices(invoiceList);
 
 
-
                 iDebtPayment.getDebtPayment(debtPayment);
                 Log.d("ListDebtPaymentByDebtor", debtPayment.toString());
             }
         }
     }
+
+    public void getInvoiceById(String id, final IInvoice iInvoice) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Invoices").child(UserDAO.getInstance().getUserID()).child(id);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Invoice invoice = snapshot.getValue(Invoice.class);
+                if (invoice != null) {
+                    invoice.setInvoiceId(snapshot.getKey());
+                    iInvoice.getInvoice(invoice);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
+    }
+
     public void getDebtorName(String id) {
         IDebtor iDebtor = new IDebtor() {
             @Override
@@ -184,16 +218,7 @@ public class DebtPayment implements Serializable {
         };
         getDebtorById(id, iDebtor);
     }
-    private void getListAllDebtPayments(DataSnapshot dataSnapshot, IDebtPayment iDebtPayment) {
-        DataSnapshot dataSnapshotAllDebtPayments = dataSnapshot.child("DebtPayments")
-                .child(UserDAO.getInstance().getUserID());
-        if (dataSnapshotAllDebtPayments != null) {
-            for (DataSnapshot valueAllDebtPayments : dataSnapshotAllDebtPayments.getChildren()) {
 
-            }
-        }
-
-    }
     public void getDebtorById(String id, final IDebtor iDebtor) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child("Debtors").child(UserDAO.getInstance().getUserID()).child(id);
@@ -215,6 +240,7 @@ public class DebtPayment implements Serializable {
             }
         });
     }
+
     public void addDebtPaymentToFirebase(DebtPayment debtPayment) {
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
