@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.koit.capstonproject_version_1"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

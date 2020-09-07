@@ -136,6 +136,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String key = charSequence.toString();
                 Log.d("key", key);
+                Log.d("searchList", list.toString());
                 if (key.isEmpty()) {
                     listFiltered = list;
                 } else {

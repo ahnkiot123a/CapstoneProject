@@ -30,7 +30,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:iconifiedByDefault="false"
-                android:queryHint="Nhập mã, tên khách hàng" />
+                android:queryHint="Nhập mã HĐ, tên khách hàng" />
 
             <ImageButton
                 android:id="@+id/btnVoice"
