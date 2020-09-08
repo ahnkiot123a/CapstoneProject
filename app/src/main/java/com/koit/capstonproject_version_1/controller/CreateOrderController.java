@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -64,6 +65,13 @@ public class CreateOrderController {
 
     public void inputSaleMoney(final MoneyEditText etSaleMoney, final TextView tvCustomerPaid, final long totalPrice,
                                final MoneyEditText etPaidMoney) {
+        etSaleMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etSaleMoney.setSelection(etSaleMoney.getText().length());
+
+            }
+        });
         etSaleMoney.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -108,6 +116,12 @@ public class CreateOrderController {
 
     public void inputPaidMoney(final MoneyEditText etPaidMoney, final TextView tvCustomerPaid,
                                final TextView tvMoneyChange, final TextView tvCustomerDebit, final Button btnSubmitPaid) {
+        etPaidMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etPaidMoney.setSelection(etPaidMoney.getText().length());
+            }
+        });
         etPaidMoney.addTextChangedListener(new TextWatcher() {
 
             @Override

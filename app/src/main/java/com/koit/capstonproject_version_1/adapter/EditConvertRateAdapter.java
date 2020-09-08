@@ -61,7 +61,9 @@ public class EditConvertRateAdapter extends RecyclerView.Adapter<EditConvertRate
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String convertRateString = s.toString();
                 if (convertRateString.length() > 3) {
+//                    holder.etConvertRate.setText(convertRateString.substring(0, convertRateString.length() - 1));
                     holder.etConvertRate.setText(convertRateString.substring(0, convertRateString.length() - 1));
+                    holder.etConvertRate.setSelection(convertRateString.length()-1);
                 }
                 if (convertRateString.startsWith("00")
                         || convertRateString.equals(""))
