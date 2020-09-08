@@ -68,9 +68,12 @@
             android:name=".view.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".view.RegisterActivity" />
-        <activity android:name=".view.FeedbackActivity" />
-        <activity android:name=".view.UserInformationActivity" />
-        <activity android:name=".view.ChangePasswordActivity" />
+        <activity android:name=".view.FeedbackActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".view.UserInformationActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".view.ChangePasswordActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".view.ForgotPasswordActivity" />
         <activity android:name=".view.ResetPasswordActivity" />
         <activity android:name=".view.CustomScreenScanActivity" />

@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         userController = new UserController();
 
         orderHistoryController = new OrderHistoryController(this);
-        orderHistoryController.deleteDraftOrderBefore3Days();
+//        orderHistoryController.deleteDraftOrderBefore3Days();
 //        add1000Products();
 
     }

@@ -256,7 +256,9 @@ public class OrderHistoryController {
             @Override
             public void getInvoice(Invoice invoice) {
                 if (invoice != null) {
-                    if (invoice.isDrafted()) {
+                    Date invoiceDate = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
+                    Date threeDate = TimeController.getInstance().convertStrToDate(TimeController.getInstance().plusDate(-3));
+                    if (invoice.isDrafted() && invoiceDate.after(threeDate)) {
                         draftOrderAdapter.showShimmer = false;
                         if (draftOrderTime.equals("Tất cả")) {
                             tvTime.setText("");

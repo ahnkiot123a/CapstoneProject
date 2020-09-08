@@ -200,25 +200,25 @@
             android:layout_height="1dp"
             android:background="@color/black" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-medium"
-            android:onClick="getUpdateActivity"
-            android:paddingRight="10dp"
-            android:text="Chính sách bảo mật"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+<!--        <Button-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/white"-->
+<!--            android:drawableRight="@drawable/ic_chevron_right_black_24dp"-->
+<!--            android:drawablePadding="10dp"-->
+<!--            android:fontFamily="sans-serif-medium"-->
+<!--            android:onClick="getUpdateActivity"-->
+<!--            android:paddingRight="10dp"-->
+<!--            android:text="Chính sách bảo mật"-->
+<!--            android:textAlignment="textStart"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="16sp" />-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black" />
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="@color/black" />-->
 
         <Button
             android:layout_width="match_parent"

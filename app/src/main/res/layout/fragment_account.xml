@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/light_green_linear_color"
-    tools:context=".view.ui.account.AccountFragment">
+    android:background="@drawable/light_green_linear_color">
 
     <View
         android:id="@+id/main_activityStatusBarScrim"
@@ -28,84 +26,304 @@
             android:src="@drawable/ic_menu_left_nav" />
     </LinearLayout>
 
-    <ScrollView
+    <!--    <ScrollView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:visibility="gone"-->
+    <!--        android:layout_below="@id/btnLeftMenu"-->
+    <!--        android:layout_marginTop="-20dp">-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="center_horizontal"-->
+    <!--            android:layout_marginLeft="10dp"-->
+    <!--            android:layout_marginRight="10dp"-->
+    <!--            android:layout_marginBottom="20dp"-->
+    <!--            android:orientation="vertical">-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/layoutImage"-->
+    <!--                android:layout_width="85dp"-->
+    <!--                android:layout_height="85dp"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_marginTop="10dp">-->
+
+    <!--                <de.hdodenhof.circleimageview.CircleImageView-->
+    <!--                    android:id="@+id/profile_img"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:background="@drawable/default_avatar" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/tvFirstName"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:layout_centerInParent="true"-->
+    <!--                    android:gravity="center"-->
+    <!--                    android:text="T"-->
+    <!--                    android:textColor="@color/white"-->
+    <!--                    android:textSize="30dp"-->
+    <!--                    android:textStyle="bold"-->
+    <!--                    android:visibility="gone" />-->
+    <!--            </RelativeLayout>-->
+    <!--            &lt;!&ndash;            <de.hdodenhof.circleimageview.CircleImageView&ndash;&gt;-->
+    <!--            &lt;!&ndash;                android:id="@+id/profile_img"&ndash;&gt;-->
+    <!--            &lt;!&ndash;                android:layout_width="96dp"&ndash;&gt;-->
+    <!--            &lt;!&ndash;                android:layout_height="96dp"&ndash;&gt;-->
+    <!--            &lt;!&ndash;                android:layout_centerVertical="true"&ndash;&gt;-->
+    <!--            &lt;!&ndash;                android:layout_gravity="center"&ndash;&gt;-->
+    <!--            &lt;!&ndash;                android:layout_marginTop="20dp"&ndash;&gt;-->
+    <!--            &lt;!&ndash;                android:src="@drawable/user_icon" />&ndash;&gt;-->
+
+    <!--            &lt;!&ndash;        <ImageView&ndash;&gt;-->
+    <!--            &lt;!&ndash;            android:id="@+id/profile_img"&ndash;&gt;-->
+    <!--            &lt;!&ndash;            android:layout_width="96dp"&ndash;&gt;-->
+    <!--            &lt;!&ndash;            android:layout_height="96dp"&ndash;&gt;-->
+    <!--            &lt;!&ndash;            android:layout_centerVertical="true"&ndash;&gt;-->
+    <!--            &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
+    <!--            &lt;!&ndash;            android:layout_marginTop="20dp"&ndash;&gt;-->
+    <!--            &lt;!&ndash;            android:src="@drawable/user_icon" />&ndash;&gt;-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/tvNameProfile"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/profile_image"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:layout_marginBottom="10dp"-->
+    <!--                android:fontFamily="sans-serif-medium"-->
+    <!--                android:text="qwertyuio"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textSize="24sp"-->
+    <!--                android:textStyle="bold" />-->
+
+    <!--            <LinearLayout-->
+    <!--                android:id="@+id/linearAccount"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/tvNameProfile"-->
+    <!--                android:layout_centerHorizontal="true"-->
+    <!--                android:layout_gravity="center_horizontal"-->
+    <!--                android:background="@drawable/radius_linearlayout"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                <Button-->
+    <!--                    android:id="@+id/accountInfo"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@color/white"-->
+    <!--                    android:drawableLeft="@drawable/ic_account_circle_black_24dp"-->
+    <!--                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"-->
+    <!--                    android:drawablePadding="10dp"-->
+    <!--                    android:fontFamily="sans-serif-medium"-->
+    <!--                    android:onClick="displayUserInfo"-->
+    <!--                    android:paddingLeft="20dp"-->
+    <!--                    android:paddingRight="20dp"-->
+    <!--                    android:text="Thông tin tài khoản"-->
+    <!--                    android:textAlignment="textStart"-->
+    <!--                    android:textAllCaps="false"-->
+    <!--                    android:textColor="@color/black" />-->
+    <!--            </LinearLayout>-->
+
+    <!--            <LinearLayout-->
+    <!--                android:id="@+id/linearChangePwd"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/tvNameProfile"-->
+    <!--                android:layout_centerHorizontal="true"-->
+    <!--                android:layout_gravity="center_horizontal"-->
+    <!--                android:background="@drawable/radius_linearlayout"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                <Button-->
+    <!--                    android:id="@+id/changePassword"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@color/white"-->
+    <!--                    android:drawableLeft="@drawable/ic_baseline_lock_24"-->
+    <!--                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"-->
+    <!--                    android:drawablePadding="10dp"-->
+    <!--                    android:fontFamily="sans-serif-medium"-->
+    <!--                    android:onClick="changePassword"-->
+    <!--                    android:paddingLeft="20dp"-->
+    <!--                    android:paddingRight="20dp"-->
+    <!--                    android:text="Đổi mật khẩu"-->
+    <!--                    android:textAlignment="textStart"-->
+    <!--                    android:textAllCaps="false"-->
+    <!--                    android:textColor="@color/black" />-->
+    <!--            </LinearLayout>-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/tvNameProfile"-->
+    <!--                android:layout_centerHorizontal="true"-->
+    <!--                android:layout_gravity="center_horizontal"-->
+    <!--                android:background="@drawable/radius_linearlayout"-->
+    <!--                android:orientation="vertical">-->
+    <!--                <Button-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@color/white"-->
+    <!--                    android:drawableLeft="@drawable/ic_action_feedback"-->
+    <!--                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"-->
+    <!--                    android:drawablePadding="10dp"-->
+    <!--                    android:fontFamily="sans-serif-medium"-->
+    <!--                    android:onClick="sendFeedBack"-->
+    <!--                    android:paddingLeft="20dp"-->
+    <!--                    android:paddingRight="20dp"-->
+
+    <!--                    android:text="Phản hồi"-->
+    <!--                    android:textAlignment="textStart"-->
+    <!--                    android:textAllCaps="false"-->
+    <!--                    android:textColor="@color/black" />-->
+    <!--            </LinearLayout>-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/tvNameProfile"-->
+    <!--                android:layout_centerHorizontal="true"-->
+    <!--                android:layout_gravity="center_horizontal"-->
+    <!--                android:background="@drawable/radius_linearlayout"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                <Button-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="40dp"-->
+    <!--                    android:background="@color/white"-->
+    <!--                    android:drawableLeft="@drawable/ic_history_black_24dp"-->
+    <!--                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"-->
+    <!--                    android:drawablePadding="10dp"-->
+    <!--                    android:fontFamily="sans-serif-medium"-->
+    <!--                    android:onClick="callOrderHistory"-->
+    <!--                    android:paddingLeft="20dp"-->
+    <!--                    android:paddingRight="20dp"-->
+    <!--                    android:text="Lịch sử đơn hàng"-->
+    <!--                    android:textAlignment="textStart"-->
+    <!--                    android:textAllCaps="false"-->
+    <!--                    android:textColor="@color/black" />-->
+
+
+    <!--            </LinearLayout>-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/tvNameProfile"-->
+    <!--                android:layout_centerHorizontal="true"-->
+    <!--                android:layout_gravity="center_horizontal"-->
+    <!--                android:background="@drawable/radius_linearlayout"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                <Button-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@color/white"-->
+    <!--                    android:drawableLeft="@drawable/ic_baseline_insert_chart_outlined_24"-->
+    <!--                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"-->
+    <!--                    android:drawablePadding="10dp"-->
+    <!--                    android:fontFamily="sans-serif-medium"-->
+    <!--                    android:onClick="transferToReveneuActivity"-->
+    <!--                    android:paddingLeft="20dp"-->
+    <!--                    android:paddingRight="20dp"-->
+    <!--                    android:text="Báo cáo doanh thu"-->
+    <!--                    android:textAlignment="textStart"-->
+    <!--                    android:textAllCaps="false"-->
+    <!--                    android:textColor="@color/black" />-->
+    <!--            </LinearLayout>-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/tvNameProfile"-->
+    <!--                android:layout_centerHorizontal="true"-->
+    <!--                android:layout_gravity="center_horizontal"-->
+    <!--                android:background="@drawable/radius_linearlayout"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                <Button-->
+    <!--                    android:id="@+id/btnLogout"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@color/white"-->
+    <!--                    android:drawableLeft="@drawable/ic_exit_to_app_black_24dp"-->
+    <!--                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"-->
+    <!--                    android:drawablePadding="10dp"-->
+    <!--                    android:fontFamily="sans-serif-medium"-->
+    <!--                    android:onClick="logout"-->
+    <!--                    android:paddingLeft="20dp"-->
+    <!--                    android:paddingRight="20dp"-->
+    <!--                    android:text="Đăng xuất"-->
+    <!--                    android:textAlignment="textStart"-->
+    <!--                    android:textAllCaps="false"-->
+    <!--                    android:textColor="@color/black" />-->
+    <!--            </LinearLayout>-->
+    <!--        </LinearLayout>-->
+    <!--    </ScrollView>-->
+    <LinearLayout
+        android:id="@+id/layoutInfoUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnLeftMenu"
-        android:layout_marginTop="-20dp">
+        android:layout_marginTop="-20dp"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/default_avatar" />
+
+        <TextView
+            android:id="@+id/tvFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="T"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvNameProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_image"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="qwertyuio"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutInfoUser"
+        android:layout_marginBottom="50dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="30dp"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/layoutImage"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/default_avatar" />
-
-                <TextView
-                    android:id="@+id/tvFirstName"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="T"
-                    android:textColor="@color/white"
-                    android:textSize="30dp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </RelativeLayout>
-            <!--            <de.hdodenhof.circleimageview.CircleImageView-->
-            <!--                android:id="@+id/profile_img"-->
-            <!--                android:layout_width="96dp"-->
-            <!--                android:layout_height="96dp"-->
-            <!--                android:layout_centerVertical="true"-->
-            <!--                android:layout_gravity="center"-->
-            <!--                android:layout_marginTop="20dp"-->
-            <!--                android:src="@drawable/user_icon" />-->
-
-            <!--        <ImageView-->
-            <!--            android:id="@+id/profile_img"-->
-            <!--            android:layout_width="96dp"-->
-            <!--            android:layout_height="96dp"-->
-            <!--            android:layout_centerVertical="true"-->
-            <!--            android:layout_gravity="center"-->
-            <!--            android:layout_marginTop="20dp"-->
-            <!--            android:src="@drawable/user_icon" />-->
-
-            <TextView
-                android:id="@+id/tvNameProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/profile_image"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="qwertyuio"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/linearAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNameProfile"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/radius_linearlayout"
                 android:orientation="vertical">
@@ -132,8 +350,6 @@
                 android:id="@+id/linearChangePwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNameProfile"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/radius_linearlayout"
                 android:orientation="vertical">
@@ -159,8 +375,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNameProfile"
-                android:layout_centerHorizontal="true"
+
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/radius_linearlayout"
                 android:orientation="vertical">
@@ -175,7 +390,6 @@
                     android:onClick="sendFeedBack"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-
                     android:text="Phản hồi"
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
@@ -185,8 +399,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNameProfile"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/radius_linearlayout"
                 android:orientation="vertical">
@@ -213,8 +425,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNameProfile"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/radius_linearlayout"
                 android:orientation="vertical">
@@ -239,8 +449,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNameProfile"
-                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/radius_linearlayout"
                 android:orientation="vertical">
@@ -264,5 +473,6 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 
 </RelativeLayout>
