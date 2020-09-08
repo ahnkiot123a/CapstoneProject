@@ -1,10 +1,16 @@
 package com.koit.capstonproject_version_1.controller;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,12 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.koit.capstonproject_version_1.adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.controller.Interface.IInvoiceDetail;
 import com.koit.capstonproject_version_1.controller.Interface.ListProductInterface;
+import com.koit.capstonproject_version_1.helper.CustomToast;
 import com.koit.capstonproject_version_1.model.InvoiceDetail;
 import com.koit.capstonproject_version_1.model.Product;
 import com.koit.capstonproject_version_1.helper.Money;
 import com.koit.capstonproject_version_1.model.Unit;
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.helper.Helper;
+import com.koit.capstonproject_version_1.model.dao.UserDAO;
+import com.koit.capstonproject_version_1.view.ListProductActivity;
 
 
 import java.util.List;
@@ -157,6 +166,7 @@ public class ListItemInOrderController extends AppCompatActivity {
                 listSelectedProductInOrder.remove(position);
                 listSelectedProductInWareHouse.remove(position);
                 itemAdapter.notifyItemRemoved(position);
+                itemAdapter.notifyItemRangeChanged(position, listSelectedProductInOrder.size());
 
                 tvTotalQuantity.setText(ItemInOrderAdapter.getTotalQuantity(listSelectedProductInOrder) + "");
                 tvTotalPrice.setText(Money.getInstance().formatVN(ItemInOrderAdapter.getTotalPrice(listSelectedProductInOrder)));
@@ -176,6 +186,30 @@ public class ListItemInOrderController extends AppCompatActivity {
         });
     }
 
+    public boolean hasZeroItem(RecyclerView recyclerView) {
+        for (Product product : listSelectedProductInOrder) {
+            if (product.getUnits().get(0).getUnitQuantity() == 0) {
+                recyclerView.scrollToPosition(listSelectedProductInOrder.indexOf(product));
+                Log.d("hasZeroItemIndex", listSelectedProductInOrder.indexOf(product) + "");
+                callDialogZero(product.getProductName());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void callDialogZero(String pName) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
+        builder.setMessage("Bạn chưa chọn số lượng cho sản phẩm " + pName)
+                .setCancelable(true)
+                .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        final androidx.appcompat.app.AlertDialog alert = builder.create();
+        alert.show();
+    }
 
 }
 

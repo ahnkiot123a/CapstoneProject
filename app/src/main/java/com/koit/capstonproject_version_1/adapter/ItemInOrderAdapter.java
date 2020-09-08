@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
     private List<Product> listSelectedProductInOrder;
     private int postitionHightlight;
     private RecyclerView recyclerView;
+
     public ItemInOrderAdapter(Context context, int resourse, List<Product> listSelectedProductInWareHouse,
                               TextView tvTotalQuantity, TextView tvTotalPrice, List<Product> listSelectedProductInOrder,
                               int positionHightlight, RecyclerView recyclerView) {
@@ -172,7 +174,7 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
         holder.editTextQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                 recyclerView.scrollToPosition(position);
+                recyclerView.scrollToPosition(position);
             }
         });
         holder.editTextQuantity.addTextChangedListener(new TextWatcher() {
@@ -188,11 +190,21 @@ public class ItemInOrderAdapter extends RecyclerView.Adapter<ItemInOrderAdapter.
                 String text = holder.editTextQuantity.getText().toString();
                 if (text.length() > 4) {
                     holder.editTextQuantity.setText(text.substring(0, text.length() - 1));
+                    holder.editTextQuantity.setSelection(text.length()-1);
                 }
                 try {
                     Integer.parseInt(holder.editTextQuantity.getText().toString());
                 } catch (Exception e) {
-                    holder.editTextQuantity.setText("1");
+                    holder.editTextQuantity.setText("0");
+                }
+                if (text.startsWith("00") || text.equals(""))
+                    holder.editTextQuantity.setText(0 + "");
+
+                if (text.startsWith("0")&&(text.length()==2)){
+                    holder.editTextQuantity.setText(text.substring(1));
+                }
+                if (text.length() == 1) {
+                    holder.editTextQuantity.setSelection(1);
                 }
 
                 Unit unitInOrder = listSelectedProductInOrder.get(position).getUnits().get(0);

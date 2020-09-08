@@ -309,7 +309,7 @@ public class CreateOrderActivity extends AppCompatActivity implements ZXingScann
                 } else {
                     try {
                         pName = productName.getText().toString();
-                        pPrice =Money.getInstance().reFormatVN(price.getText().toString());
+                        pPrice = Money.getInstance().reFormatVN(price.getText().toString());
                         pQuantity = Integer.parseInt(quantity.getText().toString());
                         pUnitName = unitName.getText().toString();
                     } catch (Exception e) {
@@ -360,14 +360,17 @@ public class CreateOrderActivity extends AppCompatActivity implements ZXingScann
         if (listSelectedProductInOrder.size() > 0) {
             Intent intent = new Intent(this, SelectDebtorActivity.class);
             Bundle args2 = new Bundle();
-            args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
-            args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-            intent.putExtra("BUNDLE", args2);
-            startActivity(intent);
+            if (!listItemInOrderController.hasZeroItem(recyclerViewListProduct)) {
+                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+                intent.putExtra("BUNDLE", args2);
+                startActivity(intent);
+            }
         } else {
             callDialogEmpty();
         }
     }
+
 
     private void callDialogEmpty() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -386,10 +389,12 @@ public class CreateOrderActivity extends AppCompatActivity implements ZXingScann
         if (listSelectedProductInOrder.size() > 0) {
             Intent intent = new Intent(this, CustomerPayActivity.class);
             Bundle args2 = new Bundle();
-            args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
-            args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
-            intent.putExtra("BUNDLE", args2);
-            startActivity(intent);
+            if (!listItemInOrderController.hasZeroItem(recyclerViewListProduct)) {
+                args2.putSerializable("listSelectedProductInOrder", (Serializable) listSelectedProductInOrder);
+                args2.putSerializable("listSelectedProductWarehouse", (Serializable) listSelectedProductWarehouse);
+                intent.putExtra("BUNDLE", args2);
+                startActivity(intent);
+            }
         } else {
             callDialogEmpty();
         }
