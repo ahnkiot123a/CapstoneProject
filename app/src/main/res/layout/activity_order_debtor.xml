@@ -43,7 +43,7 @@
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <Spinner
+                <com.koit.capstonproject_version_1.helper.CustomSpinner
                     android:id="@+id/timeSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"

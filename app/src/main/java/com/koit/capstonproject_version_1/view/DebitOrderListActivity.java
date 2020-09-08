@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +13,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.koit.capstonproject_version_1.controller.DebitOrderController;
-import com.koit.capstonproject_version_1.model.Debtor;
 import com.koit.capstonproject_version_1.R;
+import com.koit.capstonproject_version_1.controller.DebitOrderController;
+import com.koit.capstonproject_version_1.helper.CustomSpinner;
+import com.koit.capstonproject_version_1.model.Debtor;
 
 public class DebitOrderListActivity extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class DebitOrderListActivity extends AppCompatActivity {
     private SwipeRefreshLayout refreshLayout;
     private SwipeRefreshLayout refreshLayoutNotFound;
     private LinearLayout layoutDebitOrder;
-    private Spinner timeSpinner;
+    private CustomSpinner timeSpinner;
 
     private DebitOrderController debitOrderController;
     private Debtor debtor;

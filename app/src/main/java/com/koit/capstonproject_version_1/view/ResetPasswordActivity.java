@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.textfield.TextInputEditText;
+import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.controller.ForgotPasswordController;
 import com.koit.capstonproject_version_1.helper.MyDialog;
-import com.koit.capstonproject_version_1.R;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
