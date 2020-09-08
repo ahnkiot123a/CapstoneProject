@@ -88,7 +88,9 @@ public class AddQuantityAdapter extends RecyclerView.Adapter<AddQuantityAdapter.
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String productQuantity = s.toString();
                 if (productQuantity.length() > 4) {
+//                    holder.etProductQuantity.setText(productQuantity.substring(0, productQuantity.length() - 1));
                     holder.etProductQuantity.setText(productQuantity.substring(0, productQuantity.length() - 1));
+                    holder.etProductQuantity.setSelection(productQuantity.length()-1);
                 }
                 if (productQuantity.startsWith("00")
                         || productQuantity.equals(""))
