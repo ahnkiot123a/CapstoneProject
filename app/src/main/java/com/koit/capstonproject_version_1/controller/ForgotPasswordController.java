@@ -18,6 +18,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.controller.Interface.IUser;
+import com.koit.capstonproject_version_1.helper.MyDialog;
 import com.koit.capstonproject_version_1.model.User;
 import com.koit.capstonproject_version_1.view.ForgotPasswordActivity;
 import com.koit.capstonproject_version_1.view.ResetPasswordActivity;
@@ -77,11 +78,11 @@ public class ForgotPasswordController {
 
 
     //check Store name, password, confirmPassword, OTP
-    public void checkInputFromResetPasswordActivity(String password, String confirmPassword, String otpCode) {
+    public void checkInputFromResetPasswordActivity(String password, String confirmPassword, String otpCode, MyDialog dialog) {
         if (!checkPasswordFromForgot(password)) return;
         if (!checkConfirmPasswordFromForgot(password, confirmPassword)) return;
         if (!checkOTPCodeForgotPassword(otpCode)) return;
-        verifyCodeFromResetPassword(otpCode, phoneNumber, password);
+        verifyCodeFromResetPassword(otpCode, phoneNumber, password, dialog);
 
     }
 
@@ -186,7 +187,7 @@ public class ForgotPasswordController {
     }
 
     //check OTP code is valid or not
-    private void verifyCodeFromResetPassword(String code, String phoneNumber, String password) {
+    private void verifyCodeFromResetPassword(String code, String phoneNumber, String password, MyDialog dialog) {
         //OTP code must be check <=3 times
         Log.d("verifyCodeafter", "1");
         otpCounter++;
@@ -207,13 +208,13 @@ public class ForgotPasswordController {
                     }
                 }
             };
-
+            dialog.dismissDefaultLoadingDialog();
             AlertDialog.Builder builder = new AlertDialog.Builder(resetPasswordActivity);
             builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
                     .setNegativeButton("Thoát", dialogClickListener).show();
         } else {
             User user = new User(resetPasswordActivity);
-            user.signInTheUserByCredentialsFromResetPassword(credential, password, phoneNumber);
+            user.signInTheUserByCredentialsFromResetPassword(credential, password, phoneNumber, dialog);
         }
     }
 

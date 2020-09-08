@@ -88,12 +88,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     public void sendNewPassword(android.view.View view) {
-        //   String number = etPassword.getText().toString().trim();
+        dialog.showDefaultLoadingDialog(R.raw.material_loading);
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
         String otpCode = etOTP.getText().toString().trim();
-
-        forgotPasswordController.checkInputFromResetPasswordActivity(password, confirmPassword, otpCode);
+        forgotPasswordController.checkInputFromResetPasswordActivity(password, confirmPassword, otpCode, dialog);
     }
 
     //resend OTP code

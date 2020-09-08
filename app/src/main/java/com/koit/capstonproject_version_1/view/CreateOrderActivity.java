@@ -35,18 +35,17 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.adapter.ItemInOrderAdapter;
 import com.koit.capstonproject_version_1.controller.CreateOrderController;
 import com.koit.capstonproject_version_1.controller.InputController;
 import com.koit.capstonproject_version_1.controller.ListItemInOrderController;
 import com.koit.capstonproject_version_1.controller.RandomStringController;
-import com.koit.capstonproject_version_1.model.Product;
 import com.koit.capstonproject_version_1.helper.Money;
-import com.koit.capstonproject_version_1.helper.StatusBar;
-import com.koit.capstonproject_version_1.model.Unit;
-import com.koit.capstonproject_version_1.R;
-import com.koit.capstonproject_version_1.model.dao.OrderHistoryDAO;
 import com.koit.capstonproject_version_1.helper.MoneyEditText;
+import com.koit.capstonproject_version_1.model.Product;
+import com.koit.capstonproject_version_1.model.Unit;
+import com.koit.capstonproject_version_1.model.dao.OrderHistoryDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -86,7 +85,7 @@ public class CreateOrderActivity extends AppCompatActivity implements ZXingScann
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBar.setStatusBar(this);
+//        StatusBar.setStatusBar(this);
         savedInstanceState2 = savedInstanceState;
         setContentView(R.layout.activity_list_item_in_order);
         initView();

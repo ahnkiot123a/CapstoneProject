@@ -271,7 +271,8 @@ public class User implements Serializable {
                 });
     }
 
-    public void signInTheUserByCredentialsFromResetPassword(PhoneAuthCredential credential, final String password, final String phoneNumber) {
+    public void signInTheUserByCredentialsFromResetPassword(PhoneAuthCredential credential, final String password,
+                                                            final String phoneNumber, MyDialog dialog) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(resetPasswordActivity, new OnCompleteListener<AuthResult>() {
@@ -292,8 +293,10 @@ public class User implements Serializable {
                             Intent intent = new Intent(resetPasswordActivity, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             resetPasswordActivity.startActivity(intent);
+                            dialog.dismissDefaultLoadingDialog();
                             Toast.makeText(resetPasswordActivity, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
                         } else {
+                            dialog.dismissDefaultLoadingDialog();
                             resetPasswordActivity.showTextError("Mã OTP không chính xác.", resetPasswordActivity.getEtOTP());
 //                            Toast.makeText(resetPasswordActivity, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }

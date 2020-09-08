@@ -7,17 +7,17 @@
     android:orientation="vertical"
     tools:context=".view.CreateOrderActivity">
 
-    <View
-        android:id="@+id/main_activityStatusBarScrim"
-        android:layout_width="match_parent"
-        android:layout_height="26dp"
-        android:background="@drawable/green_linear_color" />
+<!--    <View-->
+<!--        android:id="@+id/main_activityStatusBarScrim"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="26dp"-->
+<!--        android:background="@drawable/green_linear_color" />-->
 
     <Toolbar
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/green_linear_color"
+        android:background="@color/theme"
         android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

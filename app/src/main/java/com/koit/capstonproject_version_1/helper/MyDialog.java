@@ -59,4 +59,22 @@ public class MyDialog {
         dialogConnection.cancel();
     }
 
+    public void showDefaultLoadingDialog(int resId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View view = inflater.inflate(R.layout.custom_dialog_default_loading, null);
+        animationView = view.findViewById(R.id.animationView);
+        animationView.setAnimation(resId);
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+
+    public void dismissDefaultLoadingDialog() {
+        dialog.dismiss();
+    }
+
+
 }
