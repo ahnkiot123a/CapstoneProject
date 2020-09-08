@@ -73,7 +73,6 @@ public class OrderHistoryDAO {
                         }
                     };
                     getDebtorById(invoice.getDebtorId(), iDebtor);
-
                 }
                 Log.i("invoice", invoice.toString());
                 iInvoice.getInvoice(invoice);
@@ -83,6 +82,9 @@ public class OrderHistoryDAO {
         if (!hasInvoice) {
             layoutOrder.setVisibility(View.GONE);
             layoutNotFound.setVisibility(View.VISIBLE);
+        }else{
+            layoutOrder.setVisibility(View.VISIBLE);
+            layoutNotFound.setVisibility(View.GONE);
         }
     }
 

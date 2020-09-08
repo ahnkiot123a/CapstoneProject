@@ -83,7 +83,6 @@ public class OrderHistoryController {
                             final TextView tvTime, final ConstraintLayout layoutNotFound,
                             final SearchView searchView, LinearLayout layoutOrderHistory) {
         invoiceList = new ArrayList<>();
-        final boolean hasInvoice = false;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewListProduct.setLayoutManager(layoutManager);
         orderHistoryAdapter = new OrderHistoryAdapter(invoiceList, activity, textView);
@@ -338,7 +337,6 @@ public class OrderHistoryController {
                         invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                         searchView.setQuery("", true);
                         searchView.clearFocus();
-
 //                        orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                             @Override
@@ -346,7 +344,6 @@ public class OrderHistoryController {
                                 invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                                 searchView.setQuery("", true);
                                 searchView.clearFocus();
-
 //                                orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                                 refreshLayout.setRefreshing(false);
                             }
@@ -357,7 +354,6 @@ public class OrderHistoryController {
                                 invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                                 searchView.setQuery("", true);
                                 searchView.clearFocus();
-
 //                                orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                                 refreshLayoutNotFound.setRefreshing(false);
                             }
@@ -366,7 +362,6 @@ public class OrderHistoryController {
                     OrderHistoryActivity.isFirstTimeRun = false;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -382,23 +377,12 @@ public class OrderHistoryController {
                     invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                     searchView.setQuery("", true);
                     searchView.clearFocus();
-//                    searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-//                        @Override
-//                        public void onFocusChange(View v, boolean hasFocus) {
-//                            orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
-//                        }
-//                    });
-//                    searchView.setSelected(false);
-//                    etSearchEvent(searchView);
-//                    orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString().trim());
-
                     refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
                             invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                             searchView.setQuery("", true);
                             searchView.clearFocus();
-
 //                            orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                             refreshLayout.setRefreshing(false);
                         }
@@ -409,7 +393,6 @@ public class OrderHistoryController {
                             invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                             searchView.setQuery("", true);
                             searchView.clearFocus();
-
 //                            orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
                             refreshLayoutNotFound.setRefreshing(false);
                         }
@@ -452,7 +435,6 @@ public class OrderHistoryController {
                 });
                 draftOrderList(recyclerView, textView, tvTime, layoutNotFound, layoutDraftOrder);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -473,7 +455,6 @@ public class OrderHistoryController {
         tvDateEnd = view.findViewById(R.id.tvDateEnd);
         btnCancel = view.findViewById(R.id.btnCancel);
         btnConfirm = view.findViewById(R.id.btnConfirm);
-
         tvDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -542,7 +523,6 @@ public class OrderHistoryController {
                     invoiceList(recyclerView, textView, tvTime, layoutNotFound, searchView, layoutOrderHistory);
                     searchView.setQuery("", true);
                     searchView.clearFocus();
-
 //                    orderHistoryAdapter.getFilter().filter(searchView.getQuery().toString());
 
                 } else {

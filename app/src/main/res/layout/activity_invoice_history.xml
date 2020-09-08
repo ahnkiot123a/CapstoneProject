@@ -140,8 +140,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvInvoiceHistory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible" />
+                    android:layout_height="wrap_content" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </LinearLayout>
 

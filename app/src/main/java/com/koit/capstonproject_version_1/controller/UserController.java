@@ -205,44 +205,6 @@ public class UserController {
     }
 
     public void logout(final Activity activity) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
-//        View view = LayoutInflater.from(activity).inflate(R.layout.layout_warning_dialog,
-//                (ConstraintLayout) activity.findViewById(R.id.layoutDialog));
-//        builder.setView(view);
-//        TextView tvMessage = view.findViewById(R.id.tvMessage);
-//        TextView tvTitle = view.findViewById(R.id.tvTitle);
-//        Button btnCancel = view.findViewById(R.id.btnCancel);
-//        Button btnConfirm = view.findViewById(R.id.btnConfirm);
-//        tvTitle.setText("Đăng xuất");
-//        tvMessage.setText("Bạn có muốn đăng xuất không?");
-//        btnConfirm.setText("Đăng xuất");
-//
-//        final AlertDialog dialog = builder.create();
-//        btnConfirm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                SharedPrefs.getInstance().clear();
-//                LoginManager.getInstance().logOut();
-//                FirebaseAuth.getInstance().signOut();
-//                Toast.makeText(activity, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(activity, LoginActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                activity.startActivity(intent);
-//            }
-//        });
-//
-//        btnCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        if (dialog.getWindow() != null) {
-//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-//        }
-//        dialog.show();
-
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity);
         builder.setMessage("Bạn có muốn đăng xuất không?")
                 .setCancelable(true)

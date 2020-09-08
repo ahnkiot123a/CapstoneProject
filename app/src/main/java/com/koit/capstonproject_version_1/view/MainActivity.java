@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         getNavigationMenuLeft();
         createProductController = new CreateProductController(this);
         userController = new UserController();
-
         orderHistoryController = new OrderHistoryController(this);
 //        orderHistoryController.deleteDraftOrderBefore3Days();
 //        add1000Products();

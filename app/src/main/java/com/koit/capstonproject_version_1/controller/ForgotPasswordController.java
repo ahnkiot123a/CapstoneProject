@@ -79,39 +79,43 @@ public class ForgotPasswordController {
 
     //check Store name, password, confirmPassword, OTP
     public void checkInputFromResetPasswordActivity(String password, String confirmPassword, String otpCode, MyDialog dialog) {
-        if (!checkPasswordFromForgot(password)) return;
-        if (!checkConfirmPasswordFromForgot(password, confirmPassword)) return;
-        if (!checkOTPCodeForgotPassword(otpCode)) return;
+        if (!checkPasswordFromForgot(password, dialog)) return;
+        if (!checkConfirmPasswordFromForgot(password, confirmPassword, dialog)) return;
+        if (!checkOTPCodeForgotPassword(otpCode, dialog)) return;
         verifyCodeFromResetPassword(otpCode, phoneNumber, password, dialog);
 
     }
 
 
     //otp code is 6 number degits or not
-    private boolean checkOTPCodeForgotPassword(String otpCode) {
+    private boolean checkOTPCodeForgotPassword(String otpCode, MyDialog dialog) {
         if (otpCode.isEmpty()) {
+            dialog.dismissDefaultLoadingDialog();
             resetPasswordActivity.showTextError("Vui lòng nhập OTP", resetPasswordActivity.getEtOTP());
             return false;
         } else if (otpCode.length() != 6) {
+            dialog.dismissDefaultLoadingDialog();
             resetPasswordActivity.showTextError("Mã OTP phải bao gồm 6 kí tự", resetPasswordActivity.getEtOTP());
             return false;
         }
         return true;
     }
 
-    private boolean checkConfirmPasswordFromForgot(String pass, String confirmPass) {
+    private boolean checkConfirmPasswordFromForgot(String pass, String confirmPass, MyDialog dialog) {
         if (pass.equals(confirmPass))
             return true;
         else {
+            dialog.dismissDefaultLoadingDialog();
             resetPasswordActivity.showTextErrorNoIcon("Mật khẩu không khớp.", resetPasswordActivity.getEtConfirmPassword());
         }
         return false;
     }
 
     //check password is true format(>=6 number digits) or not
-    private boolean checkPasswordFromForgot(String pass) {
+    private boolean checkPasswordFromForgot(String pass, MyDialog dialog) {
         inputController = new InputController();
         if (pass.isEmpty()) {
+            dialog.dismissDefaultLoadingDialog();
             resetPasswordActivity.showTextErrorNoIcon("Vui lòng nhập mật khẩu!", resetPasswordActivity.getEtPassword());
         } else {
             //gom it nhat 6 ki tu so
@@ -119,6 +123,7 @@ public class ForgotPasswordController {
             if (pass.matches(regexStr)) {
                 return true;
             } else {
+                dialog.dismissDefaultLoadingDialog();
                 resetPasswordActivity.showTextErrorNoIcon("Mật khẩu phải có ít nhất 6 ký tự số!", resetPasswordActivity.getEtPassword());
             }
         }
