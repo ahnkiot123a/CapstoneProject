@@ -32,16 +32,16 @@
                 android:iconifiedByDefault="false"
                 android:queryHint="Nhập mã HĐ, tên khách hàng" />
 
-            <ImageButton
-                android:id="@+id/btnVoice"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.8"
-                android:background="@drawable/barcode_icon_layout"
-                android:left="5dp"
-                app:srcCompat="@drawable/ic_baseline_keyboard_voice_24" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/btnVoice"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                android:layout_weight="0.8"-->
+<!--                android:background="@drawable/barcode_icon_layout"-->
+<!--                android:left="5dp"-->
+<!--                app:srcCompat="@drawable/ic_baseline_keyboard_voice_24" />-->
         </LinearLayout>
 
 

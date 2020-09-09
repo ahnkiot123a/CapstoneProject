@@ -16,7 +16,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.koit.capstonproject_version_1.R;
 import com.koit.capstonproject_version_1.controller.OrderHistoryController;
-import com.koit.capstonproject_version_1.controller.TimeController;
 import com.koit.capstonproject_version_1.helper.CustomSpinner;
 
 public class OrderHistoryActivity extends AppCompatActivity {
@@ -75,7 +74,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         tvToolbarTitle.setText("Lịch sử đơn hàng");
 
         //set current date
-        tvTime.setText("Hôm nay, " + TimeController.getInstance().getCurrentDate());
+        tvTime.setText("");
 
         orderHistoryController = new OrderHistoryController(this);
         OrderHistoryActivity.isFirstTimeRun = true;
