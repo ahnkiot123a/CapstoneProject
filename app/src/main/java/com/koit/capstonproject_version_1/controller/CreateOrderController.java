@@ -109,12 +109,7 @@ public class CreateOrderController {
 
     public void inputPaidMoney(final MoneyEditText etPaidMoney, final TextView tvCustomerPaid,
                                final TextView tvMoneyChange, final TextView tvCustomerDebit, final Button btnSubmitPaid) {
-        etPaidMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etPaidMoney.setSelection(etPaidMoney.getText().length());
-            }
-        });
+
         etPaidMoney.addTextChangedListener(new TextWatcher() {
 
             @Override
