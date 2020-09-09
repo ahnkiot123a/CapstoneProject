@@ -96,7 +96,7 @@ public class DebtorPaymentController {
             chart.setCenterTextSize(18);
             chart.setDragDecelerationFrictionCoef(0.95f);
 
-            chart.setCenterText("Đã trả "+ String.format("%.1f",percentPaid) +"%");
+            chart.setCenterText("Đã trả "+ String.format("%.2f",percentPaid) +"%");
 
             chart.setDrawHoleEnabled(true);
             chart.setHoleColor(Color.WHITE);
