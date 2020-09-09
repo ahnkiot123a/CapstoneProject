@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.koit.capstonproject_version_1.controller.Interface.IUser;
+import com.koit.capstonproject_version_1.helper.CustomToast;
 import com.koit.capstonproject_version_1.helper.MyDialog;
 import com.koit.capstonproject_version_1.model.User;
 import com.koit.capstonproject_version_1.view.ForgotPasswordActivity;
@@ -196,30 +198,42 @@ public class ForgotPasswordController {
         //OTP code must be check <=3 times
         Log.d("verifyCodeafter", "1");
         otpCounter++;
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        //OPT expired
-        if (otpCounter >= 3) {
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case DialogInterface.BUTTON_POSITIVE:
-                            //Yes button clicked
-                            resendOTPCode();
-                            break;
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            //No button clicked
-                            break;
+        PhoneAuthCredential credential = null;
+        try {
+            credential = PhoneAuthProvider.getCredential(verificationId, code);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (credential != null) {
+            //OPT expired
+            if (otpCounter >= 3) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                resendOTPCode();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
                     }
-                }
-            };
-            dialog.dismissDefaultLoadingDialog();
-            AlertDialog.Builder builder = new AlertDialog.Builder(resetPasswordActivity);
-            builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
-                    .setNegativeButton("Thoát", dialogClickListener).show();
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(resetPasswordActivity);
+                builder.setMessage("Mã OTP của bạn đã hết hạn, vui lòng gửi lại mã.").setPositiveButton("Gửi lại mã", dialogClickListener)
+                        .setNegativeButton("Thoát", dialogClickListener).show();
+            } else {
+                User user = new User(resetPasswordActivity);
+                Log.d("beforesignIn", "1");
+                if (credential != null)
+                    user.signInTheUserByCredentialsFromResetPassword(credential, password, phoneNumber, dialog);
+            }
         } else {
-            User user = new User(resetPasswordActivity);
-            user.signInTheUserByCredentialsFromResetPassword(credential, password, phoneNumber, dialog);
+            CustomToast.makeText(resetPasswordActivity, "Tạm thời không thể gửi mã OTP",
+                    Toast.LENGTH_LONG, CustomToast.CONFUSING, true, Gravity.BOTTOM).show();
         }
     }
 

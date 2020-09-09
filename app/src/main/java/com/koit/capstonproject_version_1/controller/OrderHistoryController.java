@@ -202,7 +202,6 @@ public class OrderHistoryController {
                         textView.setText(invoiceList.size() + " đơn hàng");
                         orderHistoryAdapter.notifyDataSetChanged();
                     }
-
                     if (invoiceList.isEmpty()) {
                         layoutOrderHistory.setVisibility(View.GONE);
                         layoutNotFound.setVisibility(View.VISIBLE);
@@ -224,7 +223,9 @@ public class OrderHistoryController {
         IInvoice iInvoice = new IInvoice() {
             @Override
             public void getInvoice(Invoice invoice) {
-                if (invoice.isDrafted()) {
+                Date invoiceDate = TimeController.getInstance().convertStrToDate(invoice.getInvoiceDate());
+                Date threeDate = TimeController.getInstance().convertStrToDate(TimeController.getInstance().plusDate(-3));
+                if (invoice.isDrafted() && invoiceDate.after(threeDate)) {
                     draftOrderList.add(invoice);
                     Log.d("draftedOrder", invoice.toString());
                     Log.d("draftOrderList", draftOrderList.size() + "");
@@ -232,10 +233,10 @@ public class OrderHistoryController {
                 if (draftOrderList.size() > 99) {
                     totalOrderDraftQuantity.setText("99+");
                     cart_badge.setVisibility(View.VISIBLE);
-                } else if (draftOrderList.size() > 0 && draftOrderList.size() <= 99) {
+                } else if (draftOrderList.size() >= 0 && draftOrderList.size() <= 99) {
                     totalOrderDraftQuantity.setText(draftOrderList.size() + "");
                     cart_badge.setVisibility(View.VISIBLE);
-                } else cart_badge.setVisibility(View.GONE);
+                }
 
             }
         };
@@ -287,17 +288,18 @@ public class OrderHistoryController {
                                 draftOrderList.add(invoice);
                             }
                         }
-
-                        tvCount.setText(draftOrderList.size() + " hoá đơn tạm");
+//                        tvCount.setText(draftOrderList.size() + " hoá đơn tạm");
                         draftOrderAdapter.notifyDataSetChanged();
                     }
-                    if (draftOrderList.isEmpty()) {
-                        layoutDraftOrder.setVisibility(View.GONE);
-                        layoutNotFound.setVisibility(View.VISIBLE);
-                    } else {
-                        layoutDraftOrder.setVisibility(View.VISIBLE);
-                        layoutNotFound.setVisibility(View.GONE);
-                    }
+
+                }
+                tvCount.setText(draftOrderList.size() + " hoá đơn tạm");
+                if (draftOrderList.isEmpty()) {
+                    layoutDraftOrder.setVisibility(View.GONE);
+                    layoutNotFound.setVisibility(View.VISIBLE);
+                } else {
+                    layoutDraftOrder.setVisibility(View.VISIBLE);
+                    layoutNotFound.setVisibility(View.GONE);
                 }
 
             }
@@ -578,46 +580,47 @@ public class OrderHistoryController {
             @Override
             public void onRightClicked(final int position) {
                 //remove item in 2 list
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage("Bạn có muốn xóa đơn tạm này không? ")
-                        .setCancelable(true)
-                        .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //remove item on right click
-                                OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
-                                Invoice invoice = draftOrderList.get(position);
-                                orderHistoryDAO.deleteDraftOrder(invoice.getInvoiceId());
-                                draftOrderList.remove(position);
-                                draftOrderAdapter.notifyItemRemoved(position);
-                                count.setText(draftOrderList.size() + " hóa đơn tạm");
-                                Toast.makeText(activity, "Bạn đã xoá thành công đơn tạm", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                final AlertDialog alert = builder.create();
-                alert.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
-                    }
-                });
-                alert.show();
+                if (!draftOrderList.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    builder.setMessage("Bạn có muốn xóa đơn tạm này không? ")
+                            .setCancelable(true)
+                            .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //remove item on right click
+                                    OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
+                                    Invoice invoice = draftOrderList.get(position);
+                                    orderHistoryDAO.deleteDraftOrder(invoice.getInvoiceId());
+                                    draftOrderList.remove(position);
+                                    draftOrderAdapter.notifyItemRemoved(position);
+                                    count.setText(draftOrderList.size() + " hóa đơn tạm");
+                                    Toast.makeText(activity, "Bạn đã xoá thành công đơn tạm", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    final AlertDialog alert = builder.create();
+                    alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialog) {
+                            alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+                        }
+                    });
+                    alert.show();
+                }
             }
 
         });
-
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(orderSwipeController);
         itemTouchhelper.attachToRecyclerView(recyclerView);
-
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
                 orderSwipeController.onDraw(c);
             }
         });
+
     }
 }

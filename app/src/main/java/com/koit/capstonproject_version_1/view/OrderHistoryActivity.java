@@ -48,7 +48,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
         orderHistoryController.invoiceSpinnerEvent(rvInvoiceHistory,tvInvoiceCount, timeSpinner,
                 invoiceStatusSpinner, svInvoice, tvTime, layoutNotFound, refreshLayout,layoutOrderHistory, refreshLayoutNotFound);
-
         orderHistoryController.etSearchEvent(svInvoice);
 
     }
