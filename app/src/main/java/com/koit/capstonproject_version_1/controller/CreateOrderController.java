@@ -65,13 +65,6 @@ public class CreateOrderController {
 
     public void inputSaleMoney(final MoneyEditText etSaleMoney, final TextView tvCustomerPaid, final long totalPrice,
                                final MoneyEditText etPaidMoney) {
-        etSaleMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etSaleMoney.setSelection(etSaleMoney.getText().length());
-
-            }
-        });
         etSaleMoney.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
