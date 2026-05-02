@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,13 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.hsalf.smileyrating.SmileyRating;
 import com.koit.capstonproject_version_1.controller.FeedbackController;
 import com.koit.capstonproject_version_1.model.User;
 import com.koit.capstonproject_version_1.R;
 
 public class FeedbackActivity extends AppCompatActivity {
-    private SmileyRating smileyRating;
+    private RatingBar smileyRating;
     private Button btnSendFeedback;
     private TextInputEditText etName;
     private TextInputEditText etPhoneNumber;
@@ -40,7 +40,7 @@ public class FeedbackActivity extends AppCompatActivity {
         feedbackController = new FeedbackController(this);
     }
     private void initView(){
-        smileyRating = (SmileyRating) findViewById(R.id.smile_rating);
+        smileyRating = findViewById(R.id.smile_rating);
         btnSendFeedback = findViewById(R.id.btnSendFeedback);
         etName = findViewById(R.id.etName);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
@@ -55,15 +55,9 @@ public class FeedbackActivity extends AppCompatActivity {
             etName.setText(firebaseUser.getDisplayName());
            // etPhoneNumber.setText(currentUser.getPhoneNumber());
         }
-        //Set Title for smiley
-        smileyRating.setTitle(SmileyRating.Type.TERRIBLE,"Rất tệ");
-        smileyRating.setTitle(SmileyRating.Type.BAD,"Tệ");
-        smileyRating.setTitle(SmileyRating.Type.OKAY, "Tốt");
-        smileyRating.setTitle(SmileyRating.Type.GOOD, "Tuyệt");
-        smileyRating.setTitle(SmileyRating.Type.GREAT, "Rất tuyệt");
-        smileyRating.setSmileySelectedListener(new SmileyRating.OnSmileySelectedListener() {
+        smileyRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onSmileySelected(SmileyRating.Type type) {
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 etFeedback.setError(null);
             }
         });
@@ -73,7 +67,7 @@ public class FeedbackActivity extends AppCompatActivity {
             String fullname = etName.getText().toString();
             String phoneNumber = etPhoneNumber.getText().toString();
             String feebackContent = etFeedback.getText().toString();
-            long rating = (long)smileyRating.getSelectedSmiley().getRating();
+            long rating = Math.round(smileyRating.getRating());
            if(currentUser != null) feedbackController.addNewFeedback(currentUser.getPhoneNumber(),fullname,phoneNumber,feebackContent,rating);
            else if (firebaseUser != null)
                feedbackController.addNewFeedback(firebaseUser.getUid(),fullname,phoneNumber,feebackContent,rating);

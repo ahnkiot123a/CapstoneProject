@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
@@ -140,24 +140,25 @@ public class RegisterController {
     //resend OTP code
     public void resendVerificationCode(String phoneNumber,
                                        PhoneAuthProvider.ForceResendingToken token) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+84" + phoneNumber,        // Phone number to verify
-                120,                 // Timeout duration
-                TimeUnit.SECONDS,   // Unit of timeout
-                TaskExecutors.MAIN_THREAD,               // Activity (for callback binding)
-                mCallBack,         // OnVerificationStateChangedCallbacks
-                token);             // ForceResendingToken from callbacks
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
+            .setPhoneNumber("+84" + phoneNumber)
+            .setTimeout(120L, TimeUnit.SECONDS)
+            .setActivity(registerActivity)
+            .setCallbacks(mCallBack)
+            .setForceResendingToken(token)
+            .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
         otpCounter = 0;
     }
 
     public void sendVerificationCode(String number) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+84" + number,
-                120,
-                TimeUnit.SECONDS,
-                TaskExecutors.MAIN_THREAD,
-                mCallBack
-        );
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
+            .setPhoneNumber("+84" + number)
+            .setTimeout(120L, TimeUnit.SECONDS)
+            .setActivity(registerActivity)
+            .setCallbacks(mCallBack)
+            .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks

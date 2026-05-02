@@ -25,10 +25,12 @@ import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.koit.capstonproject_version_1.controller.DemoDataSeeder;
 import com.koit.capstonproject_version_1.controller.SharedPreferences.SharedPrefs;
 import com.koit.capstonproject_version_1.controller.UserController;
 import com.koit.capstonproject_version_1.helper.MyDialog;
 import com.koit.capstonproject_version_1.helper.ProgressButton;
+import com.koit.capstonproject_version_1.model.User;
 import com.koit.capstonproject_version_1.R;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -153,14 +155,21 @@ public class LoginActivity extends AppCompatActivity {
         //init where start login activity
         initStartLoginActivity();
 
-        if (SharedPrefs.getInstance().getCurrentUser(CURRENT_USER) != null) {
-            Log.i("currentUser", SharedPrefs.getInstance().getCurrentUser(CURRENT_USER).toString());
+        User currentSharedUser = SharedPrefs.getInstance().getCurrentUser(CURRENT_USER);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentSharedUser == null && firebaseUser == null) {
+            DemoDataSeeder.seedAndAutoLogin(this);
+            return;
+        }
+
+        if (currentSharedUser != null) {
+            Log.i("currentUser", currentSharedUser.toString());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            Log.i("currentUser", user.toString());
+        if (firebaseUser != null) {
+            Log.i("currentUser", firebaseUser.toString());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }

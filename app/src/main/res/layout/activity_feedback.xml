@@ -115,12 +115,15 @@
 
             </LinearLayout>
 
-            <com.hsalf.smileyrating.SmileyRating
+            <RatingBar
                 android:id="@+id/smile_rating"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="1" />
 
             <Button
                 android:id="@+id/btnSendFeedback"
