@@ -52,7 +52,9 @@
             android:noHistory="true">
 
         </activity>
-        <activity android:name=".view.SplashActivity">
+        <activity
+            android:name=".view.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -111,7 +113,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.android.fileprovider"
+            android:authorities="com.koit.capstonproject_version_1.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
